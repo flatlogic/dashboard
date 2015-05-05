@@ -1,0 +1,134 @@
+/*
+ * Font Awesome 2x spin
+ */
+
+.#{$fa-css-prefix}-spin-fast {
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+}
+
+/*
+ * bootstrap-select
+ */
+
+.bootstrap-select.btn-group:not(.input-group-btn),
+.bootstrap-select.btn-group[class*="span"] {
+  margin-bottom: 0;
+}
+
+/**
+ * Select2
+ */
+
+.select2-drop{
+  @include border-radius(0 0 $border-radius-base $border-radius-base);
+}
+
+/**
+ * Select2 Bootstrap CSS
+ */
+/*
+ * override .form-control:focus shadow
+ */
+.select2-container-active .select2-choice,
+.select2-container-multi.select2-container-active .select2-choices{
+  @include box-shadow(none);
+}
+
+.select2-container-multi .select2-choices .select2-search-choice{
+  @include border-radius($input-border-radius);
+}
+
+/**
+ * setting correct urls
+ */
+.select2-search input, .select2-search-choice-close, .select2-container .select2-choice abbr, .select2-container .select2-choice .select2-arrow b{
+  background-image: url("#{$vendor-folder}/select2/select2.png");
+  @include retina(){
+    background-image: url("#{$vendor-folder}/select2/select2x2.png") !important;
+  }
+}
+
+.select2-search input.select2-active,
+.select2-more-results.select2-active,
+.select2-container-multi .select2-choices .select2-search-field input.select2-active{
+  background-image: url("#{$vendor-folder}/select2/select2-spinner.gif");
+}
+
+/**
+ * Animate.css
+ */
+
+.animated{
+  @include animation-duration(.5s);
+}
+
+/**
+ * Pace
+ */
+.pace .pace-progress{
+  background: $brand-primary;
+  position: absolute;
+  top: $navbar-height;
+}
+
+.pace .pace-activity{
+  position: absolute;
+  top: $navbar-height + 15px;
+  border-width: 1px;
+  left: 15px;
+  right: auto;
+  width: 18px;
+  height: 18px;
+  border-top-color: $brand-primary;
+  border-left-color: $brand-primary;
+}
+
+.pace .pace-progress-inner{
+  right: -10px;
+  width: 10px;
+}
+
+/**
+ * No More Tables
+ * http://css-tricks.com/responsive-data-tables/
+ * Just mark your cells with col header attribute <td data-col-title="Surname">Otto</td>
+ */
+
+.table-no-more{
+  @media (max-width: $screen-xs-max) {
+    /* Force table to not be like tables anymore */
+    &, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead > tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+
+    tbody > tr > td {
+      /* Behave  like a "row" */
+      border: none;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 50%;
+    }
+
+    tbody > tr > td:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 6px;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      content: attr(data-col-title);
+    }
+  }
+}

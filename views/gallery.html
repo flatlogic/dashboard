@@ -1,0 +1,47 @@
+<ol class="breadcrumb">
+    <li>YOU ARE HERE</li>
+    <li class="active">Gallery</li>
+</ol>
+<h1 class="page-title">Media - <span class="fw-semi-bold">Images</span></h1>
+
+<div data-ng-controller="GalleryAppController">
+    <div class="clearfix mb-lg">
+        <div class="btn-group m-b-20">
+        <span class="btn btn-default" data-ng-class="{'active': activeGroup == 'all'}"
+              data-ng-click="activeGroup = 'all'">All</span>
+        <span class="btn btn-default" data-ng-class="{'active': activeGroup == 'nature'}"
+              data-ng-click="activeGroup = 'nature'">Nature</span>
+        <span class="btn btn-default" data-ng-class="{'active': activeGroup == 'people'}"
+              data-ng-click="activeGroup = 'people'">People</span>
+        <span class="btn btn-default" data-ng-class="{'active': activeGroup == 'space'}"
+              data-ng-click="activeGroup = 'space'">Space</span>
+        </div>
+        <div class="pull-right m-b-20">
+            <div class="btn-group">
+                <span class="btn btn-default" data-ng-class="{'active': order == 'asc'}"
+                      data-ng-click="order = 'asc'"><i class="fa fa-sort-numeric-asc"></i></span>
+                <span class="btn btn-default"  data-ng-class="{'active': order == 'desc'}"
+                      data-ng-click="order = 'desc'"><i class="fa fa-sort-numeric-desc"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="row gallery" data-ui-jq="magnificPopup"
+         data-sn-gallery data-options="{ itemSelector: '.gallery-item'}"
+         data-ui-options="{ delegate: '.thumbnail > a',  type: 'image', gallery: { enabled: true  } }">
+        <div data-ng-repeat="item in items"
+             class="col-sm-6 col-md-3 gallery-item" data-groups='{{item.groups}}' data-title="{{item.name}}">
+            <div class="thumbnail">
+                <a href="{{item.src}}"><img data-ng-src="{{item.src}}" alt="..."></a>
+                <div class="caption">
+                    <h5 class="mt-0 mb-xs">{{item.name}}</h5>
+                    <ul class="post-links">
+                        <li><a href="#">{{item.date}}</a></li>
+                        <li><a href="#"><span class="text-danger"><i class="fa {{item.like ? 'fa-heart' : 'fa-heart-o'}}"></i> Like</span></a></li>
+                        <li><a href="#">Details</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3 js-shuffle-sizer"></div>
+    </div>
+</div>

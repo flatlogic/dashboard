@@ -1,0 +1,12 @@
+{
+  "name": "flot.animator",
+  "homepage": "https://github.com/Codicode/flotanimator",
+  "_release": "3c256c0183",
+  "_resolution": {
+    "type": "commit",
+    "commit": "3c256c0183d713fd3bf41d04417873928eb1a751"
+  },
+  "_source": "https://github.com/Codicode/flotanimator.git",
+  "_target": "3c256c0183d713fd3bf41d04417873928eb1a751",
+  "_originalSource": "https://github.com/Codicode/flotanimator.git"
+}

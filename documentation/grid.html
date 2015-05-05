@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sing Documentation</title>
+    <link href="css/documentation.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+</head>
+<body class="background-two">
+<nav id="sidebar" class="sidebar">
+    <ul id="side-nav" class="side-nav">
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#side-nav" href="#dashboard-collapse"> <span class="name">Dashboard</span></a>
+            <ul id="dashboard-collapse" class="accordion-body collapse">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="inbox.html"><span class="name">Email</span></a>
+        </li>
+        <li>
+            <a href="charts.html"><span class="name">Charts</span></a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#forms-collapse"> <span class="name">Forms</span></a>
+            <ul id="forms-collapse" class="accordion-body collapse">
+                <li><a href="form_elements.html">Elements</a></li>
+                <li><a href="form_validation.html">Validation</a></li>
+                <li><a href="form_wizard.html">Wizard</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#ui-collapse"> <span class="name">UI</span></a>
+            <ul id="ui-collapse" class="accordion-body collapse">
+                <li><a href="ui_components.html">Components</a></li>
+                <li><a href="ui_notifications.html">Notifications</a></li>
+                <li><a href="ui_icons.html">Icons</a></li>
+                <li><a href="ui_buttons.html">Buttons</a></li>
+                <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
+                <li><a href="ui_list_groups.html">List Groups</a></li>
+            </ul>
+        </li>
+        <li class="active">
+            <a href="grid.html">Grid</a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#maps-collapse"> <span class="name">Maps</span></a>
+            <ul id="maps-collapse" class="accordion-body collapse">
+                <li><a href="maps_google.html">Google</a></li>
+                <li><a href="maps_vector.html">Vector</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#tables-collapse"> <span class="name">Tables</span></a>
+            <ul id="tables-collapse" class="accordion-body collapse">
+                <li><a href="tables_basic.html">Basic</a></li>
+                <li><a href="tables_dynamic.html">Dynamic</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#extra-collapse"> <span class="name">Extra</span></a>
+            <ul id="extra-collapse" class="accordion-body collapse">
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="error.html">Error</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="time_line.html">Timeline</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div class="wrap">
+    <div class="row-fluid">
+        <div class="span10">
+            <header class="page-header">
+                <h1>Sing Documentation</h1>
+            </header>
+        </div>
+    </div>
+    <div class="content container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <section class="widget">
+                    <h2>Grid System</h2>
+                    <p><strong>Sing App</strong> inherits 12-column grid system from
+                        <a href="http://getbootstrap.com/css/#grid">Bootstrap's great one</a>.</p>
+                    <h2>Widgets</h2>
+                    <p>See <a href="widgets.html">Widgets</a>.</p>
+                    <h2>Widget Controls</h2>
+                    <p>For one of our previous works we have developed a custom jquery plugin called <strong>Widgster</strong> which provides an easy way to handle basic
+                        widget functions like collapsing, closing, ajax-refreshing & fullsreening.</p>
+                    <p>Plugin is open-sourced. Check out <a href="https://github.com/okendoken/widgster">Widgster repository</a>.</p>
+                    <p>To apply all these features to your default widget you have to add appropriate links (or buttons) to it:</p>
+                    <pre>&lt;section class="widget"&gt;
+    &lt;header&gt;
+        &lt;h3&gt;Header&lt;/h3&gt;
+        &lt;div class="widget-controls"&gt;
+            &lt;a data-widgster="load" href="#"&gt;Reload&lt;/a&gt;
+            &lt;a data-widgster="expand" href="#"&gt;Expand&lt;/a&gt;
+            &lt;a data-widgster="collapse" href="#"&gt;Collapse&lt;/a&gt;
+            &lt;a data-widgster="fullscreen" href="#"&gt;Fullscreen&lt;/a&gt;
+            &lt;a data-widgster="restore" href="#"&gt;Restore&lt;/a&gt;
+            &lt;a data-widgster="close" href="#"&gt;Close&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/header&gt;
+    &lt;div class="widget-body"&gt;
+        Body
+    &lt;/div&gt;
+&lt;/section&gt;</pre>
+                    <p>In the example above links are put into a <code>.widget-controls</code> but you can put them anywhere inside of widget.</p>
+                    <p>Then widgster needs to be initialized via javascript:</p>
+                    <pre><code>$('.widget').widgster();</code></pre>
+                    <p>As you could guess <code>data-widgster</code> attribute defines widget action to be performed when link is clicked.</p>
+                    <h3>Options</h3>
+                    <ul style="list-style: disc; padding-left: 40px; margin-bottom: 10px">
+                        <li><strong>collapsed</strong> - if true collapses widget after page load;</li>
+                        <li><strong>fullscreened</strong> - if true fullscreens widget after page load;</li>
+                        <li><strong>bodySelector</strong> - widget body selector. Used for loading and collapsing. Default is <code>.body</code>;</li>
+                        <li><strong>load</strong> - an url to fetch widget body from. Default is <code>undefined</code>;</li>
+                        <li><strong>showLoader</strong> - whether to show a loader when ajax refresh performed. Default is <code>true</code>;</li>
+                        <li><strong>autoload</strong> - whether to automatically perform ajax refresh after page load. May be set to an integer value. If set, for example, to 2000 will refresh the widget every 2 seconds. Default is <code>false</code>;</li>
+                        <li><strong>closePrompt(callback)</strong> - a function to be called when closing. Closing is
+                            only performed when <code>callback</code> is called.</li>
+                    </ul>
+                    <p>Widgster accepts an object with options:</p>
+                    <pre><code>$('.widget').widgster({
+    collapsed: true
+});</code></pre>
+
+                    <h3>Actions</h3>
+                    <ul style="list-style: disc; padding-left: 40px; margin-bottom: 10px">
+                        <li><strong>close</strong> - closes the widget;</li>
+                        <li><strong>collapse</strong> - collapses (minimizes) the widget. An element holding this data
+                            attribute will be hidden when widget gets expanded;</li>
+                        <li><strong>expand</strong> - expands the widget. An element holding this data
+                            attribute will be hidden when widget gets collapsed;</li>
+                        <li><strong>fullscreen</strong> - fullscreens the widget. An element holding this data
+                            attribute will be hidden when widget gets restored;</li>
+                        <li><strong>restore</strong> - restores the widget back to its position. An element holding this data
+                            attribute will be hidden when widget gets fullscreened;</li>
+                        <li><strong>load</strong> - reloads widget content from the url provided with <code>data-widget-load</code> attribute.</li>
+                    </ul>
+                    <p>All actions may be called via js:</p>
+                    <pre><code>$('.widget').widgster('close');</code></pre>
+
+                    <h3>Events</h3>
+                    <p>Each action fires both before and after event. Events have the same names as actions. Before event may be canceled.</p>
+                    <p>For example, to make refresh button spin:</p>
+                    <pre>$('.widget').on("load.widgster", function(){
+    $(this).find('[data-widgster="load"] > i').addClass('fa-spin')
+}).on("loaded.widgster", function(){
+    $(this).find('[data-widgster="load"] > i').removeClass('fa-spin')
+});</pre>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jquery and friends -->
+<script src="js/jquery.1.9.0.min.js"> </script>
+
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+
+</body>
+</html>

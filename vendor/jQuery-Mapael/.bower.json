@@ -1,0 +1,14 @@
+{
+  "name": "jQuery-Mapael",
+  "homepage": "https://github.com/neveldo/jQuery-Mapael",
+  "version": "0.7.1",
+  "_release": "0.7.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.7.1",
+    "commit": "556cd9d3ca8944f263c8efe02fd9f700c53563be"
+  },
+  "_source": "https://github.com/neveldo/jQuery-Mapael.git",
+  "_target": "v0.7.1",
+  "_originalSource": "https://github.com/neveldo/jQuery-Mapael.git"
+}

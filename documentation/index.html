@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sing Documentation</title>
+    <link href="css/documentation.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+</head>
+<body class="background-two">
+<nav id="sidebar" class="sidebar">
+    <ul id="side-nav" class="side-nav">
+        <li class="active accordion-group">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#side-nav" href="#dashboard-collapse"> <span class="name">Dashboard</span></a>
+            <ul id="dashboard-collapse" class="accordion-body collapse in">
+                <li class="active"><a href="index.html">Dashboard</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="inbox.html"><span class="name">Email</span></a>
+        </li>
+        <li>
+            <a href="charts.html"><span class="name">Charts</span></a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#forms-collapse"> <span class="name">Forms</span></a>
+            <ul id="forms-collapse" class="accordion-body collapse">
+                <li><a href="form_elements.html">Elements</a></li>
+                <li><a href="form_validation.html">Validation</a></li>
+                <li><a href="form_wizard.html">Wizard</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#ui-collapse"> <span class="name">UI</span></a>
+            <ul id="ui-collapse" class="accordion-body collapse">
+                <li><a href="ui_components.html">Components</a></li>
+                <li><a href="ui_notifications.html">Notifications</a></li>
+                <li><a href="ui_icons.html">Icons</a></li>
+                <li><a href="ui_buttons.html">Buttons</a></li>
+                <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
+                <li><a href="ui_list_groups.html">List Groups</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="grid.html">Grid</a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#maps-collapse"> <span class="name">Maps</span></a>
+            <ul id="maps-collapse" class="accordion-body collapse">
+                <li><a href="maps_google.html">Google</a></li>
+                <li><a href="maps_vector.html">Vector</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#tables-collapse"> <span class="name">Tables</span></a>
+            <ul id="tables-collapse" class="accordion-body collapse">
+                <li><a href="tables_basic.html">Basic</a></li>
+                <li><a href="tables_dynamic.html">Dynamic</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#extra-collapse"> <span class="name">Extra</span></a>
+            <ul id="extra-collapse" class="accordion-body collapse">
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="error.html">Error</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="time_line.html">Timeline</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div class="wrap">
+    <div class="row-fluid">
+        <div class="span10">
+            <header class="page-header">
+                <h1>Sing Documentation</h1>
+            </header>
+        </div>
+    </div>
+    <div class="content container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <section class="widget">
+                    <h2>Contents</h2>
+                    <hr>
+                    <ol style="margin-top: 0">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#structure">Structure</a></li>
+                        <li><a href="#bower">Bower</a></li>
+                        <li><a href="#scss">Sass</a></li>
+                        <li><a href="#scss-import">Css files Import</a></li>
+                        <li><a href="#pjax">Pjax</a></li>
+                        <li><a href="#support">Support</a></li>
+                        <li><a href="#layout">Layout</a></li>
+                        <li><a href="#angular">Angular Core</a></li>
+                        <li><a href="#directives">Angular Directives</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#changelog">Change Log</a></li>
+                    </ol>
+                    <h2 id="about">About Template (Sing App 1.2.0)</h2>
+                    <hr>
+                    <p><strong>Sing App</strong> is next-generation, carefully hand-coded and powerful front-end template. It can be used for designing either your next
+                        web application or admin entrance for it.</p>
+                    <p>It's based on the  <a href="http://getbootstrap.com/">Bootstrap</a> front-end framework which
+                        uses <strong>12-column responsive grid</strong> layout.</p>
+                    <p>Sing App includes two versions: <a href="../ajax/ajax">Ajax</a> - which looks more like a normal
+                        admin template and <a href="../ajax/angular">Angular version</a> - which is built on top of <a href="https://angularjs.org/">Angular JS</a> front-end framework and
+                        its extension <a href="http://angular-ui.github.io/bootstrap/">UI Bootstrap</a>.</p>
+
+                    <h2 id="structure">Structure</h2>
+                    <hr>
+                    <h3>Ajax version</h3>
+                    <p>Sing App package goes with the following folders:</p>
+                    <ul>
+                        <li><strong>*root*</strong> - html templates;</li>
+                        <li><strong>css</strong> - compiled css stylesheets;</li>
+                        <li><strong>img</strong> - png images used in app;</li>
+                        <li><strong>js</strong> - custom javascript written for Sing App;</li>
+                        <li><strong>vendor</strong> - various JS libraries used in Sing App. As of we are using Bower here it's strongly recommended to
+                            add/update/remove libraries only via Bower;</li>
+                    </ul>
+                    <p></p>
+                    <p>Next folders are not essential and can be removed from package:</p>
+                    <ul>
+                        <li>demo - demo data (images, json, etc);</li>
+                        <li>documentation - you're actually reading it now;</li>
+                        <li>sass - scss stylesheets. We also have a recommendation here for you - if possible use sass or less insted of pure css.
+                            Saves time & simplifies your styling work.</li>
+                    </ul>
+
+                    <h3>Angular version</h3>
+                    <p>Sing App Angular version goes with the following folders:</p>
+                    <ul>
+                        <li><strong>*root*</strong> - configuration files & <a href="../ajax/angular/index.html">index.html</a> - main angular layout file;</li>
+                        <li><strong>css</strong> - compiled css stylesheets;</li>
+                        <li><strong>img</strong> - png images used in app;</li>
+                        <li><strong>js</strong> - custom javascript written for Sing App;</li>
+                        <li><strong>vendor</strong> - various JS libraries used in Sing App. As of we are using Bower here it's strongly recommended to
+                            add/update/remove libraries only via Bower;</li>
+                        <li><strong>views</strong> - angular js page views. Also contains <a href="../ajax/angular/views/app.html">app.html</a> which
+                            is a main sub-layout for dashboard. Two pages <a href="../ajax/angular/#/login">login.html</a> and <a href="../ajax/angular/#/eror">error.html</a>
+                            are displayed without sub-layout but directly in index.html;</li>
+                    </ul>
+                    <p></p>
+                    <p>Next folders are not essential and can be removed from package:</p>
+                    <ul>
+                        <li>demo - demo data (images, json, etc);</li>
+                        <li>sass - scss stylesheets. We also have a recommendation here for you - if possible use sass or less insted of pure css.
+                            Saves time & simplifies your styling work.</li>
+                    </ul>
+
+                    <h2 id="bower">Bower</h2>
+                    <hr>
+                    <p>Since maintaining front-end libraries is getting more and more complicated we use <a href="http://bower.io/">Bower</a>
+                    to manage Sing dependencies. Bower is a front-end package management system which allows you to easely install required
+                    packages. Installing Bootstrap (for instance) becomes really simple:</p>
+                    <pre><code>bower install bootstrap</code></pre>
+                    <p>Above command installs bootstrap framework from <a href="https://github.com/twbs/bootstrap">https://github.com/twbs/bootstrap</a> directly into
+                    the <a href="../ajax/vendor">vendor folder</a>.</p>
+                    <p>There is also a <a href="../ajax/bower.json">bower.json file</a> where all libraries are put. Check it out for complete list of
+                    libs used in Sing. Libs that go after <strong>23</strong> line (<code>"awesome-bootstrap-checkbox": "~0.3.3"</code>) (for angular version: <strong>31</strong> line (<code>"angular-bootstrap-select": "~0.0.5"</code>)) are not required and may be removed. They are used only for
+                    some particular demos.</p>
+
+                    <h2 id="scss">Scss</h2>
+                    <hr>
+                    <p>Sing uses <a href="http://sass-lang.com/">scss</a> to generate css. This choice has been made because of significant boost
+                    scss gives when developing front-end apps like this one. We used <a href="http://compass-style.org/">compass</a> to compile scss to css, but what to use
+                        is absolutely up to your choice. Anyway editing css is a good old way, right? :)</p>
+                    <p>The main scss file is <a href="../ajax/sass/application.scss">application.scss</a>. It includes all libraries and partial files.</p>
+                    <ul>
+                        <li><p><a href="../ajax/sass/_base.scss">base.scss</a> - core application styles. Layout, sidebar, right chat,
+                            basic widget layout styles are
+                            here.</p></li>
+                        <li><p><a href="../ajax/sass/_bootstrap-override.scss">bootstrap-override.scss</a> - there are situations when
+                        just changing bootstrap sass variable is not enough - we need to override something manually. This is the place for
+                        such overrides.</p></li>
+                        <li><p><a href="../ajax/sass/_custom-libs-override.scss">custom-libs-overridescss</a> - same but for custom <strong>not essential</strong> libs (datepickers,
+                            calendar). This file <strong class="text-success">can be removed</strong>.</p></li>
+                        <li><p><a href="../ajax/sass/_font.scss">font.scss</a> - downloaded version of Open Sans font.</p></li>
+                        <li><p><a href="../ajax/sass/_general.scss">general.scss</a> - all application styles. Only tag-selector styles
+                            (<code>body</code>, <code>a</code>, <code>h2</code>, etc).</p></li>
+                        <li><p><a href="../ajax/sass/_global-transitions.scss">global-transitions.scss</a> -
+                            link & button global transitions.</p></li>
+                        <li><p><a href="../ajax/sass/_libs-override.scss">libs-override.scss</a> - core libs (Font Awesome, Bootstrap select) overrides.</p></li>
+                        <li><p><a href="../ajax/sass/_mixins.scss">mixins.scss</a> - Sing sass mixins. Use when needed.</p></li>
+                        <li><p><a href="../ajax/sass/_print.scss">print.scss</a> - yep, print styles. Disables parts of layout when printing.</p></li>
+                        <li><p><a href="../ajax/sass/_utils.scss">utils.scss</a> - utilities classes. Mostly so-called property classes (margins, borders, etc).</p></li>
+                        <li><p><a href="../ajax/sass/_variables.scss">variables.scss</a> - all template variables like colors, button sizes, etc.</p></li>
+                        <li><p><a href="../ajax/sass/_widgets.scss">widgets.scss</a> - custom widgets classes (email widget, charts, etc). This file <strong class="text-success">can be removed</strong>.</p></li>
+                    </ul>
+                    <h3>Sass 3.3</h3>
+                    <p>Sass 3.3 is used in Sing. In order to correctly use please update compass:</p>
+                    <ul>
+                        <li>update compass - run <code>gem install compass -v '1.0.0.alpha.19'</code> (or greater version
+                            if available)</li>
+                        <li>install wdm - as of <a href="https://github.com/chriseppstein/compass/issues/1470">compass
+                            issue discussion</a> run <code>gem install wdm</code></li>
+                    </ul>
+
+                    <h2 id="scss-import">Css files import</h2>
+                    <hr>
+                    <p>Unfortunately lots of libs used in Sing do not provide sass versions of stylesheets which creates
+                        few problems for us cause we want to serve just one application.<strong>css</strong> file and keep
+                        imports consistent. This is solved either by simply copy-pasting lib styles into
+                        <a href="../ajax/sass/application.scss">application.scss</a> (bad) or by finding a way to import .css
+                        files into .scss file (good).</p>
+                    <p>There is a ruby gem called <a href="https://github.com/chriseppstein/sass-css-importer">
+                        sass-css-importer</a> which allows us to do what's needed. To install it:</p>
+                    <ul>
+                        <li>install sass-css-importer - run <code>gem install --pre sass-css-importer</code></li>
+                    </ul>
+                    <p>There is a line in <a href="../ajax/config.rb">config.rb:9</a> <code>require 'sass-css-importer'</code>
+                    which tells compass to use sass-css-importer when processing <code>@import</code>'s.</p>
+
+                    <h2 id="pjax">Pjax</h2>
+                    <hr>
+                    <p>Sing App uses <a href="https://github.com/defunkt/jquery-pjax">jquery-pjax</a> library that
+                        uses ajax and pushState which makes page loading super fast.</p>
+                    <p>In case you want to turn off ajax page loading you need to just set <code>window.PJAX_ENABLED</code>
+                    variable to <code>false</code> (js/app.js file):</p>
+                    <pre><code>window.PJAX_ENABLED = false;</code></pre>
+
+                    <h2 id="support">Support</h2>
+                    <hr>
+                    <p>If you have any questions or problems when installing template feel free to contact us via email -
+                        <a href="mailto:contact@flatlogic.com">contact@flatlogic.com</a>. We will provide as much help as possible.</p>
+
+                    <h2 id="layout">Layout</h2>
+                    <hr>
+                    <h3>Left Sidebar</h3>
+                    <p>Left sidebar is a main navigation panel of Sing App. There are two states of sidebar: <strong>collapsing</strong>
+                    - sidebar automatically collapses when mouse leaves it; and <strong>static</strong> - sidebar stays
+                        always stays open. The state may be changed by pressing collapse button on the top just next to sidebar.</p>
+                    <p>Sidebar states make sense only for wide screens (991px+). For smaller screen sidebar only state is
+                    <strong>collapsing</strong> - sidebar has to be open manually. For even smaller screens (768px-) sidebar
+                    is always hidden and can be turned on only by pressing sidebar collapse button.</p>
+                    <p>Sub level navigations are built with <a href="http://getbootstrap.com/javascript/#collapse">
+                        Bootstrap's collapse component</a> </p>
+
+                    <h3>Top Navigation Bar</h3>
+                    <p>Top Navigation Bar is a styled <a href="#http://getbootstrap.com/components/#navbar">Bootstrap's navbar</a>.
+                    There is a notifications dropdown which is a good way to display recent events.</p>
+                    <p>For mobile screens notifications dropdown goes to inside of sidebar, so it's visible for mobile devices
+                    too.</p>
+
+                    <h3>Right Sidebar Chat</h3>
+                    <div class="alert alert-error" style="font-size: 14px; margin: 10px 0;">
+                        <p><strong>Angular JS warning:</strong> Please, keep in mind that Angular version of Chat Sidebar is currently
+                            under development and will be released in the next big update - Sing App v1.2.0.</p>
+                    </div>
+                    <p>Right Sidebar Chat is a modern admin template extension which allows you to stay always online with your
+                        contacts. Just wire it up with your backend contacts management system. In case you don't need it
+                    this layout may be removed.</p>
+
+                    <h2 id="angular">Angular Core</h2>
+                    <hr>
+                    <p>There is a angular module we use for routing in Sing App called <a href="https://github.com/angular-ui/ui-router">Angular UI Router</a>. It is more
+                    expendable then the default one provided with angular framework. The idea is that your app has states instead of usual urls.</p>
+                    <p>All Sing App states are described in <a href="../angular/js/ng/app.js">app.js</a>.</p>
+                    <h3>data-ui-jq</h3>
+                    <p>You will find this directive in many places in Sing Angular App. It's called <a href="http://angular-ui.github.io/ui-utils/">jQuery Passthrough</a> and
+                        used to simply initiate any jQuery plugin on any element like that:</p>
+                    <pre><code>&lt;textarea data-ui-jq=&quot;autosize&quot; data-ui-options=&apos;{append: &quot;\n&quot;}&apos;&gt;&lt;/textarea&gt;</code></pre>
+                    <p>Which is an equivalent of:</p>
+                    <pre><code>$('textarea').autosize({append: &quot;\n&quot;})</code></pre>
+
+                    <h2 id="directives">Sing Angular Core Directives</h2>
+                    <hr>
+                    <h3>sn-action</h3>
+                    <p>Allows to execute a built-in Sing Angular action when clicked on element. For example to collapse navigation add this directive
+                    to any element:</p>
+                    <pre><code>&lt;a data-sn-action='toggle-navigation-collapse-state'&gt;Toggle Navigation&lt;/a&gt;</code></pre>
+
+                    <h3>sn-navigation</h3>
+                    <p>Essential Sing Angular directive which binds and initializes all required callbacks and functions to make navigation function
+                    appropriately</p>
+
+                    <h3>sn-chat-sidebar</h3>
+                    <p>Enables chat logic for right sidebar. Currently it is just a wrapper for simple code written in jQuery style. Since Sing App
+                        v1.2.0 it will be rewritten using angular models & directives.</p>
+
+                    <h3>sn-progress-animate</h3>
+                    <p>Animates angular's <code>progressbar</code> directive on initial load. Just add it to progressbar like that:</p>
+                    <pre><code>&lt;div data-progressbar data-sn-progress-animate data-value=&quot;60&quot; class=&quot;progress-sm bg-white&quot;&gt;&lt;/div&gt;</code></pre>
+
+                    <h3>ajax-load</h3>
+                    <p>Allows to load any html document into existing element on the page. For example in this case some.html will be loaded into <code>#target</code> div:</p>
+                    <pre><code>&lt;a data-ajax-load=&quot;some.html&quot; data-ajax-target=&quot;#target&quot;&gt;Load&lt;/a&gt;
+&lt;div id=&quot;target&quot;&gt;&lt;/div&gt;</code></pre>
+
+                    <h2 id="dashboard">Dashboard</h2>
+                    <hr>
+
+                    <h3>Big Map</h3>
+                    <p>Built with <a href="http://www.neveldo.fr/mapael/">jQuery Mapael</a>. Statistics on th right side a made with
+                    <a href="http://getbootstrap.com/components/#progress">Bootstrap's progress bar</a>.</p>
+
+                    <h3>Market Stats</h3>
+                    <p>Market Stats widget contains a realtime chart built with <a href="https://github.com/shutterstock/rickshaw">
+                        Rickshaw</a>.</p>
+
+                    <h3>Calendar</h3>
+                    <p>Built with <a href="https://github.com/xero/bootstrap_calendar">Bootstrap Calendar</a>.</p>
+
+                    <h2 id="changelog">Change Log</h2>
+                    <p>For upgrade instructions please check <a href="../changelog.md" target="_blank">changelog.md</a>.</p>
+                    <h4><strong>Version 1.2.0</strong></h4>
+                    <ul>
+                        <li>- Bootstrap 3.3.4 update</li>
+                    </ul>
+                    <hr>
+                    <h4><strong>Version 1.1.1</strong></h4>
+                    <ul>
+                        <li>- Angular Datatables fix (Angular version)</li>
+                    </ul>
+                    <hr>
+                    <h4><strong>Version 1.1.0</strong></h4>
+                    <ul>
+                        <li>- Bootstrap 3.3 update</li>
+                        <li>- Angular 1.3.8 update</li>
+                        <li>- Font awesome 4.3.0</li>
+                    </ul>
+                    <hr>
+                    <h4><strong>Version 1.0.0</strong></h4>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jquery and friends -->
+<script src="js/jquery.1.9.0.min.js"> </script>
+
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+
+</body>
+</html>

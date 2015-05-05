@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sing Documentation</title>
+    <link href="css/documentation.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+</head>
+<body class="background-two">
+<nav id="sidebar" class="sidebar">
+    <ul id="side-nav" class="side-nav">
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#side-nav" href="#dashboard-collapse"> <span class="name">Dashboard</span></a>
+            <ul id="dashboard-collapse" class="accordion-body collapse">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="inbox.html"><span class="name">Email</span></a>
+        </li>
+        <li class="active">
+            <a href="charts.html"><span class="name">Charts</span></a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#forms-collapse"> <span class="name">Forms</span></a>
+            <ul id="forms-collapse" class="accordion-body collapse">
+                <li><a href="form_elements.html">Elements</a></li>
+                <li><a href="form_validation.html">Validation</a></li>
+                <li><a href="form_wizard.html">Wizard</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#ui-collapse"> <span class="name">UI</span></a>
+            <ul id="ui-collapse" class="accordion-body collapse">
+                <li><a href="ui_components.html">Components</a></li>
+                <li><a href="ui_notifications.html">Notifications</a></li>
+                <li><a href="ui_icons.html">Icons</a></li>
+                <li><a href="ui_buttons.html">Buttons</a></li>
+                <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
+                <li><a href="ui_list_groups.html">List Groups</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="grid.html">Grid</a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#maps-collapse"> <span class="name">Maps</span></a>
+            <ul id="maps-collapse" class="accordion-body collapse">
+                <li><a href="maps_google.html">Google</a></li>
+                <li><a href="maps_vector.html">Vector</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#tables-collapse"> <span class="name">Tables</span></a>
+            <ul id="tables-collapse" class="accordion-body collapse">
+                <li><a href="tables_basic.html">Basic</a></li>
+                <li><a href="tables_dynamic.html">Dynamic</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#extra-collapse"> <span class="name">Extra</span></a>
+            <ul id="extra-collapse" class="accordion-body collapse">
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="error.html">Error</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="time_line.html">Timeline</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div class="wrap">
+    <div class="row-fluid">
+        <div class="span10">
+            <header class="page-header">
+                <h1>Sing Documentation</h1>
+            </header>
+        </div>
+    </div>
+    <div class="content container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <section class="widget">
+                    <h2>Charts</h2>
+                    <hr>
+                    <h3>Flot Charts</h3>
+                    <p>Built with <a href="http://www.flotcharts.org/">Flot JS</a>. Required libs:</p>
+                    <pre><code>&lt;script src="vendor/flot/jquery.flot.js"&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Interactive Sparklines</h3>
+                    <p>Built with <a href="http://omnipotent.net/jquery.sparkline/#s-about">jqeruy.sparkline</a>.</p>
+                    <pre><code>&lt;script src=&quot;vendor/jquery.sparkline/index.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Rickshaw</h3>
+                    <p>Realtime chart is based on <a href="http://code.shutterstock.com/rickshaw/examples/extensions.html">Rickshaw
+                    realtime example</a>.</p>
+
+                    <h3>Sparkline Pie Charts</h3>
+                    <p>Same as interactive sparklines based on <a href="http://omnipotent.net/jquery.sparkline/#s-about">jqeruy.sparkline</a>.</p>
+                    <pre><code>&lt;script src=&quot;vendor/jquery.sparkline/index.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>D3 charts</h3>
+                    <p>These charts are based on amazing <a href="http://d3js.org/">D3.js</a> library. Here is what D3
+                        says about itself:</p>
+                    <blockquote>
+                        D3.js is a JavaScript library for manipulating documents based on data.
+                        D3 helps you bring data to life using HTML, SVG and CSS. D3’s emphasis on web standards
+                        gives you the full capabilities of modern browsers without tying yourself to a proprietary
+                        framework, combining powerful visualization components and a data-driven approach to DOM manipulation.
+                    </blockquote>
+                    <p>So it means that graphs are drawn with standard SVG and styled with CSS. You can customize all you like with techniques you already know.</p>
+                    <p>There are two libraries used in <strong>Sing App</strong> which work on top of D3.js:</p>
+                    <ul>
+                        <li><a href="http://nvd3.org/">nvd3</a> - which is focused on developing re-usable charts and chart components for d3.js without taking away the power that d3.js gives to developer, and</li>
+                        <li><a href="http://code.shutterstock.com/rickshaw/">Rickshaw</a> - a JavaScript toolkit for creating interactive time series graphs based on d3.js underneath. Rickshaw is used for displaying
+                            realtime data in Sing.</li>
+                    </ul>
+                    <pre><code>&lt;script src=&quot;vendor/d3/d3.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;vendor/nvd3/build/nv.d3.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Morris Charts</h3>
+                    <p>Built with <a href="http://www.oesmith.co.uk/morris.js/">Morris JS</a>.</p>
+                    <pre><code>&lt;script src=&quot;vendor/raphael/raphael-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;vendor/morris.js/morris.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Easy Pie Charts</h3>
+                    <p>Built with <a href="https://github.com/rendro/easy-pie-chart">Easy Pie Chart</a>.</p>
+                    <pre><code>&lt;script src=&quot;vendor/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Flot Bars</h3>
+                    <p>Same as Flot Charts built with <a href="http://www.flotcharts.org/">Flot</a>. A bit different dependencies:</p>
+                    <pre><code>&lt;script src="vendor/flot.animator/jquery.flot.animator.min.js"&gt;&lt;/script&gt;
+&lt;script src="vendor/flot/jquery.flot.js"&gt;&lt;/script&gt;
+&lt;script src="vendor/flot-orderBars/js/jquery.flot.orderBars.js"&gt;&lt;/script&gt;
+&lt;script src="vendor/flot/jquery.flot.selection.js"&gt;&lt;/script&gt;
+&lt;script src="vendor/flot/jquery.flot.time.js"&gt;&lt;/script&gt;</code></pre>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jquery and friends -->
+<script src="js/jquery.1.9.0.min.js"> </script>
+
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+
+</body>
+</html>

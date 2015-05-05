@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sing Documentation</title>
+    <link href="css/documentation.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+</head>
+<body class="background-two">
+<nav id="sidebar" class="sidebar">
+    <ul id="side-nav" class="side-nav">
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#side-nav" href="#dashboard-collapse"> <span class="name">Dashboard</span></a>
+            <ul id="dashboard-collapse" class="accordion-body collapse">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="inbox.html"><span class="name">Email</span></a>
+        </li>
+        <li>
+            <a href="charts.html"><span class="name">Charts</span></a>
+        </li>
+        <li class="active accordion-group">
+            <a class="accordion-toggle" data-toggle="collapse"
+               data-parent="#side-nav" href="#forms-collapse"> <span class="name">Forms</span></a>
+            <ul id="forms-collapse" class="accordion-body collapse in">
+                <li class="active"><a href="form_elements.html">Elements</a></li>
+                <li><a href="form_validation.html">Validation</a></li>
+                <li><a href="form_wizard.html">Wizard</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#ui-collapse"> <span class="name">UI</span></a>
+            <ul id="ui-collapse" class="accordion-body collapse">
+                <li><a href="ui_components.html">Components</a></li>
+                <li><a href="ui_notifications.html">Notifications</a></li>
+                <li><a href="ui_icons.html">Icons</a></li>
+                <li><a href="ui_buttons.html">Buttons</a></li>
+                <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
+                <li><a href="ui_list_groups.html">List Groups</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="grid.html">Grid</a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#maps-collapse"> <span class="name">Maps</span></a>
+            <ul id="maps-collapse" class="accordion-body collapse">
+                <li><a href="maps_google.html">Google</a></li>
+                <li><a href="maps_vector.html">Vector</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#tables-collapse"> <span class="name">Tables</span></a>
+            <ul id="tables-collapse" class="accordion-body collapse">
+                <li><a href="tables_basic.html">Basic</a></li>
+                <li><a href="tables_dynamic.html">Dynamic</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#extra-collapse"> <span class="name">Extra</span></a>
+            <ul id="extra-collapse" class="accordion-body collapse">
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="error.html">Error</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="time_line.html">Timeline</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div class="wrap">
+    <div class="row-fluid">
+        <div class="span10">
+            <header class="page-header">
+                <h1>Sing Documentation</h1>
+            </header>
+        </div>
+    </div>
+    <div class="content container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <section class="widget">
+                    <h2>Form Elements</h2>
+                    <hr>
+                    <p>There are four general styles available to style forms:
+                        <code>.form-horizontal</code>, <code>.form-condensed</code>, <code>.form-label-left</code> and "no style" for horizontal placed inputs,
+                        decreased margins, labels aligned to left and default form accordingly. You can combine any of them together.</p>
+
+
+                    <h3>Inputs</h3>
+                    <hr/>
+                    <p>Bootstrap styles input by default, so there is no need to add any classes to inputs. Just use them. Don't forget to include input type.</p>
+                    <p>Bootstrap has a great <a href="http://getbootstrap.com/css/#forms">documentation about forms</a>.</p>
+
+                    <h3>Input Sizing</h3>
+                    <hr/>
+                    <p>Any input can be sized by adding <code>.col-*-*</code> class. For vertical sizing
+                        <code>.input-lg</code> and <code>.input-sm</code> are available.</p>
+
+
+                    <h3>Prepended and appended inputs</h3>
+                    <hr/>
+                    <p>Again Bootstrap helps. It has <a href="http://getbootstrap.com/css/#forms">everything we need to prepend and append inputs</a>.</p>
+
+
+                    <h3>Textareas</h3>
+                    <hr/>
+                    <p>Auto-growing textarea uses <a href="http://www.jacklmoore.com/autosize/">jQuery Autosize</a> plugin
+                        to increase area size dynamically. Files:</p>
+                    <pre><code>&lt;script src=&quot;vendor/jquery-autosize/jquery.autosize.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+                    <p>Wysiwyg editor is based on <a href="http://jhollingworth.github.com/bootstrap-wysihtml5/">
+                        bootstrap-wysihtml5</a>. Files:</p>
+                    <pre><code>&lt;script src=&quot;vendor/bootstrap3-wysihtml5/lib/js/wysihtml5-0.3.0.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;vendor/bootstrap3-wysihtml5/src/bootstrap3-wysihtml5.js&quot;&gt;&lt;/script&gt;</code></pre>
+                    <p>Markdown editor is built with <a href="https://github.com/evilstreak/markdown-js">Markdown js</a>. Files:</p>
+                    <pre><code>&lt;script src=&quot;vendor/markdown/lib/markdown.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+
+                    <h3>Selects</h3>
+                    <hr/>
+                    <p>Two different type of selects avaiables in <strong>Sing</strong> template:</p>
+                    <ul>
+                        <li><a href="http://ivaynberg.github.com/select2/">Select2</a> - is a really powerful tool used to convert default selects to interactive search-enabled widgets.</li>
+                        <li><a href="https://github.com/silviomoreto/bootstrap-select">Bootstrap Select</a> - is Bootstrap based custom select, designed to behave like regular Bootstrap selects.
+                            This one can be colored as any button.</li>
+                    </ul>
+                    <p>Required files:</p>
+        <pre>&lt;script src=&quot;vendor/bootstrap-select/dist/js/bootstrap-select.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;vendor/select2/select2.min.js&quot;&gt;&lt;/script&gt;</pre>
+
+
+                    <h3>Checkboxes and Radio</h3>
+                    <hr/>
+                    <p>To style default checkboxes and radio buttons <a href="https://github.com/okendoken/awesome-bootstrap-checkbox">
+                        Awesome Bootstrap Checkbox</a> library is used. This lib was written specially for Sing, so
+                        in case you find some bugs or want some features - let us know.</p>
+                    <h3>Button-like checkboxes</h3>
+                    <hr/>
+                    <p>Bootstrap has a great api to handle button states -
+                        <a href="http://getbootstrap.com/javascript/#buttons">bootstrap-button.js</a>, so using it to
+                        imitate checkbox or radio buttons.</p>
+
+                    <h3>iOS-like switches</h3>
+                    <hr/>
+                    <p>There is a special plugin to do that - <a href="http://abpetkov.github.io/switchery/">Switchery</a>.
+                        Include following files:</p>
+                    <pre><code>&lt;script src=&quot;vendor/switchery/dist/switchery.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Pickers</h3>
+                    <hr/>
+                    <p>Any field may have either <a href="https://github.com/Eonasdan/bootstrap-datetimepicker">Datetimepicker</a>
+                        or <a href="http://www.eyecon.ro/bootstrap-colorpicker/">Colorpicker</a> attached. Required files:</p>
+        <pre>&lt;script src=&quot;vendor/moment/min/moment.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;vendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js&quot;&gt;&lt;/script&gt;</pre>
+
+                    <h3>Masked Inputs</h3>
+                    <hr/>
+                    <p>To make any input accept only formatted values there is a great plugin to use -
+                        <a href="http://jasny.github.io/bootstrap/">jasny's inputmask.js</a>. Files:</p>
+                    <pre><code>&lt;script src=&quot;vendor/jasny-bootstrap/js/inputmask.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Sliders</h3>
+                    <hr>
+                    <p>Sing sliders are styled version of <a href="https://github.com/seiyria/bootstrap-slider">Bootstrap
+                        Slider plugin</a>.</p>
+                    <pre><code>&lt;script src=&quot;vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Simple file uploads</h3>
+                    <hr>
+                    <p>Same as masked input based on <a href="http://jasny.github.io/bootstrap/">Jasny's BS fork</a>. Files:</p>
+                    <pre><code>&lt;script src=&quot;vendor/jasny-bootstrap/js/fileinput.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+                    <h3>Dropzone</h3>
+                    <hr>
+                    <p>Dead simple file upload plugin with image preview <a href="http://www.dropzonejs.com/">Dropzone</a>.</p>
+                    <pre><code>&lt;script src=&quot;vendor/dropzone/downloads/dropzone.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jquery and friends -->
+<script src="js/jquery.1.9.0.min.js"> </script>
+
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+
+</body>
+</html>

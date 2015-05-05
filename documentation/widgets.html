@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sing Documentation</title>
+    <link href="css/documentation.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+</head>
+<body class="background-two">
+<nav id="sidebar" class="sidebar">
+    <ul id="side-nav" class="side-nav">
+        <li class="active accordion-group">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#side-nav" href="#dashboard-collapse"> <span class="name">Dashboard</span></a>
+            <ul id="dashboard-collapse" class="accordion-body collapse in">
+                <li><a href="index.html">Dashboard</a></li>
+                <li class="active"><a href="widgets.html">Widgets</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="inbox.html"><span class="name">Email</span></a>
+        </li>
+        <li>
+            <a href="charts.html"><span class="name">Charts</span></a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#forms-collapse"> <span class="name">Forms</span></a>
+            <ul id="forms-collapse" class="accordion-body collapse">
+                <li><a href="form_elements.html">Elements</a></li>
+                <li><a href="form_validation.html">Validation</a></li>
+                <li><a href="form_wizard.html">Wizard</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#ui-collapse"> <span class="name">UI</span></a>
+            <ul id="ui-collapse" class="accordion-body collapse">
+                <li><a href="ui_components.html">Components</a></li>
+                <li><a href="ui_notifications.html">Notifications</a></li>
+                <li><a href="ui_icons.html">Icons</a></li>
+                <li><a href="ui_buttons.html">Buttons</a></li>
+                <li><a href="ui_tabs_accordion.html">Tabs & Accordion</a></li>
+                <li><a href="ui_list_groups.html">List Groups</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="grid.html">Grid</a>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#maps-collapse"> <span class="name">Maps</span></a>
+            <ul id="maps-collapse" class="accordion-body collapse">
+                <li><a href="maps_google.html">Google</a></li>
+                <li><a href="maps_vector.html">Vector</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#tables-collapse"> <span class="name">Tables</span></a>
+            <ul id="tables-collapse" class="accordion-body collapse">
+                <li><a href="tables_basic.html">Basic</a></li>
+                <li><a href="tables_dynamic.html">Dynamic</a></li>
+            </ul>
+        </li>
+        <li class="accordion-group">
+            <a class="accordion-toggle collapsed" data-toggle="collapse"
+               data-parent="#side-nav" href="#extra-collapse"> <span class="name">Extra</span></a>
+            <ul id="extra-collapse" class="accordion-body collapse">
+                <li><a href="calendar.html">Calendar</a></li>
+                <li><a href="invoice.html">Invoice</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="error.html">Error</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="time_line.html">Timeline</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div class="wrap">
+    <div class="row-fluid">
+        <div class="span10">
+            <header class="page-header">
+                <h1>Sing Documentation</h1>
+            </header>
+        </div>
+    </div>
+    <div class="content container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <section class="widget">
+                    <h2>Basic Widget</h2>
+                    <hr>
+                    <p><strong>Sing</strong> widget has really intuitive structure and may contain three parts: header, body and footer. But any of
+                        them can be omitted. So the basic widget structure looks like:</p>
+                    <pre>&lt;section class="widget"&gt;
+    &lt;header&gt;
+        &lt;h3&gt;Header&lt;/h3&gt;
+    &lt;/header&gt;
+    &lt;div class="widget-body"&gt;
+        Body
+    &lt;/div&gt;
+    &lt;footer&gt;
+        Footer
+    &lt;/footer&gt;
+&lt;/section&gt;</pre>
+                    <p>Widget will take as much place as inner content needs, but you can control its size with these classes:
+                        <code>.widget-sm</code>, <code>.widget-md</code>.</p>
+
+                    <h2>Widget Colors</h2>
+                    <hr>
+                    <p>Any widget (generally speaking - any element) may be styled with <code>.bg-primary</code>,
+                        <code>.bg-info</code> and other <code>.bg-{color}</code> classes. The whole list is:</p>
+                    <ul>
+                        <li><code>.bg-primary</code></li>
+                        <li><code>.bg-success</code></li>
+                        <li><code>.bg-info</code></li>
+                        <li><code>.bg-warning</code></li>
+                        <li><code>.bg-danger</code></li>
+                        <li><code>.bg-primary-light</code> - light version of color. See $brand-primary-light variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-success-light</code> - light version of color. See $brand-success-light variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-info-light</code> - light version of color. See $brand-info-light variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-warning-light</code> - light version of color. See $brand-warning-light variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-danger-light</code> - light version of color. See $brand-danger-light variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-body</code> - body-like color. See $body-bg variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-body-light</code> - lighter body color. See $body-bg-light variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-gray</code> - see $gray variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-gray-transparent</code> - transparent $gray version <code>rgba($gray, .6)</code>.</li>
+                        <li><code>.bg-gray-dark</code> - see $gray-dark variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-black</code> - black. See $black variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-gray-light</code> - see $gray-light variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-gray-lighter</code> - see $gray-lighter variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                        <li><code>.bg-transparent</code> - transparent <code>rgba(0,0,0,0)</code>.</li>
+                        <li><code>.bg-white</code> - see $white variable
+                            in <a href="../ajax/sass/_variables.scss">variables.scss</a>.</li>
+                    </ul>
+
+                    <h2>Widget Controls</h2>
+                    <hr>
+                    <p>See <a href="grid.html">Grid</a>.</p>
+
+                    <h2>Widgets</h2>
+                    <hr>
+
+                    <h3>Statistic Boxes</h3>
+                    <p>Boxes use <a href="http://www.drewgreenwell.com/projects/metrojs">Metro JS</a> for widget & numbers
+                    sliding.</p>                   
+
+                    <h3>Sales and Visits Charts</h3>
+                    <p>Built with <a href="http://www.flotcharts.org/">Flot JS</a>.</p>
+
+                    <h3>Weather Widget</h3>
+                    <p>Uses js canvas-drawing library for showing weather icons - <a href="http://darkskyapp.github.io/skycons/">Skycons</a>.</p>
+
+                    <h3>Nasdaq Widget</h3>
+                    <p>Built with <a href="http://omnipotent.net/jquery.sparkline/#s-about">jQuery Sparkline</a>. This is the most easiest
+                    lib to draw charts. You will find it in lots of place in <strong>Sing</strong>.</p>
+
+                    <h3>Yearly Distributions Map</h3>
+                    <p>Inspired by <a href="http://neveldo.fr/mapael/usecases/world/">Mapael's world population example</a>.
+                    Map initialization code is in <code>initYearsMap</code> function in <a href="../ajax/js/widgets.js">widgets.js</a> file.</p>
+
+                    <h3>Recent Chats</h3>
+                    <p>Is basically just markup with <a href="http://rocha.la/jQuery-slimScroll">SlimScroll</a> attached. SlimScroll
+                    is a defult scrolling solution in <strong>Sing</strong>. You will find it in lots of places.</p>
+
+                    <h3>Quick View Widget</h3>
+                    <p>Cool dark gray background is easily achievable with <code>.bg-gray-dark</code> class. Realtime chart
+                    is built with <a href="https://github.com/shutterstock/rickshaw">Rickshaw</a>.</p>
+
+                    <h3>Social Widgets</h3>
+                    <p>Same as statistic boxes use <a href="http://www.drewgreenwell.com/projects/metrojs">Metro JS</a> to
+                    slide content. Green shares widget is built with <a href="https://github.com/shutterstock/rickshaw">Rickshaw</a>.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jquery and friends -->
+<script src="js/jquery.1.9.0.min.js"> </script>
+
+<script src="js/bootstrap-transition.js"></script>
+<script src="js/bootstrap-collapse.js"></script>
+
+</body>
+</html>

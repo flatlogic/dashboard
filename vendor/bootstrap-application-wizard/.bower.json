@@ -1,0 +1,12 @@
+{
+  "name": "bootstrap-application-wizard",
+  "homepage": "https://github.com/amoffat/bootstrap-application-wizard",
+  "_release": "3768da3142",
+  "_resolution": {
+    "type": "commit",
+    "commit": "3768da3142f43428c5f63284407a2481a9e283d3"
+  },
+  "_source": "git://github.com/amoffat/bootstrap-application-wizard.git",
+  "_target": "3768da3142f43428c5f63284407a2481a9e283d3",
+  "_originalSource": "git://github.com/amoffat/bootstrap-application-wizard.git"
+}

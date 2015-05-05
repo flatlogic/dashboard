@@ -1,0 +1,262 @@
+@import "compass";
+
+@import "font";
+@import "variables";
+@import "bootstrap/bootstrap";
+@import "general";
+
+.widget{
+  @include border-radius($widget-border-radius);
+  @include box-shadow($widget-shadow);
+  padding: 15px 40px;
+  color: $textColor;
+  background: #ffffff;
+  margin-bottom: $box-margin-bottom;
+  position: relative;
+
+  header{
+    position: relative;
+    background: none;
+
+    #{headings(2,4)}{
+      margin: 0;
+      line-height: 20px;
+      color: inherit;
+    }
+  }
+
+  .body{
+    margin-top: 15px;
+
+    #{headings(2,4)}{
+      margin: 0;
+    }
+
+    .chart{
+      height: 60%;
+      &.pie{
+        margin-left: -15px;
+        margin-right: -15px;
+      }
+    }
+  }
+
+  footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 15px 0 0;
+  }
+
+  h3, h4{
+    margin:20px 0 5px;
+    line-height: 20px;
+  }
+
+  .well:last-child{
+    margin-bottom: 0;
+  }
+}
+
+.sidebar{
+  @include border-radius($widget-border-radius);
+  @include box-shadow($widget-shadow);
+
+  background-color: #fff;
+  position: absolute;
+  width: 160px;
+  padding: 20px 0;
+  top: 0;
+  color: $textColor;
+  z-index: 1;
+  margin: 112px 0 100px 25px;
+
+  .settings{
+    margin-top: 20px;
+    text-align: center;
+
+    .btn-auto{
+      display: none;
+    }
+  }
+}
+
+.side-nav{
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+
+  li{
+    list-style: none;
+
+    i[class*=icon]{
+      line-height: 20px;
+      color: lighten($textColor, 10%);
+      float: right;
+    }
+
+    a:hover, a:focus{
+      background: darken($lightGray,1%);
+    }
+
+    a{
+      color: inherit;
+      text-decoration: none;
+      display: block;
+      padding: 10px 20px;
+    }
+
+    a.accordion-toggle:not(.collapsed) + .accordion-body li.active a{
+      background: darken($lightGray,1%);
+    }
+  }
+
+  & > li.active > a{
+    border-left: 4px solid #555;
+    padding-left: 16px;
+    background: darken($lightGray, 1%);
+  }
+
+  .accordion-body li a{
+    padding: 4px 10px;
+    font-weight: 300;
+    background: #ffffff;
+
+    padding-left: 40px;
+
+    &:hover, &:focus{
+      background: darken($lightGray,1%);
+    }
+  }
+
+  .accordion-group{
+    margin: 0;
+    border: none;
+    @include border-radius(0);
+  }
+
+  .accordion-body{
+    padding: 0;
+  }
+}
+
+
+/*main content lies here*/
+.wrap{
+  margin-left: 205px;
+}
+
+/*content except for header*/
+.content{
+  padding: 40px 3.3%;
+  @include transition(margin-top .2s);
+}
+
+.page-header{
+
+  border: none;
+  margin: 22px 3.3% 0;
+  padding: 0;
+  position: relative;
+
+  @include border-radius($widget-border-radius);
+
+  .nav{
+
+    &.right > li{
+      position: relative;
+      & > a, & > a:visited{
+        width: 64px;
+        padding: 0;
+        font-size: 30px;
+
+        &:hover{
+          color: white;
+          @include transition(all 0.1s);
+        }
+      }
+
+      .count{
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        font-size: 10px;
+        font-weight: 600;
+        background:  rgba(darken($textColor, 20%), .55);
+        color: rgba(white, 0.9);
+        line-height: 1em;
+        padding: 2px 4px;
+        @include border-radius(10px);
+      }
+    }
+
+    & > li{
+
+      background: none;
+
+      &.active > a, &.active > a:visited{
+        background: none;
+        @include box-shadow(none);
+        color: white;
+
+        &:hover{
+          color: white;
+          background: none;
+          @include box-shadow(none);
+        }
+      }
+
+      &.divider{
+        display: block;
+        height: 38px;
+        width: 1px;
+        margin: 0 20px;
+        @include background(linear-gradient(rgba(0,0,0,0), rgba($textColor, .5), rgba(0,0,0,0)));
+      }
+
+      & > a, & > a:visited{
+        background: none;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+        line-height: 38px;
+        color: rgba(darken($textColor, 20%), .5);
+        text-shadow: none;
+        padding: 0 10px;
+        @include transition(all 0.1s);
+
+        &:hover, &:focus{
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.navbar{
+  margin: 0;
+
+  .btn-navbar {
+    border: none;
+    @include box-shadow(none);
+  }
+}
+
+.navbar-inner{
+  //background: transparent;
+  padding: 0;
+  border: none;
+  @include border-radius(0);
+  @include box-shadow(none);
+}
+
+.page-header h1{
+  font-weight: 300;
+  text-rendering: optimizeLegibility;
+  text-align: center;
+}
+
+.well-white{
+  background: #ffffff;
+}

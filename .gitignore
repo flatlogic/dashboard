@@ -1,32 +1,26 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# Emacs
+*~
 
-# Precompiled Headers
-*.gch
-*.pch
+.DS_Store
 
-# Libraries
-*.lib
-*.a
-*.la
+# Compiled Object files
+*.slo
 *.lo
+*.o
+*.obj
 
-# Shared objects (inc. Windows DLLs)
-*.dll
+# Compiled Dynamic libraries
 *.so
-*.so.*
 *.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
 
 # Executables
 *.exe
 *.out
 *.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/

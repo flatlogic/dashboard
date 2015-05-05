@@ -1,0 +1,92 @@
+
+<ol class="breadcrumb">
+    <li>YOU ARE HERE</li>
+    <li class="active">Calendar</li>
+</ol>
+<div data-ng-controller="CalendarAppController">
+    <div class="row">
+        <div class="col-lg-4">
+            <h1 class="page-title">{{eventsCalendar && currentMonth()}} - <span class="fw-semi-bold">{{eventsCalendar && currentDay()}}</span></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-lg-4">
+            <h4>Draggable <span class="fw-semi-bold">Events</span></h4>
+            <p>Just drap and drop events from there directly into the calendar.</p>
+            <div class="calendar-external-events mb-lg">
+                <div data-ui-jq="draggable"
+                     data-ui-options="{ zIndex: 999, revert: true, revertDuration: 0 }"
+                     class='external-event bg-info text-white' data-event-class="bg-info text-white">Make a tea</div>
+                <div data-ui-jq="draggable"
+                     data-ui-options="{ zIndex: 999, revert: true, revertDuration: 0 }"
+                     class='external-event bg-warning text-white' data-event-class="bg-warning text-white">Open windows</div>
+            </div>
+        </div>
+        <div class="col-md-9 col-lg-8">
+            <section class="widget widget-calendar">
+                <div class="widget-body">
+                    <div class="calendar-controls">
+                        <div class="btn-group ">
+                            <button class="btn btn-default" data-ng-click="prev()"><i class="fa fa-angle-left"></i></button>
+                            <button class="btn btn-default" data-ng-click="next()"><i class="fa fa-angle-right"></i></button>
+                        </div>
+                        <div class="btn-group pull-right" data-toggle="buttons">
+                            <label class="btn btn-default active" data-ng-click="changeView('month')">
+                                <input type="radio" name="view" value="month"> Month
+                            </label>
+                            <label class="btn btn-default" data-ng-click="changeView('agendaWeek')">
+                                <input type="radio" name="view" value="agendaWeek"> Week
+                            </label>
+                            <label class="btn btn-default" data-ng-click="changeView('agendaDay')">
+                                <input type="radio" name="view" value="agendaDay"> Day
+                            </label>
+                        </div>
+                    </div>
+                    <div data-ui-calendar="uiConfig.calendar"
+                         data-config="uiConfig.calendar"
+                         data-ng-model="eventSources"
+                         data-calendar="eventsCalendar"
+                         class="calendar"></div>
+                </div>
+            </section>
+            <script type="text/ng-template" id="showEventModal.html">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h5 class="modal-title">{{event.title}}</h5>
+                </div>
+                <div class="modal-body fs-mini">
+                    <p><i class="fa fa-calendar text-muted fs-sm"></i> &nbsp; {{event.start | date:'medium'}}
+                    <p data-ng-if="event.end">
+                            <i class="fa fa-clock-o text-muted fs-sm"></i> &nbsp; {{event.start | date:'medium'}}
+                    </p>
+                    <p data-ng-if="event.description">{{event.description}}</p>
+                </div>
+                <div class="modal-footer no-border">
+                    <button type="button" class="btn btn-default btn-sm" data-ng-click="ok()">OK</button>
+                </div>
+            </script>
+            <script type="text/ng-template" id="createEventModal.html">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h5 class="modal-title">New Event</h5>
+                    <p class="fs-mini text-muted mt-sm">
+                        Just enter event name to create a new one
+                    </p>
+                </div>
+                <div class="modal-body bg-gray-lighter">
+                    <div class="form-group">
+                        <input type="text" data-ng-model="event.title" class="form-control input-no-border"
+                               placeholder="Name">
+                    </div>
+                </div>
+                <div class="modal-footer no-border">
+                    <button data-ng-click="cancel()" class="btn btn-default">Cancel</button>
+                    <button data-ng-click="ok()" class="btn btn-success">OK</button>
+                </div>
+            </script>
+        </div>
+    </div>
+</div>
+
+<!-- page specific libs -->
+<script type="text/javascript-lazy" data-src="vendor/fullcalendar/fullcalendar.js"></script>

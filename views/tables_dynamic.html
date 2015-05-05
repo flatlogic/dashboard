@@ -1,0 +1,83 @@
+<ol class="breadcrumb">
+    <li>YOU ARE HERE</li>
+    <li class="active">Tables Basic</li>
+</ol>
+<h1 class="page-title">Dynamic - <span class="fw-semi-bold">Tables</span></h1>
+<section class="widget" data-ng-controller="AngularWayCtrl">
+    <header>
+        <h4>The <span class="fw-semi-bold">Angular</span> Way</h4>
+        <div class="widget-controls">
+            <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
+            <a data-widgster="collapse" title="Collapse" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+            <a data-widgster="close" title="Close" href="#"><i class="glyphicon glyphicon-remove"></i></a>
+        </div>
+    </header>
+    <div class="widget-body">
+        <p>
+            Column sorting, live search, pagination. Built with
+            <a href="http://l-lin.github.io/angular-datatables/#/welcome" target="_blank">angular-datatables</a>
+        </p>
+        <div class="mt">
+            <table data-datatable="ng" data-dt-options="dtOptions" class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th class="no-sort hidden-xs">Info</th>
+                    <th class="hidden-xs">Description</th>
+                    <th class="hidden-xs">Date</th>
+                    <th class="no-sort">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="person in people">
+                    <td>{{person.id}}</td>
+                    <td><span class="fw-semi-bold">{{person.name}}</span></td>
+                    <td class="hidden-xs">
+                        <small>
+                            <span class="fw-semi-bold">Type:</span>
+                            &nbsp; {{person.info.type}}
+                        </small>
+                        <br>
+                        <small>
+                            <span class="fw-semi-bold">Dimensions:</span>
+                            &nbsp; {{person.info.dimensions}}
+                        </small>
+                    </td>
+                    <td class="hidden-xs"><a href="#">{{person.description}}</a></td>
+                    <td class="hidden-xs">{{person.date}}</td>
+                    <td class="width-150">
+                        <div class="progress progress-sm mt-xs">
+                            <div class="progress-bar progress-bar-{{person.status.type}}" style="width: {{person.status.progress}};"></div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<section class="widget" sn-backgrid-demo>
+    <header>
+        <h4>
+            Table <span class="fw-semi-bold">Styles</span>
+        </h4>
+        <div class="widget-controls">
+            <div class="width-200">
+                <div class="input-group input-group-sm input-group-transparent input-group-rounded">
+                    <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                    <input class="form-control " id="search-countries" type="text" placeholder="Search Countries">
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="widget-body">
+        <p>
+            Editable, validatable, filterable and sortable table made with
+            <a href="http://backgridjs.com/" target="_blank">Backgrid.js</a>
+        </p>
+        <div id="table-dynamic"></div>
+    </div>
+</section>

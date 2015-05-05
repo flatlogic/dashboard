@@ -1,0 +1,14 @@
+{
+  "name": "jquery-animateNumber",
+  "homepage": "https://github.com/aishek/jquery-animateNumber",
+  "version": "0.0.10",
+  "_release": "0.0.10",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.10",
+    "commit": "4cbd25249bd1fd1af65775e17f440a85259bdf6f"
+  },
+  "_source": "https://github.com/aishek/jquery-animateNumber.git",
+  "_target": "v0.0.10",
+  "_originalSource": "https://github.com/aishek/jquery-animateNumber.git"
+}

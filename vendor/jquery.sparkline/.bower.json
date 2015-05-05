@@ -1,0 +1,14 @@
+{
+  "name": "jquery.sparkline",
+  "_cacheHeaders": {
+    "ETag": "\"a8ef-4df3cf4446f00\"",
+    "Last-Modified": "Sun, 16 Jun 2013 03:19:56 GMT",
+    "Content-Length": "43247",
+    "Content-Type": "application/javascript"
+  },
+  "_release": "e-tag:a8ef-4df3",
+  "main": "index.js",
+  "_source": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.min.js",
+  "_target": "*",
+  "_originalSource": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.min.js"
+}

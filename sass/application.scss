@@ -1,0 +1,57 @@
+@import "font";
+
+@import "variables";
+@import "mixins";
+
+@import "compass";
+
+@import "../vendor/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../vendor/font-awesome/scss/font-awesome";
+@import "CSS:../vendor/animate.css/animate";
+@import "CSS:../vendor/bootstrap-select/dist/css/bootstrap-select";
+@import "CSS:../vendor/select2/select2"; //import as css to keep image urls correct
+@import "../vendor/select2-bootstrap-css/lib/select2-bootstrap";
+@import "../vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
+@import "CSS:../vendor/pace.js/themes/pace-theme-flash";
+
+@import "bootstrap-override";
+@import "libs-override";
+
+//custom libs. can be removed
+//
+
+@import "CSS:../vendor/rickshaw/rickshaw";
+@import "CSS:../vendor/bootstrap3-wysihtml5/src/bootstrap-wysihtml5";
+@import "CSS:../vendor/switchery/dist/switchery";
+@import "CSS:../vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker";
+@import "CSS:../vendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker";
+@import "../vendor/jasny-bootstrap/scss/jasny-bootstrap";
+@import "CSS:../vendor/dropzone/dist/dropzone";
+@import "CSS:../vendor/nvd3/build/nv.d3";
+@import "CSS:../vendor/morris.js/morris";
+@import "CSS:../vendor/jvectormap/jquery-jvectormap-1.2.2";
+@import "CSS:../vendor/bootstrap-application-wizard/src/bootstrap-wizard";
+@import "CSS:../vendor/backgrid/lib/backgrid";
+@import "CSS:../vendor/datatables/media/css/jquery.dataTables";
+@import "CSS:../vendor/messenger/build/css/messenger";
+@import "CSS:../vendor/messenger/build/css/messenger-spinner";
+@import "CSS:../vendor/fullcalendar/fullcalendar";
+@import "../vendor/magnific-popup/src/css/main";
+@import "CSS:../vendor/MetroJS/release/MetroJs.Full/MetroJs";
+@import "CSS:../vendor/bootstrap-markdown/css/bootstrap-markdown.min";
+
+
+@import "custom-libs-override";
+
+//
+//end custom libs
+
+//everything below this line is required for essential styling
+
+@import "general";
+@import "global-transitions";
+@import "base";
+
+@import "widgets";
+@import "utils";
+@import "print";

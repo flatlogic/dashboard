@@ -1,0 +1,12 @@
+{
+  "name": "jquery.nestable",
+  "homepage": "https://github.com/dbushell/Nestable",
+  "_release": "4f93032cfa",
+  "_resolution": {
+    "type": "commit",
+    "commit": "4f93032cfafe2002f24ed6bd7dc1510931498503"
+  },
+  "_source": "git://github.com/dbushell/Nestable.git",
+  "_target": "4f93032cfafe2002f24ed6bd7dc1510931498503",
+  "_originalSource": "git://github.com/dbushell/Nestable.git"
+}
