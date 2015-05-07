@@ -158,10 +158,10 @@ Lists user accounts in the system.  Requires the `account_readonly` permission f
   + `offset` is the starting point. This is for paging.
   + No query parameters will return the entire data set!!
 + HTTP Headers:
-
+```
     Accept: application/json
-    Authorization: Bearer <token>
-
+    Authorization: Bearer user-auth-token
+```
 + Repsonse:  An array of accounts.
 
 ```
@@ -180,6 +180,8 @@ Lists user accounts in the system.  Requires the `account_readonly` permission f
       },
       {
 ...
+
+]
 ```
 
 
