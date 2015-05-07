@@ -54,13 +54,16 @@ This way, we have proper namespace for a dashboard app that needs to talk to mul
 
 A Postman collection is here: https://www.getpostman.com/collections/3627231e92577dba0792
 
-or here: [postman](/auth/accounts.qor.io.json.postman_collection)
+or here in the repo: [/auth/accounts.qor.io.json.postman_collection](/auth/accounts.qor.io.json.postman_collection)
 
 
 ### Authenticate a user
 
-+ Perform a POST to https://accounts.qor.io/v1/auth
-+ HTTP Header:  `Content-Type: application/json`
++ POST https://accounts.qor.io/v1/auth
++ HTTP Headers:
+```
+Content-Type: application/json
+```
 + No HTTP Authorization header required.
 + POST body
 
@@ -89,6 +92,7 @@ Some test users with their usernames, passwords, and permissions:
 | dashboard-admin | password | my_account,account_readonly,account_update  |
 
 
+Some additional calls for account management:
 
 ### Get Me
 
@@ -97,8 +101,10 @@ Returns the user's account information given the auth token set in the HTTP head
 + GET https://accounts.qor.io/v1/account/me
 + HTTP Headers:
 
+```
     Accept: application/json
-    Authorization: Bearer <token>
+    Authorization: Bearer token-from-the-user-auth-call
+```
 
 + Repsonse:
 
@@ -160,22 +166,20 @@ Lists user accounts in the system.  Requires the `account_readonly` permission f
 
 ```
 [
-{
-"id": "d0407397-efc4-11e4-9997-0242ac11000a",
-"created_timestamp": 1430458931,
-"services": [
-{
-"id": "passport",
-"account_id": "d0407397-efc4-11e4-9997-0242ac11000a",
-"scopes": [
-"my_account"
-],
-"start_timestamp": 1430458931
-},
-{
+  {
+    "id": "d0407397-efc4-11e4-9997-0242ac11000a",
+    "created_timestamp": 1430458931,
+    "services": [
+      {
+        "id": "passport",
+        "account_id": "d0407397-efc4-11e4-9997-0242ac11000a",
+        "scopes": [
+          "my_account"
+        ],
+        "start_timestamp": 1430458931
+      },
+      {
 ...
-
-
 ```
 
 
