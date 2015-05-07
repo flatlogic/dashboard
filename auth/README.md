@@ -23,7 +23,7 @@ an API key is required.
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAxL0BpZCI6IjRlODk1NGEyLWQ5YzUtMTFlNC1iNjkzLTAyNDJhYzExMDAwZCIsImFwcDEvQHNjb3BlcyI6ImFwcDEtcmVhZG9ubHksYXBwMS13cml0ZSIsImFwcDEvQHN0YXR1cyI6IiIsImFwcDIvQGlkIjoiNGU4OTU0YTItZDljNS0xMWU0LWI2OTMtMDI0MmFjMTEwMDBkIiwiYXBwMi9Ac2NvcGVzIjoiYXBwMi1yZWFkb25seSIsImFwcDIvQHN0YXR1cyI6IiIsImRvbWFpbiI6InFvci5pbyIsImV4cCI6MTQzMzYyMDA5NywicGFzc3BvcnQvQGlkIjoiNGU4OTU0YTItZDljNS0xMWU0LWI2OTMtMDI0MmFjMTEwMDBkIiwicGFzc3BvcnQvQHNjb3BlcyI6Im15X2FjY291bnQiLCJwYXNzcG9ydC9Ac3RhdHVzIjoiIn0.jkgSQQb2GzpKTXM7UpKA-FqZ5BRdcMdl4GR1vHmHgQ8
 ```
 
-This is a signed encoding of this JSON structure (from http://jwt.io) ![jwt_screen1](/images/jwt1.png):
+This is a signed encoding of this JSON structure (from http://jwt.io) ![jwt_screen1](/auth/images/jwt1.png):
 
 ```
 {
@@ -54,7 +54,7 @@ This way, we have proper namespace for a dashboard app that needs to talk to mul
 
 A Postman collection is here: https://www.getpostman.com/collections/3627231e92577dba0792
 
-or here: [postman](/accounts.qor.io.json.postman_collection)
+or here: [postman](/auth/accounts.qor.io.json.postman_collection)
 
 
 ### Authenticate a user
