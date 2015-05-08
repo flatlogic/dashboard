@@ -6,6 +6,176 @@
 var appServices = angular.module('app.services', []);
 
 /**
+ * Authorization service for working with token.
+ * @param $window
+ */
+var authService = function($window) {
+    var self = this;
+
+    // Key to store and access token in localstorage
+    self.tokenKey = 'authToken';
+
+    self.saveToken = function(token) {
+        $window.localStorage[self.tokenKey] = token;
+    }
+
+    self.getToken = function() {
+        return $window.localStorage[self.tokenKey];
+    }
+
+    self.removeToken = function() {
+        $window.localStorage.removeItem(self.tokenKey);
+    }
+
+    /**
+     * Convert token from JWT format to an object
+     * @returns {object} JSON object contains token info or empty object
+     */
+    self.getParsedToken = function() {
+        var token = self.getToken();
+        if (!token) {
+            return false;
+        }
+
+        // Decode from base64
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+
+        var parsedToken = JSON.parse($window.atob(base64));
+        return parsedToken;
+    }
+};
+
+// Add authService as auth
+appServices.service('auth', authService);
+
+/**
+ * Service for working with user authentication
+ * @param $http angular http service
+ * @param API_URL link to REST api
+ * @param auth authorization service
+ */
+var userService = function($http, API_URL, auth, dataLoader) {
+    var self = this;
+
+    self.isAuthed = function() {
+        var token = auth.getParsedToken();
+        if(token) {
+            // Check token expiration
+            return Math.round(new Date().getTime() / 1000) <= token.exp;
+        } else {
+            return false;
+        }
+    }
+
+    // Get all user permissions in one array of strings
+    self.getPermissions = function() {
+        var token = auth.getParsedToken();
+        if (token) {
+            return token['passport/@scopes'].split(',');
+        } else {
+            return [];
+        }
+    }
+
+    self.login = function(username, password) {
+        var request = {
+            method: 'POST',
+            url:    API_URL + '/auth',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                "username" : username,
+                "password" : password
+            }
+        };
+
+            //todo remove
+//            auth.saveToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAxL0BpZCI6ImE3MDFlNzIxLWY0ZjctMTFlNC05OTk3LTAyNDJhYzExMDAwYSIsImFwcDEvQHNjb3BlcyI6ImFwcDEtcmVhZG9ubHksYXBwMS13cml0ZSxhcHAxLXN1cGVydXNlcixjYW4tdGVsbC1qb2tlcyIsImFwcDEvQHN0YXR1cyI6IiIsImFwcDIvQGlkIjoiYTcwMWU3MjEtZjRmNy0xMWU0LTk5OTctMDI0MmFjMTEwMDBhIiwiYXBwMi9Ac2NvcGVzIjoiYXBwMi1yZWFkb25seSIsImFwcDIvQHN0YXR1cyI6IiIsImRvbWFpbiI6InFvci5pbyIsImV4cCI6MTQzMzY3OTk0NiwicGFzc3BvcnQvQGlkIjoiIiwicGFzc3BvcnQvQHNjb3BlcyI6Im15X2FjY291bnQsYWNjb3VudF9yZWFkb25seSIsInBhc3Nwb3J0L0BzdGF0dXMiOiIifQ.LgCah5xG0JybIjMSgxWLESLVJNRSkqmUBT56Mgtji70');
+
+        return $http(request)
+            .success(function(response) {
+                //auth.saveToken(response.token);
+                return response;
+            })
+            .error(function(error) {
+                return error;
+            });
+    };
+
+    self.hasAccessTo = function(itemName) {
+        var currentUserPermissions = self.getPermissions();
+        var globalPermissions = dataLoader.getGlobalPermissionsObject();
+
+        var neededPermission = globalPermissions[itemName];
+
+        if (neededPermission) {
+            return currentUserPermissions.indexOf(neededPermission) != -1;
+        } else {
+            return false;
+        }
+    }
+
+    self.logout = function() {
+        auth.removeToken();
+    }
+};
+
+// Add userService as user
+appServices.service('user', userService);
+
+/**
+ * Service for loading JSON scripts from server
+ */
+var dataLoaderService = function($window, $http, API_URL) {
+    var self = this;
+
+    // Key to store permissions in localstorage
+    self.permissionsJsonKey = 'permissions_json';
+
+    self.isPermissionJsonAvailable = function() {
+        return $window.localStorage[self.permissionsJsonKey] ? true : false;
+    }
+
+    // Load and save json with permission map
+    self.loadPermissionsJson = function() {
+        return $http.get('data/permissions.json')
+            .then(function(result) {
+                $window.localStorage[self.permissionsJsonKey] = JSON.stringify(result.data);
+            });
+    }
+
+    /**
+     * Load json with sections which should be displayed on specified page
+     */
+    self.loadPageSections = function(pageName) {
+        return $http.get('data/sections-' + pageName + '.json')
+            .then(function(result) {
+                $window.localStorage['sections_' + pageName] = JSON.stringify(result.data);
+            });
+    }
+
+    self.getGlobalPermissionsObject = function() {
+        return JSON.parse($window.localStorage[self.permissionsJsonKey] || '{}');
+    }
+
+    self.getPageSections = function(pageName) {
+        return JSON.parse( $window.localStorage['sections_' + pageName] || '{}');
+    }
+
+    /**
+     * Download and save all scripts. Called in page controller.
+     */
+    self.init = function(pageName) { // fixme returns one promise
+        self.loadPermissionsJson();
+        self.loadPageSections(pageName);
+    }
+}
+
+appServices.service('dataLoader', dataLoaderService);
+
+/**
  * Override default angular exception handler to log and alert info if debug mode
  */
 appServices.factory('$exceptionHandler', function ($log) {

@@ -1,0 +1,5 @@
+[
+    {  "section1" : [ "Widget1", "Widget2", "Widget3" ] },
+    {   "section2" : [ "Widget4", "Widget5" ] },
+    {   "section3" : ["Widget6", "Widget7" ]}
+]
