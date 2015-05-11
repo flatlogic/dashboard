@@ -264,7 +264,6 @@ appControllers.controller('SingAppController', ['$scope', '$localStorage',functi
 }]);
 
 appControllers.controller('LoginController', ['$scope', '$location', 'user', function($scope, $location, user) {
-    debugger;
     if (user.isAuthed()) {
         $location.path('/app/dashboard');
         return;
@@ -290,9 +289,8 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
     $scope.login = function() {
         $scope.startLoginAnimation();
         user.login($scope.userCredentials.login, $scope.userCredentials.password)
-            .success(function(data) {
-                // TODO: Save token and do other things
-                $location.path('/');
+            .success(function(response) {
+                window.location.reload();
             })
             .error(function(e) {
                 if (!e) {
@@ -355,3 +353,8 @@ function createAuthorizedController (controllerName, controllerDef) {
 appControllers.controller(createAuthorizedController('TestController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user){
     $scope.valueFromController = 'Hey, I am from Controller and have been authorized!';
 }]));
+
+appControllers.controller('WebSocketController', ['$scope', 'WebSocket', function($scope, WebSocket){
+    $scope.WebSocket = WebSocket;
+    var vs = WebSocket.ws;
+}]);

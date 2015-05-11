@@ -24,3 +24,8 @@
 *.exe
 *.out
 *.app
+
+bower_components/*
+.idea/*
+vendor/*
+node_modules/*

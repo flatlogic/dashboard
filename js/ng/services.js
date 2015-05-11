@@ -86,17 +86,16 @@ var userService = function($http, API_URL, auth, dataLoader) {
                 'Content-Type': 'application/json'
             },
             data: {
-                "username" : username,
-                "password" : password
+                username : username,
+                password : password
             }
         };
 
-            //todo remove
-//            auth.saveToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAxL0BpZCI6ImE3MDFlNzIxLWY0ZjctMTFlNC05OTk3LTAyNDJhYzExMDAwYSIsImFwcDEvQHNjb3BlcyI6ImFwcDEtcmVhZG9ubHksYXBwMS13cml0ZSxhcHAxLXN1cGVydXNlcixjYW4tdGVsbC1qb2tlcyIsImFwcDEvQHN0YXR1cyI6IiIsImFwcDIvQGlkIjoiYTcwMWU3MjEtZjRmNy0xMWU0LTk5OTctMDI0MmFjMTEwMDBhIiwiYXBwMi9Ac2NvcGVzIjoiYXBwMi1yZWFkb25seSIsImFwcDIvQHN0YXR1cyI6IiIsImRvbWFpbiI6InFvci5pbyIsImV4cCI6MTQzMzY3OTk0NiwicGFzc3BvcnQvQGlkIjoiIiwicGFzc3BvcnQvQHNjb3BlcyI6Im15X2FjY291bnQsYWNjb3VudF9yZWFkb25seSIsInBhc3Nwb3J0L0BzdGF0dXMiOiIifQ.LgCah5xG0JybIjMSgxWLESLVJNRSkqmUBT56Mgtji70');
-
         return $http(request)
             .success(function(response) {
-                //auth.saveToken(response.token);
+                if (response.token) {
+                    auth.saveToken(response.token);
+                }
                 return response;
             })
             .error(function(error) {
@@ -174,6 +173,56 @@ var dataLoaderService = function($window, $http, API_URL) {
 }
 
 appServices.service('dataLoader', dataLoaderService);
+
+
+appServices.factory('WebSocket', function ($websocket) {
+        var ws = $websocket.$new('ws://localhost:8080'); // instance of ngWebsocket, handled by $websocket service
+
+        ws.$on('$open', function () {
+            console.log('Oh my gosh, websocket is really open! Fukken awesome!');
+
+            ws.$emit('ping', 'hi listening websocket server'); // send a message to the websocket server
+
+            var data = {
+                level: 1,
+                text: 'ngWebsocket rocks!',
+                array: ['one', 'two', 'three'],
+                nested: {
+                    level: 2,
+                    deeper: [
+                        {
+                            hell: 'yeah'
+                        },
+                        {
+                            so: 'good'
+                        }
+                    ]
+                }
+            };
+
+            ws.$emit('pong', data);
+        });
+
+        ws.$on('pong', newData);
+
+        ws.$on('$close', function () {
+            console.log('Noooooooooou, I want to have more fun with ngWebsocket, damn it!');
+        });
+
+        function newData(data) {
+            console.log('The websocket server has sent the following data:');
+            console.log(data);
+            return data;
+        }
+
+        var methods = {
+            new_data: newData
+        }
+
+        return methods;
+    }
+);
+
 
 /**
  * Override default angular exception handler to log and alert info if debug mode

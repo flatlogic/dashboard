@@ -26,6 +26,20 @@ appDirectives.directive('body', function() {
     }
 });
 
+appDirectives.directive('qlRequiresPermission', ['user', function( user){
+    return {
+        link: function($scope, $element, $attr){
+            var value = $attr.qlRequiresPermission;
+            if (value) {
+                if (!user.hasAccessTo(value)) {
+                    $element.remove();
+                    $element = null;
+                }
+            }
+        }
+    }
+}]);
+
 /* ========================================================================
  * Animate Progress Bars
  * ========================================================================
