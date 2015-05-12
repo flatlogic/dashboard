@@ -45,7 +45,7 @@ appDirectives.directive('qlRequiresPermission', ['user', function( user){
  * Using: insert attribute ql-page in the parent div of the page with name of the file/controlle.
  * Example: <div ql-page="DashboardController"></div>
  */
-appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', function(user, dataLoader, $templateRequest) {
+appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', '$compile', function(user, dataLoader, $templateRequest, $compile) {
     return {
 
         link: function($scope, $element, $attr) {
@@ -60,7 +60,7 @@ appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', fun
              */
             var loadWidget = function(widgetName, sectionIndex) {
                 $templateRequest('views/widgets/' + widgetName + '.html', true).then(function (response) {
-                    gl.rows[sectionIndex].append(response);
+                    gl.rows[sectionIndex].append($compile(response)($scope));
                 }, function () {
                     // TODO Error
                 });
