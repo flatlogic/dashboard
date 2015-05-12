@@ -152,8 +152,10 @@ var dataLoaderService = function($window, $http, API_URL) {
         return $http.get('data/sections-' + pageName + '.json')
             .then(function(result) {
                 $window.localStorage['sections_' + pageName] = JSON.stringify(result.data);
+            }, function() {
+                $window.localStorage['sections_' + pageName] = '[]';
             });
-    }
+    };
 
     self.getGlobalPermissionsObject = function() {
         return JSON.parse($window.localStorage[self.permissionsJsonKey] || '{}');
@@ -167,47 +169,48 @@ var dataLoaderService = function($window, $http, API_URL) {
      * Download and save all scripts. Called in page controller.
      */
     self.init = function(pageName) { // fixme returns one promise
-        self.loadPermissionsJson();
-        self.loadPageSections(pageName);
+        return self.loadPermissionsJson().then(function(){
+            return self.loadPageSections(pageName);
+        });
     }
-}
+};
 
 appServices.service('dataLoader', dataLoaderService);
 
 
 appServices.factory('WebSocket', function ($websocket) {
-        var ws = $websocket.$new('ws://localhost:8080'); // instance of ngWebsocket, handled by $websocket service
-
-        ws.$on('$open', function () {
-            console.log('Oh my gosh, websocket is really open! Fukken awesome!');
-
-            ws.$emit('ping', 'hi listening websocket server'); // send a message to the websocket server
-
-            var data = {
-                level: 1,
-                text: 'ngWebsocket rocks!',
-                array: ['one', 'two', 'three'],
-                nested: {
-                    level: 2,
-                    deeper: [
-                        {
-                            hell: 'yeah'
-                        },
-                        {
-                            so: 'good'
-                        }
-                    ]
-                }
-            };
-
-            ws.$emit('pong', data);
-        });
-
-        ws.$on('pong', newData);
-
-        ws.$on('$close', function () {
-            console.log('Noooooooooou, I want to have more fun with ngWebsocket, damn it!');
-        });
+        //var ws = $websocket.$new('ws://localhost:8080'); // instance of ngWebsocket, handled by $websocket service
+        //
+        //ws.$on('$open', function () {
+        //    console.log('Oh my gosh, websocket is really open! Fukken awesome!');
+        //
+        //    ws.$emit('ping', 'hi listening websocket server'); // send a message to the websocket server
+        //
+        //    var data = {
+        //        level: 1,
+        //        text: 'ngWebsocket rocks!',
+        //        array: ['one', 'two', 'three'],
+        //        nested: {
+        //            level: 2,
+        //            deeper: [
+        //                {
+        //                    hell: 'yeah'
+        //                },
+        //                {
+        //                    so: 'good'
+        //                }
+        //            ]
+        //        }
+        //    };
+        //
+        //    ws.$emit('pong', data);
+        //});
+        //
+        //ws.$on('pong', newData);
+        //
+        //ws.$on('$close', function () {
+        //    console.log('Noooooooooou, I want to have more fun with ngWebsocket, damn it!');
+        //});
 
         function newData(data) {
             console.log('The websocket server has sent the following data:');

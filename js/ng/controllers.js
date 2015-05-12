@@ -339,9 +339,11 @@ function createAuthorizedController (controllerName, controllerDef) {
             throw 'Access exception in ' + arguments[0];
         }
 
-        dataLoader.init(controllerName);
-
-        oldControllerFunc.apply(this, arguments)
+        var self = this,
+            selfArguments = arguments;
+        dataLoader.init(controllerName).then(function(){
+            oldControllerFunc.apply(self, selfArguments)
+        });
     });
 
     var result = {};
