@@ -1,0 +1,21 @@
+<div class="col-md-4">
+    <section ql-requires-permission="TestController" class="widget" ng-controller="TestController">
+        <header>
+            <h5>
+                USERBASE GROWTH
+            </h5>
+            <div class="widget-controls">
+                <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+            <p>{{valueFromController}}</p>
+            <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
+                     aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
