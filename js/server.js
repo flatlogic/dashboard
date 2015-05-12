@@ -1,40 +1,135 @@
-var WebSocketServer = require('ws').Server;
+var WebSocketServer = require('ws').Server
+    , wss = new WebSocketServer({ port: 8080 });
 
-var wss = new WebSocketServer({port : 8080}),
-    anyClients = false,
-    intervalObject = null;
+var chartClients = {},
+    treeViewClients = {},
+    terminalClients = {},
+    consoleClients = {};
 
-var changeBroadcastingState = function(state) {
-    if (state) {
-        intervalObject = setInterval(wss.broadcast, 500);
-    } else {
-        if (intervalObject) {
-            clearInterval(intervalObject);
+wss.on('connection', function connection(ws) {
+    switch(ws.upgradeReq.url) {
+        case '/terminal':
+            terminalClients[ws.upgradeReq.headers['sec-websocket-key']] = ws;
+            break;
+        case '/tree':
+            treeViewClients[ws.upgradeReq.headers['sec-websocket-key']] = ws;
+            break;
+        case '/chart':
+            chartClients[ws.upgradeReq.headers['sec-websocket-key']] = ws;
+            break;
+        case '/console':
+            consoleClients[ws.upgradeReq.headers['sec-websocket-key']] = ws;
+            break;
+        default:
+            break;
+    }
+});
+
+var removeSocket = function(from, hash) {
+    switch(from) {
+        case '/terminal':
+            delete terminalClients[hash];
+            break;
+        case '/tree':
+            delete treeViewClients[hash];
+            break;
+        case '/chart':
+            delete chartClients[hash];
+            break;
+        case '/console':
+            delete consoleClients[hash];
+            break;
+        default:
+            break;
+    }
+}
+
+// ----------------------------- CONSOLE SECTION -----------------------------------
+var consoleMessages = [
+    {
+        id: 1,
+        message: "Installing 1"
+    },
+    {
+        id: 2,
+        message: "Installing 2"
+    },
+    {
+        id: 3,
+        message: "Installing 3"
+    },
+    {
+        id: 4,
+        message: "Installing 4"
+    }
+];
+
+var sendConsoleMessage = function() {
+    var message = consoleMessages[Math.floor(Math.random() * consoleMessages.length)].message;
+    for (var clientIndex in consoleClients) {
+        var client = consoleClients[clientIndex];
+        if (client.upgradeReq.socket.destroyed) {
+            removeSocket(client.upgradeReq.url, client.upgradeReq.headers['sec-websocket-key']);
+        } else {
+            client.send(message);
         }
     }
 }
 
-wss.on('open', function open() {
-    if (!anyClients) {
-        changeBroadcastingState(true);
+var consoleInterval = setInterval(sendConsoleMessage, 1000);
+
+// -------------------------------- CHART SECTION ---------------------------------
+
+var sendChartMessage = function() {
+    var message = {
+        x: Math.floor(Math.random() * 100),
+        y: Math.floor(Math.random() * 100)
     }
-    console.log('New client connected');
-});
 
-wss.on('close', function close() {
-    if (wss.clients.length == 0){
-        changeBroadcastingState(false);
+    for (var clientIndex in chartClients) {
+        var client = chartClients[clientIndex];
+        if (client.upgradeReq.socket.destroyed) {
+            removeSocket(client.upgradeReq.url, client.upgradeReq.headers['sec-websocket-key']);
+        } else {
+            client.send(JSON.stringify(message));
+        }
     }
-    console.log('Client disconnected');
-});
+}
 
-wss.broadcast = function broadcast() {
-    var min = 0,
-        max = 100;
-    wss.clients.forEach(function each(client) {
-        var data = Math.floor(Math.random() * (max - min)) + min;
-        client.send(data);
-    });
-};
+var chartInterval = setInterval(sendChartMessage, 1000);
 
-console.log("Server running at http://127.0.0.1:8080/");
+
+// -------------------------------- TERMINAL SECTION ---------------------------------
+
+var terminalMessages = [
+    {
+        id: 1,
+        message: "Terminal message 1"
+    },
+    {
+        id: 2,
+        message: "Terminal message 2"
+    },
+    {
+        id: 3,
+        message: "Terminal message 3"
+    },
+    {
+        id: 4,
+        message: "Terminal message 4"
+    }
+];
+
+var sendTerminalMessage = function() {
+    var message = terminalMessages[Math.floor(Math.random() * terminalMessages.length)].message;
+    for (var clientIndex in terminalClients) {
+        var client = terminalClients[clientIndex];
+        if (client.upgradeReq.socket.destroyed) {
+            removeSocket(client.upgradeReq.url, client.upgradeReq.headers['sec-websocket-key']);
+        } else {
+            client.send(message);
+        }
+    }
+}
+
+var terminalInterval = setInterval(sendTerminalMessage, 1000);
