@@ -58,9 +58,9 @@ appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', '$c
              * @param widgetName name of widget
              * @param sectionIndex index of section in gl.rows array
              */
-            var loadWidget = function(widgetName, sectionIndex) {
+            var loadWidget = function(widgetName, parentElement) {
                 $templateRequest('views/widgets/' + widgetName + '.html', true).then(function (response) {
-                    gl.rows[sectionIndex].append($compile(response)($scope));
+                     parentElement.append($compile(response)($scope));
                 }, function () {
                     // TODO Error
                 });
@@ -85,7 +85,9 @@ appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', '$c
                     var widgets = section[widgetsIndex];
                     for (var widgetIndex in widgets) {
                         var widget = widgets[widgetIndex];
-                        loadWidget(widget, sectionIndex);
+                        var parent = angular.element('<div class="col-md-4"></div>');
+                        gl.rows[sectionIndex].append(parent);
+                        loadWidget(widget, parent);
                     }
                 }
             };
