@@ -40,6 +40,59 @@ appDirectives.directive('qlRequiresPermission', ['user', function( user){
     }
 }]);
 
+/**
+ * Render page as defined in json file.
+ * Using: insert attribute ql-page in the parent div of the page with name of the file/controlle.
+ * Example: <div ql-page="DashboardController"></div>
+ */
+appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', function(user, dataLoader, $templateRequest) {
+    return {
+
+        link: function($scope, $element, $attr) {
+            // Global variables to store rows
+            var gl = {};
+            gl.rows = [];
+
+            /**
+             * Load widget from template and append to row
+             * @param widgetName name of widget
+             * @param sectionIndex index of section in gl.rows array
+             */
+            var loadWidget = function(widgetName, sectionIndex) {
+                $templateRequest('views/widgets/' + widgetName + '.html', true).then(function (response) {
+                    gl.rows[sectionIndex].append(response);
+                }, function () {
+                    // TODO Error
+                });
+            }
+
+            var pageControllerName = $attr.qlPage;
+            if (!user.hasAccessTo(pageControllerName)) {
+                return;
+            }
+
+            // Load sections list
+            var sectionsObject = dataLoader.getPageSections(pageControllerName);
+
+            for (var sectionIndex in sectionsObject) {
+                var section = sectionsObject[sectionIndex];
+
+                // Create new row and append to parent div
+                gl.rows[sectionIndex] = angular.element('<div class="row"></div>');
+                $element.append(gl.rows[sectionIndex]);
+
+                for (var widgetsIndex in section) {
+                    var widgets = section[widgetsIndex];
+                    for (var widgetIndex in widgets) {
+                        var widget = widgets[widgetIndex];
+                        loadWidget(widget, sectionIndex);
+                    }
+                }
+            };
+        }
+    }
+}]);
+
 /* ========================================================================
  * Animate Progress Bars
  * ========================================================================

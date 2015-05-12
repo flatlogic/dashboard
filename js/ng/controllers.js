@@ -315,9 +315,9 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
 }]);
 
 
-appControllers.controller('DashboardController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user) {
+appControllers.controller(createAuthorizedController('DashboardController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user) {
 
-}]);
+}]));
 
 /**
  * Create controller with automatic authorization check

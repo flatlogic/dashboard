@@ -92,7 +92,7 @@ var authInterceptor = function(API_URL, auth) {
                 config.headers.Authorization = 'Bearer ' + token;
             }
 
-            config.headers.Accept = "*/*";
+            config.headers.Accept = "application/json";
 
             return config;
         },
