@@ -4,8 +4,8 @@ var appControllers = angular.module('app.controllers', []);
 
 //settings and state
 var app = {
-    name: 'sing',
-    title: 'Sing - Dashboard',
+    name: 'qorio',
+    title: 'Qorio - Dashboard',
     version: '1.0.0',
     /**
      * Whether to print and alert some log information
@@ -261,4 +261,102 @@ appControllers.controller('SingAppController', ['$scope', '$localStorage',functi
         $scope.errorPage = toState.name == 'error';
         $(document).trigger('sn:loaded', [event, toState, toParams, fromState, fromParams]);
     })
+}]);
+
+appControllers.controller('LoginController', ['$scope', '$location', 'user', function($scope, $location, user) {
+    if (user.isAuthed()) {
+        $location.path('/app/dashboard');
+        return;
+    }
+
+    $scope.userCredentials = {
+        login: '',
+        password: ''
+    };
+
+    $scope.startLoginAnimation = function() {
+        $('#loginButton').button('loading');
+    }
+
+    $scope.stopLoginAnimation = function() {
+        $('#loginButton').button('reset');
+    }
+
+    $scope.showErrorMessage = function(message) {
+        alert(message);
+    }
+
+    $scope.login = function() {
+        $scope.startLoginAnimation();
+        user.login($scope.userCredentials.login, $scope.userCredentials.password)
+            .success(function(response) {
+                window.location.reload();
+            })
+            .error(function(e) {
+                if (!e) {
+                    e = {'error': 'unknown'};
+                }
+                switch (e.error) {
+                    case 'error-account-not-found':
+                        $scope.showErrorMessage('Account fot found');
+                        break;
+                    case 'error-bad-credentials':
+                        $scope.showErrorMessage('Bad credentials');
+                        break;
+                    default:
+                        $scope.showErrorMessage('Unknown server error')
+                        break;
+                }
+
+                $scope.stopLoginAnimation();
+            });
+    }
+
+}]);
+
+
+appControllers.controller(createAuthorizedController('DashboardController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user) {
+
+}]));
+
+/**
+ * Create controller with automatic authorization check
+ * @param controllerName
+ * @param controllerDef
+ * @returns {{}}
+ */
+function createAuthorizedController (controllerName, controllerDef) {
+    var oldControllerFunc = controllerDef[controllerDef.length - 1];
+
+    controllerDef[controllerDef.length - 1] = 'dataLoader';
+    controllerDef.push('user');
+
+    controllerDef.push(function() {
+        var dataLoader = arguments[arguments.length - 2];
+        var user = arguments[arguments.length - 1];
+
+        if (!user.hasAccessTo(controllerName)) {
+            throw 'Access exception in ' + arguments[0];
+        }
+
+        var self = this,
+            selfArguments = arguments;
+        dataLoader.init(controllerName).then(function(){
+            oldControllerFunc.apply(self, selfArguments)
+        });
+    });
+
+    var result = {};
+    result[controllerName] = controllerDef;
+
+    return result;
+}
+
+appControllers.controller(createAuthorizedController('TestController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user){
+    $scope.valueFromController = 'Hey, I am from Controller and have been authorized!';
+}]));
+
+appControllers.controller('WebSocketController', ['$scope', 'WebSocket', function($scope, WebSocket){
+    $scope.WebSocket = WebSocket;
+    var vs = WebSocket.ws;
 }]);

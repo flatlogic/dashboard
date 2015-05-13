@@ -694,14 +694,14 @@ appDirectives.directive('rickshawChart', ['scriptLoader', function(scriptLoader)
                     }
                 } );
 
-                if (scope.realtime){
-                    setInterval( function() {
-                        scope.random.removeData(scope.seriesData);
-                        scope.random.addData(scope.seriesData);
-                        graph.update();
-
-                    }, 1000 );
-                }
+//                if (scope.realtime){
+//                    setInterval( function() {
+//                        scope.random.removeData(scope.seriesData);
+//                        scope.random.addData(scope.seriesData);
+//                        graph.update();
+//
+//                    }, 1000 );
+//                }
             }
 
 

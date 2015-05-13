@@ -10,6 +10,7 @@ var singApp = angular.module('singApp', [
     'ui.jq',
     'ui.event',
     'ui.bootstrap',
+    'ngWebsocket',
 
     // page-specific and demo. may be removed
     'angular-bootstrap-select',
@@ -20,13 +21,13 @@ var singApp = angular.module('singApp', [
     // application libs
     'app.controllers',
     'app.services',
-    'app.directives'
+    'app.directives',
 ]);
 
 singApp.config(function($stateProvider, $urlRouterProvider){
 
-    // For any unmatched url, send to /dashboard
-    $urlRouterProvider.otherwise("/app/dashboard/");
+// For any unmatched url, send to /dashboard
+    $urlRouterProvider.otherwise("/login");
 
     $stateProvider
         .state('app', {
@@ -35,39 +36,81 @@ singApp.config(function($stateProvider, $urlRouterProvider){
             templateUrl: 'views/app.html'
         })
 
-        // loading page templates dynamically for demo
-        .state('app.page', {
-            url: '/:page/:child',
-            params: {
-                page: {},
-                child: { value: null }
-            },
-            resolve: {
-                deps: ['scriptLoader', function(scriptLoader){
-                    return scriptLoader;
-                }]
-            },
-            templateProvider: function ($http, $stateParams, scriptLoader) {
-                return $http.get('views/' + $stateParams.page + ( /*optional param*/ $stateParams.child ? "_" + $stateParams.child : "") + '.html')
-                    .then(function(response) {
-                        return scriptLoader.loadScriptTagsFromData(response.data);
-                    })
-                    .then(function(responseData){
-                        return responseData;
-                    });
-            }
+        .state("app.dashboard", {
+            url: '/dashboard',
+            templateUrl: 'views/dashboard.html',
+            controller: 'DashboardController',
+            authenticate: true
         })
 
         //separate state for login & error pages
         .state('login', {
             url: '/login',
-            templateUrl: 'views/login.html'
+            templateUrl: 'views/login.html',
+            controller: 'LoginController'
         })
         .state('error', {
             url: '/error',
             templateUrl: 'views/error.html'
         })
+        .state('logout', {
+            url: '/logout',
+            controller: function($location, user) {
+                user.logout();
+                $location.path('/login');
+            }
+        });
 });
+
+/**
+ * Authorization routing
+ */
+singApp.run(function ($rootScope, $state, user, dataLoader) {
+    dataLoader.loadGlobalPermissions();
+    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+        // Go to login page if user is not authorized
+        if (toState.authenticate && !user.isAuthed()) {
+            $state.transitionTo("login");
+            event.preventDefault();
+            return;
+        }
+        // Go to 404 if user has no access to page controller
+        if (toState.authenticate && toState.controller && !user.hasAccessTo(toState.controller)) {
+            $state.transitionTo('error');
+            event.preventDefault();
+        }
+    });
+});
+
+// Http interceptor for attaching token to headers
+var authInterceptor = function(API_URL, auth) {
+    return {
+        // automatically attach Authorization header
+        request: function(config) {
+            var token = auth.getToken();
+            if(token) {
+                config.headers.Authorization = 'Bearer ' + token;
+            }
+
+            config.headers.Accept = "application/json";
+
+            return config;
+        },
+
+        response: function(res) {
+            return res;
+        }
+    }
+}
+
+singApp.factory('authInterceptor', authInterceptor);
+
+singApp.config(function($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+});
+
+
+singApp.constant('API_URL', 'https://accounts.qor.io/v1');
 
 singApp.value('uiJqDependencies', {
     'mapael': [
@@ -136,5 +179,8 @@ singApp.value('uiJqDependencies', {
     ],
     'magnificPopup': [
         'vendor/magnific-popup/dist/jquery.magnific-popup.min.js'
+    ],
+    'ngWebsocket': [
+        'vendor/ng-websocket/ng-websocket.js'
     ]
 });

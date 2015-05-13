@@ -1,0 +1,30 @@
+<div ng-controller="WebSocketController">
+    <section class="widget">
+        <header>
+            <h4>
+                Realtime chart
+            </h4>
+            <div class="widget-controls">
+                <a data-widgster="expand" title="Expand" href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                <a data-widgster="collapse" title="Collapse" href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+            <h4>720 Users</h4>
+            <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-gray-light" style="width: 60%;"></div>
+            </div>
+            <p class="fs-mini text-muted mb-lg">
+                            <span class="circle bg-success text-white">
+                                <i class="fa fa-circle"></i>
+                            </span>
+                &nbsp;
+                Target <span class="fw-semi-bold">820</span> users
+                is <span class="fw-semi-bold">96%</span> reached.
+            </p>
+            <div data-rickshaw-chart data-series="series" data-height="130"
+                 data-realtime="true" data-random="random" data-series-data="seriesData" class="chart-overflow-bottom"></div>
+        </div>
+    </section>
+</div>

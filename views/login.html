@@ -4,12 +4,12 @@
             <div class="col-lg-4 col-sm-6 col-xs-10 col-lg-offset-4 col-sm-offset-3 col-xs-offset-1">
                 <h4 class="widget-login-logo animated fadeInUp">
                     <i class="fa fa-circle text-gray"></i>
-                    sing
+                    {{app.name}}
                     <i class="fa fa-circle text-warning"></i>
                 </h4>
                 <section class="widget widget-login animated fadeInUp">
                     <header>
-                        <h3>Login to your Sing App</h3>
+                        <h3>Login to your Qorio App</h3>
                     </header>
                     <div class="widget-body">
                         <p class="widget-login-info">
@@ -18,17 +18,17 @@
                         <p class="widget-login-info">
                             Don't have an account? Sign up now!
                         </p>
-                        <form class="login-form mt-lg">
+                        <form class="login-form mt-lg" ng-submit="login()">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Username">
+                                <input type="text" class="form-control" id="inpotUserNme" ng-model="userCredentials.login" placeholder="Username" required="required">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" id="pswd" type="text" placeholder="Password">
+                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" ng-model="userCredentials.password" required="required">
                             </div>
                             <div class="clearfix">
                                 <div class="btn-toolbar pull-right">
                                     <button type="button" class="btn btn-default btn-sm">Create an Account</button>
-                                    <a class="btn btn-inverse btn-sm" data-ui-sref="app.page({ page: 'dashboard', child: null })">Login</a>
+                                    <button class="btn btn-inverse btn-sm" id="loginButton" data-loading-text="Loading..." type="submit">Login</button>
                                 </div>
                             </div>
                             <div class="row">

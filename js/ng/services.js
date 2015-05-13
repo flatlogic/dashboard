@@ -6,6 +6,236 @@
 var appServices = angular.module('app.services', []);
 
 /**
+ * Authorization service for working with token.
+ * @param $window
+ */
+var authService = function($window) {
+    var self = this;
+
+    // Key to store and access token in localstorage
+    self.tokenKey = 'authToken';
+
+    self.saveToken = function(token) {
+        $window.sessionStorage[self.tokenKey] = token;
+    }
+
+    self.getToken = function() {
+        return $window.sessionStorage[self.tokenKey];
+    }
+
+    self.removeToken = function() {
+        $window.sessionStorage.removeItem(self.tokenKey);
+    }
+
+    /**
+     * Convert token from JWT format to an object
+     * @returns {object} JSON object contains token info or empty object
+     */
+    self.getParsedToken = function() {
+        var token = self.getToken();
+        if (!token) {
+            return false;
+        }
+
+        // Decode from base64
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+
+        var parsedToken = JSON.parse($window.atob(base64));
+        return parsedToken;
+    }
+};
+
+// Add authService as auth
+appServices.service('auth', authService);
+
+/**
+ * Service for working with user authentication
+ * @param $http angular http service
+ * @param API_URL link to REST api
+ * @param auth authorization service
+ */
+var userService = function($http, API_URL, auth, dataLoader) {
+    var self = this;
+
+    self.isAuthed = function() {
+        var token = auth.getParsedToken();
+        if(token) {
+            // Check token expiration
+            return Math.round(new Date().getTime() / 1000) <= token.exp;
+        } else {
+            return false;
+        }
+    }
+
+    // Get all user permissions in one array of strings
+    self.getPermissions = function() {
+        var token = auth.getParsedToken();
+        if (token) {
+            return token['passport/@scopes'].split(',');
+        } else {
+            return [];
+        }
+    }
+
+    self.login = function(username, password) {
+        var request = {
+            method: 'POST',
+            url:    API_URL + '/auth',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                username : username,
+                password : password
+            }
+        };
+
+        return $http(request)
+            .success(function(response) {
+                if (response.token) {
+                    auth.saveToken(response.token);
+                }
+                return response;
+            })
+            .error(function(error) {
+                return error;
+            });
+    };
+
+    self.hasAccessTo = function(itemName) {
+        var currentUserPermissions = self.getPermissions();
+        var globalPermissions = dataLoader.getGlobalPermissions();
+
+        var neededPermission = globalPermissions[itemName];
+
+        if (neededPermission) {
+            return currentUserPermissions.indexOf(neededPermission) != -1;
+        } else {
+            return false;
+        }
+    }
+
+    self.logout = function() {
+        auth.removeToken();
+    }
+};
+
+// Add userService as user
+appServices.service('user', userService);
+
+/**
+ * Service for loading JSON scripts from server
+ */
+var dataLoaderService = function($window, $http, API_URL, $q) {
+    var self = this;
+
+    // Key to store permissions in localstorage
+    self.permissionsJsonKey = 'permissions_json';
+
+    // Load and save json with permission map
+    self.loadGlobalPermissions = function() {
+        return $http.get('data/permissions.json')
+            .then(function(result) {
+                $window.sessionStorage[self.permissionsJsonKey] = JSON.stringify(result.data);
+                return result.data;
+            });
+    };
+
+    /**
+     * Load json with sections which should be displayed on specified page
+     */
+    self.loadPageSections = function(pageName) {
+        var emptySections = [];
+        return $http.get('data/sections-' + pageName + '.json')
+            .then(function(result) {
+                $window.sessionStorage['sections_' + pageName] = JSON.stringify(result.data);
+                return result.data;
+            }, function() {
+                $window.sessionStorage['sections_' + pageName] = JSON.stringify(emptySections);
+                return emptySections;
+            });
+    };
+
+    self.getGlobalPermissions = function() {
+        if (!$window.sessionStorage[self.permissionsJsonKey]) {
+            throw new Error('No global permissions loaded. Ensure that dataLoader.loadGlobalPermission has been called first');
+        }
+        return JSON.parse( $window.sessionStorage[self.permissionsJsonKey] );
+    };
+
+    self.getPageSections = function(pageName) {
+        if (!$window.sessionStorage['sections_' + pageName]) {
+            return self.loadPageSections(pageName);
+        }
+        return $q(function(resolve) {
+            resolve(JSON.parse( $window.sessionStorage['sections_' + pageName] ));
+        });
+    };
+
+    /**
+     * Download and save all scripts. Called in page controller.
+     */
+    self.init = function(pageName) { // fixme returns one promise
+        return self.loadGlobalPermissions().then(function(){
+            return self.loadPageSections(pageName);
+        });
+    }
+};
+
+appServices.service('dataLoader', dataLoaderService);
+
+
+appServices.factory('WebSocket', function ($websocket) {
+        //var ws = $websocket.$new('ws://localhost:8080'); // instance of ngWebsocket, handled by $websocket service
+        //
+        //ws.$on('$open', function () {
+        //    console.log('Oh my gosh, websocket is really open! Fukken awesome!');
+        //
+        //    ws.$emit('ping', 'hi listening websocket server'); // send a message to the websocket server
+        //
+        //    var data = {
+        //        level: 1,
+        //        text: 'ngWebsocket rocks!',
+        //        array: ['one', 'two', 'three'],
+        //        nested: {
+        //            level: 2,
+        //            deeper: [
+        //                {
+        //                    hell: 'yeah'
+        //                },
+        //                {
+        //                    so: 'good'
+        //                }
+        //            ]
+        //        }
+        //    };
+        //
+        //    ws.$emit('pong', data);
+        //});
+        //
+        //ws.$on('pong', newData);
+        //
+        //ws.$on('$close', function () {
+        //    console.log('Noooooooooou, I want to have more fun with ngWebsocket, damn it!');
+        //});
+
+        function newData(data) {
+            console.log('The websocket server has sent the following data:');
+            console.log(data);
+            return data;
+        }
+
+        var methods = {
+            new_data: newData
+        }
+
+        return methods;
+    }
+);
+
+
+/**
  * Override default angular exception handler to log and alert info if debug mode
  */
 appServices.factory('$exceptionHandler', function ($log) {
