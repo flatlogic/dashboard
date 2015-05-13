@@ -66,7 +66,7 @@ singApp.config(function($stateProvider, $urlRouterProvider){
  * Authorization routing
  */
 singApp.run(function ($rootScope, $state, user, dataLoader) {
-    dataLoader.loadPermissionsJson();
+    dataLoader.loadGlobalPermissions();
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
         // Go to login page if user is not authorized
         if (toState.authenticate && !user.isAuthed()) {
