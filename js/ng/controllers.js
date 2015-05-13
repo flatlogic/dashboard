@@ -4,8 +4,8 @@ var appControllers = angular.module('app.controllers', []);
 
 //settings and state
 var app = {
-    name: 'sing',
-    title: 'Sing - Dashboard',
+    name: 'qorio',
+    title: 'Qorio - Dashboard',
     version: '1.0.0',
     /**
      * Whether to print and alert some log information

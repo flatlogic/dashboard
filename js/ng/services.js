@@ -16,15 +16,15 @@ var authService = function($window) {
     self.tokenKey = 'authToken';
 
     self.saveToken = function(token) {
-        $window.localStorage[self.tokenKey] = token;
+        $window.sessionStorage[self.tokenKey] = token;
     }
 
     self.getToken = function() {
-        return $window.localStorage[self.tokenKey];
+        return $window.sessionStorage[self.tokenKey];
     }
 
     self.removeToken = function() {
-        $window.localStorage.removeItem(self.tokenKey);
+        $window.sessionStorage.removeItem(self.tokenKey);
     }
 
     /**
@@ -105,7 +105,7 @@ var userService = function($http, API_URL, auth, dataLoader) {
 
     self.hasAccessTo = function(itemName) {
         var currentUserPermissions = self.getPermissions();
-        var globalPermissions = dataLoader.getGlobalPermissionsObject();
+        var globalPermissions = dataLoader.getGlobalPermissions();
 
         var neededPermission = globalPermissions[itemName];
 
@@ -127,49 +127,57 @@ appServices.service('user', userService);
 /**
  * Service for loading JSON scripts from server
  */
-var dataLoaderService = function($window, $http, API_URL) {
+var dataLoaderService = function($window, $http, API_URL, $q) {
     var self = this;
 
     // Key to store permissions in localstorage
     self.permissionsJsonKey = 'permissions_json';
 
-    self.isPermissionJsonAvailable = function() {
-        return $window.localStorage[self.permissionsJsonKey] ? true : false;
-    }
-
     // Load and save json with permission map
-    self.loadPermissionsJson = function() {
+    self.loadGlobalPermissions = function() {
         return $http.get('data/permissions.json')
             .then(function(result) {
-                $window.localStorage[self.permissionsJsonKey] = JSON.stringify(result.data);
+                $window.sessionStorage[self.permissionsJsonKey] = JSON.stringify(result.data);
+                return result.data;
             });
-    }
+    };
 
     /**
      * Load json with sections which should be displayed on specified page
      */
     self.loadPageSections = function(pageName) {
+        var emptySections = [];
         return $http.get('data/sections-' + pageName + '.json')
             .then(function(result) {
-                $window.localStorage['sections_' + pageName] = JSON.stringify(result.data);
+                $window.sessionStorage['sections_' + pageName] = JSON.stringify(result.data);
+                return result.data;
             }, function() {
-                $window.localStorage['sections_' + pageName] = '[]';
+                $window.sessionStorage['sections_' + pageName] = JSON.stringify(emptySections);
+                return emptySections;
             });
     };
 
-    self.getGlobalPermissionsObject = function() {
-        return JSON.parse($window.localStorage[self.permissionsJsonKey] || '{}');
-    }
+    self.getGlobalPermissions = function() {
+        if (!$window.sessionStorage[self.permissionsJsonKey]) {
+            throw new Error('No global permissions loaded. Ensure that dataLoader.loadGlobalPermission has been called first');
+        }
+        return JSON.parse( $window.sessionStorage[self.permissionsJsonKey] );
+    };
 
     self.getPageSections = function(pageName) {
-        return JSON.parse( $window.localStorage['sections_' + pageName] || '{}');
-    }
+        if (!$window.sessionStorage['sections_' + pageName]) {
+            return self.loadPageSections(pageName);
+        }
+        return $q(function(resolve) {
+            resolve(JSON.parse( $window.sessionStorage['sections_' + pageName] ));
+        });
+    };
 
     /**
      * Download and save all scripts. Called in page controller.
      */
     self.init = function(pageName) { // fixme returns one promise
-        return self.loadPermissionsJson().then(function(){
+        return self.loadGlobalPermissions().then(function(){
             return self.loadPageSections(pageName);
         });
     }

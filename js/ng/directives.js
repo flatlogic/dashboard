@@ -72,25 +72,25 @@ appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', '$c
             }
 
             // Load sections list
-            var sectionsObject = dataLoader.getPageSections(pageControllerName);
+            dataLoader.getPageSections(pageControllerName).then(function(sectionsObject) {
+                for (var sectionIndex = 0; sectionIndex < sectionsObject.length; sectionIndex++) {
+                    var section = sectionsObject[sectionIndex];
 
-            for (var sectionIndex in sectionsObject) {
-                var section = sectionsObject[sectionIndex];
+                    // Create new row and append to parent div
+                    gl.rows[sectionIndex] = angular.element('<div class="row"></div>');
+                    $element.append(gl.rows[sectionIndex]);
 
-                // Create new row and append to parent div
-                gl.rows[sectionIndex] = angular.element('<div class="row"></div>');
-                $element.append(gl.rows[sectionIndex]);
-
-                for (var widgetsIndex in section) {
-                    var widgets = section[widgetsIndex];
-                    for (var widgetIndex in widgets) {
-                        var widget = widgets[widgetIndex];
-                        var parent = angular.element('<div class="col-md-4"></div>');
-                        gl.rows[sectionIndex].append(parent);
-                        loadWidget(widget, parent);
-                    }
+                    Object.keys(section).forEach(function(sectionName) {
+                        var widgets = section[sectionName];
+                        for (var widgetIndex = 0; widgetIndex < widgets.length; widgetIndex++) {
+                            var widget = widgets[widgetIndex];
+                            var parent = angular.element('<div class="col-md-4"></div>');
+                            gl.rows[sectionIndex].append(parent);
+                            loadWidget(widget, parent);
+                        }
+                    })
                 }
-            };
+            });
         }
     }
 }]);
