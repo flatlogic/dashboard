@@ -4,7 +4,8 @@ var WebSocketServer = require('ws').Server
 var chartClients = {},
     treeViewClients = {},
     terminalClients = {},
-    consoleClients = {};
+    consoleClients = {},
+    newsClients = {};
 
 wss.on('connection', function connection(ws) {
     switch(ws.upgradeReq.url) {
@@ -19,6 +20,9 @@ wss.on('connection', function connection(ws) {
             break;
         case '/console':
             consoleClients[ws.upgradeReq.headers['sec-websocket-key']] = ws;
+            break;
+        case '/news':
+            newsClients[ws.upgradeReq.headers['sec-websocket-key']] = ws;
             break;
         default:
             break;
@@ -74,7 +78,7 @@ var sendConsoleMessage = function() {
             client.send(message);
         }
     }
-}
+};
 
 var consoleInterval = setInterval(sendConsoleMessage, 1000);
 
@@ -130,6 +134,44 @@ var sendTerminalMessage = function() {
             client.send(message);
         }
     }
-}
+};
 
 var terminalInterval = setInterval(sendTerminalMessage, 1000);
+
+// -------------------------------- TERMINAL SECTION ---------------------------------
+
+var usersNames = [
+    'John Doe',
+    'Clark Vision',
+    'Sara Konor'
+];
+
+var messages = [
+    'Hey! What\'s up?',
+    'Message 2',
+    'Message 3. Yoooho!'
+];
+
+var newsMessageObject = function(){
+    this.id = 0;
+    this.user = '';
+    this.message = '';
+};
+
+var sendNewsMessage = function() {
+    var message = new newsMessageObject;
+    message.id = 1;
+    message.user = usersNames[Math.floor(Math.random() * usersNames.length)];
+    message.message = messages[Math.floor(Math.random() * messages.length)];
+
+    for (var clientIndex in newsClients) {
+        var client = newsClients[clientIndex];
+        if (client.upgradeReq.socket.destroyed) {
+            removeSocket(client.upgradeReq.url, client.upgradeReq.headers['sec-websocket-key']);
+        } else {
+            client.send(JSON.stringify(message));
+        }
+    }
+};
+
+var newsInterval = setInterval(sendNewsMessage, 1000);
