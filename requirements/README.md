@@ -6,7 +6,8 @@
 + Displays text line by line like a console / terminal window.
 + Here is a mock  ![console](/requirements/images/console.png)
 + Event format from websocket is a single line of string per event.
-+ It should look like terminal window and be able to accept keyboard input like a terminal.
++ It should look like terminal window where new lines are appended at the bottom (scroll up).
++ Bonus if it can accept keyboard input like a terminal. Ok to skip
 
 ## Timeline
 
@@ -65,16 +66,17 @@ Similar to the line-oriented protocol for the timeline:
   + `+` for ADD a tree node, 
   + `-` for REMOVE a tree node, or 
   + `*` for changing an existing tree node.  
-  + Tree nodes are identified by the `{Path}`.  Path uses `/` as separator, like Unix filename.  
-  + {Value} is a string corresponding to the value of the node.  
-  + The `{Url}` is a resource URL for fetching details of the object when it's selected.  When `{Url}` is not specified, the detail view simply shows a text box with the value of the node. 
-+ So for each line received from the `onMessage`, the line is parsed and the tree model should be updated according to the verb (`+`, `-`, or `*`)
++ Tree nodes are identified by the `{Path}`.  Path uses `/` as separator, like Unix filename.  
++ {Value} is a string corresponding to the value of the node.  
++ The `{Url}` is a resource URL for fetching details of the object when it's selected.  When `{Url}` is not specified, the detail view simply shows a text box with the value of the node. 
+
+So for each line received from the `onMessage`, the line is parsed and the tree model should be updated according to the verb (`+`, `-`, or `*`)
 
 Example
 
     ////,+,1431578680,/usr/local/bin/foo.txt,A text file,https://server.com/path/12345
 
-Would add a tree node `foo.txt` under the `bin` parent node, which is a child of the `local` node under `usr`.  The value is `A text file` and the URL to use when the user clicks on it to render the right-hand side is `https://server.com/path/12345`.
+would add a tree node `foo.txt` under the `bin` parent node, which is a child of the `local` node under `usr`.  The value is `A text file` and the URL to use when the user clicks on it to render the right-hand side is `https://server.com/path/12345`.
 
 Another websocket event
 
@@ -99,6 +101,20 @@ will remove this tree node.
   + Both get data from the same websocket URL.
   + There's should be button to let the user hide the console view and see only the timeline.
 
+## A Dynamic Chart
+
++ Similar protocol.  Expect a line corresponding to a data point
+
+    {special_chars},{UnixTimeStamp},x,y,{Label},{Comment},{Url}
+
+
++ The `{special_chars}` is `%%%%`
+
+Example:
+
+    %%%%,1431578593,100.45,78.9,f(x),Special data point,https://server.com/point/12345
+
++ Update the chart as each data point arrives.
 
 
 
