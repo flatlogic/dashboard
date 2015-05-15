@@ -306,7 +306,6 @@ appServices.factory('scriptLoader', ['$q', '$timeout', function($q, $timeout) {
                     $timeout(function(){
                         defer.resolve();
                         defer.processing = false;
-                        Pace.restart();
                     })
                 });
 
