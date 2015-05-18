@@ -319,9 +319,40 @@ appControllers.controller(createAuthorizedController('DashboardController', ['$s
 
 }]));
 
-appControllers.controller(createAuthorizedController('TerminalController', ['$scope', 'ngWebsocket', function($scope, $websocket) {
-    var ws = $websocket.$new('ws://localhost:12345');
+appControllers.controller(createAuthorizedController('TerminalController', ['$scope', function($scope) {
     $scope.lines = '';
+
+    var terminal = $('#terminal').terminal(sendCommand,
+        {
+            greetings: false,
+            outputLimit : 200
+        }
+    );
+
+    var ws = new WebSocket('ws://146.148.125.2/v1/ws/run/timeline1');
+
+    ws.onmessage = function (event) {
+        terminal.echo(parseInput(event.data));
+    }
+
+    function parseInput(input) {
+        var result = input.split(',');
+
+        switch (result[0]) {
+            case '****':
+                return result[3];
+            case '????':
+                return result[3];
+            case '!!!!':
+                return result[3];
+            default:
+                return input;
+        }
+    }
+
+    function sendCommand(command, terminal) {
+
+    }
 
     function parseInputFromServer(string) {
         if (!string) {
