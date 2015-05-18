@@ -91,6 +91,8 @@ var userService = function($http, API_URL, auth, dataLoader) {
             }
         };
 
+        auth.saveToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAxL0BpZCI6Ijc3YTlkMGQzLWY0ZmMtMTFlNC05OTk3LTAyNDJhYzExMDAwYSIsImFwcDEvQHNjb3BlcyI6ImFwcDEtcmVhZG9ubHksYXBwMS13cml0ZSIsImFwcDEvQHN0YXR1cyI6IiIsImFwcDIvQGlkIjoiNzdhOWQwZDMtZjRmYy0xMWU0LTk5OTctMDI0MmFjMTEwMDBhIiwiYXBwMi9Ac2NvcGVzIjoiYXBwMi1yZWFkb25seSIsImFwcDIvQHN0YXR1cyI6IiIsImRvbWFpbiI6InFvci5pbyIsImV4cCI6MTQzMzYyNDcyMCwicGFzc3BvcnQvQGlkIjoiNzdhOWQwZDMtZjRmYy0xMWU0LTk5OTctMDI0MmFjMTEwMDBhIiwicGFzc3BvcnQvQHNjb3BlcyI6Im15X2FjY291bnQiLCJwYXNzcG9ydC9Ac3RhdHVzIjoiIn0.c1ltRxNORgv1Gyvs_sI0PrbekO51NEg3y5SXJJw8pZg');
+
         return $http(request)
             .success(function(response) {
                 if (response.token) {
@@ -178,7 +180,7 @@ var dataLoaderService = function($window, $http, API_URL, $q) {
      */
     self.init = function(pageName) { // fixme returns one promise
         return self.loadGlobalPermissions().then(function(){
-            return self.loadPageSections(pageName);
+            //return self.loadPageSections(pageName);
         });
     }
 };

@@ -158,11 +158,14 @@ var newsMessageObject = function(){
     this.message = '';
 };
 
+
+
 var sendNewsMessage = function() {
     var message = new newsMessageObject;
     message.id = 1;
     message.user = usersNames[Math.floor(Math.random() * usersNames.length)];
     message.message = messages[Math.floor(Math.random() * messages.length)];
+    message.date = 'February 22, 2014 at 01:59 PM';
 
     for (var clientIndex in newsClients) {
         var client = newsClients[clientIndex];

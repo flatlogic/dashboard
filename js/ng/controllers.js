@@ -319,6 +319,22 @@ appControllers.controller(createAuthorizedController('DashboardController', ['$s
 
 }]));
 
+appControllers.controller(createAuthorizedController('TerminalController', ['$scope', 'ngWebsocket', function($scope, $websocket) {
+    var ws = $websocket.$new('ws://localhost:12345');
+    $scope.lines = '';
+
+    function parseInputFromServer(string) {
+        if (!string) {
+            return;
+        }
+        var strings = string.split('\n');
+
+        strings.forEach(function(element) {
+            $scope.lines.push('<span class="' + element[0] == '$' ? 'command' : 'output' + '">' + element + '</span>');
+        });
+    }
+}]));
+
 /**
  * Create controller with automatic authorization check
  * @param controllerName
@@ -360,3 +376,7 @@ appControllers.controller('WebSocketController', ['$scope', 'WebSocket', functio
     $scope.WebSocket = WebSocket;
     var vs = WebSocket.ws;
 }]);
+
+appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', function($scope){
+
+}]));
