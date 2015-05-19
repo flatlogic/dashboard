@@ -16,6 +16,7 @@ var singApp = angular.module('singApp', [
     'datatables',
     'datatables.bootstrap',
     'ui.calendar',
+    'relativeDate',
 
     // application libs
     'app.controllers',

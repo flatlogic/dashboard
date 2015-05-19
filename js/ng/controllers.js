@@ -320,8 +320,8 @@ appControllers.controller(createAuthorizedController('DashboardController', ['$s
 }]));
 
 appControllers.controller(createAuthorizedController('TerminalController', ['$scope', function($scope) {
-    $scope.lines = '';
 
+    // Initialize terminal
     var terminal = $('#terminal').terminal(sendCommand,
         {
             greetings: false,
@@ -345,9 +345,9 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
             case '****':
                 return result[3];
             case '????':
-                return result[3];
+                return '[[;#7f7f00;]' + result[3] + ']';
             case '!!!!':
-                return result[3];
+                return '[[;#7f0000;]' + result[3] + ']';
             default:
                 return input;
         }
@@ -356,16 +356,64 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
     function sendCommand(command, terminal) {
 
     }
+}]));
 
-    function parseInputFromServer(string) {
-        if (!string) {
-            return;
+appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', function($scope) {
+    // List of all events
+    $scope.events = [];
+
+
+    // Get WebSocket url from attribute
+    var webSocketUrl = $scope.wsUrl;
+
+    var ws = new WebSocket(webSocketUrl);
+
+    ws.onmessage = function (event) {
+        parseInput(event.data);
+    }
+
+    var makeObject = function(input, event_icon_class) {
+        var left;
+
+        if (input[1] == '[') {
+            left = 'on-left';
         }
-        var strings = string.split('\n');
 
-        strings.forEach(function(element) {
-            $scope.lines.push('<span class="' + element[0] == '$' ? 'command' : 'output' + '">' + element + '</span>');
-        });
+
+        return {
+            title: input[3],
+            timestamp: input[2],
+            text: input[4],
+            left_class: left,
+            event_icon_class: event_icon_class
+        }
+    }
+
+    function parseInput(input) {
+        var result = input.split(',');
+
+        switch (result[0]) {
+            case '****':
+                $scope.$apply(function(){
+                    $scope.events.push(makeObject(result, 'event-icon-primary'));
+                });
+                break;
+            case '????':
+                $scope.$apply(function(){
+                    $scope.events.push(makeObject(result, 'event-icon-warning'));
+                });
+                break;
+            case '!!!!':
+                $scope.$apply(function(){
+                    $scope.events.push(makeObject(result, 'event-icon-danger'));
+                });
+                break;
+            default:
+                return;
+        }
+
+        var elem = document.getElementById('timeline');
+        elem.scrollTop = elem.scrollHeight;
     }
 }]));
 
@@ -385,7 +433,7 @@ function createAuthorizedController (controllerName, controllerDef) {
         var dataLoader = arguments[arguments.length - 2];
         var user = arguments[arguments.length - 1];
 
-        if (!user.hasAccessTo(controllerName)) {
+        if (!user.hasAccessTo(controllerName) && !user.hasAccessTo(controllerName.replace('Controller', ''))) {
             throw 'Access exception in ' + arguments[0];
         }
 
@@ -401,16 +449,3 @@ function createAuthorizedController (controllerName, controllerDef) {
 
     return result;
 }
-
-appControllers.controller(createAuthorizedController('TestController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user){
-    $scope.valueFromController = 'Hey, I am from Controller and have been authorized!';
-}]));
-
-appControllers.controller('WebSocketController', ['$scope', 'WebSocket', function($scope, WebSocket){
-    $scope.WebSocket = WebSocket;
-    var vs = WebSocket.ws;
-}]);
-
-appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', function($scope){
-
-}]));
