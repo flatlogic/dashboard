@@ -4,8 +4,8 @@ var appControllers = angular.module('app.controllers', []);
 
 //settings and state
 var app = {
-    name: 'sing',
-    title: 'Sing - Dashboard',
+    name: 'qorio',
+    title: 'Qorio - Dashboard',
     version: '1.0.0',
     /**
      * Whether to print and alert some log information
@@ -262,3 +262,190 @@ appControllers.controller('SingAppController', ['$scope', '$localStorage',functi
         $(document).trigger('sn:loaded', [event, toState, toParams, fromState, fromParams]);
     })
 }]);
+
+appControllers.controller('LoginController', ['$scope', '$location', 'user', function($scope, $location, user) {
+    if (user.isAuthed()) {
+        $location.path('/app/dashboard');
+        return;
+    }
+
+    $scope.userCredentials = {
+        login: '',
+        password: ''
+    };
+
+    $scope.startLoginAnimation = function() {
+        $('#loginButton').button('loading');
+    }
+
+    $scope.stopLoginAnimation = function() {
+        $('#loginButton').button('reset');
+    }
+
+    $scope.showErrorMessage = function(message) {
+        alert(message);
+    }
+
+    $scope.login = function() {
+        $scope.startLoginAnimation();
+        user.login($scope.userCredentials.login, $scope.userCredentials.password)
+            .success(function(response) {
+                window.location.reload();
+            })
+            .error(function(e) {
+                if (!e) {
+                    e = {'error': 'unknown'};
+                }
+                switch (e.error) {
+                    case 'error-account-not-found':
+                        $scope.showErrorMessage('Account fot found');
+                        break;
+                    case 'error-bad-credentials':
+                        $scope.showErrorMessage('Bad credentials');
+                        break;
+                    default:
+                        $scope.showErrorMessage('Unknown server error')
+                        break;
+                }
+
+                $scope.stopLoginAnimation();
+            });
+    }
+
+}]);
+
+
+appControllers.controller(createAuthorizedController('DashboardController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user) {
+
+}]));
+
+appControllers.controller(createAuthorizedController('TerminalController', ['$scope', function($scope) {
+
+    // Initialize terminal
+    var terminal = $('#terminal').terminal(sendCommand,
+        {
+            greetings: false,
+            outputLimit : 200
+        }
+    );
+
+    // Get WebSocket url from attribute
+    var webSocketUrl = $scope.wsUrl;
+
+    var ws = new WebSocket(webSocketUrl);
+
+    ws.onmessage = function (event) {
+        terminal.echo(parseInput(event.data));
+    }
+
+    function parseInput(input) {
+        var result = input.split(',');
+
+        switch (result[0]) {
+            case '****':
+                return result[3];
+            case '????':
+                return '[[;#7f7f00;]' + result[3] + ']';
+            case '!!!!':
+                return '[[;#7f0000;]' + result[3] + ']';
+            default:
+                return input;
+        }
+    }
+
+    function sendCommand(command, terminal) {
+
+    }
+}]));
+
+appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', function($scope) {
+    // List of all events
+    $scope.events = [];
+
+
+    // Get WebSocket url from attribute
+    var webSocketUrl = $scope.wsUrl;
+
+    var ws = new WebSocket(webSocketUrl);
+
+    ws.onmessage = function (event) {
+        parseInput(event.data);
+    };
+
+    var makeObject = function(input, event_icon_class) {
+        var left;
+
+        if (input[1] == '[') {
+            left = 'on-left';
+        }
+
+
+        return {
+            title: input[3],
+            timestamp: input[2],
+            text: input[4],
+            left_class: left,
+            event_icon_class: event_icon_class
+        }
+    }
+
+    function parseInput(input) {
+        var result = input.split(',');
+
+        switch (result[0]) {
+            case '****':
+                $scope.$apply(function(){
+                    $scope.events.push(makeObject(result, 'event-icon-primary'));
+                });
+                break;
+            case '????':
+                $scope.$apply(function(){
+                    $scope.events.push(makeObject(result, 'event-icon-warning'));
+                });
+                break;
+            case '!!!!':
+                $scope.$apply(function(){
+                    $scope.events.push(makeObject(result, 'event-icon-danger'));
+                });
+                break;
+            default:
+                return;
+        }
+
+        var elem = document.getElementById('timeline');
+        elem.scrollTop = elem.scrollHeight;
+    }
+}]));
+
+/**
+ * Create controller with automatic authorization check
+ * @param controllerName
+ * @param controllerDef
+ * @returns {{}}
+ */
+function createAuthorizedController (controllerName, controllerDef) {
+    var oldControllerFunc = controllerDef[controllerDef.length - 1];
+
+    controllerDef[controllerDef.length - 1] = 'dataLoader';
+    controllerDef.push('user');
+
+    controllerDef.push(function() {
+        var dataLoader = arguments[arguments.length - 2];
+        var user = arguments[arguments.length - 1];
+
+        if (!user.hasAccessTo(controllerName) && !user.hasAccessTo(controllerName.replace('Controller', ''))) {
+            throw 'Access exception in ' + arguments[0];
+        }
+
+        var self = this,
+            selfArguments = arguments;
+        dataLoader.init(controllerName).then(function(){
+            oldControllerFunc.apply(self, selfArguments)
+        });
+    });
+
+    var result = {};
+    result[controllerName] = controllerDef;
+
+    return result;
+}
