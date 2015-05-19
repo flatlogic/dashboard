@@ -329,7 +329,10 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
         }
     );
 
-    var ws = new WebSocket('ws://146.148.125.2/v1/ws/run/timeline1');
+    // Get WebSocket url from attribute
+    var webSocketUrl = $scope.wsUrl;
+
+    var ws = new WebSocket(webSocketUrl);
 
     ws.onmessage = function (event) {
         terminal.echo(parseInput(event.data));

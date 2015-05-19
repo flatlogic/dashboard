@@ -30,6 +30,8 @@ appDirectives.directive('qlRequiresPermission', ['user', '$templateRequest', '$c
     return {
         link: function($scope, $element, $attr){
 
+            $scope.wsUrl = $attr.wsUrl;
+
             var loadWidget = function(widgetName, parentElement) {
                 $templateRequest('views/widgets/' + widgetName + '.html', true).then(function (response) {
                     parentElement.append($compile(response)($scope));
@@ -47,6 +49,9 @@ appDirectives.directive('qlRequiresPermission', ['user', '$templateRequest', '$c
                     loadWidget(value, $element);
                 }
             }
+        },
+        scope : {
+            wsUrl: '@'
         }
     }
 }]);
