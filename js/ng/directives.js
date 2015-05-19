@@ -26,14 +26,25 @@ appDirectives.directive('body', function() {
     }
 });
 
-appDirectives.directive('qlRequiresPermission', ['user', function( user){
+appDirectives.directive('qlRequiresPermission', ['user', '$templateRequest', '$compile', function(user, $templateRequest, $compile){
     return {
         link: function($scope, $element, $attr){
+
+            var loadWidget = function(widgetName, parentElement) {
+                $templateRequest('views/widgets/' + widgetName + '.html', true).then(function (response) {
+                    parentElement.append($compile(response)($scope));
+                }, function () {
+                    // TODO Error
+                });
+            };
+
             var value = $attr.qlRequiresPermission;
             if (value) {
                 if (!user.hasAccessTo(value)) {
                     $element.remove();
                     $element = null;
+                } else {
+                    loadWidget(value, $element);
                 }
             }
         }
@@ -64,7 +75,7 @@ appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', '$c
                 }, function () {
                     // TODO Error
                 });
-            }
+            };
 
             var pageControllerName = $attr.qlPage;
             if (!user.hasAccessTo(pageControllerName)) {

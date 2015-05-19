@@ -2,6 +2,6 @@
     "DashboardController": "my_account",
     "TestController" : "my_account",
     "WebSocketController": "my_account",
-    "LiveTimelineController": "account_update",
+    "LiveTimeline": "account_update",
     "TerminalController" : "my_account"
 }
