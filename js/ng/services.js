@@ -16,15 +16,15 @@ var authService = function($window) {
     self.tokenKey = 'authToken';
 
     self.saveToken = function(token) {
-        $window.sessionStorage[self.tokenKey] = token;
+        $window.localStorage[self.tokenKey] = token;
     }
 
     self.getToken = function() {
-        return $window.sessionStorage[self.tokenKey];
+        return $window.localStorage[self.tokenKey];
     }
 
     self.removeToken = function() {
-        $window.sessionStorage.removeItem(self.tokenKey);
+        $window.localStorage.removeItem(self.tokenKey);
     }
 
     /**
@@ -137,7 +137,7 @@ var dataLoaderService = function($window, $http, API_URL, $q) {
     self.loadGlobalPermissions = function() {
         return $http.get('data/permissions.json')
             .then(function(result) {
-                $window.sessionStorage[self.permissionsJsonKey] = JSON.stringify(result.data);
+                $window.localStorage[self.permissionsJsonKey] = JSON.stringify(result.data);
                 return result.data;
             });
     };
@@ -149,27 +149,27 @@ var dataLoaderService = function($window, $http, API_URL, $q) {
         var emptySections = [];
         return $http.get('data/sections-' + pageName + '.json')
             .then(function(result) {
-                $window.sessionStorage['sections_' + pageName] = JSON.stringify(result.data);
+                $window.localStorage['sections_' + pageName] = JSON.stringify(result.data);
                 return result.data;
             }, function() {
-                $window.sessionStorage['sections_' + pageName] = JSON.stringify(emptySections);
+                $window.localStorage['sections_' + pageName] = JSON.stringify(emptySections);
                 return emptySections;
             });
     };
 
     self.getGlobalPermissions = function() {
-        if (!$window.sessionStorage[self.permissionsJsonKey]) {
+        if (!$window.localStorage[self.permissionsJsonKey]) {
             throw new Error('No global permissions loaded. Ensure that dataLoader.loadGlobalPermission has been called first');
         }
-        return JSON.parse( $window.sessionStorage[self.permissionsJsonKey] );
+        return JSON.parse( $window.localStorage[self.permissionsJsonKey] );
     };
 
     self.getPageSections = function(pageName) {
-        if (!$window.sessionStorage['sections_' + pageName]) {
+        if (!$window.localStorage['sections_' + pageName]) {
             return self.loadPageSections(pageName);
         }
         return $q(function(resolve) {
-            resolve(JSON.parse( $window.sessionStorage['sections_' + pageName] ));
+            resolve(JSON.parse( $window.localStorage['sections_' + pageName] ));
         });
     };
 
