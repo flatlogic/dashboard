@@ -3,6 +3,6 @@
         "section1" : [ "Test", "WebSockets", "Test"]
     },
     {
-        "section2" : [ "WebSockets", "Test" ]
+        "section2" : [ "WebSockets", "Test", "LiveTimeline" ]
     }
 ]

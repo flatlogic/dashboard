@@ -178,61 +178,24 @@ var dataLoaderService = function($window, $http, API_URL, $q) {
      */
     self.init = function(pageName) { // fixme returns one promise
         return self.loadGlobalPermissions().then(function(){
-            return self.loadPageSections(pageName);
+            //return self.loadPageSections(pageName);
         });
     }
 };
 
 appServices.service('dataLoader', dataLoaderService);
 
+appServices.factory('socket', function () {
+    var ws = new WebSocket("ws://localhost:8000/news");
 
-appServices.factory('WebSocket', function ($websocket) {
-        //var ws = $websocket.$new('ws://localhost:8080'); // instance of ngWebsocket, handled by $websocket service
-        //
-        //ws.$on('$open', function () {
-        //    console.log('Oh my gosh, websocket is really open! Fukken awesome!');
-        //
-        //    ws.$emit('ping', 'hi listening websocket server'); // send a message to the websocket server
-        //
-        //    var data = {
-        //        level: 1,
-        //        text: 'ngWebsocket rocks!',
-        //        array: ['one', 'two', 'three'],
-        //        nested: {
-        //            level: 2,
-        //            deeper: [
-        //                {
-        //                    hell: 'yeah'
-        //                },
-        //                {
-        //                    so: 'good'
-        //                }
-        //            ]
-        //        }
-        //    };
-        //
-        //    ws.$emit('pong', data);
-        //});
-        //
-        //ws.$on('pong', newData);
-        //
-        //ws.$on('$close', function () {
-        //    console.log('Noooooooooou, I want to have more fun with ngWebsocket, damn it!');
-        //});
+    ws.onopen = function(){
+        console.log("Socket has been opened!");
+    };
 
-        function newData(data) {
-            console.log('The websocket server has sent the following data:');
-            console.log(data);
-            return data;
-        }
-
-        var methods = {
-            new_data: newData
-        }
-
-        return methods;
-    }
-);
+    ws.onmessage = function(message) {
+        listener(JSON.parse(message.data));
+    };
+});
 
 
 /**
@@ -306,7 +269,6 @@ appServices.factory('scriptLoader', ['$q', '$timeout', function($q, $timeout) {
                     $timeout(function(){
                         defer.resolve();
                         defer.processing = false;
-                        Pace.restart();
                     })
                 });
 

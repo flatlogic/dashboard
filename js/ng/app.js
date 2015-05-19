@@ -10,18 +10,18 @@ var singApp = angular.module('singApp', [
     'ui.jq',
     'ui.event',
     'ui.bootstrap',
-    'ngWebsocket',
 
     // page-specific and demo. may be removed
     'angular-bootstrap-select',
     'datatables',
     'datatables.bootstrap',
     'ui.calendar',
+    'relativeDate',
 
     // application libs
     'app.controllers',
     'app.services',
-    'app.directives',
+    'app.directives'
 ]);
 
 singApp.config(function($stateProvider, $urlRouterProvider){

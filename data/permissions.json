@@ -1,5 +1,7 @@
 {
     "DashboardController": "my_account",
     "TestController" : "my_account",
-    "WebSocketController": "my_account"
+    "WebSocketController": "my_account",
+    "LiveTimeline": "account_update",
+    "Terminal" : "my_account"
 }
