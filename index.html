@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="singApp">
 <head>
-    <title>Sing - Dashboard</title>
+    <title>Qorio - Dashboard</title>
     <link href="css/application.min.css" rel="stylesheet">
+    <link href="css/newstyle.css" rel="stylesheet">
+    <link href="vendor/terminal.js/jquery.terminal.css" rel="stylesheet">
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
@@ -46,14 +48,18 @@
 <script src="vendor/angular-datatables/dist/angular-datatables.min.js"></script>
 <script src="vendor/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
 <script src="vendor/angular-ui-calendar/src/calendar.js"></script>
+<script src="vendor/socket.io/socket.io.js"></script>
+
 
 
 <!-- common libs. previous bootstrap-sass version was used, but due to a need to have single compiled file using bootstrap's version -->
 <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="vendor/slimScroll/jquery.slimscroll.min.js"></script>
 <script src="vendor/widgster/widgster.js"></script>
-<script data-pace-options='{ "target": ".content-wrap", "ghostTime": 1000 }' src="vendor/pace.js/pace.min.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.min.js"></script>
+<script src="vendor/ng-websocket/ng-websocket.js"></script>
+<script src="vendor/terminal.js/jquery.terminal.min.js"></script>
+<script src="vendor/relative-date/angular-relative-date.min.js"></script>
 
 
 <!-- common app js -->

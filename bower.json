@@ -21,7 +21,6 @@
     "animate.css": "~3.2.0",
     "jquery-touchswipe": "~1.6.8",
     "awesome-bootstrap-checkbox": "~0.3.3",
-
     "angular": "~1.3.14",
     "angular-ui-router": "~0.2.13",
     "ngstorage": "~0.3.0",
@@ -32,7 +31,6 @@
     "angular-datatables": "~0.4.1",
     "angular-resource": "~1.3.14",
     "angular-ui-calendar": "~0.8.1",
-
     "backbone": "~1.1.2",
     "backbone.paginator": "~2.0.2",
     "backgrid": "~0.3.5",
@@ -75,7 +73,8 @@
     "magnific-popup": "~1.0.0",
     "jquery-animateNumber": "https://github.com/aishek/jquery-animateNumber.git#v0.0.10",
     "MetroJS": "https://github.com/drewgreenwell/MetroJS.git#b70806b32e070073c17677402e64ed909e24a6ef",
-    "skycons": "https://github.com/darkskyapp/skycons.git#60d41374ea97c5da1f92622ddcecca6dd1d9beed"
+    "skycons": "https://github.com/darkskyapp/skycons.git#60d41374ea97c5da1f92622ddcecca6dd1d9beed",
+    "ng-websocket": "0.2.1"
   },
   "private": true,
   "ignore": [

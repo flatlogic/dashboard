@@ -284,6 +284,7 @@ appControllers.controller('ChartsDemoController', ['$scope', 'scriptLoader', fun
         lineWidth: 0
     };
 
+
     $scope.morris3Options = {
         data: [
             {label: "Download Sales", value: 12},
