@@ -363,29 +363,30 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
                     currentId = result[3];
                     $scope.allMessages[currentId] = result[3];
                 } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] = result[3];
+                    $scope.allMessages[currentId] += result[3];
                     currentId = '';
                 }
                 return result[3];
             case '????':
                 if (result[1] == '[') {
                     currentId = result[3];
-                    $scope.allMessages[currentId] = '[[;#7f7f00;]' + result[3] + ']';
+                    $scope.allMessages[currentId] += '[[;#7f7f00;]' + result[3] + ']';
                 } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] = '[[;#7f7f00;]' + result[3] + ']';
+                    $scope.allMessages[currentId] += '[[;#7f7f00;]' + result[3] + ']';
                     currentId = '';
                 }
                 return '[[;#7f7f00;]' + result[3] + ']';
             case '!!!!':
                 if (result[1] == '[') {
                     currentId = result[3];
-                    $scope.allMessages[currentId] = '[[;#7f0000;]' + result[3] + ']';
+                    $scope.allMessages[currentId] += '[[;#7f0000;]' + result[3] + ']';
                 } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] = '[[;#7f0000;]' + result[3] + ']';
+                    $scope.allMessages[currentId] += '[[;#7f0000;]' + result[3] + ']';
                     currentId = '';
                 }
                 return '[[;#7f0000;]' + result[3] + ']';
             default:
+                $scope.allMessages[currentId] += input;
                 return input;
         }
     }
@@ -420,18 +421,10 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
     };
 
     var makeObject = function(input, event_icon_class) {
-        var left;
-
-        if (input[1] == '[') {
-            left = 'on-left';
-        }
-
-
         return {
             title: input[3],
             timestamp: input[2],
             text: input[4],
-            left_class: left,
             event_icon_class: event_icon_class
         }
     }
@@ -441,19 +434,31 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
 
         switch (result[0]) {
             case '****':
-                $scope.$apply(function(){
-                    $scope.events.push(makeObject(result, 'event-icon-primary'));
-                });
+                if (result[1] == '[') {
+                    $scope.$apply(function () {
+                        $scope.events.push(makeObject(result, 'event-icon-primary'));
+                    });
+                } else {
+                    // TODO Add updating card
+                }
                 break;
             case '????':
-                $scope.$apply(function(){
-                    $scope.events.push(makeObject(result, 'event-icon-warning'));
-                });
+                if (result[1] == '[') {
+                    $scope.$apply(function () {
+                        $scope.events.push(makeObject(result, 'event-icon-warning'));
+                    });
+                } else {
+                    // TODO Add card updating
+                }
                 break;
             case '!!!!':
-                $scope.$apply(function(){
-                    $scope.events.push(makeObject(result, 'event-icon-danger'));
-                });
+                if (result[1] == '[') {
+                    $scope.$apply(function () {
+                        $scope.events.push(makeObject(result, 'event-icon-danger'));
+                    });
+                } else {
+                    // TODO Add card updating
+                }
                 break;
             default:
                 return;

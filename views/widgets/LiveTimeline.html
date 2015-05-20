@@ -1,6 +1,6 @@
 <div id="timeline" >
     <ul class="timeline" ng-controller="LiveTimelineController">
-        <li class="{{ event.left_class }}" ng-repeat="event in events">
+        <li class="on-left" ng-repeat="event in events">
             <time class="event-time" datetime="2014-05-19 03:04">
                 <span class="date">{{event.timestamp | date: 'EEE'}}</span>
                 <span class="time">{{event.timestamp | date: 'shortTime'}}</span>

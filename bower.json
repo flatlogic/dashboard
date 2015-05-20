@@ -74,7 +74,9 @@
     "jquery-animateNumber": "https://github.com/aishek/jquery-animateNumber.git#v0.0.10",
     "MetroJS": "https://github.com/drewgreenwell/MetroJS.git#b70806b32e070073c17677402e64ed909e24a6ef",
     "skycons": "https://github.com/darkskyapp/skycons.git#60d41374ea97c5da1f92622ddcecca6dd1d9beed",
-    "ng-websocket": "0.2.1"
+    "ng-websocket": "0.2.1",
+    "jquery.terminal": "~0.8.8",
+    "jquery.layout.js": "http://layout.jquery-dev.com/lib/js/jquery.layout-latest.js"
   },
   "private": true,
   "ignore": [
