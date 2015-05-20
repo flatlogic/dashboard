@@ -370,7 +370,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
 
     ws.onmessage = function (event) {
         parseInput(event.data);
-    }
+    };
 
     var makeObject = function(input, event_icon_class) {
         var left;
