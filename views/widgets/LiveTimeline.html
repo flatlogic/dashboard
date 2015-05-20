@@ -1,22 +1,22 @@
 <div id="timeline" >
     <ul class="timeline" ng-controller="LiveTimelineController">
         <li class="on-left" ng-repeat="event in events">
-            <time class="event-time" datetime="2014-05-19 03:04">
-                <span class="date">{{event.timestamp | date: 'EEE'}}</span>
-                <span class="time">{{event.timestamp | date: 'shortTime'}}</span>
+            <time class="event-time" datetime="{{::event.timestamp}}">
+                <span class="date">{{::event.timestamp | date: 'EEE'}}</span>
+                <span class="time">{{::event.timestamp | date: 'shortTime'}}</span>
             </time>
                     <span class="event-icon {{ event.event_icon_class}}">
                         <i class="glyphicon glyphicon-comment"></i>
                     </span>
             <section class="event">
                 <h4 class="event-heading"><a ng-click="openTerminal(event.title)" href="#">{{event.title}}</a></h4>
-                <p class="fs-sm text-muted">{{event.timestamp | date:'fullDate'}}</p>
+                <p class="fs-sm text-muted">{{::event.timestamp | date:'fullDate'}}</p>
                 <p class="fs-mini">
-                    {{event.text}}
+                    {{::event.text}}
                 </p>
                 <footer>
                     <ul class="post-links">
-                        <li><a href="#">{{event.timestamp | relativeDate }}</a></li>
+                        <li><a href="#">{{::event.timestamp | relativeDate }}</a></li>
                     </ul>
                 </footer>
             </section>

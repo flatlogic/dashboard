@@ -26,7 +26,7 @@ appDirectives.directive('body', function() {
     }
 });
 
-appDirectives.directive('qlRequiresPermission', ['user', '$templateRequest', '$compile', function(user, $templateRequest, $compile){
+appDirectives.directive('qlWidget', ['user', '$templateRequest', '$compile', function(user, $templateRequest, $compile){
     return {
         link: function($scope, $element, $attr){
 
@@ -40,7 +40,7 @@ appDirectives.directive('qlRequiresPermission', ['user', '$templateRequest', '$c
                 });
             };
 
-            var value = $attr.qlRequiresPermission;
+            var value = $attr.qlWidget;
             if (value) {
                 if (!user.hasAccessTo(value)) {
                     $element.remove();

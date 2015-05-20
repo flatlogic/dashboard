@@ -275,7 +275,7 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
     };
 
     $scope.startLoginAnimation = function() {
-        $('#loginButton').button('loading');
+        //$('#loginButton').button('loading');
     }
 
     $scope.stopLoginAnimation = function() {
@@ -332,6 +332,7 @@ appControllers.controller(createAuthorizedController('DashboardController', ['$s
 appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', function($scope, $rootScope) {
 
     // Initialize terminal
+    //todo rewrite in an angular way. implement $terminal service
     var terminal = $('#terminal').terminal(sendCommand,
         {
             greetings: false,
@@ -340,9 +341,7 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
     );
 
     // Get WebSocket url from attribute
-    var webSocketUrl = $scope.wsUrl;
-
-    var ws = new WebSocket(webSocketUrl);
+    var ws = new WebSocket($scope.wsUrl);
 
     ws.onmessage = function (event) {
         terminal.echo(parseInput(event.data));
@@ -412,22 +411,20 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
 
 
     // Get WebSocket url from attribute
-    var webSocketUrl = $scope.wsUrl;
-
-    var ws = new WebSocket(webSocketUrl);
+    var ws = new WebSocket($scope.wsUrl);
 
     ws.onmessage = function (event) {
         parseInput(event.data);
     };
 
-    var makeObject = function(input, event_icon_class) {
+    var createEvent = function(input, event_icon_class) {
         return {
             title: input[3],
             timestamp: input[2],
             text: input[4],
             event_icon_class: event_icon_class
         }
-    }
+    };
 
     function parseInput(input) {
         var result = input.split(',');
@@ -436,7 +433,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
             case '****':
                 if (result[1] == '[') {
                     $scope.$apply(function () {
-                        $scope.events.push(makeObject(result, 'event-icon-primary'));
+                        $scope.events.push(createEvent(result, 'event-icon-primary'));
                     });
                 } else {
                     // TODO Add updating card
@@ -445,7 +442,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
             case '????':
                 if (result[1] == '[') {
                     $scope.$apply(function () {
-                        $scope.events.push(makeObject(result, 'event-icon-warning'));
+                        $scope.events.push(createEvent(result, 'event-icon-warning'));
                     });
                 } else {
                     // TODO Add card updating
@@ -454,7 +451,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
             case '!!!!':
                 if (result[1] == '[') {
                     $scope.$apply(function () {
-                        $scope.events.push(makeObject(result, 'event-icon-danger'));
+                        $scope.events.push(createEvent(result, 'event-icon-danger'));
                     });
                 } else {
                     // TODO Add card updating
