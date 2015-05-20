@@ -9,7 +9,7 @@
                         <i class="glyphicon glyphicon-comment"></i>
                     </span>
             <section class="event">
-                <h4 class="event-heading"><a href="#">{{event.title}}</a></h4>
+                <h4 class="event-heading"><a ng-click="openTerminal(event.title)" href="#">{{event.title}}</a></h4>
                 <p class="fs-sm text-muted">{{event.timestamp | date:'fullDate'}}</p>
                 <p class="fs-mini">
                     {{event.text}}

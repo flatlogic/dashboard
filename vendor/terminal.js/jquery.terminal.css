@@ -19,7 +19,7 @@ div.terminal {
   padding: 10px;
   position: relative;
   overflow: auto;
-    height: 600px
+    height: 600px;
 }
 .cmd {
   padding: 0;

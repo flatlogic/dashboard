@@ -315,11 +315,21 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
 }]);
 
 
-appControllers.controller(createAuthorizedController('DashboardController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user) {
+appControllers.controller(createAuthorizedController('DashboardController', ['$scope', '$rootScope', function($scope, $rootScope) {
+    var slider_area = $('#dashboard_container').layout({
+        east__size:	.50,
+        resizable: true,
+        sliderTip: 'Open terminal'
+    });
 
+    slider_area.close('east');
+
+    $rootScope.$on('openTerminal', function(event, data) {
+        slider_area.open('east');
+    });
 }]));
 
-appControllers.controller(createAuthorizedController('TerminalController', ['$scope', function($scope) {
+appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', function($scope, $rootScope) {
 
     // Initialize terminal
     var terminal = $('#terminal').terminal(sendCommand,
@@ -336,29 +346,66 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
 
     ws.onmessage = function (event) {
         terminal.echo(parseInput(event.data));
-    }
+    };
+
+    // To store all messages
+    $scope.allMessages = {};
+
+    // To store title of current operation
+    var currentId = '';
 
     function parseInput(input) {
         var result = input.split(',');
 
         switch (result[0]) {
             case '****':
+                if (result[1] == '[') {
+                    currentId = result[3];
+                    $scope.allMessages[currentId] = result[3];
+                } else if (result[1] == ']') {
+                    $scope.allMessages[currentId] = result[3];
+                    currentId = '';
+                }
                 return result[3];
             case '????':
+                if (result[1] == '[') {
+                    currentId = result[3];
+                    $scope.allMessages[currentId] = '[[;#7f7f00;]' + result[3] + ']';
+                } else if (result[1] == ']') {
+                    $scope.allMessages[currentId] = '[[;#7f7f00;]' + result[3] + ']';
+                    currentId = '';
+                }
                 return '[[;#7f7f00;]' + result[3] + ']';
             case '!!!!':
+                if (result[1] == '[') {
+                    currentId = result[3];
+                    $scope.allMessages[currentId] = '[[;#7f0000;]' + result[3] + ']';
+                } else if (result[1] == ']') {
+                    $scope.allMessages[currentId] = '[[;#7f0000;]' + result[3] + ']';
+                    currentId = '';
+                }
                 return '[[;#7f0000;]' + result[3] + ']';
             default:
                 return input;
         }
     }
 
+    $rootScope.$on('openTerminal', function(event, data){
+        debugger;
+        if ($scope.allMessages[data]) {
+            terminal.clear();
+            terminal.echo($scope.allMessages[data]);
+        } else {
+
+        }
+    });
+
     function sendCommand(command, terminal) {
 
     }
 }]));
 
-appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', function($scope) {
+appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', '$rootScope', function($scope, $rootScope) {
     // List of all events
     $scope.events = [];
 
@@ -412,8 +459,12 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                 return;
         }
 
-        var elem = document.getElementById('timeline');
+        var elem = document.getElementsByClassName('timeline')[0];
         elem.scrollTop = elem.scrollHeight;
+    }
+
+    $scope.openTerminal = function(title) {
+        $rootScope.$emit('openTerminal', title);
     }
 }]));
 

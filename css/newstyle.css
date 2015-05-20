@@ -1,0 +1,8 @@
+#timeline {
+    overflow: visible;
+}
+
+.timeline {
+    overflow-y: scroll;
+    height: 600px;
+}
