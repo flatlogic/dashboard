@@ -326,7 +326,7 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
     var terminal = $('#terminal').terminal(sendCommand,
         {
             greetings: false,
-            outputLimit : 200
+            outputLimit : 1000
         }
     );
 
@@ -342,80 +342,24 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
         }
     };
 
-    // To store all messages
-    $scope.allMessages = {};
-
-    // To store title of current operation
-    var currentId = '';
 
     function parseInput(input) {
         var result = input.split(',');
 
         switch (result[0]) {
             case '****':
-                if (result[1] == '[') {
-                    currentId = result[3];
-                    $scope.allMessages[currentId] = result[3] + '\n';
-                } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] += result[3] + '\n';
-                    if (currentId == $scope.openedLogId) {
-                        return result[3];
-                    }
-                    currentId = '';
-                }
-                if (currentId == $scope.openedLogId) {
-                    return result[3];
-                }
-                break;
+                return result[3];
+            break;
             case '????':
-                if (result[1] == '[') {
-                    currentId = result[3];
-                    $scope.allMessages[currentId] = '[[;#7f7f00;]' + result[3] + ']' + '\n';
-                } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] += '[[;#7f7f00;]' + result[3] + ']' + '\n';
-                    if (currentId == $scope.openedLogId) {
-                        return '[[;#7f7f00;]' + result[3] + ']';
-                    }
-                    currentId = '';
-                }
-                if (currentId == $scope.openedLogId) {
-                    return '[[;#7f7f00;]' + result[3] + ']';
-                }
-                break;
+                return '[[;#7f7f00;]' + result[3] + ']';
+            break;
             case '!!!!':
-                if (result[1] == '[') {
-                    currentId = result[3];
-                    $scope.allMessages[currentId] = '[[;#7f0000;]' + result[3] + ']' + '\n';
-                } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] += '[[;#7f0000;]' + result[3] + ']' + '\n'
-                    if (currentId == $scope.openedLogId) {
-                        return '[[;#7f0000;]' + result[3] + ']';
-                    }
-                    currentId = '';
-                }
-                if (currentId == $scope.openedLogId) {
-                    return '[[;#7f0000;]' + result[3] + ']';
-                }
-                break;
+                return '[[;#7f0000;]' + result[3] + ']';
+            break;
             default:
-                $scope.allMessages[currentId] += input + '\n';
-
-                if (currentId == $scope.openedLogId) {
-                    return input;
-                }
+                return input;
         }
     }
-
-    $rootScope.$on('openTerminal', function(event, data){
-
-        if ($scope.allMessages[data]) {
-            $scope.openedLogId = data;
-            terminal.clear();
-            terminal.echo($scope.allMessages[data]);
-        } else {
-
-        }
-    });
 
     function sendCommand(command, terminal) {
 
@@ -451,21 +395,29 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
         timeLabel.text((time - timeLabel.attr('data-original')) + ' seconds');
     };
 
+    // To store all messages
+    $scope.allMessages = {};
+
+    var currentId = '';
+
     function parseInput(input) {
         var result = input.split(',');
 
         switch (result[0]) {
             case '****':
                 if (result[1] == '[') {
+                    currentId = result[3];
                     $scope.$apply(function () {
                         $scope.events.push(createEvent(result, 'event-icon-primary'));
                     });
-                } else {
+                } else if (result[1] == ']') {
                     updateCard(result[3], 'event-icon-primary', result[2]);
+                    currentId = '';
                 }
                 break;
             case '????':
                 if (result[1] == '[') {
+                    currentId = result[3];
                     $scope.$apply(function () {
                         $scope.events.push(createEvent(result, 'event-icon-warning'));
                     });
@@ -475,6 +427,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                 break;
             case '!!!!':
                 if (result[1] == '[') {
+                    currentId = result[3];
                     $scope.$apply(function () {
                         $scope.events.push(createEvent(result, 'event-icon-danger'));
                     });
@@ -483,16 +436,26 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                 }
                 break;
             default:
-                return;
+                if (input) {
+                    // Prevent undefined string
+                    if (!$scope.allMessages[currentId]) {
+                        $scope.allMessages[currentId] = '';
+                    }
+                    $scope.allMessages[currentId] += input + '\n';
+                }
         }
 
         var elem = document.getElementById('timeline');
         elem.scrollTop = elem.scrollHeight;
     }
 
+    var showDetails = function(){
+        console.log($scope.allMessages[title]);
+    };
+
     $scope.openTerminal = function(title) {
-        $rootScope.$emit('openTerminal', title);
-    }
+        console.log($scope.allMessages[title]);
+    };
 }]));
 
 /**

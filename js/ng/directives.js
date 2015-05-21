@@ -111,6 +111,36 @@ appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', '$c
     }
 }]);
 
+appDirectives.directive('qlTerminal', ['$timeout', 'LayoutContainer', function($timeout, LayoutContainer) {
+    var adaptHeight = function(element) {
+        element.height(element.parent().parent().parent().height() - 20);
+    }
+
+    return {
+        link: function(scope, element, attrs, ctrl) {
+            $timeout(function(){
+                adaptHeight(element);
+            });
+        }
+
+    }
+}]);
+
+appDirectives.directive('qlTimeLine', ['$timeout', function($timeout) {
+    var adaptHeight = function(element) {
+        element.height(element.parent().parent().parent().height());
+    }
+
+    return {
+        link: function(scope, element, attrs, ctrl) {
+            $timeout(function(){
+                adaptHeight(element);
+            });
+        }
+
+    }
+}]);
+
 /* ========================================================================
  * Animate Progress Bars
  * ========================================================================

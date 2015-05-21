@@ -1,4 +1,4 @@
-<div id="timeline" style="height: 600px; overflow-y: auto; " >
+<div id="timeline" ql-time-line style="height: 600px; overflow-y: auto; " >
     <ul class="timeline" style="padding: 10px; margin-bottom: 0px;" ng-controller="LiveTimelineController">
         <li class="on-left" ng-repeat="event in events" id="{{::event.id | limitTo:7}}">
             <time class="event-time" datetime="{{::event.timestamp}}">

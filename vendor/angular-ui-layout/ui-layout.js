@@ -550,6 +550,7 @@ angular.module('ui.layout', [])
         });
 
         afterButton.on('click', function() {
+            debugger;
           var nextSplitbarBeforeButton, nextSplitbarAfterButton;
           var result = ctrl.toggleAfter(scope.splitbar);
           var nextSplitbar = ctrl.getNextSplitbarContainer(scope.splitbar);
