@@ -1,6 +1,12 @@
 <h1 class="page-title">Dashboard <small><small>The Lucky One</small></small></h1>
 
-<div class="row" style="height: 610px;" id="dashboard_container" ng-controller="DashboardController">
-    <div ql-widget="LiveTimeline" ws-url="ws://146.148.125.2/v1/ws/run/timeline1" class="ui-layout-center"></div>
-    <div ql-widget="Terminal" ws-url="ws://146.148.125.2/v1/ws/run/timeline1" class="ui-layout-east"></div>
+<div class="row" id="dashboard_container" ng-controller="DashboardController">
+    <div ui-layout="{flow : 'column'}" class="col-lg-12" style="height: 600px;">
+        <div ui-layout-container>
+            <div max-size="50%" ql-widget="LiveTimeline" ws-url="ws://146.148.125.2/v1/ws/run/timeline1" style="padding-right: 10px;"></div>
+        </div>
+        <div ui-layout-container max-size="50%">
+            <div ql-widget="Terminal" ws-url="ws://146.148.125.2/v1/ws/run/timeline1" style="padding-left: 10px; padding-right: 10px;"></div>
+        </div>
+    </div>
 </div>

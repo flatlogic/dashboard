@@ -1,6 +1,6 @@
 <div id="timeline" >
-    <ul class="timeline" ng-controller="LiveTimelineController">
-        <li class="on-left" ng-repeat="event in events">
+    <ul class="timeline" style="height: 600px; overflow-y: auto; padding: 10px; margin-bottom: 0px;" ng-controller="LiveTimelineController">
+        <li class="on-left" ng-repeat="event in events" id="li-{{event.id}}">
             <time class="event-time" datetime="{{::event.timestamp}}">
                 <span class="date">{{::event.timestamp | date: 'EEE'}}</span>
                 <span class="time">{{::event.timestamp | date: 'shortTime'}}</span>
@@ -16,7 +16,7 @@
                 </p>
                 <footer>
                     <ul class="post-links">
-                        <li><a href="#">{{::event.timestamp | relativeDate }}</a></li>
+                        <li><a href="#" data-original="{{::event.timestamp}}">{{::event.timestamp | relativeDate }}</a></li>
                     </ul>
                 </footer>
             </section>

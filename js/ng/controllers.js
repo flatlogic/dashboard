@@ -316,17 +316,7 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
 
 
 appControllers.controller(createAuthorizedController('DashboardController', ['$scope', '$rootScope', function($scope, $rootScope) {
-    var slider_area = $('#dashboard_container').layout({
-        east__size:	.50,
-        resizable: true,
-        sliderTip: 'Open terminal'
-    });
 
-    slider_area.close('east');
-
-    $rootScope.$on('openTerminal', function(event, data) {
-        slider_area.open('east');
-    });
 }]));
 
 appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', function($scope, $rootScope) {
@@ -340,11 +330,16 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
         }
     );
 
+    $scope.openedLogId = '___';
+
     // Get WebSocket url from attribute
     var ws = new WebSocket($scope.wsUrl);
 
     ws.onmessage = function (event) {
-        terminal.echo(parseInput(event.data));
+        var data = parseInput(event.data);
+        if (data) {
+            terminal.echo(data);
+        }
     };
 
     // To store all messages
@@ -360,39 +355,61 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
             case '****':
                 if (result[1] == '[') {
                     currentId = result[3];
-                    $scope.allMessages[currentId] = result[3];
+                    $scope.allMessages[currentId] = result[3] + '\n';
                 } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] += result[3];
+                    $scope.allMessages[currentId] += result[3] + '\n';
+                    if (currentId == $scope.openedLogId) {
+                        return result[3];
+                    }
                     currentId = '';
                 }
-                return result[3];
+                if (currentId == $scope.openedLogId) {
+                    return result[3];
+                }
+                break;
             case '????':
                 if (result[1] == '[') {
                     currentId = result[3];
-                    $scope.allMessages[currentId] += '[[;#7f7f00;]' + result[3] + ']';
+                    $scope.allMessages[currentId] = '[[;#7f7f00;]' + result[3] + ']' + '\n';
                 } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] += '[[;#7f7f00;]' + result[3] + ']';
+                    $scope.allMessages[currentId] += '[[;#7f7f00;]' + result[3] + ']' + '\n';
+                    if (currentId == $scope.openedLogId) {
+                        return '[[;#7f7f00;]' + result[3] + ']';
+                    }
                     currentId = '';
                 }
-                return '[[;#7f7f00;]' + result[3] + ']';
+                if (currentId == $scope.openedLogId) {
+                    return '[[;#7f7f00;]' + result[3] + ']';
+                }
+                break;
             case '!!!!':
                 if (result[1] == '[') {
                     currentId = result[3];
-                    $scope.allMessages[currentId] += '[[;#7f0000;]' + result[3] + ']';
+                    $scope.allMessages[currentId] = '[[;#7f0000;]' + result[3] + ']' + '\n';
                 } else if (result[1] == ']') {
-                    $scope.allMessages[currentId] += '[[;#7f0000;]' + result[3] + ']';
+                    $scope.allMessages[currentId] += '[[;#7f0000;]' + result[3] + ']' + '\n'
+                    if (currentId == $scope.openedLogId) {
+                        return '[[;#7f0000;]' + result[3] + ']';
+                    }
                     currentId = '';
                 }
-                return '[[;#7f0000;]' + result[3] + ']';
+                if (currentId == $scope.openedLogId) {
+                    return '[[;#7f0000;]' + result[3] + ']';
+                }
+                break;
             default:
-                $scope.allMessages[currentId] += input;
-                return input;
+                $scope.allMessages[currentId] += input + '\n';
+
+                if (currentId == $scope.openedLogId) {
+                    return input;
+                }
         }
     }
 
     $rootScope.$on('openTerminal', function(event, data){
-        debugger;
+
         if ($scope.allMessages[data]) {
+            $scope.openedLogId = data;
             terminal.clear();
             terminal.echo($scope.allMessages[data]);
         } else {
@@ -422,8 +439,16 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
             title: input[3],
             timestamp: input[2],
             text: input[4],
-            event_icon_class: event_icon_class
+            event_icon_class: event_icon_class,
+            id: btoa(input[3])
         }
+    };
+
+    var updateCard = function(title, eventIconClass, time) {
+        var card = $('#li-' + btoa(title));
+        card.children('span').removeClass('event-icon-primary').addClass(eventIconClass);
+        var timeLabel = card.children('section').children('footer').children('ul').children('li').children('a');
+        timeLabel.text((time - timeLabel.attr('data-original')) + ' seconds');
     };
 
     function parseInput(input) {
@@ -436,7 +461,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                         $scope.events.push(createEvent(result, 'event-icon-primary'));
                     });
                 } else {
-                    // TODO Add updating card
+                    updateCard(result[3], 'event-icon-primary', result[2]);
                 }
                 break;
             case '????':
@@ -445,7 +470,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                         $scope.events.push(createEvent(result, 'event-icon-warning'));
                     });
                 } else {
-                    // TODO Add card updating
+                    updateCard(result[3], 'event-icon-warning', result[2]);
                 }
                 break;
             case '!!!!':
@@ -454,7 +479,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                         $scope.events.push(createEvent(result, 'event-icon-danger'));
                     });
                 } else {
-                    // TODO Add card updating
+                    updateCard(result[3], 'event-icon-danger', result[2]);
                 }
                 break;
             default:
