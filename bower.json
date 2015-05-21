@@ -76,7 +76,6 @@
     "skycons": "https://github.com/darkskyapp/skycons.git#60d41374ea97c5da1f92622ddcecca6dd1d9beed",
     "ng-websocket": "0.2.1",
     "jquery.terminal": "~0.8.8",
-    "jquery.layout.js": "http://layout.jquery-dev.com/lib/js/jquery.layout-latest.js",
     "angular-ui-layout": "~1.0.5"
   },
   "private": true,
