@@ -486,7 +486,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                 return;
         }
 
-        var elem = document.getElementsByClassName('timeline')[0];
+        var elem = document.getElementById('timeline');
         elem.scrollTop = elem.scrollHeight;
     }
 

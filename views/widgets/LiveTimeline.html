@@ -1,5 +1,5 @@
-<div id="timeline" >
-    <ul class="timeline" style="height: 600px; overflow-y: auto; padding: 10px; margin-bottom: 0px;" ng-controller="LiveTimelineController">
+<div id="timeline" style="height: 600px; overflow-y: auto; " >
+    <ul class="timeline" style="padding: 10px; margin-bottom: 0px;" ng-controller="LiveTimelineController">
         <li class="on-left" ng-repeat="event in events" id="li-{{event.id}}">
             <time class="event-time" datetime="{{::event.timestamp}}">
                 <span class="date">{{::event.timestamp | date: 'EEE'}}</span>
