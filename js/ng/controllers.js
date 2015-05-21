@@ -275,7 +275,7 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
     };
 
     $scope.startLoginAnimation = function() {
-        $('#loginButton').button('loading');
+        //$('#loginButton').button('loading');
     }
 
     $scope.stopLoginAnimation = function() {
@@ -315,13 +315,14 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
 }]);
 
 
-appControllers.controller(createAuthorizedController('DashboardController', ['$scope', 'dataLoader', 'user', function($scope, dataLoader, user) {
+appControllers.controller(createAuthorizedController('DashboardController', ['$scope', '$rootScope', function($scope, $rootScope) {
 
 }]));
 
-appControllers.controller(createAuthorizedController('TerminalController', ['$scope', function($scope) {
+appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', function($scope, $rootScope) {
 
     // Initialize terminal
+    //todo rewrite in an angular way. implement $terminal service
     var terminal = $('#terminal').terminal(sendCommand,
         {
             greetings: false,
@@ -329,84 +330,157 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
         }
     );
 
-    // Get WebSocket url from attribute
-    var webSocketUrl = $scope.wsUrl;
+    $scope.openedLogId = '___';
 
-    var ws = new WebSocket(webSocketUrl);
+    // Get WebSocket url from attribute
+    var ws = new WebSocket($scope.wsUrl);
 
     ws.onmessage = function (event) {
-        terminal.echo(parseInput(event.data));
-    }
+        var data = parseInput(event.data);
+        if (data) {
+            terminal.echo(data);
+        }
+    };
+
+    // To store all messages
+    $scope.allMessages = {};
+
+    // To store title of current operation
+    var currentId = '';
 
     function parseInput(input) {
         var result = input.split(',');
 
         switch (result[0]) {
             case '****':
-                return result[3];
+                if (result[1] == '[') {
+                    currentId = result[3];
+                    $scope.allMessages[currentId] = result[3] + '\n';
+                } else if (result[1] == ']') {
+                    $scope.allMessages[currentId] += result[3] + '\n';
+                    if (currentId == $scope.openedLogId) {
+                        return result[3];
+                    }
+                    currentId = '';
+                }
+                if (currentId == $scope.openedLogId) {
+                    return result[3];
+                }
+                break;
             case '????':
-                return '[[;#7f7f00;]' + result[3] + ']';
+                if (result[1] == '[') {
+                    currentId = result[3];
+                    $scope.allMessages[currentId] = '[[;#7f7f00;]' + result[3] + ']' + '\n';
+                } else if (result[1] == ']') {
+                    $scope.allMessages[currentId] += '[[;#7f7f00;]' + result[3] + ']' + '\n';
+                    if (currentId == $scope.openedLogId) {
+                        return '[[;#7f7f00;]' + result[3] + ']';
+                    }
+                    currentId = '';
+                }
+                if (currentId == $scope.openedLogId) {
+                    return '[[;#7f7f00;]' + result[3] + ']';
+                }
+                break;
             case '!!!!':
-                return '[[;#7f0000;]' + result[3] + ']';
+                if (result[1] == '[') {
+                    currentId = result[3];
+                    $scope.allMessages[currentId] = '[[;#7f0000;]' + result[3] + ']' + '\n';
+                } else if (result[1] == ']') {
+                    $scope.allMessages[currentId] += '[[;#7f0000;]' + result[3] + ']' + '\n'
+                    if (currentId == $scope.openedLogId) {
+                        return '[[;#7f0000;]' + result[3] + ']';
+                    }
+                    currentId = '';
+                }
+                if (currentId == $scope.openedLogId) {
+                    return '[[;#7f0000;]' + result[3] + ']';
+                }
+                break;
             default:
-                return input;
+                $scope.allMessages[currentId] += input + '\n';
+
+                if (currentId == $scope.openedLogId) {
+                    return input;
+                }
         }
     }
+
+    $rootScope.$on('openTerminal', function(event, data){
+
+        if ($scope.allMessages[data]) {
+            $scope.openedLogId = data;
+            terminal.clear();
+            terminal.echo($scope.allMessages[data]);
+        } else {
+
+        }
+    });
 
     function sendCommand(command, terminal) {
 
     }
 }]));
 
-appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', function($scope) {
+appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', '$rootScope', function($scope, $rootScope) {
     // List of all events
     $scope.events = [];
 
 
     // Get WebSocket url from attribute
-    var webSocketUrl = $scope.wsUrl;
-
-    var ws = new WebSocket(webSocketUrl);
+    var ws = new WebSocket($scope.wsUrl);
 
     ws.onmessage = function (event) {
         parseInput(event.data);
     };
 
-    var makeObject = function(input, event_icon_class) {
-        var left;
-
-        if (input[1] == '[') {
-            left = 'on-left';
-        }
-
-
+    var createEvent = function(input, event_icon_class) {
         return {
             title: input[3],
             timestamp: input[2],
             text: input[4],
-            left_class: left,
-            event_icon_class: event_icon_class
+            event_icon_class: event_icon_class,
+            id: btoa(input[3])
         }
-    }
+    };
+
+    var updateCard = function(title, eventIconClass, time) {
+        var card = $('#li-' + btoa(title));
+        card.children('span').removeClass('event-icon-primary').addClass(eventIconClass);
+        var timeLabel = card.children('section').children('footer').children('ul').children('li').children('a');
+        timeLabel.text((time - timeLabel.attr('data-original')) + ' seconds');
+    };
 
     function parseInput(input) {
         var result = input.split(',');
 
         switch (result[0]) {
             case '****':
-                $scope.$apply(function(){
-                    $scope.events.push(makeObject(result, 'event-icon-primary'));
-                });
+                if (result[1] == '[') {
+                    $scope.$apply(function () {
+                        $scope.events.push(createEvent(result, 'event-icon-primary'));
+                    });
+                } else {
+                    updateCard(result[3], 'event-icon-primary', result[2]);
+                }
                 break;
             case '????':
-                $scope.$apply(function(){
-                    $scope.events.push(makeObject(result, 'event-icon-warning'));
-                });
+                if (result[1] == '[') {
+                    $scope.$apply(function () {
+                        $scope.events.push(createEvent(result, 'event-icon-warning'));
+                    });
+                } else {
+                    updateCard(result[3], 'event-icon-warning', result[2]);
+                }
                 break;
             case '!!!!':
-                $scope.$apply(function(){
-                    $scope.events.push(makeObject(result, 'event-icon-danger'));
-                });
+                if (result[1] == '[') {
+                    $scope.$apply(function () {
+                        $scope.events.push(createEvent(result, 'event-icon-danger'));
+                    });
+                } else {
+                    updateCard(result[3], 'event-icon-danger', result[2]);
+                }
                 break;
             default:
                 return;
@@ -414,6 +488,10 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
 
         var elem = document.getElementById('timeline');
         elem.scrollTop = elem.scrollHeight;
+    }
+
+    $scope.openTerminal = function(title) {
+        $rootScope.$emit('openTerminal', title);
     }
 }]));
 

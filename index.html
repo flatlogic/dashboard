@@ -2,9 +2,15 @@
 <html lang="en" ng-app="singApp">
 <head>
     <title>Qorio - Dashboard</title>
-    <link href="css/application.min.css" rel="stylesheet">
-    <link href="css/newstyle.css" rel="stylesheet">
-    <link href="vendor/terminal.js/jquery.terminal.css" rel="stylesheet">
+    <link href="css/application.css" rel="stylesheet">
+    <link href="vendor/jquery.terminal/css/jquery.terminal.css" rel="stylesheet">
+    <link href="vendor/angular-ui-layout/ui-layout.css" rel="stylesheet">
+
+
+    <link href="css/ns.css" rel="stylesheet">
+
+
+
     <!-- as of IE9 cannot parse css files with more that 4K classes separating in two files -->
     <!--[if IE 9]>
         <link href="css/application-ie9-part2.css" rel="stylesheet">
@@ -48,7 +54,6 @@
 <script src="vendor/angular-datatables/dist/angular-datatables.min.js"></script>
 <script src="vendor/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
 <script src="vendor/angular-ui-calendar/src/calendar.js"></script>
-<script src="vendor/socket.io/socket.io.js"></script>
 
 
 
@@ -58,17 +63,19 @@
 <script src="vendor/widgster/widgster.js"></script>
 <script src="vendor/jquery-touchswipe/jquery.touchSwipe.min.js"></script>
 <script src="vendor/ng-websocket/ng-websocket.js"></script>
-<script src="vendor/terminal.js/jquery.terminal.min.js"></script>
+<script src="vendor/jquery.terminal/js/jquery.terminal-0.8.8.min.js"></script>
 <script src="vendor/relative-date/angular-relative-date.min.js"></script>
+<script src="vendor/jquery.layout.js/index.js"></script>
+<script src="vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="vendor/angular-ui-layout/ui-layout.min.js"></script>
+<script src="vendor/raf/index.js"></script>
 
 
 <!-- common app js -->
 <script src="js/ng/app.js"></script>
 <script src="js/ng/controllers.js"></script>
-<script src="js/ng/controllers.demo.js"></script>
 <script src="js/ng/services.js"></script>
 <script src="js/ng/directives.js"></script>
-<script src="js/ng/directives.demo.js"></script>
 
 <!-- page specific libs -->
 
