@@ -18,6 +18,7 @@ var singApp = angular.module('singApp', [
     'ui.calendar',
     'relativeDate',
     'ui.layout',
+    'angularBootstrapNavTree',
 
     // application libs
     'app.controllers',
