@@ -111,33 +111,54 @@ appDirectives.directive('qlPage', ['user', 'dataLoader', '$templateRequest', '$c
     }
 }]);
 
-appDirectives.directive('qlTerminal', ['$timeout', 'LayoutContainer', function($timeout, LayoutContainer) {
+appDirectives.directive('qlTerminal', ['$timeout', '$window', function($timeout, $window) {
     var adaptHeight = function(element) {
         element.height(element.parent().parent().parent().height() - 20);
-    }
+    };
 
     return {
         link: function(scope, element, attrs, ctrl) {
             $timeout(function(){
                 adaptHeight(element);
+                scope.onresize = function() {
+                    adaptHeight(element);
+                };
+                angular.element($window).bind('resize', function() {
+                    scope.onresize();
+                });
+                angular.element('.ui-splitbar').children()[1].click()
             });
         }
-
     }
 }]);
 
-appDirectives.directive('qlTimeLine', ['$timeout', function($timeout) {
+appDirectives.directive('qlTimeLine', ['$timeout', '$window', function($timeout, $window) {
     var adaptHeight = function(element) {
         element.height(element.parent().parent().parent().height());
-    }
+    };
 
     return {
         link: function(scope, element, attrs, ctrl) {
             $timeout(function(){
                 adaptHeight(element);
+                scope.onresize = function() {
+                    adaptHeight(element);
+                };
+                angular.element($window).bind('resize', function() {
+                    scope.onresize();
+                });
             });
         }
+    }
+}]);
 
+appDirectives.directive('qlTreeView', ['$compile', '$timeout', function($compile, $timout) {
+    return {
+        link: function(scope, element, attrs) {
+            $timout(function() {
+                element.append($compile('<abn-tree tree-data="my_data"></abn-tree>')(scope));
+            }, 1000);
+        }
     }
 }]);
 

@@ -185,6 +185,16 @@ var dataLoaderService = function($window, $http, API_URL, $q) {
 
 appServices.service('dataLoader', dataLoaderService);
 
+var terminalService = function() {
+    var self = this;
+
+    self.initTerminalById = function(id, params, sendCallback) {
+        return $('#' + id).terminal(sendCallback,params);
+    };
+};
+
+appServices.service('terminal', terminalService);
+
 appServices.factory('socket', function () {
     var ws = new WebSocket("ws://localhost:8000/news");
 

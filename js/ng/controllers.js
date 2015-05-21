@@ -319,16 +319,15 @@ appControllers.controller(createAuthorizedController('DashboardController', ['$s
 
 }]));
 
-appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', function($scope, $rootScope) {
+appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', 'terminal', function($scope, $rootScope, terminal) {
 
     // Initialize terminal
     //todo rewrite in an angular way. implement $terminal service
-    var terminal = $('#terminal').terminal(sendCommand,
-        {
-            greetings: false,
-            outputLimit : 1000
-        }
-    );
+    var terminal = terminal.initTerminalById('terminal', {greetings: false}, send);
+
+    function send(c,t) {
+        debugger;
+    }
 
     $scope.openedLogId = '___';
 
@@ -361,9 +360,6 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
         }
     }
 
-    function sendCommand(command, terminal) {
-
-    }
 }]));
 
 appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', '$rootScope', function($scope, $rootScope) {
@@ -456,6 +452,16 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
     $scope.openTerminal = function(title) {
         console.log($scope.allMessages[title]);
     };
+}]));
+
+
+
+appControllers.controller(createAuthorizedController('TreeViewController', ['$scope', '$rootScope', function($scope, $rootScope) {
+    debugger;
+    $scope.my_data = [{
+        label: 'Languages',
+        children: ['Jade','Less','Coffeescript']
+    }];
 }]));
 
 /**
