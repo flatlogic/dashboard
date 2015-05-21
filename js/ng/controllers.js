@@ -445,7 +445,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
     };
 
     var updateCard = function(title, eventIconClass, time) {
-        var card = $('#li-' + btoa(title));
+        var card = $('#' + btoa(title).substr(0, 7));
         card.children('span').removeClass('event-icon-primary').addClass(eventIconClass);
         var timeLabel = card.children('section').children('footer').children('ul').children('li').children('a');
         timeLabel.text((time - timeLabel.attr('data-original')) + ' seconds');
