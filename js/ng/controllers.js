@@ -321,13 +321,16 @@ appControllers.controller(createAuthorizedController('DashboardController', ['$s
 
 appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', 'terminal', function($scope, $rootScope, terminal) {
 
-    // Initialize terminal
-    //todo rewrite in an angular way. implement $terminal service
-    var terminal = terminal.initTerminalById('terminal', {greetings: false}, send);
+    var t = function() {
+        debugger;
+    };
 
     function send(c,t) {
-        debugger;
-    }
+        t();
+    };
+
+    // Initialize terminal
+    var terminal = terminal.initTerminalById('terminal', {greetings: false}, send);
 
     $scope.openedLogId = '___';
 
@@ -370,10 +373,19 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
     // Get WebSocket url from attribute
     var ws = new WebSocket($scope.wsUrl);
 
+    // Handle messages from WebSocket
     ws.onmessage = function (event) {
         parseInput(event.data);
     };
 
+
+    $rootScope.$on('timeline:newWsUrl', function(newUrl) {
+        ws.close();
+        ws = new WebSocket(newUrl);
+        $scope.allMessages = {};
+    });
+
+    // Create Event object from input string
     var createEvent = function(input, event_icon_class) {
         return {
             title: input[3],
@@ -391,7 +403,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
         timeLabel.text((time - timeLabel.attr('data-original')) + ' seconds');
     };
 
-    // To store all messages
+    // Store all messages
     $scope.allMessages = {};
 
     var currentId = '';
@@ -441,12 +453,15 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
                 }
         }
 
+        // Auto scroll after adding new card
         var elem = document.getElementById('timeline');
         elem.scrollTop = elem.scrollHeight;
     }
 
-    var showDetails = function(){
-        console.log($scope.allMessages[title]);
+    $scope.showDetails = function(title){
+        var card = $('#' + btoa(title).substr(0, 7));
+        console.log(card);
+        //console.log($scope.allMessages[title]);
     };
 
     $scope.openTerminal = function(title) {
