@@ -191,6 +191,13 @@ var terminalService = function() {
     self.initTerminalById = function(id, params, sendCallback) {
         return $('#' + id).terminal(sendCallback,params);
     };
+
+    self.initTerminalByObject = function(object, params, sendCallback) {
+        if (!params) {
+            params = {greetings: false};
+        }
+        return object.terminal(sendCallback, params);
+    };
 };
 
 appServices.service('terminal', terminalService);

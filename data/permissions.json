@@ -1,8 +1,11 @@
 {
     "DashboardController": "my_account",
+    "DashboardSection1Controller": "my_account",
+    "DashboardSection2Controller": "my_account",
     "TestController" : "my_account",
     "WebSocketController": "my_account",
     "LiveTimeline": "account_update",
     "Terminal" : "my_account",
-    "TreeView": "my_account"
+    "TreeView": "my_account",
+    "WsUrlController": "my_account"
 }

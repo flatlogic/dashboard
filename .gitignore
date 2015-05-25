@@ -28,3 +28,5 @@
 bower_components/*
 .idea/*
 node_modules/*
+
+.sass-cache

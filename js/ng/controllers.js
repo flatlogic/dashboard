@@ -315,8 +315,35 @@ appControllers.controller('LoginController', ['$scope', '$location', 'user', fun
 }]);
 
 
-appControllers.controller(createAuthorizedController('DashboardController', ['$scope', '$rootScope', function($scope, $rootScope) {
+appControllers.controller(createAuthorizedController('DashboardController', ['$scope', '$rootScope', '$location', function($scope, $rootScope, $location) {
 
+}]));
+
+appControllers.controller(createAuthorizedController('DashboardSection1Controller', ['$scope', '$rootScope', '$location', function($scope, $rootScope, $location) {
+
+}]));
+
+appControllers.controller(createAuthorizedController('DashboardSection2Controller', ['$scope', '$rootScope', '$location', function($scope, $rootScope, $location) {
+
+}]));
+
+
+appControllers.controller(createAuthorizedController('WsUrlController', ['$scope', '$rootScope', function($scope, $rootScope) {
+    $scope.url = '';
+
+    $scope.changeUrl = function(id) {
+        if (id == 1) {
+            if ($scope.url) {
+                $rootScope.$emit('timeline:newWsUrl', $scope.url);
+                $scope.url = '';
+            }
+        } else if (id == 2) {
+            if ($scope.url) {
+                $rootScope.$emit('treeview:newWsUrl', $scope.url);
+                $scope.url = '';
+            }
+        }
+    };
 }]));
 
 appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', 'terminal', function($scope, $rootScope, terminal) {
@@ -365,24 +392,35 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
 
 }]));
 
-appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', '$rootScope', function($scope, $rootScope) {
+appControllers.controller(createAuthorizedController('LiveTimelineController', ['$scope', '$rootScope', '$timeout', 'terminal', function($scope, $rootScope, $timeout, terminal) {
     // List of all events
     $scope.events = [];
 
+    var socketMessage = function(event) {
+        parseInput(event.data);
+    } ;
 
     // Get WebSocket url from attribute
     var ws = new WebSocket($scope.wsUrl);
 
     // Handle messages from WebSocket
-    ws.onmessage = function (event) {
-        parseInput(event.data);
-    };
+    ws.onmessage = socketMessage;
 
 
-    $rootScope.$on('timeline:newWsUrl', function(newUrl) {
+    $rootScope.$on('timeline:newWsUrl', function(event, newUrl) {
         ws.close();
-        ws = new WebSocket(newUrl);
-        $scope.allMessages = {};
+        $timeout(function() {
+            $scope.$apply(function () {
+                $scope.events = [];
+                $scope.allMessages = {};
+            });
+        });
+        try {
+            ws = new WebSocket(newUrl);
+            ws.onmessage = socketMessage;
+        } catch (e) {
+            alert('Wrong WebSocket url' + e);
+        }
     });
 
     // Create Event object from input string
@@ -392,7 +430,8 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
             timestamp: input[2],
             text: input[4],
             event_icon_class: event_icon_class,
-            id: btoa(input[3])
+            id: btoa(input[3]),
+            isInfoCollapsed: true
         }
     };
 
@@ -458,25 +497,181 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
         elem.scrollTop = elem.scrollHeight;
     }
 
+    $scope.collapsed = true;
+
     $scope.showDetails = function(title){
         var card = $('#' + btoa(title).substr(0, 7));
-        console.log(card);
-        //console.log($scope.allMessages[title]);
-    };
+        var domTerminal = card.children('section').children('footer').children('div');
+        var _terminal = terminal.initTerminalByObject(domTerminal.children('div'));
 
-    $scope.openTerminal = function(title) {
-        console.log($scope.allMessages[title]);
+        if ($scope.collapsed) {
+            _terminal.clear();
+            _terminal.echo($scope.allMessages[title]);
+
+            $scope.collapsed = false;
+        } else {
+            $scope.collapsed = true;
+        }
     };
 }]));
 
 
 
-appControllers.controller(createAuthorizedController('TreeViewController', ['$scope', '$rootScope', function($scope, $rootScope) {
-    debugger;
-    $scope.my_data = [{
-        label: 'Languages',
-        children: ['Jade','Less','Coffeescript']
-    }];
+appControllers.controller(createAuthorizedController('TreeViewController', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout) {
+    // Contains all tree data
+    $scope.treeData = [];
+
+    // Content of selected node
+    $scope.content = '';
+
+    var socketMessage = function(event) {
+        parseInput(event.data);
+    } ;
+
+    // Get WebSocket url from attribute
+    var ws = new WebSocket($scope.wsUrl);
+
+    // Handle messages from WebSocket
+    ws.onmessage = socketMessage;
+
+    // Change WebSocket url
+    $rootScope.$on('treeview:newWsUrl', function(event, newUrl) {
+        ws.close();
+        $timeout(function() {
+            $scope.$apply(function () {
+                $scope.treeData = [];
+                $scope.content = '';
+            });
+        });
+        try {
+            ws = new WebSocket(newUrl);
+            ws.onmessage = socketMessage;
+        } catch (e) {
+            alert('Wrong WebSocket url' + e);
+        }
+    });
+
+    // Check if property exist in object
+    function findInObject(object, label) {
+        for (var i = 0; i < object.length; ++i) {
+            if (object[i].label == label) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Get children object with label property equal to `label`
+    function getChildObject(parentObject, label) {
+        for (var i = 0; i < parentObject.length; ++i) {
+            if (parentObject[i].label == label) {
+                return parentObject[i];
+            }
+        }
+        return false;
+    }
+
+    var addItem = function(path, value, link) {
+        var pathArray = path.split('/');
+        pathArray.splice(0,1);
+
+        var currentObject = $scope.treeData;
+
+        for (var i = 0; i < pathArray.length; ++i) {
+            if (findInObject(currentObject, pathArray[i])) {
+                currentObject = getChildObject(currentObject, pathArray[i]).children;
+            } else {
+                $scope.$apply(function() {
+                    currentObject.push({
+                        id: pathArray[i],
+                        label: pathArray[i],
+                        children: []
+                    });
+                });
+
+                if (i == pathArray.length - 1) {
+                    currentObject = getChildObject(currentObject, pathArray[i]);
+                } else {
+                    currentObject = getChildObject(currentObject, pathArray[i]).children;
+                }
+            }
+        }
+
+        currentObject['value'] = value;
+        currentObject['link'] = link;
+    };
+
+
+
+    var removeItem = function(path) {
+        var pathArray = path.split('/');
+        pathArray.splice(0,1);
+
+        var currentObject = $scope.treeData;
+
+        for (var i = 0; i < pathArray.length; ++i) {
+            if (findInObject(currentObject, pathArray[i])) {
+                if (i == pathArray.length - 1) {
+                    currentObject = getChildObject(currentObject, pathArray[i]);
+                } else {
+                    currentObject = getChildObject(currentObject, pathArray[i]).children;
+                }
+            }
+        }
+
+        // TODO Not so good
+        currentObject = {};
+    };
+
+    var updateItem = function(path, value, link) {
+        var pathArray = path.split('/');
+        pathArray.splice(0,1);
+
+        var currentObject = $scope.treeData;
+
+        for (var i = 0; i < pathArray.length; ++i) {
+            if (findInObject(currentObject, pathArray[i])) {
+                if (i == pathArray.length - 1) {
+                    currentObject = getChildObject(currentObject, pathArray[i]);
+                } else {
+                    currentObject = getChildObject(currentObject, pathArray[i]).children;
+                }
+            }
+        }
+
+        currentObject['value'] = value;
+        currentObject['link'] = link;
+    };
+
+    function parseInput(input) {
+        var result = input.split(',');
+
+        if (result[0] != '////') {
+            return;
+        }
+
+        switch (result[1]) {
+            case '+':
+                addItem(result[3], result[4], result[5]);
+                break;
+            case '-':
+                removeItem(result[3]);
+                break;
+            case '*':
+                updateItem(result[3], result[4], result[5]);
+                break;
+            default:
+                break;
+        }
+    }
+
+    $scope.selectItem = function(item) {
+        if (item.link) {
+            $scope.content = "We will render content from " + item.link + '. \nP.S. Value = ' + item.value;
+        } else {
+            $scope.content = item.value;
+        }
+    }
 }]));
 
 /**
