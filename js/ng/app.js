@@ -45,6 +45,20 @@ singApp.config(function($stateProvider, $urlRouterProvider){
             authenticate: true
         })
 
+        .state("app.dashboard1", {
+            url: '/dashboard/1',
+            templateUrl: 'views/dashboard1.html',
+            controller: 'DashboardSection1Controller',
+            authenticate: true
+        })
+
+        .state("app.dashboard2", {
+            url: '/dashboard/2',
+            templateUrl: 'views/dashboard2.html',
+            controller: 'DashboardSection2Controller',
+            authenticate: true
+        })
+
         //separate state for login & error pages
         .state('login', {
             url: '/login',

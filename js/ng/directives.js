@@ -156,7 +156,7 @@ appDirectives.directive('qlTreeView', ['$compile', '$timeout', function($compile
     return {
         link: function(scope, element, attrs) {
             $timout(function() {
-                element.append($compile('<abn-tree tree-data="my_data"></abn-tree>')(scope));
+                element.append($compile('<abn-tree tree-data="treeData" on-select="selectItem(branch)"></abn-tree>')(scope));
             }, 1000);
         }
     }
