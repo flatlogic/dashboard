@@ -18,8 +18,8 @@
                     <ul class="post-links">
                         <li><a href="#" data-original="{{::event.timestamp}}">{{::event.timestamp * 1000 | relativeDate }}</a></li>
                     </ul>
-                    <div collapse="collapsed">
-                        <a>1</a>
+                    <div collapse="true">
+                        <a ng-click="showDetails(event.title)">CLOSE</a>
                         <div></div>
                     </div>
                 </footer>
