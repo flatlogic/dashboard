@@ -497,20 +497,21 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
         elem.scrollTop = elem.scrollHeight;
     }
 
-    $scope.collapsed = true;
-
     $scope.showDetails = function(title){
         var card = $('#' + btoa(title).substr(0, 7));
         var domTerminal = card.children('section').children('footer').children('div');
-        var _terminal = terminal.initTerminalByObject(domTerminal.children('div'));
+        var _terminal = terminal.initTerminalByObject(domTerminal.children('div'), {greetings: false, enabled : false});
 
-        if ($scope.collapsed) {
+        _terminal.disable();
+
+        if (!!domTerminal.attr('collapse')) {
             _terminal.clear();
             _terminal.echo($scope.allMessages[title]);
-
-            $scope.collapsed = false;
+            domTerminal.toggle();
+            domTerminal.css('height', '100%');
         } else {
-            $scope.collapsed = true;
+            _terminal.clear();
+            domTerminal.toggle();
         }
     };
 }]));
