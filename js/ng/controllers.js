@@ -572,6 +572,16 @@ appControllers.controller(createAuthorizedController('TreeViewController', ['$sc
         return false;
     }
 
+
+    function getChildIndex(parentObject, label) {
+        for (var i = 0; i < parentObject.length; ++i) {
+            if (parentObject[i].label == label) {
+                return i;
+            }
+        }
+        return false;
+    }
+
     var addItem = function(path, value, link) {
         var pathArray = path.split('/');
         pathArray.splice(0,1);
@@ -609,19 +619,30 @@ appControllers.controller(createAuthorizedController('TreeViewController', ['$sc
         pathArray.splice(0,1);
 
         var currentObject = $scope.treeData;
+        var parentObject;
+        var currentObjectIndex;
 
         for (var i = 0; i < pathArray.length; ++i) {
             if (findInObject(currentObject, pathArray[i])) {
                 if (i == pathArray.length - 1) {
+                    parentObject = currentObject;
                     currentObject = getChildObject(currentObject, pathArray[i]);
+                    currentObjectIndex = getChildIndex(parentObject, pathArray[i]);
                 } else {
                     currentObject = getChildObject(currentObject, pathArray[i]).children;
                 }
             }
         }
 
-        // TODO Not so good
-        currentObject = {};
+        if ($scope.attributes.qlDeleteHighlight) {
+            $scope.$apply(function() {
+                currentObject['classes'] = [$scope.attributes.qlDeleteHighlight];
+            });
+        } else {
+            $scope.$apply(function() {
+                parentObject.splice(currentObjectIndex, 1);
+            });
+        }
     };
 
     var updateItem = function(path, value, link) {
@@ -642,6 +663,12 @@ appControllers.controller(createAuthorizedController('TreeViewController', ['$sc
 
         currentObject['value'] = value;
         currentObject['link'] = link;
+
+        if ($scope.attributes.qlChangeHighlight) {
+            $scope.$apply(function() {
+                currentObject['classes'] = [$scope.attributes.qlChangeHighlight];
+            });
+        }
     };
 
     function parseInput(input) {
