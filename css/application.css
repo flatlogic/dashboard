@@ -29706,15 +29706,21 @@ input.parsley-error {
 
 /* line 196, ../sass/_custom-libs-override.scss */
 .terminal {
+  height: 100%;
   overflow-y: auto;
   padding: 10px;
   background-color: #002B36;
   border-radius: 8px;
 }
 
-/* line 203, ../sass/_custom-libs-override.scss */
+/* line 204, ../sass/_custom-libs-override.scss */
 .terminal .cmd {
   background-color: #002B36;
+}
+
+/* line 212, ../sass/_custom-libs-override.scss */
+.tree-view a {
+  color: black;
 }
 
 /**
@@ -33307,4 +33313,13 @@ a.text-bg-sidebar:hover {
   .col-print-offset-11 {
     margin-left: 91.6666666667%;
   }
+}
+/* line 1, ../sass/_colors.scss */
+.yellow {
+  background-color: #FFD700;
+}
+
+/* line 5, ../sass/_colors.scss */
+.red {
+  background-color: #FF6347;
 }

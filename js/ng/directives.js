@@ -31,6 +31,7 @@ appDirectives.directive('qlWidget', ['user', '$templateRequest', '$compile', fun
         link: function($scope, $element, $attr){
 
             $scope.wsUrl = $attr.wsUrl;
+            $scope.attributes = $attr;
 
             var loadWidget = function(widgetName, parentElement) {
                 $templateRequest('views/widgets/' + widgetName + '.html', true).then(function (response) {
@@ -156,7 +157,8 @@ appDirectives.directive('qlTreeView', ['$compile', '$timeout', function($compile
     return {
         link: function(scope, element, attrs) {
             $timout(function() {
-                element.append($compile('<abn-tree tree-data="treeData" on-select="selectItem(branch)"></abn-tree>')(scope));
+                var icon = scope.attributes.qlIcon ? 'fa fa-' + scope.attributes.qlIcon : 'fa fa-file';
+                element.append($compile('<abn-tree tree-data="treeData" on-select="selectItem(branch)" icon-leaf="'+ icon +'"></abn-tree>')(scope));
             }, 1000);
         }
     }
