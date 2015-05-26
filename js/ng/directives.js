@@ -432,16 +432,17 @@ appDirectives.directive('snNavigation', function($timeout, $rootScope, $state){
                 });
 
             function initSidebarScroll(){
-                var $sidebarContent = $el.find('.js-sidebar-content');
-                if ($el.find('.slimScrollDiv').length != 0){
-                    $sidebarContent.slimscroll({
-                        destroy: true
-                    })
-                }
-                $sidebarContent.slimscroll({
-                    height: window.innerHeight,
-                    size: '4px'
-                });
+                //var $sidebarContent = $el.find('.js-sidebar-content');
+                //if ($el.find('.slimScrollDiv').length != 0){
+                //    $sidebarContent.slimscroll({
+                //        destroy: true
+                //    })
+                //}
+                //$sidebarContent.slimscroll({
+                //    height: window.innerHeight,
+                //    size: '4px'
+                //});
+                // todo apply browser scrollbar
             }
 
             $(window).on('sn:resize', initSidebarScroll);
@@ -554,17 +555,18 @@ appDirectives.directive('snChatSidebar', function($rootScope){
             });
 
             function initChatSidebarScroll(){
-                var $sidebarContent = $('.chat-sidebar-contacts', $el);
-                if ($el.find('.slimScrollDiv').length != 0){
-                    $sidebarContent.slimscroll({
-                        destroy: true
-                    })
-                }
-                $sidebarContent.slimscroll({
-                    height: window.innerHeight,
-                    width: '',
-                    size: '4px'
-                });
+                //var $sidebarContent = $('.chat-sidebar-contacts', $el);
+                //if ($el.find('.slimScrollDiv').length != 0){
+                //    $sidebarContent.slimscroll({
+                //        destroy: true
+                //    })
+                //}
+                //$sidebarContent.slimscroll({
+                //    height: window.innerHeight,
+                //    width: '',
+                //    size: '4px'
+                //});
+                // todo apply browser scrollbar
             }
 
             $(window).on('sn:resize', initChatSidebarScroll);

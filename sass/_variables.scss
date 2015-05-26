@@ -2,7 +2,7 @@
 // -------------------------
 // -------------------------
 
-$vendor-folder: '../vendor' !default;
+$vendor-folder: '../bower_components' !default;
 
 // Colors
 // ------------------------
@@ -257,10 +257,10 @@ $pagination-disabled-border:           transparent !default;
 //-- Iconography
 //
 
-$icon-font-path: "../vendor/bootstrap-sass/assets/fonts/bootstrap/" !default;
+$icon-font-path: $vendor-folder + "/bootstrap-sass/assets/fonts/bootstrap/" !default;
 
 // Font Awesome variables
 // ------------------------
 // ------------------------
 
-$fa-font-path: "../vendor/font-awesome/fonts" !default;
+$fa-font-path: $vendor-folder + "/font-awesome/fonts" !default;

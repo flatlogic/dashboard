@@ -4,7 +4,6 @@ var singApp = angular.module('singApp', [
     // common essential modules
     'ngAnimate',
     'ngStorage',
-    'ngResource',
     'ui.router',
     'ui.router.util',
     'ui.jq',
@@ -13,9 +12,6 @@ var singApp = angular.module('singApp', [
 
     // page-specific and demo. may be removed
     'angular-bootstrap-select',
-    'datatables',
-    'datatables.bootstrap',
-    'ui.calendar',
     'relativeDate',
     'ui.layout',
     'angularBootstrapNavTree',
