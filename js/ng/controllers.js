@@ -340,13 +340,14 @@ appControllers.controller(createAuthorizedController('WsUrlController', ['$scope
         } else if (id == 2) {
             if ($scope.url) {
                 $rootScope.$emit('treeview:newWsUrl', $scope.url);
+                $rootScope.$emit('terminal:newWsUrl', $scope.url);
                 $scope.url = '';
             }
         }
     };
 }]));
 
-appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', 'terminal', function($scope, $rootScope, terminal) {
+appControllers.controller(createAuthorizedController('TerminalController', ['$scope', '$rootScope', '$timeout', 'terminal', function($scope, $rootScope, $timeout, terminal) {
 
     var t = function() {
         debugger;
@@ -359,17 +360,36 @@ appControllers.controller(createAuthorizedController('TerminalController', ['$sc
     // Initialize terminal
     var terminal = terminal.initTerminalById('terminal', {greetings: false}, send);
 
-    $scope.openedLogId = '___';
+    $scope.clearTerminal = function() {
+        terminal.clear();
+    };
 
     // Get WebSocket url from attribute
     var ws = new WebSocket($scope.wsUrl);
 
-    ws.onmessage = function (event) {
+    var socketMessage = function(event) {
         var data = parseInput(event.data);
         if (data) {
             terminal.echo(data);
         }
     };
+
+    ws.onmessage = socketMessage;
+
+    $rootScope.$on('terminal:newWsUrl', function(event, newUrl) {
+        ws.close();
+        $timeout(function() {
+            $scope.$apply(function () {
+                $scope.clearTerminal();
+            });
+        });
+        try {
+            ws = new WebSocket(newUrl);
+            ws.onmessage = socketMessage;
+        } catch (e) {
+            alert('Wrong WebSocket url' + e);
+        }
+    });
 
 
     function parseInput(input) {
