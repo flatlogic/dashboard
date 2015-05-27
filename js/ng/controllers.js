@@ -444,6 +444,7 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
     });
 
     // Create Event object from input string
+
     var createEvent = function(input, event_icon_class) {
         return {
             title: input[3],
@@ -517,22 +518,27 @@ appControllers.controller(createAuthorizedController('LiveTimelineController', [
         elem.scrollTop = elem.scrollHeight;
     }
 
-    $scope.showDetails = function(title){
-        var card = $('#' + btoa(title).substr(0, 7));
+    $scope.showDetails = function(event){
+        var card = $('#' + btoa(event.title).substr(0, 7));
         var domTerminal = card.children('section').children('footer').children('div');
-        var _terminal = terminal.initTerminalByObject(domTerminal.children('div'), {greetings: false, enabled : false});
+        var _terminal = terminal.initTerminalByObject(domTerminal.children('div').children('div'), {greetings: false, enabled : false});
+        var collapseButton = card.children('section').children('footer').children('ul').children('a');
 
         _terminal.disable();
 
-        if (!!domTerminal.attr('collapse')) {
+        if (event.isInfoCollapsed) {
             _terminal.clear();
-            _terminal.echo($scope.allMessages[title]);
-            domTerminal.toggle();
-            domTerminal.css('height', '100%');
+            _terminal.echo($scope.allMessages[event.title]);
+            $timeout(function() {
+                collapseButton.css('visibility', 'visible');
+            }, 300);
         } else {
-            _terminal.clear();
-            domTerminal.toggle();
+            collapseButton.css('visibility', 'hidden');
         }
+
+        $timeout(function() {
+            event.isInfoCollapsed = !event.isInfoCollapsed;
+        });
     };
 }]));
 
@@ -656,7 +662,7 @@ appControllers.controller(createAuthorizedController('TreeViewController', ['$sc
 
         if ($scope.attributes.qlDeleteHighlight) {
             $scope.$apply(function() {
-                currentObject['classes'] = [$scope.attributes.qlDeleteHighlight];
+                currentObject['classes'] = ['tv-' + $scope.attributes.qlDeleteHighlight];
             });
         } else {
             $scope.$apply(function() {
@@ -686,7 +692,7 @@ appControllers.controller(createAuthorizedController('TreeViewController', ['$sc
 
         if ($scope.attributes.qlChangeHighlight) {
             $scope.$apply(function() {
-                currentObject['classes'] = [$scope.attributes.qlChangeHighlight];
+                currentObject['classes'] = ['tv-' + $scope.attributes.qlChangeHighlight];
             });
         }
     };

@@ -29718,9 +29718,23 @@ input.parsley-error {
   background-color: #002B36;
 }
 
-/* line 212, ../sass/_custom-libs-override.scss */
+/* line 208, ../sass/_custom-libs-override.scss */
+.terminal-wrapper .terminal {
+  padding: 10px;
+  position: relative;
+}
+
+/* line 217, ../sass/_custom-libs-override.scss */
 .tree-view a {
   color: black;
+}
+
+/* line 222, ../sass/_custom-libs-override.scss */
+.details-link {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  z-index: 100;
 }
 
 /**
@@ -33315,11 +33329,11 @@ a.text-bg-sidebar:hover {
   }
 }
 /* line 1, ../sass/_colors.scss */
-.yellow {
+.tv-yellow span {
   background-color: #FFD700;
 }
 
 /* line 5, ../sass/_colors.scss */
-.red {
+.tv-red span {
   background-color: #FF6347;
 }
