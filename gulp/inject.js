@@ -18,7 +18,7 @@ module.exports = function(options) {
       '!' + options.src + '/app/**/*.spec.js',
       '!' + options.src + '/app/**/*.mock.js'
     ])
-    .pipe($.angularFilesort()).on('error', options.errorHandler('AngularFilesort'));
+    .pipe($.angularFilesort());
 
     var injectOptions = {
       ignorePath: [options.src, options.tmp + '/serve'],
