@@ -1,7 +1,13 @@
 (function() {
   'use strict';
 
-  var module = angular.module('qorDash.dashboard', ['ui.router']);
+  var module = angular.module('qorDash.dashboard', [
+    'ui.router',
+    'ui.layout',
+    'qorDash.widget',
+    'qorDash.widget.terminal',
+    'qorDash.widget.timeline'
+  ]);
 
   module.config(appConfig);
 

@@ -4,7 +4,7 @@
     "DashboardSection2Controller": "my_account",
     "TestController" : "my_account",
     "WebSocketController": "my_account",
-    "LiveTimeline": "account_update",
+    "Timeline": "my_account",
     "Terminal" : "my_account",
     "TreeView": "my_account",
     "WsUrlController": "my_account"

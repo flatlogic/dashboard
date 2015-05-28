@@ -334,14 +334,22 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   border-radius: 8px;
 }
 
-.terminal .cmd {
-  background-color: #002B36;
-}
-
-.tree-view {
-
+.terminal-wrapper .terminal {
+  padding: 10px;
+  position: relative;
 }
 
 .tree-view a {
   color: black;
+}
+
+.details-link {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  z-index: 100;
+}
+
+.content .ui-layout-column {
+  top: $content-padding-top + 60px
 }
