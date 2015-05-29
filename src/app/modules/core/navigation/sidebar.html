@@ -24,25 +24,28 @@
   <ul class="sidebar-nav">
     <li>
       <!-- an example of nested submenu. basic bootstrap collapse component -->
-      <a class="collapsed" data-target="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
+      <a data-ui-sref="app.dashboard">
         <span class="icon">
-            <i class="fa fa-desktop"></i>
+            <i class="fa fa-newspaper-o"></i>
         </span>
-        Dashboard
-        <i class="toggle fa fa-angle-down"></i>
+        Events
       </a>
-      <ul id="sidebar-dashboard" class="collapse">
-        <li><a data-ui-sref="app.dashboard">Section 1</a></li>
-        <li><a data-ui-sref="app.dashboard1">Section 2</a></li>
-      </ul>
     </li>
     <li>
-      <a data-ui-sref="app.dashboard2">
+      <a data-ui-sref="app.domains">
         <span class="icon">
-            <i class="glyphicon glyphicon-stats"></i>
+            <i class="fa fa-cloud"></i>
         </span>
-        Section 3
+        Domains
       </a>
     </li>
+      <li>
+          <a data-ui-sref="app.configurations">
+        <span class="icon">
+            <i class="fa fa-cogs"></i>
+        </span>
+              Domains
+          </a>
+      </li>
   </ul>
 </div>

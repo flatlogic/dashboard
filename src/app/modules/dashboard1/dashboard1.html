@@ -1,0 +1,16 @@
+<h1 class="page-title">Dashboard <small><small>The Lucky One</small></small></h1>
+
+<div class="row" ng-controller="WsUrlController">
+    <div class="col-lg-6">
+        <input type="text" class="form-control" ng-model="url" placeholder="New WebSocket URL">
+    </div>
+    <div class="col-lg-2">
+        <button type="button" class="btn btn-primary" ng-click="changeUrl(1)">Change</button>
+    </div>
+</div>
+
+<div class="row" style="height: 80%;">
+    <div>
+        <div ql-widget="LiveTimeline" ws-url="ws://146.148.125.2/v1/ws/run/timeline1" style="padding-right: 10px;"></div>
+    </div>
+</div>

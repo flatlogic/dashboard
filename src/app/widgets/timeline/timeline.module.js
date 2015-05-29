@@ -2,7 +2,8 @@
   'use strict';
 
   var module = angular.module('qorDash.widget.timeline', [
-    'relativeDate'
+    'relativeDate',
+      'ui.bootstrap'
   ]);
 
 
