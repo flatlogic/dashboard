@@ -4,7 +4,8 @@
     var module = angular.module('qorDash.domains', [
         'ui.router',
         'ui.layout',
-        'qorDash.widget'
+        'qorDash.widget',
+        'qorDash.widget.domain_stat'
     ]);
 
     module.config(appConfig);

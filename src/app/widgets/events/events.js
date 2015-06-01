@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var terminalModule = angular.module('qorDash.widget.events')
+    var eventsModule = angular.module('qorDash.widget.events')
             .directive('qlEvents', qlEvents)
         ;
 
@@ -66,5 +66,5 @@
 
     }]);
 
-    terminalModule.controller(eventsController);
+    eventsModule.controller(eventsController);
 })();

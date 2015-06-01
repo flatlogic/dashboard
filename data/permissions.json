@@ -8,5 +8,6 @@
     "Terminal" : "my_account",
     "TreeView": "my_account",
     "WsUrlController": "my_account",
-    "DomainsController": "my_account"
+    "DomainsController": "my_account",
+    "domain_stat": "my_account"
 }

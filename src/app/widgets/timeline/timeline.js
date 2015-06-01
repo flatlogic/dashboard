@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var terminalModule = angular.module('qorDash.widget.timeline')
+  var timelineModule = angular.module('qorDash.widget.timeline')
     .directive('qlTimeline', qlTimeline)
   ;
 
@@ -31,7 +31,6 @@
       $scope.events = [];
 
       var socketMessage = function(event) {
-          debugger;
           parseInput(event.data);
       } ;
 
@@ -157,6 +156,6 @@
       };
   }]);
 
-  terminalModule.controller(timelineController);
+  timelineModule.controller(timelineController);
 
 })();
