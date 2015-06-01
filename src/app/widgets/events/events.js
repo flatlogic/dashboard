@@ -2,7 +2,7 @@
     'use strict';
 
     var terminalModule = angular.module('qorDash.widget.events')
-            .directive('qlEvents', qlTimeline)
+            .directive('qlEvents', qlEvents)
         ;
 
     qlEvents.$inject = ['$timeout', '$window'];

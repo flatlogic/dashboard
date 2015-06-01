@@ -4,7 +4,6 @@
   angular.module('qorDash', [
     'qorDash.core',
     'qorDash.auth',
-    'qorDash.dashboard',
-      'qorDash.dashboard1'
+    'qorDash.dashboard'
   ]);
 })();

@@ -31,6 +31,7 @@
       $scope.events = [];
 
       var socketMessage = function(event) {
+          debugger;
           parseInput(event.data);
       } ;
 

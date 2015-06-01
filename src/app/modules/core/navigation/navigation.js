@@ -4,7 +4,49 @@
   angular.module('qorDash.core')
     .directive('snAction', snAction)
     .directive('snNavigation', snNavigation)
+      .directive('qlLoadDomains', qlLoadDomains)
   ;
+
+    qlLoadDomains.$inject = ['$rootScope', '$compile', '$timeout'];
+    function qlLoadDomains($rootScope, $compile, $timeout) {
+        var domains = [
+            {"id":"qa.foo.com", "name":"QA", "url":"https://server.com/domain/qa.foo.com" },
+            {"id":"production.foo.com", "name": "Prod", "url":"https://server.com/domain/production.foo.com"}
+        ];
+
+        var insertDomains = function(parent, domains, scope) {
+            domains.forEach(function(domain) {
+                parent.append($compile('<li><a data-url="'+ domain.url +'" data-ui-sref="app.domains.'+ domain.id +'">'+ domain.name +'</a></li>')(scope));
+            });
+        };
+
+        var removeDomains = function(parent) {
+            parent.empty();
+        };
+
+        var addLoadingAnimation = function(parent) {
+            parent.append('<li>Loading...</li>')
+        };
+
+        var removeLoadingAnimation = function(parent) {
+            parent.empty();
+        };
+
+        return {
+            link: function(scope, $el, attrs) {
+
+                var expandLink = $el.find('a');
+                var domainsList = $el.find('ul');
+
+                expandLink.bind('click', function() {
+                    if (domainsList.attr('aria-expanded') == 'false' || !domainsList.attr('aria-expanded')) {
+                        removeDomains(domainsList);
+                        insertDomains(domainsList, domains, scope);
+                    }
+                });
+            }
+        }
+    }
 
   /* ========================================================================
    * Sing App actions. Shortcuts available via data-sn-action attribute

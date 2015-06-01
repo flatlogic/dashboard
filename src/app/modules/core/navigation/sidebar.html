@@ -31,13 +31,15 @@
         Events
       </a>
     </li>
-    <li>
-      <a data-ui-sref="app.domains">
+    <li ql-load-domains>
+      <a class="collapsed" data-target="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
         <span class="icon">
             <i class="fa fa-cloud"></i>
         </span>
         Domains
+          <i class="toggle fa fa-angle-down"></i>
       </a>
+        <ul id="sidebar-dashboard" class="collapse" empty="true"></ul>
     </li>
       <li>
           <a data-ui-sref="app.configurations">
