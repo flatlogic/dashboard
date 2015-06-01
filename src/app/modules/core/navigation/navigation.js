@@ -11,12 +11,12 @@
     function qlLoadDomains($rootScope, $compile, $timeout) {
         var domains = [
             {"id":"qa.foo.com", "name":"QA", "url":"https://server.com/domain/qa.foo.com" },
-            {"id":"production.foo.com", "name": "Prod", "url":"https://server.com/domain/production.foo.com"}
+            {"id":"production.foo.com", "name": "Production", "url":"https://server.com/domain/production.foo.com"}
         ];
 
         var insertDomains = function(parent, domains, scope) {
             domains.forEach(function(domain) {
-                parent.append($compile('<li><a data-url="'+ domain.url +'" data-ui-sref="app.domains.'+ domain.id +'">'+ domain.name +'</a></li>')(scope));
+                parent.append($compile('<li><a data-ui-sref="app.domains({domainId: \''+ domain.id +'\'})">'+ domain.name +'</a></li>')(scope));
             });
         };
 

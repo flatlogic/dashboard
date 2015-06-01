@@ -7,5 +7,6 @@
     "Timeline": "my_account",
     "Terminal" : "my_account",
     "TreeView": "my_account",
-    "WsUrlController": "my_account"
+    "WsUrlController": "my_account",
+    "DomainsController": "my_account"
 }
