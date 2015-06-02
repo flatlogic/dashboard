@@ -1,0 +1,16 @@
+@import "theme/variables";
+@import "theme/mixins";
+
+$icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../bower_components/font-awesome/scss/font-awesome";
+@import "../../bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
+
+@import "theme/bootstrap-override";
+@import "theme/libs-override";
+
+/* Do not remove this comments bellow. It's the markers used by wiredep to inject
+   sass dependencies when defined in the bower.json of your dependencies */
+// bower:scss
+// endbower

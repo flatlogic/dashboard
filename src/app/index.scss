@@ -1,0 +1,24 @@
+@import "theme/font";
+
+@import "theme/variables";
+@import "theme/mixins";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+@import "../../bower_components/font-awesome/scss/variables";
+
+//everything below this line is required for essential styling
+
+@import "theme/general";
+@import "theme/global-transitions";
+@import "theme/base";
+
+@import "theme/widgets";
+@import "theme/utils";
+@import "theme/print";
+
+@import "theme/colors";
+
+/* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+   all your sass files automatically */
+// injector
+// endinjector
