@@ -17,6 +17,13 @@
         url: '/login',
         templateUrl: 'app/modules/auth/login.html',
         controller: 'LoginController'
+      })
+      .state('logout', {
+        url: '/logout',
+        controller: function($location, user) {
+          user.logout();
+          $location.path('/login');
+        }
       });
   }
 })();
