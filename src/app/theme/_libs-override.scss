@@ -380,6 +380,10 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   border-radius: 8px;
 }
 
+.terminal .cmd {
+  background-color: #002B36;
+}
+
 .terminal-wrapper .terminal {
   padding: 10px;
   position: relative;

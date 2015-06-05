@@ -30,6 +30,9 @@
     // List of all events
     $scope.events = [];
 
+      // Stores opened terminals to push input strings
+      $scope.openedTerminals = {};
+
     var socketMessage = function(event) {
       parseInput(event.data);
       var body = angular.element('body')[0];
@@ -129,6 +132,10 @@
               $scope.allMessages[currentId] = '';
             }
             $scope.allMessages[currentId] += input + '\n';
+
+            if ($scope.openedTerminals[currentId]) {
+                $scope.openedTerminals[currentId].echo(input);
+            }
           }
       }
     }
@@ -147,8 +154,12 @@
         $timeout(function() {
           collapseButton.css('visibility', 'visible');
         }, 300);
+
+          $scope.openedTerminals[event.title] = _terminal;
       } else {
         collapseButton.css('visibility', 'hidden');
+
+          delete $scope.openedTerminals[event.title]
       }
 
       $timeout(function() {
