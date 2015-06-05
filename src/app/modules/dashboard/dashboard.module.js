@@ -6,7 +6,8 @@
     'ui.layout',
     'qorDash.widget',
     'qorDash.widget.terminal',
-    'qorDash.widget.timeline'
+    'qorDash.widget.timeline',
+    'qorDash.widget.events'
   ]);
 
   module.config(appConfig);

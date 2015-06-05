@@ -52,7 +52,6 @@
 
     var result = {};
     result[controllerName] = controllerDef;
-
     return result;
   }
 })();

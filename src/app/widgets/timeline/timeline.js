@@ -42,6 +42,9 @@
     // Handle messages from WebSocket
     ws.onmessage = socketMessage;
 
+      $scope.$on("$destroy", function(){
+          ws.close();
+      });
 
     $rootScope.$on('timeline:newWsUrl', function(event, newUrl) {
       ws.close();

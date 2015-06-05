@@ -26,12 +26,15 @@
         }
     }
 
-    var eventsController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout) {
+    var timelineController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', 'terminal', function($scope, $rootScope, $timeout, terminal) {
         // List of all events
         $scope.events = [];
 
         var socketMessage = function(event) {
             parseInput(event.data);
+
+            var body = angular.element('body')[0];
+            body.scrollTop = body.scrollHeight
         } ;
 
         // Get WebSocket url from attribute
@@ -56,15 +59,17 @@
             }
         });
 
+        $scope.$on("$destroy", function(){
+            ws.close();
+        });
+
         function parseInput(input) {
-            $scope.events.push(JSON.parse(input));
-
-            // Auto scroll after adding new card
-            var elem = document.getElementById('events');
-            elem.scrollTop = elem.scrollHeight;
+            $scope.$apply(function() {
+                $scope.events.push(JSON.parse(input));
+            });
         }
-
     }]);
 
-    eventsModule.controller(eventsController);
+    eventsModule.controller(timelineController);
+
 })();

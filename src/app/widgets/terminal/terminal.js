@@ -40,22 +40,15 @@
       if (!params) {
         params = {greetings: false};
       }
+      // TODO FIX terminal is not a function
       return object.terminal(sendCallback, params);
     };
   }
 
   var terminalController = angular.createAuthorizedController('TerminalController', ['$scope', '$rootScope', '$timeout', 'terminal', function($scope, $rootScope, $timeout, terminal) {
 
-    var t = function() {
-      debugger;
-    };
-
-    function send(c,t) {
-      t();
-    };
-
     // Initialize terminal
-    var terminal = terminal.initTerminalById('terminal', {greetings: false}, send);
+    var terminal = terminal.initTerminalById('terminal', {greetings: false});
 
     $scope.clearTerminal = function() {
       terminal.clear();
@@ -72,6 +65,10 @@
     };
 
     ws.onmessage = socketMessage;
+
+      $scope.$on("$destroy", function(){
+          ws.close();
+      });
 
     $rootScope.$on('terminal:newWsUrl', function(event, newUrl) {
       ws.close();
