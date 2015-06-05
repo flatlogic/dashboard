@@ -40,7 +40,6 @@
       if (!params) {
         params = {greetings: false};
       }
-      // TODO FIX terminal is not a function
       return object.terminal(sendCallback, params);
     };
   }

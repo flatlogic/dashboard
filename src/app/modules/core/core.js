@@ -75,7 +75,7 @@
     /**
      * Download and save all scripts. Called in page controller.
      */
-    self.init = function(pageName) { // fixme returns one promise
+    self.init = function(pageName) {
       return self.loadGlobalPermissions().then(function(){
         //return self.loadPageSections(pageName);
       });
