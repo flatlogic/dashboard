@@ -10,5 +10,6 @@
     "TreeView": "my_account",
     "WsUrlController": "my_account",
     "DomainsController": "my_account",
-    "domain_stat": "my_account"
+    "domain_stat": "my_account",
+    "network": "my_account"
 }

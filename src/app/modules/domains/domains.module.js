@@ -5,7 +5,9 @@
         'ui.router',
         'ui.layout',
         'qorDash.widget',
-        'qorDash.widget.domain_stat'
+        'qorDash.widget.domain_stat',
+        'qorDash.widget.network'
+
     ]);
 
     module.config(appConfig);
