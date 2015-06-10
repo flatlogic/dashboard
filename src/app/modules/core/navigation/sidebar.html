@@ -42,14 +42,30 @@
         <ul id="sidebar-dashboard" class="collapse" empty="true"></ul>
     </li>
       <li>
-          <a class="collapsed" data-target="#sidebar-configurations" data-toggle="collapse" data-parent="#sidebar">
-                    <span class="icon">
+          <a data-ui-sref="app.compose">
+              <span class="icon">
+                        <i class="fa fa-envelope"></i>
+                    </span>
+              Compose
+          </a>
+      </li>
+      <li>
+          <a data-ui-sref="app.configurations">
+              <span class="icon">
                         <i class="fa fa-cogs"></i>
                     </span>
               Configurations
+          </a>
+      </li>
+      <li>
+          <a class="collapsed" data-target="#sidebar-orchestrate" data-toggle="collapse" data-parent="#sidebar" data-target="#sidebar-dashboard">
+                    <span class="icon">
+                        <i class="fa fa-bell"></i>
+                    </span>
+              Orchestrate
               <i class="toggle fa fa-angle-down"></i>
           </a>
-          <ul id="sidebar-configurations" class="collapse">
+          <ul id="sidebar-orchestrate" class="collapse">
               <li><a data-ui-sref="app.deployment">Deployment</a></li>
           </ul>
       </li>

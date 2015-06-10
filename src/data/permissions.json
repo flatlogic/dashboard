@@ -10,9 +10,11 @@
     "TreeView": "my_account",
     "WsUrlController": "my_account",
     "DomainsController": "my_account",
+    "ComposeController": "my_account",
     "domain_stat": "my_account",
     "domain_details": "my_account",
     "DomainDetailsController": "my_account",
+    "ConfigurationsController": "my_account",
     "network": "my_account",
     "DeploymentController": "my_account"
 }

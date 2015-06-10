@@ -6,6 +6,8 @@
     'qorDash.auth',
     'qorDash.dashboard',
       'qorDash.domains',
-      'qorDash.deployment'
+      'qorDash.deployment',
+      'qorDash.compose',
+      'qorDash.configurations'
   ]);
 })();
