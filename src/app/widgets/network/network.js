@@ -33,6 +33,7 @@
                         }
 
                         scope.width = element.parent().width();
+                        scope.height = element.parent().parent().height();
 
                         var diameter = Math.min(height - 5, width - 5);
 
@@ -140,10 +141,10 @@
                     };
 
                     $interval(function(){
-                        if (element.parent().width() != scope.width) {
+                        if (element.parent().width() != scope.width || element.parent().parent().height() != scope.height) {
                             rerender();
                         }
-                    }, 1000);
+                    }, 600);
                 });
         }}
     }
