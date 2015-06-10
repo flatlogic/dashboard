@@ -42,12 +42,16 @@
         <ul id="sidebar-dashboard" class="collapse" empty="true"></ul>
     </li>
       <li>
-          <a data-ui-sref="app.configurations">
-        <span class="icon">
-            <i class="fa fa-cogs"></i>
-        </span>
+          <a class="collapsed" data-target="#sidebar-configurations" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-cogs"></i>
+                    </span>
               Configurations
+              <i class="toggle fa fa-angle-down"></i>
           </a>
+          <ul id="sidebar-configurations" class="collapse">
+              <li><a data-ui-sref="app.deployment">Deployment</a></li>
+          </ul>
       </li>
   </ul>
 </div>
