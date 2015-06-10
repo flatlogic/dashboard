@@ -19,7 +19,7 @@
                 url: '/deployment',
                 templateUrl: 'app/modules/deployment/deployment.html',
                 controller: 'DeploymentController',
-                authenticate: false
+                authenticate: true
             })
     }
 })();

@@ -405,7 +405,7 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 }
 
 .content .widget-container {
-  top: $content-padding-top + 60px
+  top: $content-padding-top + 60px;
 }
 
 
@@ -436,3 +436,20 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   pointer-events: none;
 }
 
+.domains-layout {
+  top: $content-padding-top + 60px;
+  left: 20px;
+  overflow: hidden;
+}
+
+.domains-layout .ui-layout-column {
+  top: 0px;
+}
+
+#details {
+  margin: 10px;
+}
+
+.domain-stat section {
+  margin-bottom: 0px;
+}

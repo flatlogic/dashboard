@@ -2,14 +2,23 @@
     <h1 class="page-title">{{domain.name}}</h1>
 </div>
 
-<div ql-widget="domain_stat"></div>
 
-<div class="row">
-    <div class="col-lg-5">
-        <div ql-widget="network"></div>
+<div ui-layout class="domains-layout">
+    <div ui-layout-container size="135px">
+        <div class="col-lg-12" ql-widget="domain_stat"></div>
     </div>
-    <div class="col-lg-7 well" id="details">
-        Details
+    <div ui-layout-container>
+        <div class="row">
+            <div ui-layout="{flow : 'column'}" class="col-lg-12">
+                <div ui-layout-container >
+                    <div ql-widget="network"></div>
+                </div>
+                <div ui-layout-container>
+                    <div id="details" class="well">
+                        Details
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-

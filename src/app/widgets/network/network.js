@@ -4,29 +4,17 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork)
         ;
-    qlNetwork.$inject = ['d3', '$window'];
-    function qlNetwork(d3, $window) {
+    qlNetwork.$inject = ['d3', '$window', '$interval'];
+    function qlNetwork(d3, $window, $interval) {
         return {
             restrict: 'EA',
             scope: {},
             link: function(scope, element, attrs) {
+
                 d3.d3().then(function(d3) {
                     var margin = parseInt(attrs.margin) || 20,
                         barHeight = parseInt(attrs.barHeight) || 20,
                         barPadding = parseInt(attrs.barPadding) || 5;
-
-                    // Browser onresize event
-                    window.onresize = function() {
-                        scope.$apply();
-                    };
-
-                    // TODO Load data
-                    scope.data = [
-                        {name: "Greg", score: 98},
-                        {name: "Ari", score: 96},
-                        {name: 'Q', score: 75},
-                        {name: "Loser", score: 48}
-                    ];
 
                     // Watch for resize event
                     scope.$watch(function() {
@@ -37,7 +25,12 @@
 
                     scope.render = function(data) {
                         var margin = 0,
-                            diameter = element.parent().width();
+                            height = element.parent().parent().height() - 10,
+                            width = element.parent().width() - 10;
+
+                        scope.width = element.parent().width();
+
+                        var diameter = Math.min(height - 5, width - 5);
 
                         var color = d3.scale.linear()
                             .domain([-1, 5])
@@ -50,8 +43,11 @@
                             .value(function(d) { return d.size; })
 
                         var svg = d3.select(element[0]).append("svg")
-                            .attr("width", diameter)
-                            .attr("height", diameter)
+                            .attr("width", width)
+                            .attr("height", height)
+                            .style({"padding-left": (width - height) / 2})
+                            .style({"padding-top": 5})
+                            .style({"padding-top": (height - width) / 2})
                             .append("g")
                             .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
@@ -117,6 +113,30 @@
 
                         d3.select(self.frameElement).style("height", diameter + "px");
                     }
+                }).then(function() {
+                    var rerender = function() {
+                        jQuery(element).animate({
+                            opacity: 0,
+                            duration: 30
+                        }, function () {
+                            element.text("");
+                            scope.render();
+                            jQuery(element).animate({
+                                opacity: 1,
+                                duration: 30
+                            });
+                        });
+                    }
+
+                    window.onresize = function() {
+                        rerender();
+                    };
+
+                    $interval(function(){
+                        if (element.parent().width() != scope.width) {
+                            rerender();
+                        }
+                    }, 1000);
                 });
         }}
     }
