@@ -83,21 +83,19 @@
                                         }
                                     ]
                                 },
-                                { "name":"10.30.60.3", "size": 100, "type":"host",
-                                    "children": [
-                                        {
-                                            "name":"tomcat", "type":"service",
-                                            "children":[
-                                                { "name":"tomcat/10.30.60.3:45345", "size": 20, "type":"container"}
-                                            ]
-                                        },
-                                        {
-                                            "name":"agent", "type":"service",
-                                            "children":[
-                                                { "name":"agent/10.30.60.3:25657", "size": 20, "type":"container"}
-                                            ]
-                                        }
-                                    ]
+                                {
+                                    "name":"tomcat", "type":"service",
+                                    "logs" : {
+                                        "tomcat/access.log" : "ws://server.com/10.30.60.3/tomcat/access.log",
+                                        "tomcat/error.log" : "ws://server.com/10.30.60.3/tomcat/error.log"
+                                    },
+                                    "children":[
+                                        { "name":"tomcat/10.30.60.3:45345", "size": 20, "type":"container",
+                                            "logs" : {
+                                                "access.log" : "ws://server.com/10.30.60.3/tomcat:45345/access.log",
+                                                "error.log" : "ws://server.com/10.30.60.3/tomcat:45345/error.log"
+                                            }
+                                        }]
                                 },
                                 { "name":"10.30.60.4", "size": 100, "type":"host",
                                     "children": [

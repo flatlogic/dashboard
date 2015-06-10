@@ -9,7 +9,13 @@
   qlTerminal.$inject = ['$timeout', '$window'];
   function qlTerminal($timeout, $window){
     var adaptHeight = function(element) {
-      element.height(element.parent().parent().parent().height() - 20);
+        var height = element.parent().parent().parent().height() - 20;
+
+        if (height > 0) {
+            element.height(height)
+        } else {
+            element.height(500);
+        }
     };
 
     return {
@@ -22,7 +28,7 @@
           angular.element($window).bind('resize', function() {
             scope.onresize();
           });
-          angular.element('.ui-splitbar').children()[1].click()
+          //angular.element('.ui-splitbar').children()[1].click()
         });
       }
     }

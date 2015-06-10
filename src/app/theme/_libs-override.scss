@@ -453,3 +453,9 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 .domain-stat section {
   margin-bottom: 0px;
 }
+
+.modal-open .domains-layout {
+  top: $content-padding-top + 60px;
+  left: 70px;
+  overflow: hidden;
+}

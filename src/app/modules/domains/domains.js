@@ -6,9 +6,6 @@
 
         $scope.id = $location.path().split('/')[3];
 
-        $('#network-layout').resize(function() {
-            debugger;
-        });
 
         var loadDomainInformation = function() {
             // TODO Add dynamic functionality

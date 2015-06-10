@@ -1,0 +1,29 @@
+<div id="details" class="well" ng-controller="DomainDetailsController">
+    <div id="details-text">
+
+    </div>
+    <div id="details-dropdown" hidden>
+        <div class="btn-group" dropdown dropdown-append-to-body>
+            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+                Logs <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <script type="text/ng-template" id="TerminalModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{title}}</h3>
+        </div>
+        <div class="modal-body">
+            <div ql-widget="Terminal" style="height: 500px;" ws-url="ws://52.24.70.156/v1/events"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="cancel()">OK</button>
+        </div>
+    </script>
+</div>

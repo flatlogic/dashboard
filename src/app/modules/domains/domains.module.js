@@ -6,7 +6,8 @@
         'ui.layout',
         'qorDash.widget',
         'qorDash.widget.domain_stat',
-        'qorDash.widget.network'
+        'qorDash.widget.network',
+        'qorDash.widget.domain_details'
 
     ]);
 

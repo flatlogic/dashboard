@@ -1,7 +1,5 @@
 <div ng-controller="DomainsController">
     <h1 class="page-title">{{domain.name}}</h1>
-</div>
-
 
 <div ui-layout class="domains-layout">
     <div ui-layout-container size="135px">
@@ -14,11 +12,11 @@
                     <div ql-widget="network"></div>
                 </div>
                 <div ui-layout-container>
-                    <div id="details" class="well">
-                        Details
-                    </div>
+                    <div ql-widget="domain_details"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
 </div>
