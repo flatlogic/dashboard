@@ -331,6 +331,9 @@ legend {
   border: none;
   font-size: $navbar-font-size;
   font-weight: 500;
+  //TODO FIX scrolling
+  position: fixed;
+  top: 0;
 
   h5{
     font-size: $navbar-font-size;
