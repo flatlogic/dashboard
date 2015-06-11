@@ -2,30 +2,25 @@
 <div class="row domain-stat">
     <div class="col-md-3 col-sm-6" style="padding-left: 0px;">
         <section class="widget bg-primary text-white">
+            <h3 class="tile-header">Network</h3>
             <div class="widget-body clearfix">
                 <div class="row">
-                    <div class="col-xs-3">
-                                <span class="widget-icon">
-                                    <i class="fa fa-server"></i>
-                                </span>
-                    </div>
-                    <div class="col-xs-9">
-                        <h5 class="no-margin">VPC</h5>
-                        <p class="h2 no-margin fw-normal">{{network.vpc}}</p>
+                    <div class="col-xs-12 text-align-center">
+                        <h5 class="no-margin display-inline">VPC: </h5><b class="h3 no-margin fw-normal">{{network.vpc}}</b>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row bottom-row">
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Availability zones</h5>
-                        <p class="value4">{{network.availability_zones}}</p>
+                        <h5 class="no-margin text-align-center">Availability zones</h5>
+                        <p class="stat-value value4">{{network.availability_zones}}</p>
                     </div>
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Subnets</h5>
-                        <p class="value4">{{network.subnets}}</p>
+                        <h5 class="no-margin text-align-center">Subnets</h5>
+                        <p class="stat-value value4">{{network.subnets}}</p>
                     </div>
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Security groups</h5>
-                        <p class="value4">{{network.security_groups}}</p>
+                        <h5 class="no-margin text-align-center">Security groups</h5>
+                        <p class="stat-value value4">{{network.security_groups}}</p>
                     </div>
                 </div>
             </div>
@@ -33,34 +28,25 @@
     </div>
     <div class="col-md-3 col-sm-6">
         <section class="widget bg-info text-white">
+            <h3 class="tile-header">Resources</h3>
             <div class="widget-body clearfix">
                 <div class="row">
-                    <div class="col-xs-3">
-                        <span class="widget-icon">
-                            <i class="glyphicon glyphicon-list-alt"></i>
-                        </span>
-                    </div>
-                    <div class="col-xs-9">
-                        <div data-mode="carousel" data-speed="750" data-delay="3000" data-height="57">
-                            <div>
-                                <h5 class="no-margin">HOSTS</h5>
-                                <p class="h2 no-margin fw-normal">{{resources.hosts}}</p>
-                            </div>
-                        </div>
+                    <div class="col-xs-12 text-align-center">
+                        <h5 class="no-margin display-inline">HOSTS: </h5><b class="h3 no-margin fw-normal">{{resources.hosts}}</b>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row bottom-row">
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Volumes</h5>
-                        <p class="value4">{{resources.volumes}}</p>
+                        <h5 class="no-margin text-align-center">Volumes</h5>
+                        <p class="value4 stat-value">{{resources.volumes}}</p>
                     </div>
                     <div class="col-xs-4">
-                        <h5 class="no-margin">IP addresses</h5>
-                        <p class="value4">{{resources.ip_addresses}}</p>
+                        <h5 class="no-margin text-align-center">IP addresses</h5>
+                        <p class="value4 stat-value">{{resources.ip_addresses}}</p>
                     </div>
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Load balancers</h5>
-                        <p class="value4">{{resources.load_balancers}}</p>
+                        <h5 class="no-margin text-align-center">Load balancers</h5>
+                        <p class="value4 stat-value">{{resources.load_balancers}}</p>
                     </div>
                 </div>
             </div>
@@ -68,32 +54,27 @@
     </div>
     <div class="col-md-3 col-sm-6">
         <section class="widget bg-gray text-white">
+            <h3 class="tile-header">Containers</h3>
             <div class="widget-body clearfix">
                 <div data-mode="fade" data-speed="750" data-delay="4000" data-height="100">
                     <div class="bg-gray">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <span class="widget-icon">
-                                    <i class="glyphicon glyphicon-inbox"></i>
-                                </span>
-                            </div>
-                            <div class="col-xs-9">
-                                <h5 class="no-margin">All time</h5>
-                                <p class="h2 no-margin fw-normal">{{containers.all_time}}</p>
+                            <div class="col-xs-12 text-align-center">
+                                <h5 class="no-margin display-inline">All time: </h5><b class="h3 no-margin fw-normal">{{containers.all_time}}</b>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row bottom-row">
                             <div class="col-xs-4">
-                                <h5 class="no-margin">Running</h5>
-                                <p class="value4">{{containers.running}}</p>
+                                <h5 class="no-margin text-align-center">Running</h5>
+                                <p class="value4 stat-value">{{containers.running}}</p>
                             </div>
                             <div class="col-xs-4">
-                                <h5 class="no-margin">Stopped</h5>
-                                <p class="value4">{{containers.stopped}}</p>
+                                <h5 class="no-margin text-align-center">Stopped</h5>
+                                <p class="value4 stat-value">{{containers.stopped}}</p>
                             </div>
                             <div class="col-xs-4">
-                                <h5 class="no-margin">Failed</h5>
-                                <p class="value4">{{containers.failed}}</p>
+                                <h5 class="no-margin text-align-center">Failed</h5>
+                                <p class="value4 stat-value">{{containers.failed}}</p>
                             </div>
                         </div>
                     </div>
@@ -103,30 +84,25 @@
     </div>
     <div class="col-md-3 col-sm-6">
         <section class="widget bg-success text-white">
+            <h3 class="tile-header">Processes</h3>
             <div class="widget-body clearfix">
                 <div class="row">
-                    <div class="col-xs-3">
-                        <span class="widget-icon">
-                            <i class="glyphicon glyphicon-export"></i>
-                        </span>
-                    </div>
-                    <div class="col-xs-9">
-                        <h5 class="no-margin">Deployments</h5>
-                        <p class="h2 no-margin fw-normal">{{process.deployments}}</p>
+                    <div class="col-xs-12 text-align-center">
+                        <h5 class="no-margin display-inline">Deployments: </h5><b class="h3 no-margin fw-normal">{{process.deployments}}</b>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row bottom-row">
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Rollbacks</h5>
-                        <p class="value4">{{process.rollbacks}}</p>
+                        <h5 class="no-margin text-align-center">Rollbacks</h5>
+                        <p class="value4 stat-value">{{process.rollbacks}}</p>
                     </div>
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Warnings</h5>
-                        <p class="value4">{{process.warnings}}</p>
+                        <h5 class="no-margin text-align-center">Warnings</h5>
+                        <p class="value4 stat-value">{{process.warnings}}</p>
                     </div>
                     <div class="col-xs-4">
-                        <h5 class="no-margin">Errors</h5>
-                        <p class="value4">{{process.errors}}</p>
+                        <h5 class="no-margin text-align-center">Errors</h5>
+                        <p class="value4 stat-value">{{process.errors}}</p>
                     </div>
                 </div>
             </div>
