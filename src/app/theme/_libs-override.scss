@@ -459,3 +459,12 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   left: 70px;
   overflow: hidden;
 }
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}

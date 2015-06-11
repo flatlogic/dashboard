@@ -63,12 +63,22 @@
                                 nodes = pack.nodes(root),
                                 view;
 
+                            var tooltip = d3.select("body")
+                                .append("div")
+                                .style("position", "absolute")
+                                .attr("class", "d3-tip")
+                                .style("z-index", "10")
+                                .style("visibility", "hidden");
+
                             var circle = svg.selectAll("circle")
                                 .data(nodes)
                                 .enter().append("circle")
                                 .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
                                 .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-                                .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                                .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
+                                .on("mouseover", function(d){return tooltip.style("visibility", "visible").text(d.name);})
+                                .on("mousemove", function(d){return tooltip.style("top", (event.pageY - 30)+"px").style("left",(event.pageX - 20)+"px").text(d.name);})
+                                .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
                             var text = svg.selectAll("text")
                                 .data(nodes)
