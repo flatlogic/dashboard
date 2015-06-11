@@ -1,3 +1,4 @@
+<div ng-controller="DomainStatController">
 <div class="row domain-stat">
     <div class="col-md-3 col-sm-6" style="padding-left: 0px;">
         <section class="widget bg-primary text-white">
@@ -5,22 +6,26 @@
                 <div class="row">
                     <div class="col-xs-3">
                                 <span class="widget-icon">
-                                    <i class="glyphicon glyphicon-globe"></i>
+                                    <i class="fa fa-server"></i>
                                 </span>
                     </div>
                     <div class="col-xs-9">
-                        <h5 class="no-margin">USERS GROWTH</h5>
-                        <p class="h2 no-margin fw-normal">4,332</p>
+                        <h5 class="no-margin">VPC</h5>
+                        <p class="h2 no-margin fw-normal">{{network.vpc}}</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6">
-                        <h5 class="no-margin">Registrations</h5>
-                        <p class="value4">+830</p>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Availability zones</h5>
+                        <p class="value4">{{network.availability_zones}}</p>
                     </div>
-                    <div class="col-xs-6">
-                        <h5 class="no-margin">Bounce Rate</h5>
-                        <p class="value4">4.5%</p>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Subnets</h5>
+                        <p class="value4">{{network.subnets}}</p>
+                    </div>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Security groups</h5>
+                        <p class="value4">{{network.security_groups}}</p>
                     </div>
                 </div>
             </div>
@@ -32,34 +37,30 @@
                 <div class="row">
                     <div class="col-xs-3">
                         <span class="widget-icon">
-                            <i class="glyphicon glyphicon-user"></i>
+                            <i class="glyphicon glyphicon-list-alt"></i>
                         </span>
                     </div>
                     <div class="col-xs-9">
                         <div data-mode="carousel" data-speed="750" data-delay="3000" data-height="57">
                             <div>
-                                <h5 class="no-margin">VISITS TODAY</h5>
-                                <p class="h2 no-margin fw-normal">12,324</p>
+                                <h5 class="no-margin">HOSTS</h5>
+                                <p class="h2 no-margin fw-normal">{{resources.hosts}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6">
-                        <h5 class="no-margin">New Visitors</h5>
-                        <div data-mode="carousel" data-speed="750" data-delay="3000" data-height="25">
-                            <div>
-                                <p class="value4">1,332</p>
-                            </div>
-                        </div>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Volumes</h5>
+                        <p class="value4">{{resources.volumes}}</p>
                     </div>
-                    <div class="col-xs-6">
-                        <h5 class="no-margin">Bounce Rate</h5>
-                        <div data-mode="carousel" data-speed="750" data-delay="3000" data-height="26">
-                            <div>
-                                <p class="value4">217</p>
-                            </div>
-                        </div>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">IP addresses</h5>
+                        <p class="value4">{{resources.ip_addresses}}</p>
+                    </div>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Load balancers</h5>
+                        <p class="value4">{{resources.load_balancers}}</p>
                     </div>
                 </div>
             </div>
@@ -73,22 +74,26 @@
                         <div class="row">
                             <div class="col-xs-3">
                                 <span class="widget-icon">
-                                    <i class="glyphicon glyphicon-globe"></i>
+                                    <i class="glyphicon glyphicon-inbox"></i>
                                 </span>
                             </div>
                             <div class="col-xs-9">
-                                <h5 class="no-margin">ORDERS</h5>
-                                <p class="h2 no-margin fw-normal">82,765</p>
+                                <h5 class="no-margin">All time</h5>
+                                <p class="h2 no-margin fw-normal">{{containers.all_time}}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6">
-                                <h5 class="no-margin">Avg. Time</h5>
-                                <p class="value4">2:56</p>
+                            <div class="col-xs-4">
+                                <h5 class="no-margin">Running</h5>
+                                <p class="value4">{{containers.running}}</p>
                             </div>
-                            <div class="col-xs-6">
-                                <h5 class="no-margin">Last Week</h5>
-                                <p class="value4">374</p>
+                            <div class="col-xs-4">
+                                <h5 class="no-margin">Stopped</h5>
+                                <p class="value4">{{containers.stopped}}</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <h5 class="no-margin">Failed</h5>
+                                <p class="value4">{{containers.failed}}</p>
                             </div>
                         </div>
                     </div>
@@ -102,25 +107,30 @@
                 <div class="row">
                     <div class="col-xs-3">
                         <span class="widget-icon">
-                            <i class="glyphicon glyphicon-usd"></i>
+                            <i class="glyphicon glyphicon-export"></i>
                         </span>
                     </div>
                     <div class="col-xs-9">
-                        <h5 class="no-margin">TOTAL PROFIT</h5>
-                        <p class="h2 no-margin fw-normal">$7,448</p>
+                        <h5 class="no-margin">Deployments</h5>
+                        <p class="h2 no-margin fw-normal">{{process.deployments}}</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6">
-                        <h5 class="no-margin">Last Month</h5>
-                        <p class="value4">$83,541</p>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Rollbacks</h5>
+                        <p class="value4">{{process.rollbacks}}</p>
                     </div>
-                    <div class="col-xs-6">
-                        <h5 class="no-margin">Last Week</h5>
-                        <p class="value4">$17,926</p>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Warnings</h5>
+                        <p class="value4">{{process.warnings}}</p>
+                    </div>
+                    <div class="col-xs-4">
+                        <h5 class="no-margin">Errors</h5>
+                        <p class="value4">{{process.errors}}</p>
                     </div>
                 </div>
             </div>
         </section>
     </div>
+</div>
 </div>
