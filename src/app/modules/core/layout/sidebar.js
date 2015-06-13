@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('qorDash.layout')
+    angular.module('qorDash.core')
             .controller('QorSidebarController', $QorSidebarController)
             .controller('SidebarStubController', function() {})
             .directive('qorSidebarContainer', $QorSidebarContainer)
@@ -69,10 +69,10 @@
                 '<nav class="qor-sidebar" ng-class="{ opened: hasActiveGroup() }">' +
                     '<header class="qor-sidebar-groups">' +
                         '<div class="qor-logo">' +
-                          '<a href="/" ng-bind-html="appTitle">P0rtal</a>' +
+                          '<a href="/" ng-bind-html="appTitle">qorio</a>' +
                         '</div>' +
                         '<ul class="qor-sidebar-nav">' +
-                            '<li ng-repeat="group in groups" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
+                            '<li ng-repeat="group in groups" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
                         '</ul>' +
                     '</header>' +
                     '<section class="qor-sidebar-body">' +
@@ -121,7 +121,7 @@
 
     function $QorSidebarProvider() {
         var groups = {};
-        var title = 'P0rtal';
+        var title = 'qorio';
 
         this.config = function(id, options) {
             if (!groups.id) {

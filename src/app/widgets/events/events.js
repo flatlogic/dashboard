@@ -33,8 +33,8 @@
         var socketMessage = function(event) {
             parseInput(event.data);
 
-            var body = angular.element('body')[0];
-            body.scrollTop = body.scrollHeight
+          var sheetContent = angular.element('#events').parents('.qor-sheet-content')[0];
+          sheetContent.scrollTop = sheetContent.scrollHeight
         } ;
 
         // Get WebSocket url from attribute

@@ -3,7 +3,8 @@
 
   var core = angular.module('qorDash.core', [
     'ui.router',
-    'ngAnimate'
+    'ngAnimate',
+    'ngSanitize'
   ]);
 
   core.config(appConfig);

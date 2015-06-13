@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('qorDash.layout')
+        .module('qorDash.core')
             .directive('horizontalScroll', $HorizontalScroll);
 
     $HorizontalScroll.$inject = ['jQuery'];

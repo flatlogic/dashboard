@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('qorDash.layout')
+        .module('qorDash.core')
         .directive('horizontalUiView', $ViewDirective)
         .directive('horizontalUiSheet', $ViewDirectiveSheet)
         .directive('horizontalUiSheetContent', $ViewDirectiveSheetContent)
@@ -209,9 +209,7 @@
             template: '<header class="qor-sheet-header">' +
             '  <div class="qor-sheet-statusbar">' +
             '    <div class="qor-sheet-actions">' +
-            '      <button class="qor-sheet-close btn" ui-sref="^">&times;</button>' + // todo. add .btn class as TEMPORARY fix for swisscome deployment.
-                                                                                       // there is a style : HTML[data-doctype=true] BUTTON:not(.btn), HTML[data-doctype=true] INPUT.button
-                                                                                       // that affects how this button is displayed. need to add .btn class in order to avoid it
+            '      <button class="qor-sheet-close" ui-sref="^">&times;</button>' +
             '    </div>' +
             '  <h5 class="qor-sheet-title">{{title}}</h5>' +
             '  </div>' +

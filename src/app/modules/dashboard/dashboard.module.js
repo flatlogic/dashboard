@@ -12,15 +12,25 @@
 
   module.config(appConfig);
 
-  appConfig.$inject = ['$stateProvider'];
+  appConfig.$inject = ['$stateProvider', '$qorSidebarProvider'];
 
-  function appConfig($stateProvider) {
+  function appConfig($stateProvider, $qorSidebarProvider) {
     $stateProvider
       .state('app.dashboard', {
         url: '/dashboard',
-        templateUrl: 'app/modules/dashboard/dashboard.html',
-        controller: 'DashboardController',
+        views: {
+          'main@': {
+            templateUrl: 'app/modules/dashboard/dashboard.html',
+            controller: 'DashboardController'
+          }
+        },
         authenticate: true
-      })
+      });
+
+    $qorSidebarProvider.config('dashboard', {
+      title: 'Dashboard',
+      nav: 10,
+      content: '<span ui-sref="app.dashboard" qor-sidebar-group-heading="Events" data-icon-class="fa fa-laptop"></span>'
+    });
   }
 })();

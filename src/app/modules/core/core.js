@@ -6,16 +6,22 @@
     .controller('App', AppController)
     .service('dataLoader', dataLoaderService)
     .run(runCore)
-      .factory('d3', d3Service);
+    .factory('d3', d3Service)
+    .factory('jQuery', jQueryService);
 
-  AppController.$inject = ['config', '$scope'];
-  function AppController(config, $scope) {
+  AppController.$inject = ['config', '$scope', '$qorSidebar'];
+  function AppController(config, $scope, $qorSidebar) {
     /*jshint validthis: true */
     var vm = this;
 
     vm.title = config.appTitle;
+    vm.toggleSidebar = toggleSidebar;
 
     $scope.app = config;
+
+    function toggleSidebar(){
+      $qorSidebar.toggleSidebar();
+    }
   }
 
   runCore.$inject = ['dataLoader'];
@@ -83,36 +89,42 @@
     }
   }
 
-    /**
-     * D3.js service
-     * @returns {*}
-     */
-    d3Service.$inject = ['$document', '$q', '$rootScope'];
-    function d3Service($document, $q, $rootScope) {
-        var d = $q.defer();
-        function onScriptLoad() {
-            // Load client in the browser
-            $rootScope.$apply(function() { d.resolve(window.d3); });
-        }
-        // Create a script tag with d3 as the source
-        // and call our onScriptLoad callback when it
-        // has been loaded
-        var scriptTag = $document[0].createElement('script');
-        scriptTag.type = 'text/javascript';
-        scriptTag.async = true;
-        // TODO make local
-        scriptTag.src = 'http://d3js.org/d3.v3.min.js';
-        scriptTag.onreadystatechange = function () {
-            if (this.readyState == 'complete') onScriptLoad();
-        }
-        scriptTag.onload = onScriptLoad;
-
-        var s = $document[0].getElementsByTagName('body')[0];
-        s.appendChild(scriptTag);
-
-        return {
-            d3: function() { return d.promise; }
-        };
+  /**
+   * D3.js service
+   * @returns {*}
+   */
+  d3Service.$inject = ['$document', '$q', '$rootScope'];
+  function d3Service($document, $q, $rootScope) {
+    var d = $q.defer();
+    function onScriptLoad() {
+      // Load client in the browser
+      $rootScope.$apply(function() { d.resolve(window.d3); });
     }
+    // Create a script tag with d3 as the source
+    // and call our onScriptLoad callback when it
+    // has been loaded
+    var scriptTag = $document[0].createElement('script');
+    scriptTag.type = 'text/javascript';
+    scriptTag.async = true;
+    // TODO make local
+    scriptTag.src = 'http://d3js.org/d3.v3.min.js';
+    scriptTag.onreadystatechange = function () {
+      if (this.readyState == 'complete') onScriptLoad();
+    }
+    scriptTag.onload = onScriptLoad;
+
+    var s = $document[0].getElementsByTagName('body')[0];
+    s.appendChild(scriptTag);
+
+    return {
+      d3: function() { return d.promise; }
+    };
+  }
+
+  jQueryService.$inject = ['$window'];
+
+  function jQueryService($window) {
+    return $window.jQuery; // assumes jQuery has already been loaded on the page
+  }
 
 })();
