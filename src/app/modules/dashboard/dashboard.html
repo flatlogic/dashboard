@@ -4,38 +4,9 @@
       <!-- .navbar-header contains links seen on xs & sm screens -->
       <div class="navbar-header">
         <ul class="nav navbar-nav">
-          <li>
-            <!-- whether to automatically collapse sidebar on mouseleave. If activated acts more like usual admin templates -->
-            <a class="hidden-sm hidden-xs" href="#" data-sn-action="toggle-navigation-state" title="Turn on/off sidebar collapsing" data-placement="bottom" data-tooltip>
-              <i class="fa fa-bars fa-lg"></i>
-            </a>
-            <!-- shown on xs & sm screen. collapses and expands navigation -->
-            <a class="visible-sm visible-xs" data-sn-action="toggle-navigation-collapse-state" href="#" title="Show/hide sidebar" data-placement="bottom" data-tooltip>
-              <span class="rounded rounded-lg bg-gray text-white visible-xs"><i class="fa fa-bars fa-lg"></i></span>
-              <i class="fa fa-bars fa-lg hidden-xs"></i>
-            </a>
-          </li>
-          <li class="ml-sm mr-n-xs hidden-xs"><a href="#"><i class="fa fa-refresh fa-lg"></i></a></li>
+          <li class="mr-n-xs hidden-xs"><a href="#"><i class="fa fa-refresh fa-lg"></i></a></li>
           <li class="ml-n-xs hidden-xs"><a href="#"><i class="fa fa-times fa-lg"></i></a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right visible-xs">
-          <li>
-            <!-- toggles chat -->
-            <a href="#" data-sn-action="toggle-chat-sidebar-state">
-              <span class="rounded rounded-lg bg-gray text-white"><i class="fa fa-globe fa-lg"></i></span>
-            </a>
-          </li>
-        </ul>
-        <!-- xs & sm screen logo -->
-        <a class="navbar-brand visible-xs" href="index.html">
-          <i class="fa fa-circle text-gray mr-n-sm"></i>
-          <i class="fa fa-circle text-warning"></i>
-          &nbsp;
-          {{app.name}}
-          &nbsp;
-          <i class="fa fa-circle text-warning mr-n-sm"></i>
-          <i class="fa fa-circle text-gray"></i>
-        </a>
       </div>
 
       <!-- this part is hidden for xs screens -->
@@ -229,7 +200,6 @@
         </ul>
       </div>
     </div>
-
   </nav>
   <div horizontal-ui-sheet-content>
     <h1 class="page-title">Dashboard <small><small>The Lucky One</small></small></h1>

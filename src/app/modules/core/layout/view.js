@@ -211,7 +211,7 @@
             '    <div class="qor-sheet-actions">' +
             '      <button class="qor-sheet-close" ui-sref="^">&times;</button>' +
             '    </div>' +
-            '  <h5 class="qor-sheet-title">{{title}}</h5>' +
+            '    <h5 class="qor-sheet-title">{{title}}</h5>' +
             '  </div>' +
             '  <div class="qor-sheet-header-content" ng-transclude></div>' +
             '</header>',
