@@ -26,7 +26,15 @@
           }
         },
         authenticate: true
-      });
+      })
+        .state('app.domains.sub', {
+            url: '/:sub',
+            templateUrl: 'app/modules/domains/domains-sub.html'
+        })
+        .state('app.domains.sub.details', {
+            url: '/details',
+            templateUrl: 'app/modules/domains/domains-details.html'
+        });
 
     $qorSidebarProvider.config('domains', {
       title: 'Environments',

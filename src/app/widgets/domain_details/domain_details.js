@@ -3,8 +3,8 @@
 
     var domainDetailsModule = angular.module('qorDash.widget.domain_details');
 
-    var domainDetailsController = angular.createAuthorizedController('DomainDetailsController', ['$scope', '$rootScope', '$compile', '$modal', function($scope, $rootScope, $compile, $modal) {
-
+    var domainDetailsController = angular.createAuthorizedController('DomainDetailsController', ['$scope', '$rootScope', '$compile' , function($scope, $rootScope, $compile) {
+        debugger;
         var list = $('#details-dropdown').children().children('ul');
         var detailsText = $('#details-text');
 

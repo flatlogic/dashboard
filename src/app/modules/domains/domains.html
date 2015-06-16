@@ -1,26 +1,11 @@
-<section horizontal-ui-sheet class="qor-sheet-full">
-  <div horizontal-ui-sheet-content>
-    <div ng-controller="DomainsController">
-      <h1 class="page-title">{{domain.name}}</h1>
-
-      <div ui-layout class="domains-layout">
-        <div ui-layout-container size="140px">
-          <div class="col-lg-12" ql-widget="domain_stat"></div>
+<section horizontal-ui-sheet ng-controller="DomainsController">
+    <header horizontal-ui-sheet-header title="QA">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="list-group text-left ng-scope" >
+            <a class="list-group-item" ng-repeat="detail in details" ui-sref="app.domains.sub({sub : detail.name})" >
+                {{detail.name}}
+            </a>
         </div>
-        <div ui-layout-container>
-          <div class="row">
-            <div ui-layout="{flow : 'column'}" class="col-lg-12">
-              <div ui-layout-container >
-                <div ql-widget="network"></div>
-              </div>
-              <div ui-layout-container size="33%">
-                <div ql-widget="domain_details"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
 </section>
