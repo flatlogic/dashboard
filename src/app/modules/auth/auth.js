@@ -23,15 +23,15 @@
 
     $scope.startLoginAnimation = function() {
       //$('#loginButton').button('loading');
-    }
+    };
 
     $scope.stopLoginAnimation = function() {
       $('#loginButton').button('reset');
-    }
+    };
 
     $scope.showErrorMessage = function(message) {
       alert(message);
-    }
+    };
 
     $scope.login = function() {
       $scope.startLoginAnimation();

@@ -17,5 +17,7 @@
     "DomainDetailsController": "my_account",
     "ConfigurationsController": "my_account",
     "network": "my_account",
-    "DeploymentController": "my_account"
+    "DeploymentController": "my_account",
+    "OrchestrateController": "my_account",
+    "ManageController": "my_account"
 }

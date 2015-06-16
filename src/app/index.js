@@ -8,6 +8,8 @@
     'qorDash.domains',
     'qorDash.deployment',
     'qorDash.compose',
-    'qorDash.configurations'
+    'qorDash.configurations',
+    'qorDash.orchestrate',
+    'qorDash.manage'
   ]);
 })();
