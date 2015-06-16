@@ -2,7 +2,8 @@
   'use strict';
 
   var module = angular.module('qorDash.orchestrate', [
-    'ui.router'
+    'ui.router',
+      'qorDash.widget.traffic'
   ]);
 
   module.config(appConfig);
