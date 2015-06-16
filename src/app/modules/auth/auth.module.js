@@ -8,9 +8,9 @@
 
   module.config(appConfig);
 
-  appConfig.$inject = ['$stateProvider', '$httpProvider'];
+  appConfig.$inject = ['$stateProvider', '$httpProvider', '$qorSidebarProvider'];
 
-  function appConfig($stateProvider, $httpProvider) {
+  function appConfig($stateProvider, $httpProvider, $qorSidebarProvider) {
     $httpProvider.interceptors.push('authInterceptor');
     $stateProvider
       .state('login', {
@@ -24,6 +24,12 @@
           user.logout();
           $location.path('/login');
         }
+      });
+
+      $qorSidebarProvider.config('User', {
+          title: 'User',
+          nav: 20,
+          content: '<span ui-sref="logout" href="/logout" qor-sidebar-group-heading="Logout" data-icon-class="fa fa-user"></span>'
       });
   }
 })();

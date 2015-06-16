@@ -74,7 +74,29 @@
                                 .data(nodes)
                                 .enter().append("circle")
                                 .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-                                .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+                                .style("fill", function(d) {
+                                    if (!d.children) {
+                                        return 'rgb(255,215,215)';
+                                    }
+                                    switch (d.depth) {
+                                        case 0:
+                                            return 'rgb(132, 204, 193)';
+                                        case 1:
+                                            return 'rgb(238, 81, 74)';
+                                        case 2:
+                                            return 'rgb(255,255,255)';
+                                        case 3:
+                                            return 'rgb(2,47,50)';
+                                        case 4:
+                                            return 'rgb(8,112,112)';
+                                        case 5:
+                                            return 'rgb(132, 204, 193)';
+                                        case 6:
+                                            return 'rgb(32,50,73)';
+                                        default:
+                                            return color(d.depth);
+                                    }
+                                })
                                 .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
                                 .on("mouseover", function(d){return tooltip.style("visibility", "visible").text(d.name);})
                                 .on("mousemove", function(d){return tooltip.style("top", (event.pageY - 30)+"px").style("left",(event.pageX - 20)+"px").text(d.name);})

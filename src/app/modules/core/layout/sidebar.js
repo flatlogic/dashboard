@@ -72,7 +72,7 @@
                           '<a href="/" ng-bind-html="appTitle">qorio</a>' +
                         '</div>' +
                         '<ul class="qor-sidebar-nav">' +
-                            '<li ng-repeat="group in groups" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
+                            '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'User\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
                         '</ul>' +
                     '</header>' +
                     '<section class="qor-sidebar-body">' +
