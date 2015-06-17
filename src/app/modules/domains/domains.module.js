@@ -34,6 +34,10 @@
         .state('app.domains.sub.details', {
             url: '/details',
             templateUrl: 'app/modules/domains/domains-details.html'
+        })
+        .state('app.domains.sub.details.logs', {
+            url: '/logs/:name',
+            templateUrl: 'app/modules/domains/domains-logs.html'
         });
 
     $qorSidebarProvider.config('domains', {

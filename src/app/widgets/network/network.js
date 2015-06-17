@@ -4,8 +4,8 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork)
         ;
-    qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$rootScope'];
-    function qlNetwork(d3, $window, $interval, $state, $rootScope) {
+    qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$rootScope', '$timeout'];
+    function qlNetwork(d3, $window, $interval, $state, $rootScope, $timeout) {
         return {
             restrict: 'EA',
             scope: {},
@@ -143,12 +143,12 @@
                             }
 
                             function showDetails(root) {
-                                $state.go('app.domains.sub.details');
                                 if (root.logs) {
                                     $rootScope.$emit('details:showLogs', root);
                                 } else {
                                     $rootScope.$emit('details:showDetails', root);
                                 }
+                                $state.go('app.domains.sub.details');
                             }
                         });
 

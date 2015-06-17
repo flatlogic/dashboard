@@ -3,34 +3,15 @@
 
     var domainDetailsModule = angular.module('qorDash.widget.domain_details');
 
-    var domainDetailsController = angular.createAuthorizedController('DomainDetailsController', ['$scope', '$rootScope', '$compile' , function($scope, $rootScope, $compile) {
-        debugger;
+    var domainDetailsController = angular.createAuthorizedController('DomainDetailsController', ['$scope', '$rootScope', '$compile' , '$state', function($scope, $rootScope, $compile, $state) {
         var list = $('#details-dropdown').children().children('ul');
         var detailsText = $('#details-text');
 
         $scope.showLogs = function(title, url) {
-            var modalInstance;
-            var modalScope = $scope.$new();
-
-
-            modalScope.title = title;
-            modalScope.url = url;
-
-            modalScope.cancel = function () {
-                modalInstance.dismiss('cancel');
-                $('.domains-layout').css({'visibility' : 'visible'});
-            };
-
-            modalInstance = $modal.open({
-                    template: '<terminal-modal></terminal-modal>',
-                    scope: modalScope
-                }
-            );
-
-            modalInstance.result.then(function () {}, function () {
-
-            });
+            $state.go('app.domains.sub.details.logs');
         };
+
+        $scope.details = "";
 
         $rootScope.$on('details:showLogs', function(event, data) {
             var logs = data.logs;
@@ -48,23 +29,14 @@
         $rootScope.$on('details:showDetails', function(event, data) {
             var details = data;
 
+            $scope.details = details.name;
+
             list.text('');
             $('#details-dropdown').attr('hidden', '');
 
             detailsText.text(details.name);
         });
     }]);
-
-
-    domainDetailsModule.directive('terminalModal', function() {
-        return {
-            restrict: 'E',
-            templateUrl: 'TerminalModal.html',
-            controller: function ($scope) {
-
-            }
-        };
-    });
 
 
     domainDetailsModule.controller(domainDetailsController);

@@ -15,6 +15,7 @@
     "domain_stat": "my_account",
     "domain_details": "my_account",
     "DomainDetailsController": "my_account",
+    "DomainSubDetailsController": "my_account",
     "ConfigurationsController": "my_account",
     "network": "my_account",
     "traffic": "my_account",

@@ -11,6 +11,10 @@
     var adaptHeight = function(element) {
         var height = element.parent().parent().parent().height() - 20;
 
+        if (element.parent().parent().hasClass('logs')) {
+            height = element.parent().parent().height();
+        }
+
         if (height > 0) {
             element.height(height)
         } else {

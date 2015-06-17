@@ -49,7 +49,7 @@
          }
   }]);
 
-    var domainDetailsController = angular.createAuthorizedController('DomainDetailsController', ['$scope', '$location', function($scope, $location) {
+    var domainSubDetailsController = angular.createAuthorizedController('DomainSubDetailsController', ['$scope', '$location', function($scope, $location) {
         $scope.domain = {};
 
         $scope.id = $location.path().split('/')[4];
@@ -59,6 +59,5 @@
 
   angular.module('qorDash.domains')
     .controller(domainsController)
-      .controller(domainDetailsController);
-
+      .controller(domainSubDetailsController);
 })();
