@@ -27,17 +27,19 @@
         },
         authenticate: true
       })
-        .state('app.domains.sub', {
-            url: '/:sub',
-            templateUrl: 'app/modules/domains/domains-sub.html'
+        .state('app.domains.env', {
+            url: '/:env',
+            templateUrl: 'app/modules/domains/environment.html',
+            controller: 'DomainEnvironmentController'
         })
-        .state('app.domains.sub.details', {
-            url: '/details',
-            templateUrl: 'app/modules/domains/domains-details.html'
+        .state('app.domains.env.node', {
+            url: '/:depth/:node',
+            templateUrl: 'app/modules/domains/node.html',
+            controller: 'DomainNodeController'
         })
-        .state('app.domains.sub.details.logs', {
-            url: '/logs/:name',
-            templateUrl: 'app/modules/domains/domains-logs.html'
+        .state('app.domains.env.node.logs', {
+            url: '/logs',
+            templateUrl: 'app/modules/domains/node-logs.html'
         });
 
     $qorSidebarProvider.config('domains', {

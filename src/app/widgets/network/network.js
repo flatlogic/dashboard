@@ -4,11 +4,10 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork)
         ;
-    qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$rootScope', '$timeout'];
-    function qlNetwork(d3, $window, $interval, $state, $rootScope, $timeout) {
+    qlNetwork.$inject = ['d3', '$window', '$interval', '$state'];
+    function qlNetwork(d3, $window, $interval, $state) {
         return {
             restrict: 'EA',
-            scope: {},
             link: function(scope, element, attrs) {
 
                 d3.d3().then(function(d3) {
@@ -56,7 +55,14 @@
                             .append("g")
                             .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
+                        // todo this has to be loaded by angular via some service
+                        // as of it's not loaded with angular it's impossible to
+                        // get this data if node page accessed by get request
+                        // (not by pressing a node on graph)
                         d3.json("data/network-data.json", function(error, root) {
+                            scope.$apply(function() {
+                                scope.setNetworkData(root);
+                            });
                             if (error) return console.error(error);
 
                             var focus = root,
@@ -143,12 +149,7 @@
                             }
 
                             function showDetails(root) {
-                                if (root.logs) {
-                                    $rootScope.$emit('details:showLogs', root);
-                                } else {
-                                    $rootScope.$emit('details:showDetails', root);
-                                }
-                                $state.go('app.domains.sub.details');
+                                $state.go('app.domains.env.node', {depth: root.depth, node: root.name});
                             }
                         });
 

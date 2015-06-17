@@ -31,9 +31,6 @@
             loadWidget(value, $element);
           }
         }
-      },
-      scope : {
-        wsUrl: '@'
       }
     }
   }

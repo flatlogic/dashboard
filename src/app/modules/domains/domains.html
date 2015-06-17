@@ -1,10 +1,12 @@
-<section horizontal-ui-sheet ng-controller="DomainsController">
-    <header horizontal-ui-sheet-header title="QA">
+<section horizontal-ui-sheet>
+    <header horizontal-ui-sheet-header title="{{domain.name}}">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope" >
-            <a class="list-group-item" ng-repeat="detail in details" ui-sref="app.domains.sub({sub : detail.name})" >
-                {{detail.name}}
+            <a class="list-group-item" ng-repeat="environment in environments"
+               ui-sref-active="active"
+               ui-sref="app.domains.env({env : environment.name})" >
+                {{environment.name}}
             </a>
         </div>
     </div>

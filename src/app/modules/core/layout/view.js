@@ -201,7 +201,8 @@
         };
     }
 
-    function $ViewDirectiveSheetHeader() {
+    $ViewDirectiveSheetHeader.$inject = ['$compile'];
+    function $ViewDirectiveSheetHeader($compile) {
         return {
             require: '^horizontalUiSheet',
             transclude: true,
@@ -215,8 +216,8 @@
             '  </div>' +
             '  <div class="qor-sheet-header-content" ng-transclude></div>' +
             '</header>',
-            link: function(scope, $element, attrs) {
-                scope.title = attrs.title;
+            scope: {
+                title: '@'
             }
         };
     }
