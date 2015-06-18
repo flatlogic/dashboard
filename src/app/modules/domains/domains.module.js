@@ -30,16 +30,19 @@
         .state('app.domains.env', {
             url: '/:env',
             templateUrl: 'app/modules/domains/environment.html',
-            controller: 'DomainEnvironmentController'
+            controller: 'DomainEnvironmentController',
+            authenticate: true
         })
         .state('app.domains.env.node', {
             url: '/:depth/:node',
             templateUrl: 'app/modules/domains/node.html',
-            controller: 'DomainNodeController'
+            controller: 'DomainNodeController',
+            authenticate: true
         })
         .state('app.domains.env.node.logs', {
             url: '/logs',
-            templateUrl: 'app/modules/domains/node-logs.html'
+            templateUrl: 'app/modules/domains/node-logs.html',
+            authenticate: true
         });
 
     $qorSidebarProvider.config('domains', {
