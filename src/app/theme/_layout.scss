@@ -11,12 +11,13 @@ $qor-sheet-padding-vertical: 15px;
 $qor-sheet-padding-horizontal: 15px;
 
 $qor-sidebar-width: 80px !default;
-$qor-sidebar-bg-color: #444 !default;
-$qor-sidebar-color: #ddd !default;
+$qor-sidebar-bg-color: #fffaff !default;
+$qor-sidebar-color: #4e4e4e !default;
 $qor-sidebar-item-border-color: #4e4e4e !default;
-$qor-sidebar-active-bg-color: #373737 !default;
-$qor-sidebar-item-active-color: #ffffff !default;
-$qor-sidebar-item-hover-bg-color: #303030 !default;
+$qor-sidebar-active-bg-color: #dce2f0 !default;
+$qor-sidebar-item-active-color: #4e4e4e !default;
+$qor-sidebar-item-hover-bg-color: #dce2f0 !default;
+$qor-sidebar-body-bg-color: #e8e8e8 !default;
 $qor-sidebar-padding-horizontal: 11px;
 $qor-sidebar-transition-time: .3s !default;
 
@@ -212,7 +213,7 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
 
   @include transition(width .3s ease-in-out);
   a{
-    color: white;
+    color: #4e4e4e;
     text-decoration: none;
   }
 
@@ -381,7 +382,7 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
     max-width: 320px;
   }
 
-  background-color: $qor-sidebar-item-hover-bg-color;
+  background-color: $qor-sidebar-body-bg-color;
   width: 320px;
   height: 100%;
   top: 0;
