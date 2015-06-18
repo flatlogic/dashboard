@@ -30,6 +30,7 @@
    * @param controllerDef
    * @returns {{}}
    */
+
   angular.createAuthorizedController = function(controllerName, controllerDef) {
     var oldControllerFunc = controllerDef[controllerDef.length - 1];
 

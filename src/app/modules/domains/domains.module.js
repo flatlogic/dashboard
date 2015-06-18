@@ -29,19 +29,19 @@
       })
         .state('app.domains.env', {
             url: '/:env',
-            templateUrl: 'app/modules/domains/environment.html',
+            templateUrl: 'app/modules/domains/environment/environment.html',
             controller: 'DomainEnvironmentController',
             authenticate: true
         })
         .state('app.domains.env.node', {
             url: '/:depth/:node',
-            templateUrl: 'app/modules/domains/node.html',
+            templateUrl: 'app/modules/domains/node/node.html',
             controller: 'DomainNodeController',
             authenticate: true
         })
         .state('app.domains.env.node.logs', {
             url: '/logs',
-            templateUrl: 'app/modules/domains/node-logs.html',
+            templateUrl: 'app/modules/domains/node-logs/node-logs.html',
             authenticate: true
         });
 
