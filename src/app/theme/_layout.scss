@@ -14,10 +14,10 @@ $qor-sidebar-width: 80px !default;
 $qor-sidebar-bg-color: #fffaff !default;
 $qor-sidebar-color: #4e4e4e !default;
 $qor-sidebar-item-border-color: #4e4e4e !default;
-$qor-sidebar-active-bg-color: #dce2f0 !default;
+$qor-sidebar-active-bg-color: #ededed !default;
 $qor-sidebar-item-active-color: #4e4e4e !default;
-$qor-sidebar-item-hover-bg-color: #dce2f0 !default;
-$qor-sidebar-body-bg-color: #e8e8e8 !default;
+$qor-sidebar-item-hover-bg-color: #ededed !default;
+$qor-sidebar-body-bg-color: #bdbdbd !default;
 $qor-sidebar-padding-horizontal: 11px;
 $qor-sidebar-transition-time: .3s !default;
 
@@ -427,7 +427,7 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
       cursor: pointer;
       @include transition(background-color .15s ease-in-out, color .15s ease-in-out);
       &:hover {
-        background-color: darken($qor-sidebar-item-hover-bg-color, 3%);
+        background-color: darken($qor-sidebar-item-hover-bg-color, 40%);
         color: $qor-sidebar-item-active-color;
       }
 
