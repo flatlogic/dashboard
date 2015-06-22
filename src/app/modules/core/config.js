@@ -4,8 +4,8 @@
   var core = angular.module('qorDash.core');
 
   var config = {
-    name: 'qorio',
-    title: 'Qorio - Dashboard',
+    name: 'Infradash',
+    title: 'Infradash',
     version: '1.0.0',
     /**
      * Whether to print and alert some log information
