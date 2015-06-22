@@ -33,13 +33,18 @@
             controller: 'DomainEnvironmentController',
             authenticate: true
         })
-        .state('app.domains.env.node', {
+        .state('app.domains.env.network', {
+            url: '/network',
+            templateUrl: 'app/modules/domains/network/network.html',
+            authenticate: true
+        })
+        .state('app.domains.env.network.node', {
             url: '/:depth/:node',
             templateUrl: 'app/modules/domains/node/node.html',
             controller: 'DomainNodeController',
             authenticate: true
         })
-        .state('app.domains.env.node.logs', {
+        .state('app.domains.env.network.node.logs', {
             url: '/logs',
             templateUrl: 'app/modules/domains/node-logs/node-logs.html',
             authenticate: true

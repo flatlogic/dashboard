@@ -10,6 +10,18 @@
         }
     }
 
+    autoScroll.$inject = ['$interval'];
+    function autoScroll($interval) {
+        return {
+            link: function(scope, element, attrs) {
+                $interval(function() {
+                    element.scrollTop = element.children().height();
+                }, 500);
+            }
+        }
+    }
+
     angular.module('qorDash.domains')
-        .controller('DomainEnvironmentController', domainEnvironmentController);
+        .controller('DomainEnvironmentController', domainEnvironmentController)
+        .directive('autoScroll', autoScroll);
 })();

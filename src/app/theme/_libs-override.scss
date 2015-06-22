@@ -450,6 +450,12 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   overflow: hidden;
 }
 
+.network-layout {
+  top: $content-padding-top - 40px;
+  left: 5px;
+  overflow: hidden;
+}
+
 .domains-layout .ui-layout-column {
   top: 0px;
 }
@@ -507,4 +513,10 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   top: 75px;
   right: 40px;
   z-index: 2;
+}
+
+.env-button {
+  margin: 10px;
+  display: block;
+  width: 90%;
 }
