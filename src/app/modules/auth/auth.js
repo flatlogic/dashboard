@@ -22,7 +22,7 @@
     };
 
     $scope.startLoginAnimation = function() {
-      //$('#loginButton').button('loading');
+      $('#loginButton').button('loading');
     };
 
     $scope.stopLoginAnimation = function() {
