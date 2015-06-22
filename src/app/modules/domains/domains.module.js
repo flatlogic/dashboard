@@ -45,6 +45,12 @@
             authenticate: true
         });
 
+        $stateProvider.state('log_details', {
+            url: '/log-details',
+            templateUrl: 'app/modules/domains/node-logs/log-details.html',
+            authenticate: false
+        });
+
     $qorSidebarProvider.config('domains', {
       title: 'Environments',
       nav: 40,

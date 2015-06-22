@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    var domTerminal = $('#logs-terminal');
+
+    setTimeout(function() {
+        var terminal = $('#terminal').terminal();
+        var newData = terminal.get_output();
+        terminal.clear();
+        terminal.terminal().echo(currentData);
+        terminal.echo(newData);
+    }, 1000);
+
+    domTerminal.attr('ws-url', url);
+</script>
+
+<div id="logs-terminal" class="log-details" ql-widget="Terminal" ws-url="ws://52.24.70.156/v1/events"></div>

@@ -380,6 +380,10 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   border-radius: 8px;
 }
 
+.log-details .terminal {
+  border-radius: 0px;
+}
+
 .terminal .cmd {
   background-color: #002B36;
 }
@@ -496,4 +500,11 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 
 .login-logo {
   margin-left: 25px;
+}
+
+.new-window-icon {
+  position: absolute;
+  top: 75px;
+  right: 40px;
+  z-index: 2;
 }
