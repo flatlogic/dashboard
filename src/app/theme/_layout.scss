@@ -70,6 +70,10 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
   width: calc(100vw - #{$qor-sidebar-width});
 }
 
+.qor-sheet-fill {
+  width: calc(100vw - #{$qor-sidebar-width} - 460px);
+}
+
 .qor-sheet, .qor-sheet-lg, .qor-sheet-full{
   @media (max-width: $screen-xs-max) {
     width: 100%;
