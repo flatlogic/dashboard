@@ -445,7 +445,7 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 }
 
 .domains-layout {
-  top: $content-padding-top + 30px;
+  top: $content-padding-top - 25px;
   left: 20px;
   overflow: hidden;
 }
@@ -481,21 +481,6 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
-}
-
-.tile-header {
-  margin-top: 0px;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-.stat-value {
-  text-align: center;
-  margin-top: 5px;
-}
-
-.domain-stat .bottom-row {
-  margin-top: 10px;
 }
 
 .user-label {

@@ -4,6 +4,11 @@
 /*                     */
 /***********************/
 
+$stat-purple-color: #D18CA5;
+$stat-yellow-color: #F5C781;
+$stat-green-color: #9DE0B5;
+$stat-blue-color: #7986CB;
+
 /***********************************/
 /**             LOGIN             **/
 /***********************************/
@@ -289,4 +294,62 @@
   font-size: $font-size-mini;
   color: $text-muted;
   text-align: center;
+}
+
+.widget-stat {
+  border-radius: 0px;
+  box-shadow: 0 0 5px;
+  margin-left: 5px;
+
+  &.purple {
+    border-top: 10px solid $stat-purple-color;
+  }
+
+  &.yellow {
+    border-top: 10px solid $stat-yellow-color;
+  }
+
+  &.green {
+    border-top: 10px solid $stat-green-color;
+  }
+
+  &.blue {
+    border-top: 10px solid $stat-blue-color;
+  }
+}
+
+.tile-header {
+  margin-top: 0px;
+  margin-bottom: 5px;
+
+  > .right {
+    position: absolute;
+    right: 10px;
+    font-weight: $font-weight-thin;
+
+    &.purple {
+      color: $stat-purple-color;
+    }
+
+    &.yellow {
+      color: $stat-yellow-color;
+    }
+
+    &.green {
+      color: $stat-green-color;
+    }
+
+    &.blue {
+      color: $stat-blue-color;
+    }
+  }
+}
+
+.stat-value {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.domain-stat .bottom-row {
+  margin-top: 10px;
 }

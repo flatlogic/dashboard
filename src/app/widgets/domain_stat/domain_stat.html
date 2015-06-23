@@ -1,14 +1,9 @@
 <div ng-controller="DomainStatController">
 <div class="row domain-stat">
     <div class="col-md-3 col-sm-6" style="padding-left: 0px;">
-        <section class="widget bg-primary text-white">
-            <h3 class="tile-header">Network</h3>
+        <section class="widget widget-stat purple">
+            <h3 class="tile-header">Network <b class="right purple">VPC: {{network.vpc}}</b></h3>
             <div class="widget-body clearfix">
-                <div class="row">
-                    <div class="col-xs-12 text-align-center">
-                        <h5 class="no-margin display-inline">VPC: </h5><b class="h3 no-margin fw-normal">{{network.vpc}}</b>
-                    </div>
-                </div>
                 <div class="row bottom-row">
                     <div class="col-xs-4">
                         <h5 class="no-margin text-align-center">Availability zones</h5>
@@ -27,14 +22,9 @@
         </section>
     </div>
     <div class="col-md-3 col-sm-6">
-        <section class="widget bg-info text-white">
-            <h3 class="tile-header">Resources</h3>
+        <section class="widget widget-stat yellow">
+            <h3 class="tile-header">Resources <b class="right yellow">HOSTS: {{resources.hosts}}</b></h3>
             <div class="widget-body clearfix">
-                <div class="row">
-                    <div class="col-xs-12 text-align-center">
-                        <h5 class="no-margin display-inline">HOSTS: </h5><b class="h3 no-margin fw-normal">{{resources.hosts}}</b>
-                    </div>
-                </div>
                 <div class="row bottom-row">
                     <div class="col-xs-4">
                         <h5 class="no-margin text-align-center">Volumes</h5>
@@ -53,16 +43,11 @@
         </section>
     </div>
     <div class="col-md-3 col-sm-6">
-        <section class="widget bg-gray text-white">
-            <h3 class="tile-header">Containers</h3>
+        <section class="widget widget-stat green">
+            <h3 class="tile-header">Resources <b class="right green">All time: {{containers.all_time}}</b></h3>
             <div class="widget-body clearfix">
                 <div data-mode="fade" data-speed="750" data-delay="4000" data-height="100">
-                    <div class="bg-gray">
-                        <div class="row">
-                            <div class="col-xs-12 text-align-center">
-                                <h5 class="no-margin display-inline">All time: </h5><b class="h3 no-margin fw-normal">{{containers.all_time}}</b>
-                            </div>
-                        </div>
+                    <div>
                         <div class="row bottom-row">
                             <div class="col-xs-4">
                                 <h5 class="no-margin text-align-center">Running</h5>
@@ -83,14 +68,9 @@
         </section>
     </div>
     <div class="col-md-3 col-sm-6">
-        <section class="widget bg-success text-white">
-            <h3 class="tile-header">Processes</h3>
+        <section class="widget widget-stat blue">
+            <h3 class="tile-header">Processes <b class="right blue">Deployments: {{process.deployments}}</b></h3>
             <div class="widget-body clearfix">
-                <div class="row">
-                    <div class="col-xs-12 text-align-center">
-                        <h5 class="no-margin display-inline">Deployments: </h5><b class="h3 no-margin fw-normal">{{process.deployments}}</b>
-                    </div>
-                </div>
                 <div class="row bottom-row">
                     <div class="col-xs-4">
                         <h5 class="no-margin text-align-center">Rollbacks</h5>
