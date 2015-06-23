@@ -369,7 +369,7 @@ div.ui-layout-mask {}		/* standard mask for iframes */
 iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 
 .ui-splitbar span {
-  color: #2c4359;
+  color: #7C7C7C;
 }
 
 .terminal {
@@ -445,7 +445,7 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 }
 
 .domains-layout {
-  top: $content-padding-top + 60px;
+  top: $content-padding-top + 30px;
   left: 20px;
   overflow: hidden;
 }
@@ -515,8 +515,19 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   z-index: 2;
 }
 
+.env-title {
+  color: #757575;
+}
+
 .env-button {
-  margin: 10px;
+  margin: 10px 10px 10px 10px;
   display: block;
-  width: 90%;
+  width: 92%;
+  position: absolute;
+  right: 0;
+
+  background: #999999;
+  color: #E4E4E4;
+
+  font-weight: $font-weight-thin;
 }
