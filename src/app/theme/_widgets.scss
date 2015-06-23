@@ -105,14 +105,14 @@
 
 }
 
-.event{
 
+.event{
   .timeline & {
     float: right;
     width: 68%;
     background: $white;
     border-radius: $border-radius-base;
-    padding: 20px 20px 0;
+    padding: 15px 20px 15px;
     position: relative;
 
     &:before{
@@ -146,7 +146,7 @@
     }
 
     @media (min-width: $screen-md-min) {
-      width: 80%;
+      width: 82%;
     }
   }
 }
@@ -166,11 +166,10 @@
     > .time{
       display: block;
       font-size: $font-size-large;
-      font-weight: $font-weight-normal;
     }
 
     @media (min-width: $screen-md-min) {
-      width: 9%;
+      width: 10%;
     }
   }
 }
@@ -216,10 +215,10 @@
 
 .event-heading{
   margin: 0 0 2px;
-  font-weight: $font-weight-semi-bold;
+  font-weight: $font-weight-normal;
   > a {
     text-decoration: none;
-    color: #7ca9dd;
+    color: #9E9E9E;
   }
   > small{
     font-weight: $font-weight-semi-bold;

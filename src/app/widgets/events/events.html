@@ -5,19 +5,12 @@
                 <span class="date">{{::event.timestamp * 1000 | date: 'EEE'}}</span>
                 <span class="time">{{::event.timestamp * 1000 | date: 'shortTime'}}</span>
             </time>
-                    <span class="event-icon event-icon-primary">
-                        <i class="glyphicon glyphicon-comment"></i>
-                    </span>
-            <section class="event">
+            <section class="event event-padding">
                 <h4 class="event-heading"><a ng-click="showDetails(event)">{{event.title}}</a></h4>
                 <p class="fs-sm text-muted">{{::event.timestamp * 1000 | date:'EEEE, MMMM d, y HH:mm:ss'}}</p>
                 <p class="fs-mini">
                     {{::event.description}}
                 </p>
-                <footer>
-                    <ul class="post-links">
-                    </ul>
-                </footer>
             </section>
         </li>
     </ul>

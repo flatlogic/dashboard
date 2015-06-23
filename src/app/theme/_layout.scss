@@ -12,8 +12,8 @@ $qor-sheet-padding-horizontal: 15px;
 
 $qor-sidebar-width: 80px !default;
 $qor-sidebar-bg-color: #fffaff !default;
-$qor-sidebar-color: #4e4e4e !default;
-$qor-sidebar-item-border-color: #4e4e4e !default;
+$qor-sidebar-color: #7e7e7e !default;
+$qor-sidebar-item-border-color: #cccccc !default;
 $qor-sidebar-active-bg-color: #ededed !default;
 $qor-sidebar-item-active-color: #4e4e4e !default;
 $qor-sidebar-item-hover-bg-color: #ededed !default;
@@ -234,6 +234,7 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
   bottom: 0;
   background-color: $qor-sidebar-bg-color;
   color: $qor-sidebar-color;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
   @include transition(width $qor-sidebar-transition-time ease-in-out);
   //  overflow-y: auto;
   //  overflow-x: hidden;
@@ -320,10 +321,10 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
       display: block;
       content: ' ';
       height: 0;
-      border-top: 2px solid $qor-sidebar-item-border-color;
+      border-top: 1px solid $qor-sidebar-item-border-color;
       position: relative;
       margin-left: 6px;
-      margin-right: 6px;
+      margin-right: 0px;
       top: -10px;
       margin-top: -2px;
     }
@@ -343,11 +344,14 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
     }
 ;
     &.active {
-      background-color: $qor-sidebar-active-bg-color;
-      color: $qor-sidebar-item-active-color;
+//      background-color: $qor-sidebar-active-bg-color;
+//      color: $qor-sidebar-item-active-color;
+
+      border-right: 5px solid #EEA22D;
+      padding-right: 0px;
 
       .group-icon {
-        color: $brand-warning;
+        //color: $brand-warning;
       }
     }
 
