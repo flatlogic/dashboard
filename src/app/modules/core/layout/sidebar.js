@@ -75,16 +75,6 @@
                             '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'User\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
                         '</ul>' +
                     '</header>' +
-                    '<section class="qor-sidebar-body">' +
-                    '  <div class="qor-sheet-statusbar">' +
-                    '    <div class="qor-sheet-actions">' +
-                    '      <button class="qor-sheet-close close-sign" ng-click="resetStates()">&times;</button>' +
-                    '    </div>' +
-                    '  <h5 class="qor-sheet-title" ng-bind-html="activeGroup().title"></h5>' +
-                    '  </div>' +
-                    '  <div class="qor-sidebar-group-content" ng-repeat="group in groups" ng-class="{ active: group.active }" ng-include="group.templateUrl" property-controller="group.controller" ng-if="group.templateUrl">' +
-                    '  </div>' +
-                    '</section>' +
                 '</nav>'
         };
     }

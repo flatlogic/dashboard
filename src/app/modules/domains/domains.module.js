@@ -18,7 +18,7 @@
   function appConfig($stateProvider, $qorSidebarProvider) {
     $stateProvider
       .state('app.domains', {
-        url: '/domains/:id',
+        url: '/domains',
         views: {
           'main@': {
             templateUrl: 'app/modules/domains/domains.html',
@@ -27,24 +27,30 @@
         },
         authenticate: true
       })
-        .state('app.domains.env', {
+        .state('app.domains.domain', {
+            url: '/:id',
+            templateUrl: 'app/modules/domains/domain/domain.html',
+            controller: 'DomainController',
+            authenticate: true
+        })
+        .state('app.domains.domain.env', {
             url: '/:env',
             templateUrl: 'app/modules/domains/environment/environment.html',
             controller: 'DomainEnvironmentController',
             authenticate: true
         })
-        .state('app.domains.env.network', {
+        .state('app.domains.domain.env.network', {
             url: '/network',
             templateUrl: 'app/modules/domains/network/network.html',
             authenticate: true
         })
-        .state('app.domains.env.network.node', {
+        .state('app.domains.domain.env.network.node', {
             url: '/:depth/:node',
             templateUrl: 'app/modules/domains/node/node.html',
             controller: 'DomainNodeController',
             authenticate: true
         })
-        .state('app.domains.env.network.node.logs', {
+        .state('app.domains.domain.env.network.node.logs', {
             url: '/logs',
             templateUrl: 'app/modules/domains/node-logs/node-logs.html',
             authenticate: true
@@ -59,8 +65,7 @@
     $qorSidebarProvider.config('domains', {
       title: 'Environments',
       nav: 40,
-      content: '<span qor-sidebar-group-heading="domains" data-icon-class="fa fa-cloud"></span>',
-      templateUrl: 'app/modules/domains/domains-sidebar.html',
+      content: '<span ui-sref="app.domains" qor-sidebar-group-heading="Domains" data-icon-class="fa fa-cloud"></span>',
       controller: 'DomainsSidebarController'
     });
   }

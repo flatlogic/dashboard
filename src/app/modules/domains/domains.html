@@ -1,13 +1,20 @@
-<section horizontal-ui-sheet>
-    <header horizontal-ui-sheet-header title="{{domain.name}}">
+<section horizontal-ui-sheet class="qor-sheet-s">
+    <header horizontal-ui-sheet-header title="Domains">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope" >
-            <a class="list-group-item" ng-repeat="environment in environments"
+            <a class="list-group-item" ng-repeat="domain in domains"
                ui-sref-active="active"
-               ui-sref="app.domains.env({env : environment.name})" >
-                {{environment.name}}
+               ui-sref="app.domains.domain({id : domain.id})" >
+                {{domain.name}}
             </a>
         </div>
+        <!--<div class="list-group text-left ng-scope" >-->
+            <!--<a class="list-group-item" ng-repeat="environment in environments"-->
+               <!--ui-sref-active="active"-->
+               <!--ui-sref="app.domains.env({env : environment.name})" >-->
+                <!--{{environment.name}}-->
+            <!--</a>-->
+        <!--</div>-->
     </div>
 </section>

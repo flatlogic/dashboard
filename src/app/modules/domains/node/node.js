@@ -3,7 +3,7 @@
 
     domainNodeController.$inject = ['$scope', '$stateParams'];
     function domainNodeController($scope, $stateParams) {
-        $scope.$watch('networkData', function(networkData) {
+        $scope.$watch('networkData', function (networkData) {
             if (!networkData) return;
             $scope.node = findNode(networkData, $stateParams.node, parseInt($stateParams.depth));
         });
@@ -30,7 +30,7 @@
                 }
             }
         }
-    };
+    }
 
     angular.module('qorDash.domains')
         .controller('DomainNodeController', domainNodeController);

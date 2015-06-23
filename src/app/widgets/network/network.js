@@ -149,7 +149,7 @@
                             }
 
                             function showDetails(root) {
-                                $state.go('app.domains.env.network.node', {depth: root.depth, node: root.name});
+                                $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
                             }
                         });
 

@@ -17,6 +17,7 @@
     "DomainDetailsController": "my_account",
     "DomainEnvironmentController": "my_account",
     "DomainNodeController": "my_account",
+    "DomainController": "my_account",
     "ConfigurationsController": "my_account",
     "network": "my_account",
     "traffic": "my_account",
