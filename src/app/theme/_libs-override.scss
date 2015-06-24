@@ -516,6 +516,11 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   color: #E4E4E4;
 
   font-weight: $font-weight-thin;
+
+  &.active {
+    background-color: #EEA22D;
+    box-shadow: none;
+  }
 }
 
 

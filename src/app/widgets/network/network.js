@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     var networkModule = angular.module('qorDash.widget.network')
@@ -8,22 +8,22 @@
     function qlNetwork(d3, $window, $interval, $state, $http, $timeout) {
         return {
             restrict: 'EA',
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
 
-                d3.d3().then(function(d3) {
+                d3.d3().then(function (d3) {
                     // Watch for resize event
-                    scope.$watch(function() {
+                    scope.$watch(function () {
                         return angular.element($window)[0].innerWidth;
-                    }, function() {
+                    }, function () {
                         scope.render(scope.data);
                     });
 
                     function initJson() {
                         return $http.get('data/network-data.json')
-                            .then(function(res) {
+                            .then(function (res) {
                                 scope.sourceJson = res.data;
 
-                                $timeout(function() {
+                                $timeout(function () {
                                     scope.$apply(function () {
                                         scope.setNetworkData(scope.sourceJson);
                                     });
@@ -31,7 +31,7 @@
                             });
                     }
 
-                    scope.render = function(data) {
+                    scope.render = function (data) {
                         var margin = 0,
                             height = element.parent().parent().height() - 10,
                             width = element.parent().width() - 10;
@@ -40,8 +40,8 @@
                             return;
                         }
 
-                        scope.width = element.parent().width();
-                        scope.height = element.parent().parent().height();
+                        scope.width     = element.parent().width();
+                        scope.height    = element.parent().parent().height();
 
                         var diameter = Math.min(height - 5, width - 5);
 
@@ -53,7 +53,9 @@
                         var pack = d3.layout.pack()
                             .padding(2)
                             .size([diameter - margin, diameter - margin])
-                            .value(function(d) { return d.size; })
+                            .value(function (d) {
+                                return d.size;
+                            });
 
                         var svg = d3.select(element[0]).append("svg")
                             .attr("width", width)
@@ -81,8 +83,10 @@
                             var circle = svg.selectAll("circle")
                                 .data(nodes)
                                 .enter().append("circle")
-                                .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-                                .style("fill", function(d) {
+                                .attr("class", function (d) {
+                                    return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root";
+                                })
+                                .style("fill", function (d) {
                                     if (!d.children) {
                                         return 'rgb(255,215,215)';
                                     }
@@ -105,49 +109,81 @@
                                             return color(d.depth);
                                     }
                                 })
-                                .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
-                                .on("mouseover", function(d){return tooltip.style("visibility", "visible").text(d.name);})
-                                .on("mousemove", function(d){return tooltip.style("top", (event.pageY - 30)+"px").style("left",(event.pageX - 20)+"px").text(d.name);})
-                                .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+                                .on("click", function (d) {
+                                    if (focus !== d) zoom(d), d3.event.stopPropagation();
+                                })
+                                .on("mouseover", function (d) {
+                                    return tooltip.style("visibility", "visible").text(d.name);
+                                })
+                                .on("mousemove", function (d) {
+                                    return tooltip.style("top", (event.pageY - 30) + "px").style("left", (event.pageX - 20) + "px").text(d.name);
+                                })
+                                .on("mouseout", function () {
+                                    return tooltip.style("visibility", "hidden");
+                                });
 
                             var text = svg.selectAll("text")
                                 .data(nodes)
                                 .enter().append("text")
                                 .attr("class", "label")
-                                .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-                                .style("display", function(d) { return d.parent === root ? null : "none"; })
-                                .text(function(d) { return d.name; });
+                                .style("fill-opacity", function (d) {
+                                    return d.parent === root ? 1 : 0;
+                                })
+                                .style("display", function (d) {
+                                    return d.parent === root ? null : "none";
+                                })
+                                .text(function (d) {
+                                    return d.name;
+                                });
 
                             var node = svg.selectAll("circle,text");
 
                             d3.select(element[0])
-                                .on("click", function() { zoom(root); });
+                                .on("click", function () {
+                                    zoom(root);
+                                });
 
                             zoomTo([root.x, root.y, root.r * 2 + margin]);
 
                             function zoom(d) {
-                                var focus0 = focus; focus = d;
+                                var focus0 = focus;
+                                focus = d;
 
                                 var transition = d3.transition()
                                     .duration(d3.event.altKey ? 7500 : 750)
-                                    .tween("zoom", function(d) {
+                                    .tween("zoom", function (d) {
                                         var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-                                        return function(t) { zoomTo(i(t)); };
+                                        return function (t) {
+                                            zoomTo(i(t));
+                                        };
                                     });
 
                                 transition.selectAll("text")
-                                    .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-                                    .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
-                                    .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                                    .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                                    .filter(function (d) {
+                                        return d.parent === focus || this.style.display === "inline";
+                                    })
+                                    .style("fill-opacity", function (d) {
+                                        return d.parent === focus ? 1 : 0;
+                                    })
+                                    .each("start", function (d) {
+                                        if (d.parent === focus) this.style.display = "inline";
+                                    })
+                                    .each("end", function (d) {
+                                        if (d.parent !== focus) this.style.display = "none";
+                                    });
 
                                 showDetails(d);
                             }
 
                             function zoomTo(v) {
-                                var k = diameter / v[2]; view = v;
-                                node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-                                circle.attr("r", function(d) { return d.r * k; });
+                                var k = diameter / v[2];
+                                view = v;
+                                node.attr("transform", function (d) {
+                                    return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+                                });
+                                circle.attr("r", function (d) {
+                                    return d.r * k;
+                                });
                             }
 
                             function showDetails(root) {
@@ -155,12 +191,8 @@
                             }
                         }
 
-                        // todo this has to be loaded by angular via some service
-                        // as of it's not loaded with angular it's impossible to
-                        // get this data if node page accessed by get request
-                        // (not by pressing a node on graph)
                         if (!scope.sourceJson) {
-                            initJson().then(function() {
+                            initJson().then(function () {
                                 subRender()
                             });
                         } else {
@@ -169,8 +201,8 @@
 
                         d3.select(self.frameElement).style("height", diameter + "px");
                     }
-                }).then(function() {
-                    var rerender = function() {
+                }).then(function () {
+                    var rerender = function () {
                         jQuery(element).animate({
                             opacity: 0,
                             duration: 30
@@ -184,13 +216,13 @@
                         });
                     };
 
-                    $interval(function(){
+                    $interval(function () {
                         if (element.parent().width() != scope.width || element.parent().parent().height() != scope.height) {
                             rerender();
                         }
                     }, 600);
                 });
-        }}
+            }}
     }
 
 })();
