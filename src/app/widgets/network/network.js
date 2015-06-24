@@ -4,8 +4,8 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork)
         ;
-    qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$http'];
-    function qlNetwork(d3, $window, $interval, $state, $http) {
+    qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$http', '$timeout'];
+    function qlNetwork(d3, $window, $interval, $state, $http, $timeout) {
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
@@ -22,6 +22,12 @@
                         return $http.get('data/network-data.json')
                             .then(function(res) {
                                 scope.sourceJson = res.data;
+
+                                $timeout(function() {
+                                    scope.$apply(function () {
+                                        scope.setNetworkData(scope.sourceJson);
+                                    });
+                                });
                             });
                     }
 
@@ -59,9 +65,6 @@
                             .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
                         function subRender() {
-//                            scope.$apply(function() {
-//                                scope.setNetworkData(scope.sourceJson);
-//                            });
                             var root = scope.sourceJson;
 
                             var focus = root,
