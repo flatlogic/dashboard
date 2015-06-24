@@ -8,22 +8,27 @@
     .factory('authInterceptor', authInterceptor)
     .constant('API_URL', 'https://accounts.qor.io/v1')
     .run(runAuth)
-      .directive('userSection', userSection);
+      .directive('userSection', userSection)
+      .directive('userActions', userActions);
+
+    function userActions() {
+        return {
+            link: function(scope, element) {
+                element.bind("mouseleave", function(){
+                    $(element).css({opacity: 0.0, visibility: "hidden"}).animate({opacity: 0}, 100);
+
+                    $('#user-actions').parent().css({opacity: 1.0, visibility: "visible"}).animate({opacity: 1}, 100);
+                });
+            }
+        }
+    }
 
     function userSection() {
         return {
             link: function(scope, element, attrs) {
-                var degree = 0, timer;
-                function rotate(element) {
-                    $(element).css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
-                    $(element).css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
-                    timer = setTimeout(function() {
-                        ++degree; rotate();
-                    },5);
-                }
-
-                $(element).hover(function() {
-                    rotate(element);
+                element.bind('mouseenter', function() {
+                    $(element.parent()).css({opacity: 0.0, visibility: "hidden"}).animate({opacity: 0}, 100);
+                    $('.user-actions').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 1}, 100);
                 });
             }
         }

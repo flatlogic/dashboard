@@ -29,7 +29,7 @@
       $qorSidebarProvider.config('User', {
           title: 'User',
           nav: 20,
-          content: '<span user-section ui-sref="logout" href="/logout" qor-sidebar-group-heading="Logout" data-icon-class="fa fa-user"></span>'
+          content: '<span id="user-actions" user-section  qor-sidebar-group-heading="Admin" data-icon-class="fa fa-user"></span>'
       });
   }
 })();
