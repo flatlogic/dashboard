@@ -26,7 +26,7 @@
     function userSection() {
         return {
             link: function(scope, element, attrs) {
-                element.bind('mouseenter', function() {
+                element.parent().bind('mouseenter', function() {
                     $(element.parent()).css({opacity: 0.0, visibility: "hidden"}).animate({opacity: 0}, 100);
                     $('.user-actions').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 1}, 100);
                 });
