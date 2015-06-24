@@ -4,14 +4,43 @@
     var containerModule = angular.module('qorDash.widget.container')
             .directive('qlContainer', qlContainer)
         ;
-    qlContainer.$inject = ['d3', '$window', '$interval', '$state'];
-    function qlContainer(d3, $window, $interval, $state) {
+    qlContainer.$inject = ['d3', '$window', '$interval', '$state', '$http'];
+    function qlContainer(d3, $window, $interval, $state, $http) {
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
 
+                function chooseSource(value) {
+                    switch (value) {
+                        case 'hosts':
+                            return 'data/container-h.json';
+                        case 'services':
+                            return 'data/container-s.json';
+                        default:
+                            return 'data/container-az.json';
+                    }
+                }
+
+                function initJson() {
+                    return $http.get(scope.sourceJsonLink)
+                        .then(function(res) {
+                            scope.sourceJson = res.data;
+                            $('#select-prop').text('');
+                            for (var selectorIndex in res.data.selectors) {
+                                $('#select-prop').append('<option value="' + res.data.selectors[selectorIndex] + '">By ' + res.data.selectors[selectorIndex] + '</option>')
+                            }
+                        });
+                }
+
+                function myJson(o, fun) {
+                    fun(o);
+                }
+
                 d3.d3().then(function(d3) {
-                    scope.heightMargin = 45;
+                    scope.sourceJsonLink = chooseSource($("#select-type option:selected" ).val());
+
+                    initJson();
+                    scope.heightMargin = 65;
                     scope.widthMargin = 10;
 
                     // Watch for resize event
@@ -50,9 +79,9 @@
                             .attr("height", height)
                             .append("svg:g")
                             .attr("transform", "translate(.5,.5)");
-// TODO - Make this based on the selection of the dropdown
-                        d3.json("data/container-h.json", function(data) {
-                            node = root = data;
+
+                        function subRender() {
+                            node = root = scope.sourceJson;
                             var nodes = treemap.nodes(root)
                                 .filter(function(d) { return !d.children; });
                             var cell = svg.selectAll("g")
@@ -73,8 +102,17 @@
                                 .text(function(d) { return d.name; })
                                 .style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
                             d3.select(window).on("click", function() { zoom(root); });
-// This isn't working for some reason....
-                            d3.select("select").on("change", function(value) {
+
+                            d3.select("#select-type").on("change", function() {
+                                var selectedValue = d3.select(this).property('value');
+                                scope.sourceJsonLink = chooseSource(selectedValue);
+                                scope.sourceJson = null;
+                                element.text("");
+                                scope.render();
+                                zoom(node);
+                            });
+
+                            d3.select("#select-prop").on("change", function() {
                                 var selectedValue = d3.select(this).property('value');
                                 switch (selectedValue) {
                                     case "cpu": treemap.value(cpu).nodes(root); break;
@@ -83,7 +121,16 @@
                                 }
                                 zoom(node);
                             });
-                        });
+                        }
+
+                        if (!scope.sourceJson) {
+                            initJson().then(function() {
+                                subRender()
+                            });
+                        } else {
+                            subRender();
+                        }
+
                         function cpu(d) {
                             return d.cpu;
                         }

@@ -1,0 +1,267 @@
+{
+    "type":"select-container-group-by-availability-zones",
+    "name":"select-container-group-by-availability-zones",
+    "description:": "Grouped by az.",
+    "selectors":[ "cpu", "memory", "count"], 
+    "children": [
+	{
+	    "type":"availability-zone",
+	    "name":"us-west-b",
+	    "children": [
+
+		{
+		    "type": "subnet",
+		    "name": "us-west-b-db",
+		    "children" : [
+			{
+			    "type" : "host",
+			    "name" : "10.30.11.98",
+			    "memory" : 32,
+			    "cpu" : 8,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"postgres-slave",
+				    "children":[
+					{ "type": "process", "name": "postgres-slave1-b", "disk":1, "memory" : 16, "cpu" : 4,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			}
+		    ]
+		},
+
+
+		{
+		    "type": "subnet",
+		    "name": "us-west-b-private",
+		    "children" : [
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.100",
+			    "memory" : 16,
+			    "cpu" : 4,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"blinker",
+				    "children":[
+					{ "type": "container", "name": "1f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+					{ "type": "container", "name": "1f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+					{ "type": "container", "name": "1f5fa8ac8e60", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e60" },
+					{ "type": "container", "name": "1f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				},
+				{
+				    "type":"service",
+				    "name":"vdp",
+				    "children":[
+					{ "type": "container", "name": "vdp1f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+					{ "type": "container", "name": "vdp1f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+					{ "type": "container", "name": "vdp1f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			},
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.101",
+			    "memory" : 16,
+			    "cpu" : 4,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"blinker",
+				    "children":[
+					{ "type": "container", "name": "2f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e58", "error":1 },
+					{ "type": "container", "name": "2f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e59" },
+					{ "type": "container", "name": "2f5fa8ac8e60", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e60" },
+					{ "type": "container", "name": "2f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			},
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.103",
+			    "memory" : 16,
+			    "cpu" : 4,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"blinker",
+				    "children":[
+					{ "type": "container", "name": "3f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e58","warning":1 },
+					{ "type": "container", "name": "3f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e59" },
+					{ "type": "container", "name": "3f5fa8ac8e60", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e60" },
+					{ "type": "container", "name": "3f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e61","warning":1 }
+				    ]
+				}
+			    ]
+			}
+		    ]
+		}
+		
+	    ]
+	},
+
+
+	{
+	    "type":"availability-zone",
+	    "name":"us-west-a",
+	    "children": [
+
+		{
+		    "type": "subnet",
+		    "name": "us-west-a-db",
+		    "children" : [
+			{
+			    "type" : "host",
+			    "name" : "10.30.11.99",
+			    "memory" : 512,
+			    "cpu" : 32,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"postgres",
+				    "children":[
+					{ "type": "process", "name": "postgres", "disk":1, "memory" : 512, "cpu" : 32,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			},
+			{
+			    "type" : "host",
+			    "name" : "10.30.11.98",
+			    "memory" : 32,
+			    "cpu" : 8,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"postgres-slave",
+				    "children":[
+					{ "type": "process", "name": "postgres-slave1", "disk":1, "memory" : 16, "cpu" : 4,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			}
+		    ]
+		},
+
+		{
+		    "type": "subnet",
+		    "name": "us-west-a-private",
+		    "children" : [
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.98",
+			    "memory" : 32,
+			    "cpu" : 8,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"postgres-slave",
+				    "children":[
+					{ "type": "process", "name": "postgres-slave2", "disk":1, "memory" : 16, "cpu" : 4,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			},
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.100",
+			    "memory" : 16,
+			    "cpu" : 4,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"blinker",
+				    "children":[
+					{ "type": "container", "name": "1f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+					{ "type": "container", "name": "1f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+					{ "type": "container", "name": "1f5fa8ac8e60", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e60" },
+					{ "type": "container", "name": "1f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				},
+				{
+				    "type":"service",
+				    "name":"vdp",
+				    "children":[
+					{ "type": "container", "name": "vdp1f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+					{ "type": "container", "name": "vdp1f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+					{ "type": "container", "name": "vdp1f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			},
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.101",
+			    "memory" : 16,
+			    "cpu" : 4,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"blinker",
+				    "children":[
+					{ "type": "container", "name": "2f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e58", "error":1 },
+					{ "type": "container", "name": "2f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e59" },
+					{ "type": "container", "name": "2f5fa8ac8e60", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e60" },
+					{ "type": "container", "name": "2f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e61" }
+				    ]
+				}
+			    ]
+			},
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.103",
+			    "memory" : 16,
+			    "cpu" : 4,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"blinker",
+				    "children":[
+					{ "type": "container", "name": "3f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e58","warning":1 },
+					{ "type": "container", "name": "3f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e59" },
+					{ "type": "container", "name": "3f5fa8ac8e60", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e60" },
+					{ "type": "container", "name": "3f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e61","warning":1 }
+				    ]
+				}
+			    ]
+			},
+			{
+			    "type" : "host",
+			    "name" : "10.30.12.104",
+			    "memory" : 16,
+			    "cpu" : 4,
+			    "children" : [
+				{
+				    "type":"service",
+				    "name":"blinker",
+				    "children":[
+					{ "type": "container", "name": "4f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e58" },
+					{ "type": "container", "name": "4f5fa8ac8e59", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e59" },
+					{ "type": "container", "name": "4f5fa8ac8e60", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e60" },
+					{ "type": "container", "name": "4f5fa8ac8e61", "disk":1, "memory" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e61" }
+				    ]
+				},
+				{
+				    "type":"service",
+				    "name":"vdp",
+				    "children":[
+					{ "type": "container", "name": "vdp4f5fa8ac8e58", "disk":1, "memory" : 1, "cpu" : 4,"url": "http://server.com/container/4f5fa8ac8e58" }
+				    ]
+				}
+			    ]
+			}
+		    ]
+		}
+
+	    ]
+	}
+
+	
+    ]
+}
+
