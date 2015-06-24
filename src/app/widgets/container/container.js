@@ -50,6 +50,15 @@
                         scope.render(scope.data);
                     });
 
+                    scope.colors = [
+                        0x7986CB,
+                        0x7986CB,
+                        0x808080,
+                        0xFBC02D,
+                        0xFFFFFF,
+                        0xB3B3B3
+                    ];
+
                     scope.render = function (data) {
                         // Render d3 graph here
                         var margin = 0;
@@ -58,7 +67,7 @@
                             height  = element.parent().parent().height() - scope.heightMargin,
                             x = d3.scale.linear().range([0, width]),
                             y = d3.scale.linear().range([0, height]),
-                            color = d3.scale.category20c(),
+                            color = d3.scale.ordinal().range(['#7986CB','#808080', '#FBC02D', '#3F497F', '#FFFFFF', '#B3B3B3']),
                             root,
                             node;
 
@@ -135,6 +144,7 @@
                                 })
                                 .attr("dy", ".35em")
                                 .attr("text-anchor", "middle")
+                                .style("fill", "white")
                                 .text(function (d) {
                                     return d.name;
                                 })
