@@ -521,7 +521,17 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 
 .list-group-item {
   &.active {
-    background-color: #7986CB;
-    border-color: #7986CB;
+    background-color: #B3B3B3;
+    border-color: #B3B3B3;
+
+    &:focus {
+      background-color: #B3B3B3;
+      border-color: #B3B3B3;
+    }
+
+    &:hover {
+      background-color: #B3B3B3;
+      border-color: #B3B3B3;
+    }
   }
 }
