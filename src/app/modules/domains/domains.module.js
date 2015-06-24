@@ -7,7 +7,8 @@
     'qorDash.widget',
     'qorDash.widget.domain_stat',
     'qorDash.widget.network',
-    'qorDash.widget.domain_details'
+    'qorDash.widget.domain_details',
+    'qorDash.widget.container'
 
   ]);
 
@@ -53,6 +54,11 @@
         .state('app.domains.domain.env.network.node.logs', {
             url: '/logs',
             templateUrl: 'app/modules/domains/node-logs/node-logs.html',
+            authenticate: true
+        })
+        .state('app.domains.domain.env.resources', {
+            url: '/resources',
+            templateUrl: 'app/modules/domains/resources/resources.html',
             authenticate: true
         });
 

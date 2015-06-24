@@ -489,6 +489,7 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   width: 80px;
 }
 
+
 .login-logo {
   margin-left: 25px;
 }
@@ -515,4 +516,12 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   color: #E4E4E4;
 
   font-weight: $font-weight-thin;
+}
+
+
+.list-group-item {
+  &.active {
+    background-color: #7986CB;
+    border-color: #7986CB;
+  }
 }

@@ -1,0 +1,75 @@
+{
+    "type":"select-container-group-by-services",
+    "name":"select-container-group-by-services",
+    "description:": "Grouped by services.",
+    "selectors":[ "cpu", "ram", "count"],
+    "children": [
+        {
+            "type":"service",
+            "name": "postgres",
+            "children": [
+                { "type": "process", "name": "postgres", "ram" : 512, "cpu" : 32,"url": "http://server.com/container/1f5fa8ac8e61" }
+
+            ]
+        },
+        {
+            "type":"service",
+            "name": "postgres-slave",
+            "children": [
+                { "type": "process", "name": "postgres-slave1-b", "ram" : 16, "cpu" : 4,"url": "http://server.com/container/1f5fa8ac8e61" },
+                { "type": "process", "name": "postgres-slave2", "ram" : 16, "cpu" : 4,"url": "http://server.com/container/1f5fa8ac8e61" },
+                { "type": "process", "name": "postgres-slave1", "ram" : 16, "cpu" : 4,"url": "http://server.com/container/1f5fa8ac8e61" }
+            ]
+        },
+        {
+            "type":"service",
+            "name": "blinker",
+            "children": [
+                { "type": "container", "name": "1f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+                { "type": "container", "name": "1f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+                { "type": "container", "name": "1f5fa8ac8e60", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e60" },
+                { "type": "container", "name": "1f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e61" },
+                { "type": "container", "name": "2f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e58", "error":1 },
+                { "type": "container", "name": "2f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e59" },
+                { "type": "container", "name": "2f5fa8ac8e60", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e60" },
+                { "type": "container", "name": "2f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e61" },
+                { "type": "container", "name": "3f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e58","warning":1 },
+                { "type": "container", "name": "3f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e59" },
+                { "type": "container", "name": "3f5fa8ac8e60", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e60" },
+                { "type": "container", "name": "3f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e61","warning":1 },
+                { "type": "container", "name": "1f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+                { "type": "container", "name": "1f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+                { "type": "container", "name": "1f5fa8ac8e60", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e60" },
+                { "type": "container", "name": "1f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e61" },
+                { "type": "container", "name": "2f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e58", "error":1 },
+                { "type": "container", "name": "2f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e59" },
+                { "type": "container", "name": "2f5fa8ac8e60", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e60" },
+                { "type": "container", "name": "2f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/2f5fa8ac8e61" },
+                { "type": "container", "name": "3f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e58","warning":1 },
+                { "type": "container", "name": "3f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e59" },
+                { "type": "container", "name": "3f5fa8ac8e60", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e60" },
+                { "type": "container", "name": "3f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/3f5fa8ac8e61","warning":1 },
+                { "type": "container", "name": "4f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e58" },
+                { "type": "container", "name": "4f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e59" },
+                { "type": "container", "name": "4f5fa8ac8e60", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e60" },
+                { "type": "container", "name": "4f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/4f5fa8ac8e61" }
+
+            ]
+        },
+        {
+            "type":"service",
+            "name": "vdp",
+            "children": [
+                { "type": "container", "name": "vdp1f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+                { "type": "container", "name": "vdp1f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+                { "type": "container", "name": "vdp1f5fa8ac8e61", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e61" },
+                { "type": "container", "name": "vdp1f5fa8ac8e58", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e58", "warning":1 },
+                { "type": "container", "name": "vdp1f5fa8ac8e59", "ram" : 1, "cpu" : 1,"url": "http://server.com/container/1f5fa8ac8e59" },
+                { "type": "container", "name": "vdp1f5fa8ac8e61", "ram" : 1, "cpu" : 2,"url": "http://server.com/container/1f5fa8ac8e61" },
+                { "type": "container", "name": "vdp4f5fa8ac8e58", "ram" : 1, "cpu" : 4,"url": "http://server.com/container/4f5fa8ac8e58" }
+            ]
+        }
+    ]
+}
+
+

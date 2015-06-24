@@ -7,7 +7,27 @@
     .service('user', userService)
     .factory('authInterceptor', authInterceptor)
     .constant('API_URL', 'https://accounts.qor.io/v1')
-    .run(runAuth);
+    .run(runAuth)
+      .directive('userSection', userSection);
+
+    function userSection() {
+        return {
+            link: function(scope, element, attrs) {
+                var degree = 0, timer;
+                function rotate(element) {
+                    $(element).css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
+                    $(element).css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+                    timer = setTimeout(function() {
+                        ++degree; rotate();
+                    },5);
+                }
+
+                $(element).hover(function() {
+                    rotate(element);
+                });
+            }
+        }
+    }
 
   loginController.$inject = ['$scope', '$location', 'user'];
   function loginController( $scope, $location, user ) {

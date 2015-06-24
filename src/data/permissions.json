@@ -20,6 +20,7 @@
     "DomainController": "my_account",
     "ConfigurationsController": "my_account",
     "network": "my_account",
+    "container": "my_account",
     "traffic": "my_account",
     "DeploymentController": "my_account",
     "OrchestrateController": "my_account",
