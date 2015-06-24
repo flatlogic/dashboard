@@ -4,23 +4,26 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork)
         ;
-    qlNetwork.$inject = ['d3', '$window', '$interval', '$state'];
-    function qlNetwork(d3, $window, $interval, $state) {
+    qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$http'];
+    function qlNetwork(d3, $window, $interval, $state, $http) {
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
 
                 d3.d3().then(function(d3) {
-                    var margin = parseInt(attrs.margin) || 20,
-                        barHeight = parseInt(attrs.barHeight) || 20,
-                        barPadding = parseInt(attrs.barPadding) || 5;
-
                     // Watch for resize event
                     scope.$watch(function() {
                         return angular.element($window)[0].innerWidth;
                     }, function() {
                         scope.render(scope.data);
                     });
+
+                    function initJson() {
+                        return $http.get('data/network-data.json')
+                            .then(function(res) {
+                                scope.sourceJson = res.data;
+                            });
+                    }
 
                     scope.render = function(data) {
                         var margin = 0,
@@ -55,15 +58,11 @@
                             .append("g")
                             .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-                        // todo this has to be loaded by angular via some service
-                        // as of it's not loaded with angular it's impossible to
-                        // get this data if node page accessed by get request
-                        // (not by pressing a node on graph)
-                        d3.json("data/network-data.json", function(error, root) {
-                            scope.$apply(function() {
-                                scope.setNetworkData(root);
-                            });
-                            if (error) return console.error(error);
+                        function subRender() {
+//                            scope.$apply(function() {
+//                                scope.setNetworkData(scope.sourceJson);
+//                            });
+                            var root = scope.sourceJson;
 
                             var focus = root,
                                 nodes = pack.nodes(root),
@@ -151,7 +150,19 @@
                             function showDetails(root) {
                                 $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
                             }
-                        });
+                        }
+
+                        // todo this has to be loaded by angular via some service
+                        // as of it's not loaded with angular it's impossible to
+                        // get this data if node page accessed by get request
+                        // (not by pressing a node on graph)
+                        if (!scope.sourceJson) {
+                            initJson().then(function() {
+                                subRender()
+                            });
+                        } else {
+                            subRender();
+                        }
 
                         d3.select(self.frameElement).style("height", diameter + "px");
                     }
@@ -168,10 +179,6 @@
                                 duration: 30
                             });
                         });
-                    };
-
-                    window.onresize = function() {
-                        rerender();
                     };
 
                     $interval(function(){

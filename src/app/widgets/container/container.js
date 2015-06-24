@@ -173,10 +173,6 @@
                                 duration: 30
                             });
                         });
-                    }
-
-                    window.onresize = function() {
-                        rerender();
                     };
 
                     $interval(function(){
