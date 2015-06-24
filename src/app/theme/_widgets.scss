@@ -56,9 +56,22 @@ $stat-blue-color: #7986CB;
 
 .widget-login-info{
   font-size: $font-size-mini;
-  color: #888;
+  color: #B4B4B4;
   margin-top: 1px;
   margin-bottom: 0;
+}
+
+.widget-login-footer {
+  margin-top: 20px;
+}
+
+.login-trouble {
+  color: #EDA22D;
+}
+
+.login-page-footer {
+  margin-top: 30px;
+  color: #B4B4B4;
 }
 
 .login-form{
@@ -69,6 +82,33 @@ $stat-blue-color: #7986CB;
     &:focus{
       background-color: $gray-semi-lighter;
     }
+  }
+
+  >.small-margin {
+    margin-bottom: 10px;
+  }
+}
+
+.login-toolbar {
+  width: 100%;
+
+  >.btn {
+    border-radius: 0;
+    font-size: $font-size-larger;
+    color: #ffffff;
+    font-weight: $font-weight-thin;
+  }
+
+  >.btn-login {
+    width: 49%;
+    background-color: #EDA22D;
+    border-color: #EDA22D;
+  }
+
+  >.btn-signup {
+    width: 46%;
+    background-color: #B3B3B3;
+    border-color: #B3B3B3;
   }
 }
 
