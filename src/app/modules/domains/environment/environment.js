@@ -10,13 +10,17 @@
         }
     }
 
-    autoScroll.$inject = ['$interval'];
-    function autoScroll($interval) {
+    function autoScroll() {
         return {
             link: function(scope, element, attrs) {
-                $interval(function() {
-                    element.scrollTop = element.children().height();
-                }, 500);
+                scope.$watch(
+                    function () { return element.children().height() },
+                    function (newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            $(element).scrollTop(element.children().height())
+                        }
+                    }
+                );
             }
         }
     }
