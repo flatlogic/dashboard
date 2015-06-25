@@ -10,6 +10,10 @@
             restrict: 'EA',
             link: function (scope, element, attrs) {
 
+                scope.$on("$destroy", function(){
+                    scope.sourceJson = '';
+                });
+
                 function chooseSource(value) {
                     switch (value) {
                         case 'hosts':
@@ -61,13 +65,14 @@
 
                     scope.render = function (data) {
                         // Render d3 graph here
+                        console.log('call');
                         var margin = 0;
 
                         var width   = element.parent().width() - scope.widthMargin,
                             height  = element.parent().parent().height() - scope.heightMargin,
                             x = d3.scale.linear().range([0, width]),
                             y = d3.scale.linear().range([0, height]),
-                            color = d3.scale.ordinal().range(['#7986CB','#808080', '#FBC02D', '#3F497F', '#FFFFFF', '#B3B3B3']),
+                            color = d3.scale.ordinal().range(['#7986CB','#808080', '#FBC02D', '#3F497F', '#B3B3B3', '#FFFFFF']),
                             root,
                             node;
 
@@ -263,9 +268,11 @@
                     };
 
                     $interval(function () {
-                        // TODO fix width changing
+                        // TODO Fix size adapting
                         if (element.parent().parent().height() - scope.heightMargin != scope.height) {
-                            rerender();
+                            if (element.height() != 0 && element.width != 0) {
+                                rerender();
+                            }
                         }
                     }, 600);
                 });
