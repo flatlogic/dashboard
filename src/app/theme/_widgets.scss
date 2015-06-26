@@ -437,3 +437,25 @@ $stat-blue-color: #7986CB;
     }
   }
 }
+
+.container-select {
+  display: inline;
+
+  >select {
+    box-shadow: 0 0 3px;
+    border: none;
+    padding: 5px;
+    color: $qor-sidebar-color;
+    appearance: none;
+    -webkit-apperance: none;
+    -moz-apperance: none;
+    background: url(../assets/images/select-arrow.png) 96% / 15% no-repeat #ffffff;
+    min-width: 120px;
+  }
+}
+
+.container-view {
+  >.chart {
+    margin-top: 20px;
+  }
+}
