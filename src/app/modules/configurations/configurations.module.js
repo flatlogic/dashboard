@@ -20,6 +20,18 @@
           }
         },
         authenticate: true
+      })
+          .state('app.configurations.services', {
+          url: '/:domain',
+          templateUrl: 'app/modules/configurations/services/services.html',
+          controller: 'ServicesController',
+          authenticate: true
+      })
+          .state('app.configurations.services.editor', {
+          url: '/:service',
+          templateUrl: 'app/modules/configurations/editor/editor.html',
+          controller: 'EditorController',
+          authenticate: true
       });
 
     $qorSidebarProvider.config('configurations', {

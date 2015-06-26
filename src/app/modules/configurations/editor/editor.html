@@ -1,0 +1,50 @@
+<section horizontal-ui-sheet class="qor-sheet-full">
+    <header horizontal-ui-sheet-header title="{{domain.name}} > {{service.service}}">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="container-select">
+            <select>
+                <option ng-repeat="environment in service.instances" value="{{environment}}">{{environment}}</option>
+            </select>
+        </div>
+        <div class="container-select">
+            <select>
+                <option ng-repeat="version in service.versions" value="{{version}}">{{version}}</option>
+            </select>
+        </div>
+
+        <div class="editor-content">
+            <div class="loading" ng-if="!values">Loading...</div>
+            <div class="filled-content" ng-if="values">
+                <h3 align="center">Values</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="value in values">
+                            <th>{{value.name}}</th>
+                            <th inline-edit="value.value" on-save="updateValues(value, pValue)"></th>
+                            <th><a ng-click="deleteValue(value.name)">del</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" ng-click="addValue()" style="position: absolute; right: 20px; bottom: 20px;">Add new</button>
+    <script type="text/ng-template" id="inlineEdit.html">
+        <th>
+            <input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">
+            <button ng-click="save()" ng-show="editMode">ok</button>
+              <span>
+                <span ng-hide="editMode" ng-click="edit()">{{model}}</span>
+              </span>
+        </th>
+    </script>
+</section>

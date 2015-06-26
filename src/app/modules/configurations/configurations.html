@@ -1,5 +1,20 @@
-<section horizontal-ui-sheet class="qor-sheet-full">
-  <div horizontal-ui-sheet-content>
-    <h1 class="page-title">Configurations</h1>
-  </div>
+<section horizontal-ui-sheet class="qor-sheet-s">
+    <header horizontal-ui-sheet-header title="Configurations">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="list-group text-left ng-scope" >
+            <a class="list-group-item" ng-repeat="domain in domains"
+               ui-sref-active="active"
+               ui-sref="app.configurations.services({domain : domain.id})" >
+                {{domain.name}}
+            </a>
+        </div>
+        <!--<div class="list-group text-left ng-scope" >-->
+        <!--<a class="list-group-item" ng-repeat="environment in environments"-->
+        <!--ui-sref-active="active"-->
+        <!--ui-sref="app.domains.env({env : environment.name})" >-->
+        <!--{{environment.name}}-->
+        <!--</a>-->
+        <!--</div>-->
+    </div>
 </section>

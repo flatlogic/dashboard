@@ -459,3 +459,10 @@ $stat-blue-color: #7986CB;
     margin-top: 20px;
   }
 }
+
+.editor-content {
+  >.loading {
+    width: 100%;
+    text-align: center;
+  }
+}
