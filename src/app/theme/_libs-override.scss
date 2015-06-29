@@ -544,3 +544,17 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 .form-control-feedback {
  color: #B3B3B3;
 }
+
+.config-table {
+  width: 60%;
+
+  >thead {
+    color: #ffffff;
+
+    >tr {
+      >th {
+        background-color: #cccccc;
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@
                ui-sref-active="active"
                ui-sref="app.configurations.services.editor({service: service.service})"
                 >
-                {{service.service}} ({{service.instances.length}}, {{service.versions.length}})
+                {{service.service}} <div class="navigation-details"><span>{{service.instances.length}}</span> <span>{{service.versions.length}}</span></div>
             </a>
         </div>
     </div>

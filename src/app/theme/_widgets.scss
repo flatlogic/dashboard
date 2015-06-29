@@ -466,3 +466,61 @@ $stat-blue-color: #7986CB;
     text-align: center;
   }
 }
+
+.config-table-action-btn {
+  color: #ffffff;
+  background-color: #cccccc;
+  padding: 4px;
+  margin-right: 2px;
+  margin-left: 2px;
+  border-radius: 2px;
+  cursor: pointer;
+
+  &.active {
+    background-color: #eea22d;
+  }
+}
+
+.config-table-actions {
+  display: inline;
+  float: right;
+}
+
+.config-table-header {
+  color: #eea22d;
+  margin: 40px 0 20px 0;
+}
+
+.config-value {
+  display: inline;
+}
+
+.config-input-edit {
+  border: solid 1px #eea22d;
+  padding: 3px;
+  border-radius: 5px;
+
+  &:focus, &.focus {
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.navigation-details {
+  float: right;
+  display: inline;
+
+  >span {
+    background-color: #DBDBDB;
+    padding: 1px 5px 1px 5px;
+    border-radius: 3px;
+  }
+}
+
+.qor-btn-primary {
+
+}
+
+.add-config-button {
+  margin-top: -4px;
+}

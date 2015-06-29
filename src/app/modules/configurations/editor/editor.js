@@ -48,10 +48,10 @@
             }
         ];
 
-        $scope.updateValues = function(value, pValue) {
+        $scope.updateValues = function(name, newValue) {
             for (var valueIndex in $scope.values) {
-                if ($scope.values[valueIndex].value == pValue) {
-                    $scope.values[valueIndex].value = value;
+                if ($scope.values[valueIndex].name == name) {
+                    $scope.values[valueIndex].value = newValue;
                     return;
                 }
             }
@@ -61,8 +61,7 @@
             for (var valueIndex in $scope.values) {
                 if ($scope.values[valueIndex].name == name) {
                     $scope.values.splice(valueIndex, 1);
-                    return;
-                }
+                    return;                }
             }
         }
     }
@@ -92,8 +91,10 @@
         return {
             scope: {
                 model: '=inlineEdit',
+                key: '=key',
                 handleSave: '&onSave',
-                handleCancel: '&onCancel'
+                handleCancel: '&onCancel',
+                handleDelete: '&onDelete'
             },
             link: function(scope, elm, attr) {
                 var previousValue;
@@ -108,21 +109,35 @@
                 };
                 scope.save = function() {
                     scope.editMode = false;
-                    scope.handleSave({value: scope.model, pValue: scope.previousValue});
+                    scope.handleSave({name: scope.key, newValue: scope.model});
                 };
                 scope.cancel = function() {
                     scope.editMode = false;
                     scope.model = previousValue;
                     scope.handleCancel({value: scope.model});
                 };
+
+                scope.remove = function(key) {
+                    scope.handleDelete({name: key});
+                };
             },
             templateUrl: 'inlineEdit.html'
         };
+    }
+
+    function addValue() {
+        return {
+            link: function(scope, element, attrs) {
+
+            },
+            templateUrl: 'addNewValue.html'
+        }
     }
 
     angular.module('qorDash.configurations')
         .controller('EditorController', editorController)
         .directive('inlineEdit', inlineEdit)
         .directive('onEnter', onEnter)
-        .directive('onEsc', onEsc);
+        .directive('onEsc', onEsc)
+        .directive('addValue', addValue);
 })();

@@ -13,23 +13,24 @@
             </select>
         </div>
 
+        <div add-value style="display: inline; margin-left: 10px;"></div>
+
+
         <div class="editor-content">
             <div class="loading" ng-if="!values">Loading...</div>
             <div class="filled-content" ng-if="values">
-                <h3 align="center">Values</h3>
-                <table class="table table-striped">
+                <h3 class="config-table-header">Values</h3>
+                <table class="table table-bordered config-table">
                     <thead>
                         <tr>
                             <th>Key</th>
                             <th>Value</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="value in values">
                             <th>{{value.name}}</th>
-                            <th inline-edit="value.value" on-save="updateValues(value, pValue)"></th>
-                            <th><a ng-click="deleteValue(value.name)">del</a></th>
+                            <th inline-edit="value.value" key="value.name" on-save="updateValues(value, pValue)" on-delete="deleteValue(name)"></th>
                         </tr>
                     </tbody>
                 </table>
@@ -37,14 +38,13 @@
         </div>
     </div>
 
-    <button class="btn btn-primary" ng-click="addValue()" style="position: absolute; right: 20px; bottom: 20px;">Add new</button>
     <script type="text/ng-template" id="inlineEdit.html">
-        <th>
-            <input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">
-            <button ng-click="save()" ng-show="editMode">ok</button>
-              <span>
-                <span ng-hide="editMode" ng-click="edit()">{{model}}</span>
-              </span>
-        </th>
+        <input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode" class="config-input-edit">
+        <span ng-click="save()" ng-show="editMode" class="config-table-action-btn fa fa-check"></span>
+        <span ng-hide="editMode">{{model}}</span><div class="config-table-actions"><span ng-class="{'active': editMode}" class="fa fa-pencil config-table-action-btn" ng-click="edit()"></span><span ng-click="remove(key)" class="fa fa-remove config-table-action-btn"> </span></div>
+    </script>
+
+    <script type="text/ng-template" id="addNewValue.html">
+        <button class="btn qor-btn-primary add-config-button" ng-click="addValue()" >Add new</button>
     </script>
 </section>
