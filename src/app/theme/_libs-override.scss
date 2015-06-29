@@ -546,8 +546,6 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 }
 
 .config-table {
-  width: 60%;
-
   >thead {
     color: #ffffff;
 
@@ -557,4 +555,15 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
       }
     }
   }
+}
+
+.CodeMirror-scroll {
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
 }

@@ -8,6 +8,9 @@ $fa-font-path: "../../bower_components/font-awesome/fonts";
 @import "../../bower_components/font-awesome/scss/font-awesome";
 @import "../../bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
 
+@import "../../bower_components/codemirror/lib/codemirror.css";
+@import "../../bower_components/codemirror/theme/monokai.css";
+
 @import "theme/bootstrap-override";
 @import "theme/libs-override";
 

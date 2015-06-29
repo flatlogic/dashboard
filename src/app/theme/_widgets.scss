@@ -488,7 +488,7 @@ $stat-blue-color: #7986CB;
 
 .config-table-header {
   color: #eea22d;
-  margin: 40px 0 20px 0;
+  margin: 0px 0 20px 0;
 }
 
 .config-value {
@@ -518,7 +518,14 @@ $stat-blue-color: #7986CB;
 }
 
 .qor-btn-primary {
+  background-color: #eea22d;
+  color: #FFFFFF;
+}
 
+.config-switch-btn {
+  position: absolute;
+  top: $qor-header-height + 10;
+  right: 20px;
 }
 
 .add-config-button {

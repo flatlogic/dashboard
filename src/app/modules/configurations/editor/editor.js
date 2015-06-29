@@ -28,23 +28,33 @@
         $scope.values = [
             {
                 "name": "PGHOST",
-                "value": "ops-dev.blinker.io"
+                "value1": "ops-dev.blinker.io1",
+                "value2": "ops-dev.blinker.io2",
+                "value3": "ops-dev.blinker.io3"
             },
             {
                 "name": "PGPORT",
-                "value": "5432"
+                "value1": "54321",
+                "value2": "54322",
+                "value3": "54323"
             },
             {
                 "name": "PGUSER",
-                "value": "blinker"
+                "value1": "blinker1",
+                "value2": "blinker2",
+                "value3": "blinker3"
             },
             {
                 "name": "PGDATABASE",
-                "value": "blinkerdb"
+                "value1": "blinkerdb1",
+                "value2": "blinkerdb2",
+                "value3": "blinkerdb3"
             },
             {
                 "name": "PGPASSWORD",
-                "value": "password"
+                "value1": "password1",
+                "value2": "password2",
+                "value3": "password3"
             }
         ];
 

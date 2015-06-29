@@ -1,0 +1,33 @@
+<section horizontal-ui-sheet class="qor-sheet-full">
+    <header horizontal-ui-sheet-header title="{{domain.name}} > {{service.service}} > Files">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="editor-content">
+            <div class="loading" ng-if="!values">Loading...</div>
+            <div class="filled-content" ng-if="values">
+                <h3 class="config-table-header">Configuration Files</h3>
+                <table class="table table-bordered config-table">
+                    <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Path</th>
+                        <th ng-repeat="environment in service.instances">{{environment}}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="file in files">
+                        <th>{{file.name}}</th>
+                        <th>{{file.path}}</th>
+                        <th><a>edit</a></th>
+                        <th><a>edit</a></th>
+                        <th><a>edit</a></th>
+                        <th><div class="config-table-actions"><span ng-click="deleteFile(file.name)" class="fa fa-remove config-table-action-btn"> </span></div></th>
+                    </tr>
+                    </tbody>
+                </table>
+                <ui-codemirror style="height: 500px;" ui-codemirror="{ onLoad : codemirrorLoaded }" ui-codemirror-opts="editorOptions" ng-model="fileData"></ui-codemirror>
+            </div>
+        </div>
+    </div>
+</section>

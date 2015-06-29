@@ -2,7 +2,8 @@
   'use strict';
 
   var module = angular.module('qorDash.configurations', [
-    'ui.router'
+    'ui.router',
+      'ui.codemirror'
   ]);
 
   module.config(appConfig);
@@ -31,6 +32,12 @@
           url: '/:service',
           templateUrl: 'app/modules/configurations/editor/editor.html',
           controller: 'EditorController',
+          authenticate: true
+      })
+          .state('app.configurations.services.editor.files', {
+          url: '/files',
+          templateUrl: 'app/modules/configurations/files/files.html',
+          controller: 'FilesController',
           authenticate: true
       });
 
