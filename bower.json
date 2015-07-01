@@ -19,8 +19,7 @@
     "jquery.terminal": "https://github.com/jcubic/jquery.terminal.git#fc76ddd45b514bcf0704d1602c8ad06dcad03a0c",
     "animate.css": "~3.3.0",
     "metrojs": "~0.9.77",
-    "angular-ui-codemirror": "~0.3.0",
-    "jcf": "~1.1.3"
+    "angular-ui-codemirror": "~0.3.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"

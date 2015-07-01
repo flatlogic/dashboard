@@ -1,19 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('qorDash.configurations')
-        .value('services', [
-            {
-                "service": "blinker",
-                "instances": [ "ops-dev", "staging", "production" ],
-                "versions":[ "develop", "v1.0", "v1.1" ]
-            },
-            {
-                "service": "vdp",
-                "instances": [ "ops-dev", "staging", "production" ],
-                "versions":[ "v0.1", "v1.0" ]
-            }
-        ]);
+    angular.module('qorDash.configurations');
 
     filesController.$inject = ['$scope', '$stateParams', 'services', 'domains', '$http'];
     function filesController($scope, $stateParams, services, domains, $http) {

@@ -3,8 +3,7 @@
 
   var module = angular.module('qorDash.configurations', [
     'ui.router',
-      'ui.codemirror',
-      'jcf'
+      'ui.codemirror'
   ]);
 
   module.config(appConfig);
