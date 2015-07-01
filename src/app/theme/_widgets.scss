@@ -530,4 +530,21 @@ $stat-blue-color: #7986CB;
 
 .add-config-button {
   margin-top: -4px;
+  float: right;
+}
+
+.save-config-button {
+  margin-top: -4px;
+}
+
+.config-table-th {
+  >.version-select {
+    float: right;
+  }
+
+  >h4 {
+    position: absolute;
+    margin-top: 5px;
+    display: inline;
+  }
 }

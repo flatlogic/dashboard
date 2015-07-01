@@ -6,12 +6,22 @@
             {
                 "service": "blinker",
                 "instances": [ "ops-dev", "staging", "production" ],
-                "versions":[ "develop", "v1.0", "v1.1" ]
+                "versions":[ "develop", "v1.0", "v1.1" ],
+                "live": {
+                    "ops-dev" : "develop",
+                    "staging" : "v1.0",
+                    "production" : "v1.0"
+                }
             },
             {
                 "service": "vdp",
                 "instances": [ "ops-dev", "staging", "production" ],
-                "versions":[ "v0.1", "v1.0" ]
+                "versions":[ "v0.1", "v1.0" ],
+                "live": {
+                    "ops-dev" : "v1.0",
+                    "staging" : "v0.1",
+                    "production" : "v0.1"
+                }
             }
         ]);
 
@@ -25,38 +35,99 @@
             return service.service == $stateParams.service;
         })[0];
 
+        $scope.selectedVersion = {};
+
+        $scope.service.instances.forEach(function(instance) {
+            $scope.selectedVersion[instance] = $scope.service.versions[0];
+        });
+
+        $scope.changeSelectedVersion = function(instance, newVersion) {
+            $scope.selectedVersion[instance] = newVersion;
+        };
+
+        $scope.isLive = function(instance, version) {
+            return $scope.service.live[instance] == version;
+        };
+
+        $scope.save = function() {
+            if (confirm("Are you sure?")) {
+
+            } else {
+
+            }
+        };
+
+        $scope.addValue = function() {
+            var obj = {};
+            obj.name = "";
+            $scope.service.instances.forEach(function(instance) {
+                obj[instance] = {};
+               $scope.service.versions.forEach(function(version) {
+                   obj[instance][version] = "";
+               });
+            });
+            $scope.values.push(obj);
+        };
+
         $scope.values = [
             {
                 "name": "PGHOST",
-                "value1": "ops-dev.blinker.io1",
-                "value2": "ops-dev.blinker.io2",
-                "value3": "ops-dev.blinker.io3"
+                "ops-dev": {
+                    "develop": "ops-dev.blinker.io-dev",
+                    "v1.0": "ops-dev.blinker.io-v1.0",
+                    "v1.1": "ops-dev.blinker.io-v1.1"
+                },
+                "staging": {
+                    "develop": "staging-dev.blinker.io-dev",
+                    "v1.0": "staging-dev.blinker.io-v1.0",
+                    "v1.1": "staging-dev.blinker.io-v1.1"
+                },
+                "production": {
+                    "develop": "production-dev.blinker.io-dev",
+                    "v1.0": "production-dev.blinker.io-v1.0",
+                    "v1.1": "production-dev.blinker.io-v1.1"
+                }
             },
             {
                 "name": "PGPORT",
-                "value1": "54321",
-                "value2": "54322",
-                "value3": "54323"
+                "ops-dev": {
+                    "develop": "pg-od-dev",
+                    "v1.0": "pg-od-v1.0",
+                    "v1.1": "pg-od-v1.1"
+                },
+                "staging": {
+                    "develop": "staging-od-dev",
+                    "v1.0": "staging-od-v1.0",
+                    "v1.1": "staging-od-v1.1"
+                },
+                "production": {
+                    "develop": "production-od-dev",
+                    "v1.0": "production-od-v1.0",
+                    "v1.1": "production-od-v1.1"
+                }
             },
             {
                 "name": "PGUSER",
-                "value1": "blinker1",
-                "value2": "blinker2",
-                "value3": "blinker3"
-            },
-            {
-                "name": "PGDATABASE",
-                "value1": "blinkerdb1",
-                "value2": "blinkerdb2",
-                "value3": "blinkerdb3"
-            },
-            {
-                "name": "PGPASSWORD",
-                "value1": "password1",
-                "value2": "password2",
-                "value3": "password3"
+                "ops-dev": {
+                    "develop": "pguser-od-dev",
+                    "v1.0": "pguser-od-v1.0",
+                    "v1.1": "pguser-od-v1.1"
+                },
+                "staging": {
+                    "develop": "staging-pguser-dev",
+                    "v1.0": "staging-pguser-v0.1",
+                    "v1.1": "staging-pguser-1.0"
+                },
+                "production": {
+                    "develop": "production-od-1",
+                    "v1.0": "production-od-2",
+                    "v1.1": "production-od-3"
+                }
             }
         ];
+
+        $scope.focusinControl = {
+        };
 
         $scope.updateValues = function(name, newValue) {
             for (var valueIndex in $scope.values) {
@@ -104,12 +175,18 @@
                 key: '=key',
                 handleSave: '&onSave',
                 handleCancel: '&onCancel',
-                handleDelete: '&onDelete'
+                handleDelete: '&onDelete',
+                isName: '=isName',
+                parent: '='
             },
             link: function(scope, elm, attr) {
                 var previousValue;
 
                 scope.edit = function() {
+                    if (scope.isName && scope.model) {
+                        return;
+                    }
+
                     scope.editMode = true;
                     scope.previousValue = scope.model;
 
@@ -118,9 +195,27 @@
                     }, 0, false);
                 };
                 scope.save = function() {
+                    for (var versionIndex in scope.parent) {
+                        if (!scope.parent[versionIndex]) {
+                            return;
+                        }
+                    }
+                    if (!scope.model) {
+                        return;
+                    }
                     scope.editMode = false;
                     scope.handleSave({name: scope.key, newValue: scope.model});
                 };
+
+                scope.isSaveAvailable = function() {
+                    for (var versionIndex in scope.parent) {
+                        if (!scope.parent[versionIndex]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
+
                 scope.cancel = function() {
                     scope.editMode = false;
                     scope.model = previousValue;
@@ -130,6 +225,10 @@
                 scope.remove = function(key) {
                     scope.handleDelete({name: key});
                 };
+
+                if (!scope.model) {
+                    scope.edit();
+                }
             },
             templateUrl: 'inlineEdit.html'
         };
@@ -144,10 +243,21 @@
         }
     }
 
+    function customSelect() {
+        return {
+            link: function(scope, element, attr) {
+                [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {
+                    new SelectFx(el);
+                } );
+            }
+        }
+    }
+
     angular.module('qorDash.configurations')
         .controller('EditorController', editorController)
         .directive('inlineEdit', inlineEdit)
         .directive('onEnter', onEnter)
         .directive('onEsc', onEsc)
-        .directive('addValue', addValue);
+        .directive('addValue', addValue)
+        .directive('customSelect', customSelect);
 })();
