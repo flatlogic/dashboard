@@ -34,7 +34,7 @@ module.exports = function(options) {
 
     var htmlFilter = $.filter('*.html');
     var jsFilter = $.filter('**/*.js');
-      var jsCodemirrorFilter = $.filter('codemirror/mode/**/*.js');
+      //var jsCodemirrorFilter = $.filter('codemirror/mode/**/*.js');
     var cssFilter = $.filter('**/*.css');
     var assets;
 
@@ -43,7 +43,7 @@ module.exports = function(options) {
       .pipe(assets = $.useref.assets())
       .pipe($.rev())
       .pipe(jsFilter)
-        .pipe(jsCodemirrorFilter)
+        //.pipe(jsCodemirrorFilter)
       .pipe($.ngAnnotate())
       .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', options.errorHandler('Uglify'))
       .pipe(jsFilter.restore())
