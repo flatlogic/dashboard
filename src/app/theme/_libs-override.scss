@@ -416,16 +416,37 @@ iframe.ui-layout-mask {}	/* extra mask for objects/applets */
   top: $content-padding-top + 60px;
 }
 
+.network {
+  margin: -15px;
 
+  svg {
+    width: 100%;
+    height: calc(100vh - 71px);
 
+    .drag-anchor {
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .node {
+    cursor: pointer;
+  }
+
+  .node circle {
+    fill: #fff;
+    stroke: #ccc;
+    stroke-width: 2px;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+  }
+}
 
 .network .node {
   cursor: pointer;
-}
-
-.network .node:hover {
-  stroke: #000;
-  stroke-width: 1.5px;
 }
 
 .network .node--leaf {

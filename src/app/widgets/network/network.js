@@ -7,17 +7,12 @@
     qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$http', '$timeout'];
     function qlNetwork(d3, $window, $interval, $state, $http, $timeout) {
         return {
-            restrict: 'EA',
             link: function (scope, element, attrs) {
+                function showDetails(root) {
+                    $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
+                }
 
                 d3.d3().then(function (d3) {
-                    // Watch for resize event
-                    scope.$watch(function () {
-                        return angular.element($window)[0].innerWidth;
-                    }, function () {
-                        scope.render(scope.data);
-                    });
-
                     function initJson() {
                         return $http.get('data/network-data.json')
                             .then(function (res) {
@@ -31,165 +26,223 @@
                             });
                     }
 
-                    scope.render = function (data) {
-                        var margin = 0,
-                            height = element.parent().parent().height() - 10,
-                            width = element.parent().width() - 10;
+                    function subRender() {
 
-                        if (height < 1 || width < 1) {
-                            return;
-                        }
-
-                        scope.width     = element.parent().width();
-                        scope.height    = element.parent().parent().height();
-
-                        var diameter = Math.min(height - 5, width - 5);
-
-                        var color = d3.scale.linear()
-                            .domain([-1, 5])
-                            .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
-                            .interpolate(d3.interpolateHcl);
-
-                        var pack = d3.layout.pack()
-                            .padding(2)
-                            .size([diameter - margin, diameter - margin])
-                            .value(function (d) {
-                                return d.size;
+                        window.current_nodes = [];
+                        var update = function (source) {
+                            var link, node, nodeEnter, nodeExit, nodeUpdate;
+                            var nodes = tree.nodes(root).reverse();
+                            var links = tree.links(nodes);
+                            nodes.forEach(function (d) {
+                                return d.y = d.depth * 80;
                             });
-
-                        var svg = d3.select(element[0]).append("svg")
-                            .attr("width", width)
-                            .attr("height", height)
-                            .style({"padding-left": (width - height) / 2})
-                            .style({"padding-top": 5})
-                            .style({"padding-top": (height - width) / 2})
-                            .append("g")
-                            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-
-                        function subRender() {
-                            var root = scope.sourceJson;
-
-                            var focus = root,
-                                nodes = pack.nodes(root),
-                                view;
-
-                            var tooltip = d3.select("body")
-                                .append("div")
-                                .style("position", "absolute")
-                                .attr("class", "d3-tip")
-                                .style("z-index", "10")
-                                .style("visibility", "hidden");
-
-                            var circle = svg.selectAll("circle")
-                                .data(nodes)
-                                .enter().append("circle")
-                                .attr("class", function (d) {
-                                    return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root";
-                                })
-                                .style("fill", function (d) {
-                                    if (!d.children) {
-                                        return 'rgb(255,215,215)';
-                                    }
-                                    switch (d.depth) {
-                                        case 0:
-                                            return 'rgb(132, 204, 193)';
-                                        case 1:
-                                            return 'rgb(238, 81, 74)';
-                                        case 2:
-                                            return 'rgb(255,255,255)';
-                                        case 3:
-                                            return 'rgb(2,47,50)';
-                                        case 4:
-                                            return 'rgb(8,112,112)';
-                                        case 5:
-                                            return 'rgb(132, 204, 193)';
-                                        case 6:
-                                            return 'rgb(32,50,73)';
-                                        default:
-                                            return color(d.depth);
-                                    }
-                                })
-                                .on("click", function (d) {
-                                    if (focus !== d) zoom(d), d3.event.stopPropagation();
-                                })
-                                .on("mouseover", function (d) {
-                                    return tooltip.style("visibility", "visible").text(d.name);
-                                })
-                                .on("mousemove", function (d) {
-                                    return tooltip.style("top", (event.pageY - 30) + "px").style("left", (event.pageX - 20) + "px").text(d.name);
-                                })
-                                .on("mouseout", function () {
-                                    return tooltip.style("visibility", "hidden");
-                                });
-
-                            var text = svg.selectAll("text")
-                                .data(nodes)
-                                .enter().append("text")
-                                .attr("class", "label")
-                                .style("fill-opacity", function (d) {
-                                    return d.parent === root ? 1 : 0;
-                                })
-                                .style("display", function (d) {
-                                    return d.parent === root ? null : "none";
-                                })
-                                .text(function (d) {
-                                    return d.name;
-                                });
-
-                            var node = svg.selectAll("circle,text");
-
-                            d3.select(element[0])
-                                .on("click", function () {
-                                    zoom(root);
-                                });
-
-                            zoomTo([root.x, root.y, root.r * 2 + margin]);
-
-                            function zoom(d) {
-                                var focus0 = focus;
-                                focus = d;
-
-                                var transition = d3.transition()
-                                    .duration(d3.event.altKey ? 7500 : 750)
-                                    .tween("zoom", function (d) {
-                                        var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-                                        return function (t) {
-                                            zoomTo(i(t));
-                                        };
-                                    });
-
-                                transition.selectAll("text")
-                                    .filter(function (d) {
-                                        return d.parent === focus || this.style.display === "inline";
-                                    })
-                                    .style("fill-opacity", function (d) {
-                                        return d.parent === focus ? 1 : 0;
-                                    })
-                                    .each("start", function (d) {
-                                        if (d.parent === focus) this.style.display = "inline";
-                                    })
-                                    .each("end", function (d) {
-                                        if (d.parent !== focus) this.style.display = "none";
-                                    });
-
+                            node = vis.selectAll('g.node').data(nodes, function (d) {
+                                return d.id || (d.id = ++i);
+                            });
+                            nodeEnter = node.enter().append('g').attr('class', 'node').attr('transform', function (d) {
+                            }, {}, 'translate(' + source.y0 + ',' + source.x0 + ')').on('mouseover', function (d) {
+                            }).on('click', function (d) {
                                 showDetails(d);
-                            }
-
-                            function zoomTo(v) {
-                                var k = diameter / v[2];
-                                view = v;
-                                node.attr("transform", function (d) {
-                                    return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+                                var clicked_same_node = false;
+                                if (window.current_nodes.length > 0) {
+                                    if (d.id === window.current_nodes[window.current_nodes.length - 1][0].id) {
+                                        clicked_same_node = true;
+                                        d3.event.stopPropagation();
+                                    }
+                                }
+                                if (!clicked_same_node) {
+                                    return store_and_update(d);
+                                }
+                            });
+                            nodeEnter.append('circle').attr('r', 0.000001).style('fill', function (d) {
+                                if (d._children) {
+                                    return 'lightsteelblue';
+                                } else {
+                                    return '#fff';
+                                }
+                            });
+                            nodeEnter.append('text').attr('dy', '.31em').attr('text-anchor', function (d) {
+                                if (d.x < 180) {
+                                    return 'start';
+                                } else {
+                                    return 'end';
+                                }
+                            }).attr('transform', function (d) {
+                                if (d.x < 180) {
+                                    return 'translate(11)';
+                                } else {
+                                    return 'rotate(180)translate(-11)';
+                                }
+                            }).text(function (d) {
+                                return d.name;
+                            });
+                            nodeUpdate = node.transition().duration(duration).attr('transform', function (d) {
+                                return 'rotate(' + (d.x - 90) + ')translate(' + d.y + ')';
+                            });
+                            nodeUpdate.select('circle').attr('r', 10);
+                            nodeUpdate.select('text').style('fill-opacity', 1).attr('dy', '.31em').attr('text-anchor', function (d) {
+                                if (d.x < 180) {
+                                    return 'start';
+                                } else {
+                                    return 'end';
+                                }
+                            }).attr('transform', function (d) {
+                                if (d.x < 180) {
+                                    return 'translate(11)';
+                                } else {
+                                    return 'rotate(180)translate(-11)';
+                                }
+                            });
+                            nodeExit = node.exit().transition().duration(duration).attr('transform', function (d) {
+                                return 'translate(' + source.y + ',' + source.x + ')';
+                            }).remove();
+                            nodeExit.select('circle').attr('r', 0.000001);
+                            nodeExit.select('text').style('fill-opacity', 0.000001);
+                            link = vis.selectAll('path.link').data(links, function (d) {
+                                return d.target.id;
+                            });
+                            link.enter().insert('path', 'g').attr('class', 'link').attr('d', function (d) {
+                                var o;
+                                o = {
+                                    x: source.x0,
+                                    y: source.y0
+                                };
+                                return diagonal({
+                                    source: o,
+                                    target: o
                                 });
-                                circle.attr("r", function (d) {
-                                    return d.r * k;
+                            });
+                            link.transition().duration(duration).attr('d', diagonal);
+                            link.exit().transition().duration(duration).attr('d', function (d) {
+                                var o;
+                                o = {
+                                    x: source.x,
+                                    y: source.y
+                                };
+                                return diagonal({
+                                    source: o,
+                                    target: o
                                 });
+                            }).remove();
+                            return nodes.forEach(function (d) {
+                                d.x0 = d.x;
+                                return d.y0 = d.y;
+                            });
+                        };
+                        var construct_generations = function (d) {
+                            var c, generations;
+                            c = d;
+                            generations = [];
+                            while (c.parent) {
+                                generations.push(c.parent.children);
+                                c = c.parent;
                             }
+                            return generations;
+                        };
+                        var reform_focus = function () {
+                            var count, d, set;
+                            if (window.current_nodes.length > 0) {
+                                set = window.current_nodes.pop();
+                                d = set[0];
+                                count = 0;
+                                d.parent._children = set[1];
+                                if (d.parent._children) {
+                                    while (d.parent) {
+                                        d.parent.children = set[1][count];
+                                        count++;
+                                        d = d.parent;
+                                    }
+                                    return update(d);
+                                }
+                            }
+                        };
+                        var store_and_update = function (d) {
+                            window.current_nodes.push([
+                                d,
+                                construct_generations(d)
+                            ]);
+                            while (d.parent) {
+                                d.parent._children = d.parent.children;
+                                d.parent.children = d.parent.children.filter(function (e) {
+                                    return e.name === d.name;
+                                });
+                                d = d.parent;
+                            }
+                            d3.event.stopPropagation();
+                            return update(d);
+                        };
+                        var reconstruct_ancestors = function (n, generations) {
+                            var count;
+                            count = generations.length - 1;
+                            while (n.parent) {
+                                n.parent.children = generations[count];
+                                count -= 1;
+                                n = n.parent;
+                            }
+                            return n;
+                        };
+                        var root = void 0;
+                        var tree = d3.layout.tree().size([
+                            360,
+                            360
+                        ]);
+                        var i = 0;
+                        var duration = 2000;
+                        var diagonal = d3.svg.diagonal.radial().projection(function (d) {
+                            return [
+                                d.y,
+                                d.x / 180 * Math.PI
+                            ];
+                        });
+                        var zoomed = function () {
+                            d3.event.sourceEvent.stopPropagation();
+                            return vis.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
+                        };
+                        var zoom = d3.behavior.zoom().scaleExtent([.25,8]).on('zoom', zoomed);
+                        var drag = d3.behavior.drag()
+                            .origin(function(d) { return d; })
+                            .on("dragstart", dragstarted)
+                            .on("drag", dragged)
+                            .on("dragend", dragended);
 
-                            function showDetails(root) {
-                                $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
-                            }
+                        function dragstarted(d) {
+                            d3.event.sourceEvent.stopPropagation();
+                            d3.select(this).classed("dragging", true);
                         }
+
+                        function dragged(d) {
+                            d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+                        }
+
+                        function dragended(d) {
+                            d3.select(this).classed("dragging", false);
+                        }
+                        var div = d3.select(element[0]);
+                        var svg = div.insert('svg');
+                        svg.on('click', function () {
+                            return reform_focus();
+                        });
+                        var vis = svg.append("g").attr("transform", function() {
+                                return "translate(" + parseInt(svg.style('width'))/2 + "," + parseInt(svg.style('height'))/2 + ")"
+                            })
+                                .append('g')
+                                .call(zoom)
+                                .append('g')
+                                .call(drag)
+                            ;
+                        vis.append('svg:rect')
+                            .attr('width', '200%')
+                            .attr('height', '1600px')
+                            .attr('fill', '#f8f8f8')
+                            .attr('class', 'drag-anchor')
+                        ;
+                        root = scope.sourceJson;
+                        root.x0 = 0;//height / 2;
+                        root.y0 = 0;
+                        update(root);
+                    }
+
+                    scope.render = function (data) {
 
                         if (!scope.sourceJson) {
                             initJson().then(function () {
@@ -198,29 +251,9 @@
                         } else {
                             subRender();
                         }
-
-                        d3.select(self.frameElement).style("height", diameter + "px");
                     }
                 }).then(function () {
-                    var rerender = function () {
-                        jQuery(element).animate({
-                            opacity: 0,
-                            duration: 30
-                        }, function () {
-                            element.text("");
-                            scope.render();
-                            jQuery(element).animate({
-                                opacity: 1,
-                                duration: 30
-                            });
-                        });
-                    };
-
-                    $interval(function () {
-                        if (element.parent().width() != scope.width || element.parent().parent().height() != scope.height) {
-                            rerender();
-                        }
-                    }, 600);
+                    scope.render();
                 });
             }}
     }
