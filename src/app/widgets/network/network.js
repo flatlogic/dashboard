@@ -9,15 +9,7 @@
         return {
             restrict: 'EA',
             link: function (scope, element, attrs) {
-
                 d3.d3().then(function (d3) {
-                    // Watch for resize event
-                    scope.$watch(function () {
-                        return angular.element($window)[0].innerWidth;
-                    }, function () {
-                        scope.render(scope.data);
-                    });
-
                     function initJson() {
                         return $http.get('data/network-data.json')
                             .then(function (res) {
@@ -31,190 +23,205 @@
                             });
                     }
 
+                    function showDetails(root) {
+                        $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
+                    }
+
                     scope.render = function (data) {
-                        var margin = 0,
-                            height = element.parent().parent().height() - 10,
-                            width = element.parent().width() - 10;
+                        var root = data;
 
-                        if (height < 1 || width < 1) {
-                            return;
-                        }
+                        var margin = {top: 20, right: 0, bottom: 160, left: 0},
+                            width = element.width(),
+                            height = $window.innerHeight - margin.top - margin.bottom - 200,
+                            formatNumber = d3.format(",.1f"),
+                            transitioning;
 
-                        scope.width     = element.parent().width();
-                        scope.height    = element.parent().parent().height();
+                        var x = d3.scale.linear()
+                            .domain([0, width])
+                            .range([0, width]);
 
-                        var diameter = Math.min(height - 5, width - 5);
+                        var y = d3.scale.linear()
+                            .domain([0, height])
+                            .range([0, height]);
 
-                        var color = d3.scale.linear()
-                            .domain([-1, 5])
-                            .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
-                            .interpolate(d3.interpolateHcl);
-
-                        var pack = d3.layout.pack()
-                            .padding(2)
-                            .size([diameter - margin, diameter - margin])
-                            .value(function (d) {
-                                return d.size;
-                            });
+                        var treemap = d3.layout.treemap()
+                            .children(function(d, depth) { return depth ? null : d._children; })
+                            .sort(function(a, b) { return a.amount - b.amount; })
+                            .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
+                            .round(false)
+                            .value(function(d) { return d.amount; });
 
                         var svg = d3.select(element[0]).append("svg")
-                            .attr("width", width)
-                            .attr("height", height)
-                            .style({"padding-left": (width - height) / 2})
-                            .style({"padding-top": 5})
-                            .style({"padding-top": (height - width) / 2})
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.bottom + margin.top)
+                            .style("margin-left", -margin.left + "px")
+                            .style("margin.right", -margin.right + "px")
                             .append("g")
-                            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                            .style("shape-rendering", "crispEdges");  // MC: An SVG style property to make it look as nice as possible. See http://www.w3.org/TR/SVG/painting.html#ShapeRenderingProperty
 
-                        function subRender() {
-                            var root = scope.sourceJson;
+                        var grandparent = svg.append("g")
+                            .attr("class", "grandparent");
 
-                            var focus = root,
-                                nodes = pack.nodes(root),
-                                view;
+                        grandparent.append("rect")
+                            .attr("y", -margin.top)	// -20px to force it to appear above the main plotting area.
+                            .attr("width", width)
+                            .attr("height", margin.top);
 
-                            var tooltip = d3.select("body")
-                                .append("div")
-                                .style("position", "absolute")
-                                .attr("class", "d3-tip")
-                                .style("z-index", "10")
-                                .style("visibility", "hidden");
+                        grandparent.append("text")
+                            .attr("x", 6)
+                            .attr("y", 6 - margin.top)
+                            .attr("dy", ".75em");
 
-                            var circle = svg.selectAll("circle")
-                                .data(nodes)
-                                .enter().append("circle")
-                                .attr("class", function (d) {
-                                    return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root";
-                                })
-                                .style("fill", function (d) {
-                                    if (!d.children) {
-                                        return 'rgb(255,215,215)';
-                                    }
-                                    switch (d.depth) {
-                                        case 0:
-                                            return 'rgb(132, 204, 193)';
-                                        case 1:
-                                            return 'rgb(238, 81, 74)';
-                                        case 2:
-                                            return 'rgb(255,255,255)';
-                                        case 3:
-                                            return 'rgb(2,47,50)';
-                                        case 4:
-                                            return 'rgb(8,112,112)';
-                                        case 5:
-                                            return 'rgb(132, 204, 193)';
-                                        case 6:
-                                            return 'rgb(32,50,73)';
-                                        default:
-                                            return color(d.depth);
-                                    }
-                                })
-                                .on("click", function (d) {
-                                    if (focus !== d) zoom(d), d3.event.stopPropagation();
-                                })
-                                .on("mouseover", function (d) {
-                                    return tooltip.style("visibility", "visible").text(d.name);
-                                })
-                                .on("mousemove", function (d) {
-                                    return tooltip.style("top", (event.pageY - 30) + "px").style("left", (event.pageX - 20) + "px").text(d.name);
-                                })
-                                .on("mouseout", function () {
-                                    return tooltip.style("visibility", "hidden");
-                                });
 
-                            var text = svg.selectAll("text")
-                                .data(nodes)
-                                .enter().append("text")
-                                .attr("class", "label")
-                                .style("fill-opacity", function (d) {
-                                    return d.parent === root ? 1 : 0;
-                                })
-                                .style("display", function (d) {
-                                    return d.parent === root ? null : "none";
-                                })
-                                .text(function (d) {
-                                    return d.name;
-                                });
+                        function subRender(root) {		// Loads the JSON into memory as an object. The name 'root' is simply a reminder that the object is a hierarchical.
+                            initialize(root);
+                            accumulate(root);
+                            layout(root);
+                            display(root);
 
-                            var node = svg.selectAll("circle,text");
+                            function initialize(root) {
+                                root.x = root.y = 0;	// Root node is drawn in top-left corner...
+                                root.dx = width;			// ... and fills the SVG area...
+                                root.dy = height;
+                                root.depth = 0;
+                            }
 
-                            d3.select(element[0])
-                                .on("click", function () {
-                                    zoom(root);
-                                });
+                            function accumulate(d) {
+                                return (d._children = d.children)
+                                    ? d.amount = d.children.reduce(function(p, v) { return p + accumulate(v); }, 0)
+                                    : 1;
+                            }
 
-                            zoomTo([root.x, root.y, root.r * 2 + margin]);
+                            function layout(d) {
+                                if (d._children) {
+                                    treemap.nodes({_children: d._children});		// Runs the treemap layout, returning the array of nodes associated with the specified root node. From: https://github.com/mbostock/d3/wiki/Treemap-Layout
+                                    d._children.forEach(function(c) {
+                                        c.x = d.x + c.x * d.dx;
+                                        c.y = d.y + c.y * d.dy;
+                                        c.dx *= d.dx;
+                                        c.dy *= d.dy;
+                                        c.parent = d;
+                                        layout(c);
+                                    });
+                                }
+                            }
 
-                            function zoom(d) {
-                                var focus0 = focus;
-                                focus = d;
 
-                                var transition = d3.transition()
-                                    .duration(d3.event.altKey ? 7500 : 750)
-                                    .tween("zoom", function (d) {
-                                        var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-                                        return function (t) {
-                                            zoomTo(i(t));
-                                        };
+                            function display(d) {
+                                grandparent
+                                    .datum(d.parent)					// MC: Associate the top bar with the value of the parent of the current node? See https://github.com/mbostock/d3/wiki/Selections#wiki-datum
+                                    .on("click", transition)	// MC: Adds an onclick('transition') listener to the grandparent
+                                    .select("text")							// MC: Go to the TEXT element in the grandparent and...
+                                    .text(name(d));						// MC: Call the name() function and change the text in the TEXT node to the returned value.
+
+                                var g1 = svg.insert("g", ".grandparent")	// MC: inserts a new 'g' before the node with class 'grandparent. Call it 'g1'.
+                                    .datum(d)															// MC: Still not sure here but something to do with copying the data from the JSON to the node
+                                    .attr("class", "depth");							// MC: Add the attribute as follows: <g class="depth">...</g>
+
+                                var g = g1.selectAll("g")									// MC: Confusingly defines a new collection 'g' which contains all the children in 'g1'.
+                                    .data(d._children)										// MC: Loads the data from the (copy of the) JSON file data.
+                                    .enter().append("g");										// MC: Creates a new 'g' node for each child.
+
+                                g.filter(function(d) { return d._children; })		// MC: Create a new collection, which is a subset of g. Not sure how this works yet but it's only the nodes with children.
+                                    .classed("children", true)									// MC: Assigns each of these node to class="children",
+                                    .on("click", transition);										// MC: and onclick('transition'), which is a function listed below. So only those with children are clickable?
+
+                                g.selectAll(".child")																		// MC: Select all the children of 'g'.
+                                    .data(function(d) { return d._children || [d]; })		// MC: || is logical OR
+                                    .enter().append("rect")																// MC: Create a RECT for each of the new nodes
+                                    .attr("class", "child")															// MC: Make <rect class="child">...</rect>
+                                    .call(rect);																				// MC: Call the rect function listed below. [Why not just write ".rect()" then?]
+
+                                g.append("rect")																// MC: After all the children, create a rect with .parent
+                                    .attr("class", "parent")										// MC: It's at the end so that it's clickable and has the title displayed on hover
+                                    .call(rect)
+                                    .append("title")								// MC: SVG TITLE *element* is displayed as a tooltip on hover like the HTML title *attribute*
+                                    .text(function(d) { return formatNumber(d.value); });  // MC: The value in this tag is the sum of the values of all the child nodes. Check rounding format if not showing up!
+
+                                g.append("text")
+                                    .attr("dy", ".75em")
+                                    .text(function(d) { return d.name; })		// MC: Each RECT (only some?) get the name written on top of it. The text is not nested in the RECT but that's how SVG works, unlike HTML.
+                                    .call(text);
+
+                                g.append("text")				// MC: Here is my attempt to get the rounded dollar amount at the centre of each rect.
+                                    .classed("overlaidText",true)
+                                    .text(function(d) { return Math.round(d.value)+" nodes"})
+                                    .call(middletext);
+
+                                function transition(d) {
+                                    if (transitioning || !d) return;		// MC: I think this prevents further transitioning if you're in the middle of a transition.
+                                    transitioning = true;
+
+                                    var g2 = display(d),
+                                        t1 = g1.transition().duration(750),
+                                        t2 = g2.transition().duration(750);
+
+                                    // Update the domain only after entering new elements.
+                                    x.domain([d.x, d.x + d.dx]);
+                                    y.domain([d.y, d.y + d.dy]);
+
+                                    // Enable anti-aliasing during the transition.
+                                    svg.style("shape-rendering", null);
+
+                                    // Draw child nodes on top of parent nodes.
+                                    svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
+
+                                    // Fade-in entering text.
+                                    g2.selectAll("text").style("fill-opacity", 0);
+
+                                    // Transition to the new view.
+                                    t1.selectAll("text").call(text).style("fill-opacity", 0);
+                                    t2.selectAll("text").call(text).style("fill-opacity", 1);
+                                    t2.selectAll(".overlaidText").call(middletext).style("fill-opacity", 1);
+                                    t1.selectAll("rect").call(rect);
+                                    t2.selectAll("rect").call(rect);
+
+                                    // Remove the old node when the transition is finished.
+                                    t1.remove().each("end", function() {
+                                        svg.style("shape-rendering", "crispEdges");
+                                        transitioning = false;
                                     });
 
-                                transition.selectAll("text")
-                                    .filter(function (d) {
-                                        return d.parent === focus || this.style.display === "inline";
-                                    })
-                                    .style("fill-opacity", function (d) {
-                                        return d.parent === focus ? 1 : 0;
-                                    })
-                                    .each("start", function (d) {
-                                        if (d.parent === focus) this.style.display = "inline";
-                                    })
-                                    .each("end", function (d) {
-                                        if (d.parent !== focus) this.style.display = "none";
-                                    });
+                                    showDetails(d);
+                                }
 
-                                showDetails(d);
+                                return g;
                             }
 
-                            function zoomTo(v) {
-                                var k = diameter / v[2];
-                                view = v;
-                                node.attr("transform", function (d) {
-                                    return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-                                });
-                                circle.attr("r", function (d) {
-                                    return d.r * k;
-                                });
+                            function text(text) {
+                                text.attr("x", function(d) { return x(d.x) + 6; })
+                                    .attr("y", function(d) { return y(d.y) + 6; });
                             }
 
-                            function showDetails(root) {
-                                $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
+                            function middletext(text) {
+                                text.attr("x", function(d) { return x(d.x + d.dx / 2); })
+                                    .attr("y", function(d) { return y(d.y + d.dy / 2) + 16; });
                             }
+
+                            function rect(rect) {
+                                rect.attr("x", function(d) { return x(d.x); })
+                                    .attr("y", function(d) { return y(d.y); })
+                                    .attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
+                                    .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
+                                    .attr("rx","5px");
+                            }
+
+                            function name(d) {
+                                return d.parent ? name(d.parent) + " / " + d.name : d.name;		// MC: Recursive. If there is no parent just return the name attribute of this node, otherwise return the name of the parent node followed by '/' and the name attribute of this node
+                            }
+
                         }
 
                         if (!scope.sourceJson) {
                             initJson().then(function () {
-                                subRender()
+                                subRender(scope.sourceJson)
                             });
                         } else {
-                            subRender();
+                            subRender(scope.sourceJson);
                         }
-
-                        d3.select(self.frameElement).style("height", diameter + "px");
-                    }
-                }).then(function () {
-                    var rerender = function () {
-                        jQuery(element).animate({
-                            opacity: 0,
-                            duration: 30
-                        }, function () {
-                            element.text("");
-                            scope.render();
-                            jQuery(element).animate({
-                                opacity: 1,
-                                duration: 30
-                            });
-                        });
                     };
+                    scope.render();
                 });
             }}
     }

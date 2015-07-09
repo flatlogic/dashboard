@@ -1,0 +1,95 @@
+// network visualization
+.network {
+  text {
+    pointer-events: none;
+    font-family: sans-serif;
+    font-size: smaller;
+  }
+
+  tspan	{
+    font-size: x-large;
+  }
+
+  .grandparent text {
+    font-weight: bold;
+  }
+
+  rect {
+    fill: none;
+    stroke: #fff;
+  }
+
+  rect.parent,
+  .grandparent rect {
+    stroke-width: 2px;
+  }
+
+  .grandparent rect {
+    fill: orange;
+  }
+
+  .grandparent:hover rect {
+    fill: #ee9700;
+  }
+
+  .children rect.parent,
+  .grandparent rect {
+    cursor: pointer;
+  }
+
+  .children rect.parent {
+    fill: #fff;
+    fill-opacity: .5;
+  }
+
+  .children:hover rect.child {
+    fill: #bbb;
+  }
+
+  .overlaidText	{
+    font-size: 1.5em;
+    text-anchor: middle;
+    fill: $text-color;
+  }
+}
+
+// other stuff
+// todo sort out to sections
+.domains-layout {
+  top: $content-padding-top - 25px;
+  left: 20px;
+  overflow: hidden;
+}
+
+.network-layout {
+  top: $content-padding-top - 40px;
+  left: 5px;
+  overflow: hidden;
+}
+
+.domains-layout .ui-layout-column {
+  top: 0px;
+}
+
+#details {
+  margin: 10px;
+}
+
+.domain-stat section {
+  margin-bottom: 0px;
+}
+
+.modal-open .domains-layout {
+  top: $content-padding-top + 60px;
+  left: 70px;
+  overflow: hidden;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
