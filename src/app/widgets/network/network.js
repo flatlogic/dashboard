@@ -33,7 +33,7 @@
                         var margin = {top: 20, right: 0, bottom: 160, left: 0},
                             width = element.width(),
                             height = $window.innerHeight - margin.top - margin.bottom - 150,
-                            formatNumber = d3.format(",.1f"),
+                            formatNumber = d3.format(",d"),
                             transitioning;
 
                         var x = d3.scale.linear()
@@ -49,6 +49,7 @@
                             .sort(function(a, b) { return a.amount - b.amount; })
                             .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
                             .round(false)
+                            .padding(.1)
                             .value(function(d) { return d.amount; });
 
                         var svg = d3.select(element[0]).append("svg")
@@ -56,6 +57,7 @@
                             .attr("height", height + margin.bottom + margin.top)
                             .style("margin-left", -margin.left + "px")
                             .style("margin-right", -margin.right + "px")
+                            .call(addShadow)
                             .append("g")
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                             .style("shape-rendering", "crispEdges");
@@ -67,12 +69,15 @@
                             .attr("y", -margin.top)	// -20px to force it to appear above the main plotting area.
                             .attr("width", width)
                             .attr("height", margin.top)
-                            .attr("rx", "5px");
+                            .attr("rx", "5px")
+                        ;
 
                         grandparent.append("text")
                             .attr("x", 6)
-                            .attr("y", 6 - margin.top)
-                            .attr("dy", ".75em");
+                            .attr("y", 4 - margin.top)
+                            .attr("dy", ".75em")
+                            .attr("fill", '#fff')
+                        ;
 
 
                         function subRender(root) {		// Loads the JSON into memory as an object. The name 'root' is simply a reminder that the object is a hierarchical.
@@ -137,7 +142,8 @@
                                 g.selectAll(".child")																		// MC: Select all the children of 'g'.
                                     .data(function(d) { return d._children || [d]; })		// MC: || is logical OR
                                     .enter().append("rect")																// MC: Create a RECT for each of the new nodes
-                                    .attr("class", "child")															// MC: Make <rect class="child">...</rect>
+                                    .attr("class", "child")
+                                    .style("filter", "url(#drop-shadow)")													// MC: Make <rect class="child">...</rect>
                                     .call(rect);																				// MC: Call the rect function listed below. [Why not just write ".rect()" then?]
 
                                 g.append("rect")																// MC: After all the children, create a rect with .parent
@@ -149,7 +155,7 @@
                                 g.append("text")				// MC: Here is my attempt to get the rounded dollar amount at the centre of each rect.
                                     .classed("overlaidText",true)
                                     .text(function(d) { return d.name; })
-                                    .call(middletext);
+                                    .call(text);
 
                                 function transition(d) {
                                     if (transitioning || !d) return;		// MC: I think this prevents further transitioning if you're in the middle of a transition.
@@ -173,7 +179,8 @@
                                     g2.selectAll("text").style("fill-opacity", 0);
 
                                     // Transition to the new view.
-                                    t2.selectAll(".overlaidText").call(middletext).style("fill-opacity", 1);
+                                    t1.selectAll(".overlaidText").call(text).style("fill-opacity", 0);
+                                    t2.selectAll(".overlaidText").call(text).style("fill-opacity", 1);
                                     t1.selectAll("rect").call(rect);
                                     t2.selectAll("rect").call(rect);
 
@@ -189,9 +196,10 @@
                                 return g;
                             }
 
-                            function middletext(text) {
-                                text.attr("x", function(d) { return x(d.x + d.dx / 2); })
-                                    .attr("y", function(d) { return y(d.y + d.dy / 2) + 16; });
+                            function text(text) {
+                                text.attr("text-anchor", "middle")
+                                    .attr("x", function(d) { return x(d.x + d.dx / 2); })
+                                    .attr("y", function(d) { return y(d.y + d.dy / 2) + 4; });
                             }
 
                             function rect(rect) {
@@ -199,13 +207,41 @@
                                     .attr("y", function(d) { return y(d.y); })
                                     .attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
                                     .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
-                                    .attr("rx","5px");
+                                    .attr("rx", "5px")
+                                ;
                             }
 
                             function name(d) {
                                 return d.parent ? name(d.parent) + " / " + d.name : d.name;		// MC: Recursive. If there is no parent just return the name attribute of this node, otherwise return the name of the parent node followed by '/' and the name attribute of this node
                             }
 
+                        }
+
+                        function addShadow(svg) {
+                            var defs = svg.append( 'defs' );
+
+                            var filter = defs.append( 'filter' )
+                                .attr( 'id', 'drop-shadow' )
+                                .attr('height', '130%');
+
+                            filter.append( 'feGaussianBlur' )
+                                .attr( 'in', 'SourceAlpha' )
+                                .attr( 'stdDeviation', 2 )
+                                .attr( 'result', 'blur' );
+
+                            filter.append( 'feOffset' )
+                                .attr( 'in', 'blur' )
+                                .attr( 'dx', 0 )
+                                .attr( 'dy', 0 )
+                                .attr( 'result', 'offsetBlur' );
+
+                            var feMerge = filter.append( 'feMerge' );
+
+                            feMerge.append( 'feMergeNode' )
+                                .attr( 'in", "offsetBlur' );
+
+                            feMerge.append( 'feMergeNode' )
+                                .attr( 'in', 'SourceGraphic' );
                         }
 
                         if (!scope.sourceJson) {

@@ -2,29 +2,27 @@
 .network {
   text {
     pointer-events: none;
-    font-family: sans-serif;
-    font-size: smaller;
-  }
-
-  tspan	{
-    font-size: x-large;
   }
 
   .grandparent text {
-    font-weight: bold;
+    fill: #fff;
   }
 
   rect {
-    fill: #fff;
-    stroke-linejoin: round;
+    fill: none;
+  }
+
+  rect.parent,
+  .grandparent rect {
+    stroke-width: 0;
   }
 
   .grandparent rect {
-    fill: $brand-warning;
+    fill: $gray;
   }
 
   .grandparent:hover rect {
-    fill: darken($brand-warning, 10%);
+    fill: $gray-dark;
   }
 
   .children rect.parent,
@@ -33,18 +31,17 @@
   }
 
   .children rect.parent {
-    fill: #fff;
+    fill: #bbb;
     fill-opacity: 0;
+    stroke-width: 0;
+  }
+
+  rect.child {
+    fill: lighten($brand-warning, 14%);
   }
 
   .children:hover rect.child {
-    fill: #bbb;
-  }
-
-  .overlaidText	{
-    font-size: 1.5em;
-    text-anchor: middle;
-    fill: $text-color;
+    fill: lighten($brand-warning, 7%);
   }
 }
 
