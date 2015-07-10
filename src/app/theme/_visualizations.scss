@@ -15,21 +15,16 @@
   }
 
   rect {
-    fill: none;
-    stroke: #fff;
-  }
-
-  rect.parent,
-  .grandparent rect {
-    stroke-width: 2px;
+    fill: #fff;
+    stroke-linejoin: round;
   }
 
   .grandparent rect {
-    fill: orange;
+    fill: $brand-warning;
   }
 
   .grandparent:hover rect {
-    fill: #ee9700;
+    fill: darken($brand-warning, 10%);
   }
 
   .children rect.parent,
@@ -39,7 +34,7 @@
 
   .children rect.parent {
     fill: #fff;
-    fill-opacity: .5;
+    fill-opacity: 0;
   }
 
   .children:hover rect.child {

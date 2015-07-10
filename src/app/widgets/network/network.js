@@ -32,7 +32,7 @@
 
                         var margin = {top: 20, right: 0, bottom: 160, left: 0},
                             width = element.width(),
-                            height = $window.innerHeight - margin.top - margin.bottom - 200,
+                            height = $window.innerHeight - margin.top - margin.bottom - 150,
                             formatNumber = d3.format(",.1f"),
                             transitioning;
 
@@ -55,10 +55,10 @@
                             .attr("width", width + margin.left + margin.right)
                             .attr("height", height + margin.bottom + margin.top)
                             .style("margin-left", -margin.left + "px")
-                            .style("margin.right", -margin.right + "px")
+                            .style("margin-right", -margin.right + "px")
                             .append("g")
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                            .style("shape-rendering", "crispEdges");  // MC: An SVG style property to make it look as nice as possible. See http://www.w3.org/TR/SVG/painting.html#ShapeRenderingProperty
+                            .style("shape-rendering", "crispEdges");
 
                         var grandparent = svg.append("g")
                             .attr("class", "grandparent");
@@ -66,7 +66,8 @@
                         grandparent.append("rect")
                             .attr("y", -margin.top)	// -20px to force it to appear above the main plotting area.
                             .attr("width", width)
-                            .attr("height", margin.top);
+                            .attr("height", margin.top)
+                            .attr("rx", "5px");
 
                         grandparent.append("text")
                             .attr("x", 6)
@@ -145,14 +146,9 @@
                                     .append("title")								// MC: SVG TITLE *element* is displayed as a tooltip on hover like the HTML title *attribute*
                                     .text(function(d) { return formatNumber(d.value); });  // MC: The value in this tag is the sum of the values of all the child nodes. Check rounding format if not showing up!
 
-                                g.append("text")
-                                    .attr("dy", ".75em")
-                                    .text(function(d) { return d.name; })		// MC: Each RECT (only some?) get the name written on top of it. The text is not nested in the RECT but that's how SVG works, unlike HTML.
-                                    .call(text);
-
                                 g.append("text")				// MC: Here is my attempt to get the rounded dollar amount at the centre of each rect.
                                     .classed("overlaidText",true)
-                                    .text(function(d) { return Math.round(d.value)+" nodes"})
+                                    .text(function(d) { return d.name; })
                                     .call(middletext);
 
                                 function transition(d) {
@@ -177,8 +173,6 @@
                                     g2.selectAll("text").style("fill-opacity", 0);
 
                                     // Transition to the new view.
-                                    t1.selectAll("text").call(text).style("fill-opacity", 0);
-                                    t2.selectAll("text").call(text).style("fill-opacity", 1);
                                     t2.selectAll(".overlaidText").call(middletext).style("fill-opacity", 1);
                                     t1.selectAll("rect").call(rect);
                                     t2.selectAll("rect").call(rect);
@@ -193,11 +187,6 @@
                                 }
 
                                 return g;
-                            }
-
-                            function text(text) {
-                                text.attr("x", function(d) { return x(d.x) + 6; })
-                                    .attr("y", function(d) { return y(d.y) + 6; });
                             }
 
                             function middletext(text) {
