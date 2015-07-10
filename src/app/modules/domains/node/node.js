@@ -16,9 +16,9 @@
                 _depth++;
                 if (name == currentNode.name && (depth == _depth)) {
                     return currentNode;
-                } else if (currentNode.children) {
-                    for (i = 0; i < currentNode.children.length; i++) {
-                        currentChild = currentNode.children[i];
+                } else if (currentNode._children) {
+                    for (i = 0; i < currentNode._children.length; i++) {
+                        currentChild = currentNode._children[i];
                         result = findNodeInner(currentChild, name, depth);
                         _depth--;
                         if (result) {

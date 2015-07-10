@@ -94,19 +94,25 @@
                             }
 
                             function layout(d) {
-                                if (d._children) {
-                                    treemap.nodes({_children: d._children});		// Runs the treemap layout, returning the array of nodes associated with the specified root node. From: https://github.com/mbostock/d3/wiki/Treemap-Layout
-                                    d._children.forEach(function(c) {
-                                        c.x = d.x + c.x * d.dx;
-                                        c.y = d.y + c.y * d.dy;
-                                        c.dx *= d.dx;
-                                        c.dy *= d.dy;
-                                        c.parent = d;
-                                        layout(c);
-                                    });
+                                var _depth = 0;
+                                return _layout(d);
+                                function _layout(d) {
+                                    d.depth = _depth;
+                                    if (d._children) {
+                                        treemap.nodes({_children: d._children});
+                                        _depth++;
+                                        d._children.forEach(function(c) {
+                                            c.x = d.x + c.x * d.dx;
+                                            c.y = d.y + c.y * d.dy;
+                                            c.dx *= d.dx;
+                                            c.dy *= d.dy;
+                                            c.parent = d;
+                                            _layout(c);
+                                        });
+                                        _depth--;
+                                    }
                                 }
                             }
-
 
                             function display(d) {
                                 grandparent
