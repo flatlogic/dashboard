@@ -30,19 +30,23 @@
     cursor: pointer;
   }
 
-  .children rect.parent {
+  .children rect.parent,
+  rect.child{
     fill: #bbb;
-    fill-opacity: 0;
-    stroke-width: 0;
-  }
-
-  rect.child {
-    fill: lighten($brand-warning, 14%);
+    fill-opacity: .2;
+    stroke-width: 1px;
+    stroke: #aaa;
   }
 
   .children:hover rect.child {
     fill: lighten($brand-warning, 7%);
   }
+}
+
+.network-svg {
+  background-color: rgba(#bbb, .2);
+  border: 1px solid #aaa;
+  border-radius: 3px;
 }
 
 // other stuff
