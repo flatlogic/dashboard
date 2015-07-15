@@ -1,92 +1,183 @@
 <div ng-controller="DomainStatController">
-<div class="row domain-stat">
-    <div class="col-md-3 col-sm-6" style="padding-left: 0px;">
-        <section class="widget widget-stat purple">
-            <h3 class="tile-header">Network <b class="right purple">VPC: {{network.vpc}}</b></h3>
-            <div class="widget-body clearfix">
-                <div class="row bottom-row">
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Availability zones</h5>
-                        <p class="stat-value value4">{{network.availability_zones}}</p>
-                    </div>
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Subnets</h5>
-                        <p class="stat-value value4">{{network.subnets}}</p>
-                    </div>
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Security groups</h5>
-                        <p class="stat-value value4">{{network.security_groups}}</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <section class="widget widget-stat yellow">
-            <h3 class="tile-header">Resources <b class="right yellow">HOSTS: {{resources.hosts}}</b></h3>
-            <div class="widget-body clearfix">
-                <div class="row bottom-row">
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Volumes</h5>
-                        <p class="value4 stat-value">{{resources.volumes}}</p>
-                    </div>
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">IP addresses</h5>
-                        <p class="value4 stat-value">{{resources.ip_addresses}}</p>
-                    </div>
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Load balancers</h5>
-                        <p class="value4 stat-value">{{resources.load_balancers}}</p>
+    <div class="row domain-stat">
+        <div class="col-md-3 col-sm-6" style="padding-left: 0px;">
+            <section class="widget widget-stat purple">
+                <h3 class="tile-header">Network <b class="right purple">VPC: {{network.vpc}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div class="row bottom-row">
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Availability zones</h5>
+                            <p class="stat-value value4">{{network.availability_zones}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Subnets</h5>
+                            <p class="stat-value value4">{{network.subnets}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Security groups</h5>
+                            <p class="stat-value value4">{{network.security_groups}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <section class="widget widget-stat green">
-            <h3 class="tile-header">Resources <b class="right green">All time: {{containers.all_time}}</b></h3>
-            <div class="widget-body clearfix">
-                <div data-mode="fade" data-speed="750" data-delay="4000" data-height="100">
-                    <div>
-                        <div class="row bottom-row">
-                            <div class="col-xs-4">
-                                <h5 class="no-margin text-align-center">Running</h5>
-                                <p class="value4 stat-value">{{containers.running}}</p>
-                            </div>
-                            <div class="col-xs-4">
-                                <h5 class="no-margin text-align-center">Stopped</h5>
-                                <p class="value4 stat-value">{{containers.stopped}}</p>
-                            </div>
-                            <div class="col-xs-4">
-                                <h5 class="no-margin text-align-center">Failed</h5>
-                                <p class="value4 stat-value">{{containers.failed}}</p>
+            </section>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <section class="widget widget-stat yellow">
+                <h3 class="tile-header">Resources <b class="right yellow">HOSTS: {{resources.hosts}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div class="row bottom-row">
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Volumes</h5>
+                            <p class="value4 stat-value">{{resources.volumes}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">IP addresses</h5>
+                            <p class="value4 stat-value">{{resources.ip_addresses}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Load balancers</h5>
+                            <p class="value4 stat-value">{{resources.load_balancers}}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <section class="widget widget-stat green">
+                <h3 class="tile-header">Resources <b class="right green">All time: {{containers.all_time}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div data-mode="fade" data-speed="750" data-delay="4000" data-height="100">
+                        <div>
+                            <div class="row bottom-row">
+                                <div class="col-xs-4">
+                                    <h5 class="no-margin text-align-center">Running</h5>
+                                    <p class="value4 stat-value">{{containers.running}}</p>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h5 class="no-margin text-align-center">Stopped</h5>
+                                    <p class="value4 stat-value">{{containers.stopped}}</p>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h5 class="no-margin text-align-center">Failed</h5>
+                                    <p class="value4 stat-value">{{containers.failed}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <section class="widget widget-stat blue">
-            <h3 class="tile-header">Processes <b class="right blue">Deployments: {{process.deployments}}</b></h3>
-            <div class="widget-body clearfix">
-                <div class="row bottom-row">
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Rollbacks</h5>
-                        <p class="value4 stat-value">{{process.rollbacks}}</p>
-                    </div>
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Warnings</h5>
-                        <p class="value4 stat-value">{{process.warnings}}</p>
-                    </div>
-                    <div class="col-xs-4">
-                        <h5 class="no-margin text-align-center">Errors</h5>
-                        <p class="value4 stat-value">{{process.errors}}</p>
+            </section>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <section class="widget widget-stat blue">
+                <h3 class="tile-header">Processes <b class="right blue">Deployments: {{process.deployments}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div class="row bottom-row">
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Rollbacks</h5>
+                            <p class="value4 stat-value">{{process.rollbacks}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Warnings</h5>
+                            <p class="value4 stat-value">{{process.warnings}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Errors</h5>
+                            <p class="value4 stat-value">{{process.errors}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
-</div>
+
+    <div class="row domain-stat">
+        <div class="col-md-3 col-sm-6" style="padding-left: 0px;">
+            <section class="widget widget-stat purple">
+                <h3 class="tile-header">Network <b class="right purple">VPC: {{network.vpc}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div class="row bottom-row">
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Availability zones</h5>
+                            <p class="stat-value value4">{{network.availability_zones}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Subnets</h5>
+                            <p class="stat-value value4">{{network.subnets}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Security groups</h5>
+                            <p class="stat-value value4">{{network.security_groups}}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <section class="widget widget-stat yellow">
+                <h3 class="tile-header">Resources <b class="right yellow">HOSTS: {{resources.hosts}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div class="row bottom-row">
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Volumes</h5>
+                            <p class="value4 stat-value">{{resources.volumes}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">IP addresses</h5>
+                            <p class="value4 stat-value">{{resources.ip_addresses}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Load balancers</h5>
+                            <p class="value4 stat-value">{{resources.load_balancers}}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <section class="widget widget-stat green">
+                <h3 class="tile-header">Resources <b class="right green">All time: {{containers.all_time}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div data-mode="fade" data-speed="750" data-delay="4000" data-height="100">
+                        <div>
+                            <div class="row bottom-row">
+                                <div class="col-xs-4">
+                                    <h5 class="no-margin text-align-center">Running</h5>
+                                    <p class="value4 stat-value">{{containers.running}}</p>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h5 class="no-margin text-align-center">Stopped</h5>
+                                    <p class="value4 stat-value">{{containers.stopped}}</p>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h5 class="no-margin text-align-center">Failed</h5>
+                                    <p class="value4 stat-value">{{containers.failed}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <section class="widget widget-stat blue">
+                <h3 class="tile-header">Processes <b class="right blue">Deployments: {{process.deployments}}</b></h3>
+                <div class="widget-body clearfix">
+                    <div class="row bottom-row">
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Rollbacks</h5>
+                            <p class="value4 stat-value">{{process.rollbacks}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Warnings</h5>
+                            <p class="value4 stat-value">{{process.warnings}}</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5 class="no-margin text-align-center">Errors</h5>
+                            <p class="value4 stat-value">{{process.errors}}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 </div>

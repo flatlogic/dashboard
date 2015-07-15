@@ -28,5 +28,10 @@
   "resolutions": {
     "jquery": "2.1.3",
     "angular": "1.4.0"
-  }
+  },
+    "overrides": {
+        "codemirror": {
+            "main": ["ui-codemirror.js", "../codemirror/lib/codemirror.js", "lib/codemirror.css", "mode/nginx/nginx.js"]
+        }
+    }
 }

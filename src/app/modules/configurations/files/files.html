@@ -11,7 +11,7 @@
                     <tr>
                         <th>File</th>
                         <th>Path</th>
-                        <th ng-repeat="environment in service.instances">{{environment}}</th>
+                        <th ng-repeat="instance in service.instances">{{instance}}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -19,13 +19,17 @@
                     <tr ng-repeat="file in files">
                         <th>{{file.name}}</th>
                         <th>{{file.path}}</th>
-                        <th><a>edit</a></th>
-                        <th><a>edit</a></th>
-                        <th><a>edit</a></th>
-                        <th><div class="config-table-actions"><span ng-click="deleteFile(file.name)" class="fa fa-remove config-table-action-btn"> </span></div></th>
+                        <th ng-repeat="instance in service.instances">
+                            <div class="btn-group version-select" role="group" aria-label="...">
+                                <button ng-repeat="version in service.versions" type="button" class="btn btn-default" ng-click="showFile(file.path, instance, version); "
+                                        ng-class="{'active': selectedFile['instance'] == instance && selectedFile['version'] == version && selectedFile['file_path'] == file.path}">{{version}} <span class="label label-success" ng-show="isLive(instance, version)">Live</span></button>
+                            </div>
+                        </th>
+                        <th><div class="config-table-actions"><span ng-click="deleteFile(file.path)" class="fa fa-remove config-table-action-btn"> </span></div></th>
                     </tr>
                     </tbody>
                 </table>
+                <span ng-show="selectedFile.file_path" class="fa fa-save fa-inverse file-save-button" ng-click="saveFile()"></span>
                 <ui-codemirror style="height: 500px;" ui-codemirror="{ onLoad : codemirrorLoaded }" ui-codemirror-opts="editorOptions" ng-model="fileData"></ui-codemirror>
             </div>
         </div>

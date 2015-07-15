@@ -548,3 +548,12 @@ $stat-blue-color: #7986CB;
     display: inline;
   }
 }
+
+.file-save-button {
+  position: absolute;
+  right: 40px;
+  z-index: 9;
+  padding: 7px;
+  font-size: 20px;
+  cursor: pointer;
+}
