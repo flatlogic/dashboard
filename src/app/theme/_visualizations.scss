@@ -10,6 +10,7 @@
 
   rect {
     fill: none;
+    pointer-events: all;
   }
 
   rect.parent,
@@ -25,8 +26,8 @@
     fill: $gray-dark;
   }
 
-  .children rect.parent,
-  .grandparent rect {
+  .grandparent,
+  .children rect{
     cursor: pointer;
   }
 
@@ -34,12 +35,14 @@
   rect.child{
     fill: #bbb;
     fill-opacity: .2;
+    @include transition(fill .1s ease, fill-opacity .1s ease);
     stroke-width: 1px;
     stroke: #aaa;
-  }
 
-  .children:hover rect.child {
-    fill: lighten($brand-warning, 7%);
+    &:hover {
+      fill: lighten($brand-warning, 7%);
+      fill-opacity: .2;
+    }
   }
 }
 
