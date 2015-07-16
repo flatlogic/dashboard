@@ -95,9 +95,13 @@
                             }
 
                             function accumulate(d) {
-                                return (d._children = d.children)
+                                var amount = (d._children = d.children)
                                     ? d.amount = d.children.reduce(function(p, v) { return p + accumulate(v); }, 0)
                                     : 1;
+                                if (d.children && d.children.length == 1) {
+                                    amount *= 2; // artificially increase visual size of a node with single child
+                                }
+                                return amount
                             }
 
                             function layout(d) {
@@ -113,7 +117,7 @@
                                             c.y = d.y + c.y * d.dy;
                                             c.dx *= d.dx;
                                             c.dy *= d.dy;
-                                            var k = .85;
+                                            var k = .8;
                                             c.x += c.dx * (1 - k) / 2;
                                             c.y += c.dy * (1 - k) / 2;
                                             c.dx *= k;
@@ -138,20 +142,26 @@
                                     .attr("class", "depth");
 
                                 var g = g1.selectAll("g")
-                                    .data(d._children)
+                                    .data(d._children || [])
                                     .enter().append("g");
 
                                 g.filter(function(d) { return d._children; })
                                     .classed("children", true)
-                                    .on("click", transition)
                                 ;
+
+                                g.append("rect")
+                                    .attr("class", "parent")
+                                    .call(rect)
+                                    .on("click", transition)
+                                    .append("title")
+                                    .text(function(d) { return formatNumber(d.value); });
 
                                 g.selectAll(".child")
                                     .data(function(d) { return d._children || [d]; })
                                     .enter().append("rect")
                                     .attr("class", "child")
                                     .call(rect)
-                                    //.on("click", transition)
+                                    .on("click", transition)
                                 ;
 
                                 g.selectAll(".child-text")
@@ -162,16 +172,12 @@
                                     .call(text)
                                 ;
 
-                                g.append("rect")
-                                    .attr("class", "parent")
-                                    .call(rect)
-                                    .append("title")
-                                    .text(function(d) { return formatNumber(d.value); });
-
                                 g.append("text")
                                     .classed("overlaidText",true)
                                     .text(function(d) { return d.name; })
                                     .call(text);
+
+                                return g;
 
                                 function transition(d) {
                                     if (transitioning || !d) return;
@@ -206,12 +212,11 @@
                                     showDetails(d);
                                 }
 
-                                return g;
                             }
 
                             function text(text) {
                                 text.attr("x", function(d) { return x(d.x) + 6; })
-                                    .attr("y", function(d) { return y(d.y) + 12; });
+                                    .attr("y", function(d) { return y(d.y) + 16; });
                             }
 
                             function rect(rect) {
@@ -224,7 +229,7 @@
                             }
 
                             function name(d) {
-                                return d.parent ? name(d.parent) + " / " + d.name : d.name;
+                                return d.parent ? name(d.parent) + " > " + d.name : d.name;
                             }
 
                         }
