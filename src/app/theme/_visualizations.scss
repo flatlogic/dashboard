@@ -44,6 +44,15 @@
       fill-opacity: .2;
     }
   }
+
+  .placeholder,
+  .placeholder rect.parent,
+  .placeholder rect.child,
+  rect.child.placeholder {
+    stroke: none;
+    fill: none;
+    fill-opacity: 0;
+  }
 }
 
 .network-svg {

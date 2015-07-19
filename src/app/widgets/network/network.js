@@ -46,8 +46,8 @@
 
                         var treemap = d3.layout.treemap()
                             .children(function(d, depth) { return depth ? null : d._children; })
-                            .sort(function(a, b) { return a.amount - b.amount; })
-                            .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
+                            .sort(function(a, b) { return -a.name.localeCompare(b.name); })
+                            .ratio(1)
                             .round(false)
                             .value(function(d) { return d.amount; });
 
@@ -83,6 +83,7 @@
 
                         function subRender(root) {
                             initialize(root);
+                            squarify(root);
                             accumulate(root);
                             layout(root);
                             display(root);
@@ -94,14 +95,49 @@
                                 root.depth = 0;
                             }
 
-                            function accumulate(d) {
-                                var amount = (d._children = d.children)
-                                    ? d.amount = d.children.reduce(function(p, v) { return p + accumulate(v); }, 0)
-                                    : 1;
-                                if (d.children && d.children.length == 1) {
-                                    amount *= 2; // artificially increase visual size of a node with single child
+                            function _hasIntegerSquareRoot(n) {
+                                var sqrt = Math.sqrt(n);
+                                return sqrt - Math.floor(sqrt) == 0;
+                            }
+
+                            function _nextSquareRootInteger(n) {
+                                return Math.pow(Math.floor(Math.sqrt(n)) + 1, 2);
+                            }
+
+                            /**
+                             * Adds up children to a node so it has an integer square root.
+                             * E.g. if a node has 3 children, adds one more so nodes are displayed as squares (total 4 nodes)
+                             *   * *
+                             *   * *
+                             * E.g. if a node has 5 children, adds four more so nodes are displayed as squares (total 9 nodes_
+                             *   * * *
+                             *   * * *
+                             *   * * *
+                             *
+                             * @param d root node
+                             */
+                            function squarify(d) {
+                                var n = d.children ? d.children.length : 0;
+                                if (n) {
+                                    if (!_hasIntegerSquareRoot(n)) {
+                                        var N = _nextSquareRootInteger(n);
+                                        for (var i = n; i < N; i++) {
+                                            d.children.push({
+                                                    "name": "ztest-0",
+                                                    "type": "__placeholder__"
+                                                })
+                                        }
+                                    }
+                                    d.children.forEach(squarify);
                                 }
-                                return amount
+                            }
+
+                            function accumulate(d) {
+                                d._children = d.children;
+                                d.amount = 1;
+                                if (d._children) {
+                                    d._children.forEach(accumulate)
+                                }
                             }
 
                             function layout(d) {
@@ -117,11 +153,12 @@
                                             c.y = d.y + c.y * d.dy;
                                             c.dx *= d.dx;
                                             c.dy *= d.dy;
-                                            var k = .8;
+                                            var k = .75;
                                             c.x += c.dx * (1 - k) / 2;
                                             c.y += c.dy * (1 - k) / 2;
                                             c.dx *= k;
                                             c.dy *= k;
+                                            //c.dy = c.dx = d3.min([c.dx, c.dy]);
                                             c.parent = d;
                                             _layout(c);
                                         });
@@ -131,6 +168,7 @@
                             }
 
                             function display(d) {
+
                                 grandparent
                                     .datum(d.parent)
                                     .on("click", transition)
@@ -149,9 +187,23 @@
                                     .classed("children", true)
                                 ;
 
+                                g.filter(_isPlaceholder)
+                                    .classed("placeholder", true)
+                                ;
+
+                                g.selectAll(".child")
+                                    .data(function(d) {
+                                        return (d._children || [d]).filter(_isPlaceholder);
+                                    })
+                                    .enter().append("rect")
+                                    .attr("class", "child placeholder")
+                                    .call(rect)
+                                ;
+
                                 g.append("rect")
                                     .attr("class", "parent")
                                     .call(rect)
+                                    .filter(_isNotPlaceholder)
                                     .on("click", transition)
                                     .append("title")
                                     .text(function(d) { return formatNumber(d.value); });
@@ -160,20 +212,23 @@
                                     .data(function(d) { return d._children || [d]; })
                                     .enter().append("rect")
                                     .attr("class", "child")
+                                    .classed("placeholder", _isPlaceholder)
                                     .call(rect)
+                                    .filter(_isNotPlaceholder)
                                     .on("click", transition)
                                 ;
 
                                 g.selectAll(".child-text")
-                                    .data(function(d) { return d._children || [d]; })
+                                    .data(function(d) {
+                                        return (d._children || [d]).filter(_isNotPlaceholder);
+                                    })
                                     .enter().append("text")
-                                    .classed("overlaidText",true)
                                     .text(function(d) { return d.name; })
                                     .call(text)
                                 ;
 
-                                g.append("text")
-                                    .classed("overlaidText",true)
+                                g.filter(_isNotPlaceholder)
+                                    .append("text")
                                     .text(function(d) { return d.name; })
                                     .call(text);
 
@@ -210,6 +265,14 @@
                                     });
 
                                     showDetails(d);
+                                }
+
+                                function _isPlaceholder(d) {
+                                    return d.type == "__placeholder__";
+                                }
+
+                                function _isNotPlaceholder(d) {
+                                    return !_isPlaceholder(d);
                                 }
 
                             }
