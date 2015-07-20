@@ -8,8 +8,8 @@
         ])
     ;
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams'];
-    function orchestrateOptionController($scope, $stateParams) {
+    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$timeout'];
+    function orchestrateOptionController($scope, $stateParams, $timeout) {
 
         $scope.title = $stateParams.opt;
 
@@ -34,7 +34,48 @@
             return workflow.orchestration == $stateParams.opt;
         })[0];
 
+        for (var index in $scope.workflow.input) {
+            var value = $scope.workflow.input[index];
+            if (!value.default) {
+                value.default = '';
+            }
+            switch (value.type) {
+                case "string":
+                    $('#dynamic-form').append('<div class="form-group" > ' +
+                        '<label class="col-md-4 control-label" for="textinput">' + index + '</label>' +
+                        '<div class="col-md-4">' +
+                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value.default + '" class="form-control input-md">' +
+                        '</div>' +
+                        '</div>');
+                    break;
+                case "integer":
+                    $('#dynamic-form').append('<div class="form-group" > ' +
+                        '<label class="col-md-4 control-label" for="textinput">' + index + '</label>' +
+                        '<div class="col-md-4">' +
+                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value.default + '" class="form-control input-md">' +
+                        '</div>' +
+                        '</div>');
+                    break;
+                default:
+                    break;
+            }
 
+            $scope.sendMessage = function() {
+                $('#sendMessageButton').button('loading');
+
+                $timeout(function(){
+                    $('#sendMessageButton').button('reset');
+                }, 2000);
+
+                var data = {};
+
+                for (var index in $scope.workflow.input) {
+                    data[index] = $('#input-'+index).val();
+                }
+
+                // Make POST request to activete_url with data here
+            }
+        }
     }
 
     angular.module('qorDash.orchestrate')
