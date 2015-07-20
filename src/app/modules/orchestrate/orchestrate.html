@@ -1,7 +1,13 @@
-<section horizontal-ui-sheet class="qor-sheet-full">
-  <div horizontal-ui-sheet-content>
-    <h1 class="page-title">Orchestrate</h1>
-
-      <div ql-widget="traffic"></div>
-  </div>
+<section horizontal-ui-sheet class="qor-sheet-s">
+    <header horizontal-ui-sheet-header title="Domains">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="list-group text-left ng-scope" >
+            <a class="list-group-item" ng-repeat="domain in domains"
+               ui-sref-active="active"
+               ui-sref="app.orchestrate.domain({id : domain.id})" >
+                {{domain.name}}
+            </a>
+        </div>
+    </div>
 </section>

@@ -1,0 +1,13 @@
+<section horizontal-ui-sheet class="qor-sheet-s">
+    <header horizontal-ui-sheet-header title="{{title}}">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="list-group text-left ng-scope" >
+            <a class="list-group-item" ng-repeat="workflow in workflows"
+               ui-sref-active="active"
+               ui-sref="app.domains.domain.env({env : environment.name})" >
+                {{workflow.orchestration}}
+            </a>
+        </div>
+    </div>
+</section>

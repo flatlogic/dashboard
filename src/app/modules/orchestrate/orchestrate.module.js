@@ -21,7 +21,20 @@
           }
         },
         authenticate: true
-      });
+      })
+        .state('app.orchestrate.domain', {
+            url: '/:id',
+            templateUrl: 'app/modules/orchestrate/domain/domain.html',
+            controller: 'OrchestrateDomainController',
+            authenticate: true
+        })
+
+        .state('app.orchestrate.domain.instance', {
+            url: '/:inst',
+            templateUrl: 'app/modules/orchestrate/instance/instance.html',
+            controller: 'OrchestrateInstanceController',
+            authenticate: true
+        });
 
     $qorSidebarProvider.config('orchestrate', {
       title: 'Config',
