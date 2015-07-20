@@ -1,20 +1,20 @@
 <div ng-controller="DomainStatController">
 
     <div class="row domain-stat domain-stat-details">
-        <div class="col-md-3 col-sm-6" style="padding-left: 0px;">
+        <div class="col-md-3 col-sm-6" ng-repeat="service in services">
             <section class="widget widget-stat-details purple">
                 <div class="row">
                     <div class="col-md-3 widget-stat-little-block no-left-border">
-                        <h3>20</h3> <p class="text-muted">containers</p>
+                        <h3>{{service.containers}}</h3> <p class="text-muted">container</p>
                     </div>
                     <div class="col-md-3 widget-stat-little-block">
-                        <h3>80</h3> <p class="text-muted">cpu</p>
+                        <h3>{{service.cpu}}</h3> <p class="text-muted">cpu</p>
                     </div>
                     <div class="col-md-3 widget-stat-little-block">
-                        <h3>200gb</h3> <p class="text-muted">memory</p>
+                        <h3>{{service.memory}}</h3> <p class="text-muted">memory</p>
                     </div>
                     <div class="col-md-3 widget-stat-little-block">
-                        <h3>500gb</h3> <p class="text-muted">disk</p>
+                        <h3>{{service.disk}}</h3> <p class="text-muted">disk</p>
                     </div>
                 </div>
                 <div class="row widget-stat-other-details">
@@ -25,106 +25,10 @@
                         <p class="text-muted">last_update</p>
                     </div>
                     <div class="col-md-9">
-                        <p class="b">blinker/blinker:prod</p>
-                        <p class="b">production/v1.0</p>
-                        <p class="b">23dfe878a</p>
-                        <p class="b">1435565762</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <section class="widget widget-stat-details black">
-                <div class="row">
-                    <div class="col-md-3 widget-stat-little-block no-left-border">
-                        <h3>20</h3> <p class="text-muted">containers</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>80</h3> <p class="text-muted">cpu</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>200gb</h3> <p class="text-muted">memory</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>500gb</h3> <p class="text-muted">disk</p>
-                    </div>
-                </div>
-                <div class="row widget-stat-other-details">
-                    <div class="col-md-3 right-text">
-                        <p class="text-muted">image</p>
-                        <p class="text-muted">config</p>
-                        <p class="text-muted">git_commit</p>
-                        <p class="text-muted">last_update</p>
-                    </div>
-                    <div class="col-md-9">
-                        <p class="b">blinker/blinker:prod</p>
-                        <p class="b">production/v1.0</p>
-                        <p class="b">23dfe878a</p>
-                        <p class="b">1435565762</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <section class="widget widget-stat-details green">
-                <div class="row">
-                    <div class="col-md-3 widget-stat-little-block no-left-border">
-                        <h3>40</h3> <p class="text-muted">containers</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>160</h3> <p class="text-muted">cpu</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>400gb</h3> <p class="text-muted">memory</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>1000gb</h3> <p class="text-muted">disk</p>
-                    </div>
-                </div>
-                <div class="row widget-stat-other-details">
-                    <div class="col-md-3 right-text">
-                        <p class="text-muted">image</p>
-                        <p class="text-muted">config</p>
-                        <p class="text-muted">git_commit</p>
-                        <p class="text-muted">last_update</p>
-                    </div>
-                    <div class="col-md-9">
-                        <p class="b">blinker/blinker:prod</p>
-                        <p class="b">production/v1.0</p>
-                        <p class="b">23dfe878a</p>
-                        <p class="b">1435565762</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <section class="widget widget-stat-details blue">
-                <div class="row">
-                    <div class="col-md-3 widget-stat-little-block no-left-border">
-                        <h3>20</h3> <p class="text-muted">containers</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>80</h3> <p class="text-muted">cpu</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>200gb</h3> <p class="text-muted">memory</p>
-                    </div>
-                    <div class="col-md-3 widget-stat-little-block">
-                        <h3>500gb</h3> <p class="text-muted">disk</p>
-                    </div>
-                </div>
-                <div class="row widget-stat-other-details">
-                    <div class="col-md-3 right-text">
-                        <p class="text-muted">image</p>
-                        <p class="text-muted">config</p>
-                        <p class="text-muted">git_commit</p>
-                        <p class="text-muted">last_update</p>
-                    </div>
-                    <div class="col-md-9">
-                        <p class="b">blinker/blinker:prod</p>
-                        <p class="b">production/v1.0</p>
-                        <p class="b">23dfe878a</p>
-                        <p class="b">1435565762</p>
+                        <p class="b">{{service.image}}</p>
+                        <p class="b">{{service.config}}</p>
+                        <p class="b">{{service.git_commit}}</p>
+                        <p class="b">{{service.last_update}}</p>
                     </div>
                 </div>
             </section>

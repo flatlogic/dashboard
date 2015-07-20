@@ -10,7 +10,7 @@
                 "nginx": {
                     "containers" : 1,
                     "cpu":  4,
-                    "memory" : "04gb",
+                    "memory" : "4gb",
                     "disk"  : "10gb",
                     "image" : "blinker/nginx:95",
                     "config": "production/v1.1",
@@ -48,6 +48,7 @@
                     "last_update": 1435565762
                 },
                 "postgres": {
+                    "containers" : 5,
                     "host" : 1,
                     "cpu":  16,
                     "memory" : "32gb",
@@ -70,8 +71,8 @@
                 "memcached": {
                     "containers" : 4,
                     "cpu":  16,
-                    "memory" : 400,
-                    "disk"  : 250,
+                    "memory" : "400gb",
+                    "disk"  : "250gb",
                     "image" : "blinker/memcached",
                     "config": "production/v1.0",
                     "git_commit" : "",
@@ -113,6 +114,12 @@
             $scope.resources    = data.infrastructure.resources;
             $scope.containers   = data.infrastructure.containers;
             $scope.process      = data.infrastructure.process;
+
+            $scope.services = [];
+            for (var index in inputData.services) {
+                inputData.services[index].name = index;
+                $scope.services.push(inputData.services[index]);
+            }
         };
 
         parseData(jsonInput);

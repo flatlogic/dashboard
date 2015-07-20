@@ -362,6 +362,7 @@ $stat-blue-color: #7986CB;
   border-radius: 0px;
   margin-left: 5px;
   padding: 0 0 5px 0;
+  margin-top: 10px;
 
   >.row {
     margin: 0px;
@@ -404,6 +405,15 @@ $stat-blue-color: #7986CB;
     margin-top: 5px;
     margin-bottom: 0px;
   }
+  
+  @media (max-width: 1800px) {
+    >h3 {
+      font-size: 15px;
+    }
+    >p {
+      font-size: 12px;
+    }
+  }
 }
 
 
@@ -416,10 +426,19 @@ $stat-blue-color: #7986CB;
 
   >div>.b {
     font-weight: 400;
+    @media (max-width: 1800px) {
+        font-size: 12px;
+    }
   }
 
   >.right-text {
     text-align: right;
+
+    @media (max-width: 1800px) {
+      >p {
+        font-size: 12px;
+      }
+    }
   }
 }
 .tile-header {
