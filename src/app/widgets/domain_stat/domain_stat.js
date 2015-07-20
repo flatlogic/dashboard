@@ -123,6 +123,12 @@
         };
 
         parseData(jsonInput);
+
+        $scope.getRandomCardColor = function() {
+            var colors = ['purple', 'yellow', 'green', 'blue'];
+
+            return colors[Math.floor(Math.random() * 4)];
+        }
     }]);
 
     domainStatModule.controller(domainStatController);

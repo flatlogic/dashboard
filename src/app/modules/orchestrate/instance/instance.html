@@ -5,8 +5,8 @@
         <div class="list-group text-left ng-scope" >
             <a class="list-group-item" ng-repeat="workflow in workflows"
                ui-sref-active="active"
-               ui-sref="app.orchestrate.domain.instance.option({opt : workflow.orchestration})" >
-                {{workflow.orchestration}}
+               ui-sref="app.orchestrate.domain.instance.option({opt : workflow.name})" >
+                {{workflow.label}}
             </a>
         </div>
     </div>
