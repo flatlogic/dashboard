@@ -5,7 +5,7 @@
         <div class="list-group text-left ng-scope" >
             <a class="list-group-item" ng-repeat="workflow in workflows"
                ui-sref-active="active"
-               ui-sref="app.domains.domain.env({env : environment.name})" >
+               ui-sref="app.orchestrate.domain.instance.option({opt : workflow.orchestration})" >
                 {{workflow.orchestration}}
             </a>
         </div>

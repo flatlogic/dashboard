@@ -20,6 +20,7 @@
     "DomainController": "my_account",
     "OrchestrateDomainController": "my_account",
     "OrchestrateInstanceController": "my_account",
+    "OrchestrateOptionController": "my_account",
     "ServicesController": "my_account",
     "EditorController": "my_account",
     "FilesController": "my_account",

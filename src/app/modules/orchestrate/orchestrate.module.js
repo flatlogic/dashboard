@@ -34,6 +34,13 @@
             templateUrl: 'app/modules/orchestrate/instance/instance.html',
             controller: 'OrchestrateInstanceController',
             authenticate: true
+        })
+
+        .state('app.orchestrate.domain.instance.option', {
+            url: '/:opt',
+            templateUrl: 'app/modules/orchestrate/option/option.html',
+            controller: 'OrchestrateOptionController',
+            authenticate: true
         });
 
     $qorSidebarProvider.config('orchestrate', {

@@ -1,0 +1,25 @@
+<section horizontal-ui-sheet class="qor-sheet-fill">
+    <header horizontal-ui-sheet-header title="{{title}}">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <form class="form-horizontal">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Form Name</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="textinput">Text Input</label>
+                    <div class="col-md-4">
+                        <input id="textinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
+                        <span class="help-block">help</span>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+        <hr>
+        <div ql-widget="Timeline" ws-url="{{workflow.feed_url}}"></div>
+    </div>
+</section>
