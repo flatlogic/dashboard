@@ -414,6 +414,15 @@ $stat-blue-color: #7986CB;
       font-size: 12px;
     }
   }
+
+  @media (max-width: 1300px) {
+    >h3 {
+      font-size: 14px;
+    }
+    >p {
+      font-size: 11px;
+    }
+  }
 }
 
 
@@ -429,6 +438,9 @@ $stat-blue-color: #7986CB;
     @media (max-width: 1800px) {
         font-size: 12px;
     }
+    @media (max-width: 1300px) {
+        font-size: 11px;
+    }
   }
 
   >.right-text {
@@ -437,6 +449,11 @@ $stat-blue-color: #7986CB;
     @media (max-width: 1800px) {
       >p {
         font-size: 12px;
+      }
+    }
+    @media (max-width: 1300px) {
+      >p {
+        font-size: 11px;
       }
     }
   }
@@ -465,6 +482,29 @@ $stat-blue-color: #7986CB;
     &.blue {
       color: $stat-blue-color;
     }
+  }
+}
+
+.widget-caption {
+  color: white;
+  text-transform: uppercase;
+
+  padding: 0 0 2px 10px;
+
+  &.purple {
+    background-color: $stat-purple-color;
+  }
+
+  &.yellow {
+    background-color: $stat-yellow-color;
+  }
+
+  &.green {
+    background-color: $stat-green-color;
+  }
+
+  &.blue {
+    background-color: $stat-blue-color;
   }
 }
 

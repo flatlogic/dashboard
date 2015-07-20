@@ -3,6 +3,7 @@
     <div class="row domain-stat domain-stat-details">
         <div class="col-md-4 col-sm-6" ng-repeat="service in services">
             <section class="widget widget-stat-details purple">
+                <div class="widget-caption purple">{{service.name}}</div>
                 <div class="row">
                     <div class="col-md-3 widget-stat-little-block no-left-border">
                         <h3>{{service.containers}}</h3> <p class="text-muted">container</p>
