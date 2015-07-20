@@ -57,7 +57,6 @@
                             .style("margin-left", -margin.left + "px")
                             .style("margin-right", -margin.right + "px")
                             .classed('network-svg', true)
-                            .call(addShadow)
                             .append("g")
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                             .style("shape-rendering", "crispEdges");
@@ -84,6 +83,7 @@
                         function subRender(root) {
                             initialize(root);
                             squarify(root);
+                            balance(root);
                             accumulate(root);
                             layout(root);
                             display(root);
@@ -104,6 +104,16 @@
                                 return Math.pow(Math.floor(Math.sqrt(n)) + 1, 2);
                             }
 
+
+                            function _fillWithPlaceholders(array, count) {
+                                for (var i = 0; i < count; i++) {
+                                    array.push({
+                                        "name": "ztest-0",
+                                        "type": "__placeholder__"
+                                    })
+                                }
+                            }
+
                             /**
                              * Adds up children to a node so it has an integer square root.
                              * E.g. if a node has 3 children, adds one more so nodes are displayed as squares (total 4 nodes)
@@ -121,15 +131,25 @@
                                 if (n) {
                                     if (!_hasIntegerSquareRoot(n)) {
                                         var N = _nextSquareRootInteger(n);
-                                        for (var i = n; i < N; i++) {
-                                            d.children.push({
-                                                    "name": "ztest-0",
-                                                    "type": "__placeholder__"
-                                                })
-                                        }
+                                        _fillWithPlaceholders(d.children, N - n);
                                     }
                                     d.children.forEach(squarify);
                                 }
+                            }
+
+                            function balance(d) {
+                                if (!d.children) {
+                                    return
+                                }
+                                var maxGrandchildren = d3.max(d.children, function (c) {
+                                    return c.children ? c.children.length : 0;
+                                });
+                                d.children.forEach(function (c) {
+                                    if (c.children && c.children.length < maxGrandchildren) {
+                                        _fillWithPlaceholders(c.children, maxGrandchildren - c.children.length)
+                                    }
+                                });
+                                d.children.forEach(balance);
                             }
 
                             function accumulate(d) {
@@ -180,41 +200,27 @@
                                     .attr("class", "depth");
 
                                 var g = g1.selectAll("g")
-                                    .data(d._children || [])
+                                    .data((d._children || [d]).filter(_isNotPlaceholder))
                                     .enter().append("g");
 
                                 g.filter(function(d) { return d._children; })
                                     .classed("children", true)
                                 ;
 
-                                g.filter(_isPlaceholder)
-                                    .classed("placeholder", true)
-                                ;
-
-                                g.selectAll(".child")
-                                    .data(function(d) {
-                                        return (d._children || [d]).filter(_isPlaceholder);
-                                    })
-                                    .enter().append("rect")
-                                    .attr("class", "child placeholder")
-                                    .call(rect)
-                                ;
-
                                 g.append("rect")
                                     .attr("class", "parent")
                                     .call(rect)
-                                    .filter(_isNotPlaceholder)
                                     .on("click", transition)
                                     .append("title")
                                     .text(function(d) { return formatNumber(d.value); });
 
                                 g.selectAll(".child")
-                                    .data(function(d) { return d._children || [d]; })
+                                    .data(function(d) {
+                                        return (d._children || [d]).filter(_isNotPlaceholder);
+                                    })
                                     .enter().append("rect")
                                     .attr("class", "child")
-                                    .classed("placeholder", _isPlaceholder)
                                     .call(rect)
-                                    .filter(_isNotPlaceholder)
                                     .on("click", transition)
                                 ;
 
@@ -223,14 +229,16 @@
                                         return (d._children || [d]).filter(_isNotPlaceholder);
                                     })
                                     .enter().append("text")
+                                    .classed("child-text", true)
                                     .text(function(d) { return d.name; })
                                     .call(text)
                                 ;
 
-                                g.filter(_isNotPlaceholder)
-                                    .append("text")
+                                g.append("text")
                                     .text(function(d) { return d.name; })
-                                    .call(text);
+                                    .classed("parent-text", true)
+                                    .call(parentText)
+                                ;
 
                                 return g;
 
@@ -252,9 +260,11 @@
 
                                     svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
 
+                                    t1.selectAll(".parent-text").call(parentText).style("fill-opacity", 0);
+                                    t2.selectAll(".parent-text").call(parentText).style("fill-opacity", 1);
 
-                                    t1.selectAll("text").call(text).style("fill-opacity", 0);
-                                    t2.selectAll("text").call(text).style("fill-opacity", 1);
+                                    t1.selectAll(".child-text").call(parentText).style("fill-opacity", 0);
+                                    t2.selectAll(".child-text").call(text).style("fill-opacity", 1);
                                     t1.selectAll("rect").call(rect);
                                     t2.selectAll("rect").call(rect);
 
@@ -282,6 +292,11 @@
                                     .attr("y", function(d) { return y(d.y) + 16; });
                             }
 
+                            function parentText(text) {
+                                text.attr("x", function(d) { return x(d.x) + 6; })
+                                    .attr("y", function(d) { return y(d.y) - 6; });
+                            }
+
                             function rect(rect) {
                                 rect.attr("x", function(d) { return x(d.x); })
                                     .attr("y", function(d) { return y(d.y); })
@@ -295,33 +310,6 @@
                                 return d.parent ? name(d.parent) + " > " + d.name : d.name;
                             }
 
-                        }
-
-                        function addShadow(svg) {
-                            var defs = svg.append( 'defs' );
-
-                            var filter = defs.append( 'filter' )
-                                .attr( 'id', 'drop-shadow' )
-                                .attr('height', '130%');
-
-                            filter.append( 'feGaussianBlur' )
-                                .attr( 'in', 'SourceAlpha' )
-                                .attr( 'stdDeviation', 1 )
-                                .attr( 'result', 'blur' );
-
-                            filter.append( 'feOffset' )
-                                .attr( 'in', 'blur' )
-                                .attr( 'dx', 0 )
-                                .attr( 'dy', 0 )
-                                .attr( 'result', 'offsetBlur' );
-
-                            var feMerge = filter.append( 'feMerge' );
-
-                            feMerge.append( 'feMergeNode' )
-                                .attr( 'in", "offsetBlur' );
-
-                            feMerge.append( 'feMergeNode' )
-                                .attr( 'in', 'SourceGraphic' );
                         }
 
                         if (!scope.sourceJson) {
