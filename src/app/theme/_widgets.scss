@@ -683,3 +683,30 @@ $stat-blue-color: #7986CB;
   font-size: 20px;
   cursor: pointer;
 }
+
+
+.orchestration-parameters {
+  >fieldset {
+    >.form-group {
+      margin-bottom: 7px;
+
+      >div>input[type="checkbox"] {
+        display: none;
+
+        + label {
+          margin: 6px 0 6px 0;
+          display:inline-block;
+          width:19px;
+          height:19px;
+          vertical-align:middle;
+          background:url(../assets/images/checkboxes.png) left top no-repeat;
+          cursor: pointer;
+        }
+
+        &:checked + label {
+          background:url(../assets/images/checkboxes.png) -19px top no-repeat;
+        }
+      }
+    }
+  }
+}

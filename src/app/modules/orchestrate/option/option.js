@@ -27,7 +27,7 @@
             switch (getType(value)) {
                 case "string":
                     $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="textinput">' + index + '</label>' +
+                        '<label class="col-md-4 control-label" for="input-'+index+'">' + index + '</label>' +
                         '<div class="col-md-4">' +
                         '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
                         '</div>' +
@@ -35,7 +35,7 @@
                     break;
                 case "number":
                     $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="textinput">' + index + '</label>' +
+                        '<label class="col-md-4 control-label" for="input-'+index+'">' + index + '</label>' +
                         '<div class="col-md-4">' +
                         '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
                         '</div>' +
@@ -44,9 +44,9 @@
                 case "boolean":
                     var checked = value ? 'checked': '';
                     $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="textinput"></label>' +
+                        '<label class="col-md-4 control-label" for="input-'+index+'">'+index+'</label>' +
                         '<div class="col-md-4">' +
-                        '<input type="checkbox" '+ checked +'><h3 style="display: inline; margin-left: 10px;">' + index + '</h3>'+
+                        '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" '+ checked +'>'+ '<label for="input-'+index+'"></label>' +
                         '</div>' +
                         '</div>');
                     break;

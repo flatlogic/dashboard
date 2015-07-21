@@ -2,11 +2,16 @@
     <header horizontal-ui-sheet-header title="{{title}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <form class="form-horizontal">
+        <form class="form-horizontal orchestration-parameters">
             <fieldset id="dynamic-form">
             </fieldset>
 
-            <button type="button" ng-click="sendMessage()" id="sendMessageButton" class="btn btn-primary" style="margin-left: 40%;">Run</button>
+            <div class="form-group">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-align-right">
+                    <button type="button" ng-click="sendMessage()" id="sendMessageButton" class="btn qor-btn-primary">Run</button>
+                </div>
+            </div>
         </form>
         <hr>
         <div id="timelineContainer"></div>
