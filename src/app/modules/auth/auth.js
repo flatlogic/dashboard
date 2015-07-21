@@ -6,7 +6,7 @@
     .service('auth', authService)
     .service('user', userService)
     .factory('authInterceptor', authInterceptor)
-    .constant('API_URL', 'https://accounts.qor.io/v1')
+    .constant('AUTH_API_URL', 'https://accounts.qor.io/v1')
     .run(runAuth)
       .directive('userSection', userSection)
       .directive('userActions', userActions);
@@ -147,11 +147,11 @@
   /**
    * Service for working with user authentication
    * @param $http angular http service
-   * @param API_URL link to REST api
+   * @param AUTH_API_URL link to REST api
    * @param auth authorization service
    */
-  userService.$inject = ['$http', 'API_URL', 'auth', 'dataLoader'];
-  function userService($http, API_URL, auth, dataLoader) {
+  userService.$inject = ['$http', 'AUTH_API_URL', 'auth', 'dataLoader'];
+  function userService($http, AUTH_API_URL, auth, dataLoader) {
     var self = this;
 
     self.isAuthed = function() {
@@ -177,7 +177,7 @@
     self.login = function(username, password) {
       var request = {
         method: 'POST',
-        url:    API_URL + '/auth',
+        url:    AUTH_API_URL + '/auth',
         headers: {
           'Content-Type': 'application/json'
         },

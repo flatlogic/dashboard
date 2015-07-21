@@ -8,42 +8,17 @@
         ])
     ;
 
-    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http'];
-    function orchestrateInstanceController($scope, $stateParams, $http) {
+    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'API_URL'];
+    function orchestrateInstanceController($scope, $stateParams, $http, API_URL) {
 
         $scope.title = $stateParams.inst;
 
-        $scope.workflows = [{
-            "name": "provision_instance",
-            "label": "Provision minion instances",
-            "description": "Starts new minion instance and add to the pool for a given environment",
-            "activate_url": "/v1/orchestrate/ops-test.blinker.com/provision_instance",
-            "default_input": {
-                "image": "aws-ami-1234",
-                "instances": 1,
-                "type": "t1micro"
-            }
-        }, {
-            "name": "blinker_db_migrate",
-            "label": "Run db migration (blinker)",
-            "description": "Run database migration for blinker",
-            "activate_url": "/v1/orchestrate/ops-test.blinker.com/blinker_db_migrate",
-            "default_input": {
-                "retry": false
-            }
-        }, {
-            "name": "blinker_build_image",
-            "label": "Build Docker image (blinker)",
-            "description": "Build docker image for blinker service",
-            "activate_url": "/v1/orchestrate/ops-test.blinker.com/blinker_build_image",
-            "default_input": {
-                "git_branch": "develop",
-                "git_repo": "git@github.com:BlinkerGit/test.git",
-                "git_tag": "release1.0"
-            }
-        }];
+        // TODO Change to Angular $http
+        $.getJSON(API_URL + '/v1/orchestrate/blinker.com/ops-test/', function(data) {
+           $scope.$apply(function(){$scope.workflows = data;});
+        });
 
-        // TODO Load dynamic
+        $scope.workflows = [];
     }
 
     angular.module('qorDash.orchestrate')
