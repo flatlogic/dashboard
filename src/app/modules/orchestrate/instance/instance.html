@@ -2,6 +2,9 @@
     <header horizontal-ui-sheet-header title="{{title}}">
     </header>
     <div horizontal-ui-sheet-content>
+        <div class="preloader-container" ng-hide="workflows.length">
+           <img src="../assets/images/menu-loader.GIF">
+        </div>
         <div class="list-group text-left ng-scope" >
             <a class="list-group-item" ng-repeat="workflow in workflows"
                ui-sref-active="active"
