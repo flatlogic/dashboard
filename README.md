@@ -10,7 +10,7 @@
 2. Run the application: `gulp build`
 3. Upload `dist` content to the server
 
-### Deploy to `gh-pages` branch
+### Deploy to the `gh-pages` branch
 1. Install node and bower dependencies: `npm install`
 2. Run the application: `gulp build`
 3. Run the application `gulp deploy`
