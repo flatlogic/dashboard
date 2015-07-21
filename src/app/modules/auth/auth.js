@@ -46,6 +46,16 @@
       password: ''
     };
 
+      function removeError() {
+          if ($('.has-feedback').hasClass('has-error')) {
+              $('.has-feedback').removeClass('has-error');
+              $scope.errorMessage = '';
+          }
+      }
+
+      $scope.$watch('userCredentials.login', removeError);
+      $scope.$watch('userCredentials.password', removeError);
+
     $scope.startLoginAnimation = function() {
       $('#loginButton').button('loading');
     };
@@ -55,7 +65,9 @@
     };
 
     $scope.showErrorMessage = function(message) {
-      alert(message);
+        $scope.errorMessage = message;
+
+        $('.has-feedback').addClass('has-error');
     };
 
     $scope.login = function() {
