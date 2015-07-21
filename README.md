@@ -10,6 +10,12 @@
 2. Run the application: `gulp build`
 3. Upload `dist` content to the server
 
+### Deploy to `gh-pages` branch
+1. Install node and bower dependencies: `npm install`
+2. Run the application: `gulp build`
+3. Run the application `gulp deploy`
+4. Sync local gh-pages branch with remote origin
+
 ## Project 1 - Improve on this app template
 
 We want to add some features.
