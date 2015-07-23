@@ -4,8 +4,8 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork)
         ;
-    qlNetwork.$inject = ['d3', '$window', '$interval', '$state', '$http', '$timeout'];
-    function qlNetwork(d3, $window, $interval, $state, $http, $timeout) {
+    qlNetwork.$inject = ['d3', '$window', '$stateParams', '$state', '$http', '$timeout'];
+    function qlNetwork(d3, $window, $stateParams, $state, $http, $timeout) {
         return {
             restrict: 'EA',
             link: function (scope, element, attrs) {
@@ -23,12 +23,36 @@
                             });
                     }
 
+                    function findNode(currentNode, name, depth) {
+                        var _depth = -1;
+                        return findNodeInner(currentNode, name, depth);
+                        function findNodeInner(currentNode, name, depth) {
+                            var i, currentChild, result;
+                            _depth++;
+                            if (name == currentNode.name && (depth == _depth)) {
+                                return currentNode;
+                            } else if (currentNode._children) {
+                                for (i = 0; i < currentNode._children.length; i++) {
+                                    currentChild = currentNode._children[i];
+                                    result = findNodeInner(currentChild, name, depth);
+                                    _depth--;
+                                    if (result) {
+                                        return result;
+                                    }
+                                }
+                            } else {
+                                return void 0;
+                            }
+                        }
+                    }
+
                     function showDetails(root) {
                         $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
                     }
 
                     scope.render = function (data) {
                         var root = data;
+
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
@@ -188,7 +212,6 @@
                             }
 
                             function display(d) {
-
                                 grandparent
                                     .datum(d.parent)
                                     .on("click", transition)
@@ -239,6 +262,12 @@
                                     .classed("parent-text", true)
                                     .call(parentText)
                                 ;
+
+                                var n = findNode(root, $stateParams.node, $stateParams.depth);
+                                if (n !== d) {
+                                    transition(n);
+                                }
+
 
                                 return g;
 
