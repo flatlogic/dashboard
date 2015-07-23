@@ -4,6 +4,15 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork)
         ;
+
+    Array.prototype.rotate = function() {
+        var res = [];
+        for (var i = this.length; --i; i > -1) {
+            res.push(this[i]);
+        }
+        return res;
+    };
+
     qlNetwork.$inject = ['d3', '$window', '$stateParams', '$state', '$http', '$timeout'];
     function qlNetwork(d3, $window, $stateParams, $state, $http, $timeout) {
         return {
@@ -22,6 +31,8 @@
                                 });
                             });
                     }
+
+                    scope.grandparentItems = [];
 
                     function findNode(currentNode, name, depth) {
                         var _depth = -1;
@@ -85,23 +96,23 @@
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                             .style("shape-rendering", "crispEdges");
 
-                        var grandparent = svg.append("g")
-                            .attr("class", "grandparent");
-
-                        grandparent.append("rect")
-                            .attr("y", -margin.top)
-                            .attr("x", -1)
-                            .attr("width", width)
-                            .attr("height", margin.top)
-                            .attr("rx", "3px")
-                        ;
-
-                        grandparent.append("text")
-                            .attr("x", 6)
-                            .attr("y", 4 - margin.top)
-                            .attr("dy", ".75em")
-                            .attr("fill", '#fff')
-                        ;
+//                        var grandparent = svg.append("g")
+//                            .attr("class", "grandparent");
+//
+//                        grandparent.append("rect")
+//                            .attr("y", -margin.top)
+//                            .attr("x", -1)
+//                            .attr("width", width)
+//                            .attr("height", margin.top)
+//                            .attr("rx", "3px")
+//                        ;
+//
+//                        grandparent.append("text")
+//                            .attr("x", 6)
+//                            .attr("y", 4 - margin.top)
+//                            .attr("dy", ".75em")
+//                            .attr("fill", '#fff')
+//                        ;
 
 
                         function subRender(root) {
@@ -212,11 +223,24 @@
                             }
 
                             function display(d) {
-                                grandparent
-                                    .datum(d.parent)
-                                    .on("click", transition)
-                                    .select("text")
-                                    .text(name(d));
+//                                grandparent
+//                                    .selectAll("text")
+//                                    .data(name(d))
+//                                    .enter().append("text")
+//                                    .attr("y", 0)
+//                                    .text(function(d) {return d.name;})
+//                                ;
+
+                                scope.grandparentItems = name(d);
+
+                                d3.selectAll(".grandparent-item")
+                                    .on("click", function() {
+                                        var depth = this.getAttribute('data-depth'),
+                                            name = this.getAttribute('data-name');
+                                        var n = findNode(root, name, depth);
+                                        transition(n);
+
+                                    });
 
                                 var g1 = svg.insert("g", ".grandparent")
                                     .datum(d)
@@ -272,6 +296,7 @@
                                 return g;
 
                                 function transition(d) {
+
                                     if (transitioning || !d) return;
                                     transitioning = true;
 
@@ -336,7 +361,18 @@
                             }
 
                             function name(d) {
-                                return d.parent ? name(d.parent) + " > " + d.name : d.name;
+                                var result = [];
+                                var top = d;
+                                while(true) {
+                                    result.push(d);
+                                    if (d.parent) {
+                                        d = d.parent;
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                return result.rotate();
                             }
 
                         }
