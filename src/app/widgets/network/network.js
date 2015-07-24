@@ -57,7 +57,7 @@
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
-                            height = $window.innerHeight - margin.top - margin.bottom - 150,
+                            height = $window.innerHeight - margin.top - margin.bottom - 120,
                             formatNumber = d3.format(",d"),
                             transitioning;
 

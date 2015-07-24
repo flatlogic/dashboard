@@ -2,6 +2,12 @@
 .network {
   text {
     pointer-events: none;
+    @include transition(fill .1s ease);
+  }
+
+  .child-text {
+    fill: #fff;
+    font-weight: 600;
   }
 
   .grandparent {
@@ -9,18 +15,19 @@
     margin: 0;
     padding: 0 20px;
     line-height: 30px;
-    position: relative;
+    position: absolute;
+    top: 8px;
+    left: 100px;
     z-index: 1;
-    background-color: $gray;
     border-radius: 3px 3px 0 0;
 
     > li > a {
+      color: $text-color;
       font-weight: $font-weight-semi-bold;
-      color: $white;
     }
 
     > li + li:before {
-      color: $white;
+      color: $text-color;
       content: '>';
     }
   }
@@ -40,17 +47,24 @@
 
   .children rect.parent,
   rect.child{
-    fill: #bbb;
-    fill-opacity: .2;
     @include transition(fill .1s ease, fill-opacity .1s ease);
     stroke-width: 1px;
     stroke: #aaa;
 
     &:hover {
-      fill: lighten($brand-warning, 7%);
-      fill-opacity: .2;
+      fill-opacity: .7;
     }
   }
+
+  .children rect.parent{
+    fill: #fff;
+  }
+
+  rect.child {
+    fill: #7986CB;
+    fill-opacity: .6;
+  }
+
 
   .placeholder,
   .placeholder rect.parent,
@@ -63,9 +77,6 @@
 }
 
 .network-svg {
-  background-color: rgba(#bbb, .2);
-  border: 1px solid #aaa;
-  border-radius: 0 0 3px 3px;
 }
 
 // other stuff
