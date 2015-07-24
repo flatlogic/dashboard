@@ -8,7 +8,7 @@
     .run(runCore)
     .factory('d3', d3Service)
     .factory('jQuery', jQueryService)
-      .constant('API_URL', 'https://52.24.70.156');
+      .constant('API_URL', 'https://ops-dev.blinker.com');
 
   AppController.$inject = ['config', '$scope', '$qorSidebar'];
   function AppController(config, $scope, $qorSidebar) {
