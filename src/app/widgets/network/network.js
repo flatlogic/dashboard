@@ -5,13 +5,28 @@
             .directive('qlNetwork', qlNetwork)
         ;
 
-    Array.prototype.rotate = function() {
-        var res = [];
-        for (var i = this.length; --i; i > -1) {
-            res.push(this[i]);
+    function findNode(currentNode, name, depth) {
+        var _depth = -1;
+        return findNodeInner(currentNode, name, depth);
+        function findNodeInner(currentNode, name, depth) {
+            var i, currentChild, result;
+            _depth++;
+            if (name == currentNode.name && (depth == _depth)) {
+                return currentNode;
+            } else if (currentNode._children) {
+                for (i = 0; i < currentNode._children.length; i++) {
+                    currentChild = currentNode._children[i];
+                    result = findNodeInner(currentChild, name, depth);
+                    _depth--;
+                    if (result) {
+                        return result;
+                    }
+                }
+            } else {
+                return void 0;
+            }
         }
-        return res;
-    };
+    }
 
     qlNetwork.$inject = ['d3', '$window', '$stateParams', '$state', '$http', '$timeout'];
     function qlNetwork(d3, $window, $stateParams, $state, $http, $timeout) {
@@ -32,31 +47,6 @@
                             });
                     }
 
-                    scope.grandparentItems = [];
-
-                    function findNode(currentNode, name, depth) {
-                        var _depth = -1;
-                        return findNodeInner(currentNode, name, depth);
-                        function findNodeInner(currentNode, name, depth) {
-                            var i, currentChild, result;
-                            _depth++;
-                            if (name == currentNode.name && (depth == _depth)) {
-                                return currentNode;
-                            } else if (currentNode._children) {
-                                for (i = 0; i < currentNode._children.length; i++) {
-                                    currentChild = currentNode._children[i];
-                                    result = findNodeInner(currentChild, name, depth);
-                                    _depth--;
-                                    if (result) {
-                                        return result;
-                                    }
-                                }
-                            } else {
-                                return void 0;
-                            }
-                        }
-                    }
-
                     function showDetails(root) {
                         $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
                     }
@@ -67,7 +57,7 @@
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
-                            height = $window.innerHeight - margin.top - margin.bottom - 120,
+                            height = $window.innerHeight - margin.top - margin.bottom - 150,
                             formatNumber = d3.format(",d"),
                             transitioning;
 
@@ -86,7 +76,8 @@
                             .round(false)
                             .value(function(d) { return d.amount; });
 
-                        var svg = d3.select(element[0]).append("svg")
+                        var wrap = d3.select(element[0]);
+                        var svg = wrap.append("svg")
                             .attr("width", width + margin.left + margin.right)
                             .attr("height", height + margin.bottom + margin.top)
                             .style("margin-left", -margin.left + "px")
@@ -96,23 +87,8 @@
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                             .style("shape-rendering", "crispEdges");
 
-//                        var grandparent = svg.append("g")
-//                            .attr("class", "grandparent");
-//
-//                        grandparent.append("rect")
-//                            .attr("y", -margin.top)
-//                            .attr("x", -1)
-//                            .attr("width", width)
-//                            .attr("height", margin.top)
-//                            .attr("rx", "3px")
-//                        ;
-//
-//                        grandparent.append("text")
-//                            .attr("x", 6)
-//                            .attr("y", 4 - margin.top)
-//                            .attr("dy", ".75em")
-//                            .attr("fill", '#fff')
-//                        ;
+                        var grandparent = wrap.insert("ul",":first-child")
+                            .attr("class", "grandparent breadcrumb");
 
 
                         function subRender(root) {
@@ -121,7 +97,7 @@
                             balance(root);
                             accumulate(root);
                             layout(root);
-                            display(root);
+                            display(root, true);
 
                             function initialize(root) {
                                 root.x = root.y = 0;
@@ -222,27 +198,23 @@
                                 }
                             }
 
-                            function display(d) {
-//                                grandparent
-//                                    .selectAll("text")
-//                                    .data(name(d))
-//                                    .enter().append("text")
-//                                    .attr("y", 0)
-//                                    .text(function(d) {return d.name;})
-//                                ;
+                            function display(d, navigate) {
+                                var navigationItem = grandparent
+                                    .selectAll("li")
+                                    .data(traverseParents(d));
 
-                                scope.grandparentItems = name(d);
+                                navigationItem.enter()
+                                    .append("li")
+                                    .append("a")
+                                    .text(function(d) {return d.name;})
+                                    .on('click', transition)
+                                ;
 
-                                d3.selectAll(".grandparent-item")
-                                    .on("click", function() {
-                                        var depth = this.getAttribute('data-depth'),
-                                            name = this.getAttribute('data-name');
-                                        var n = findNode(root, name, depth);
-                                        transition(n);
+                                navigationItem.exit()
+                                    .remove('li')
+                                ;
 
-                                    });
-
-                                var g1 = svg.insert("g", ".grandparent")
+                                var g1 = svg.insert("g", ":first-child")
                                     .datum(d)
                                     .attr("class", "depth");
 
@@ -287,11 +259,12 @@
                                     .call(parentText)
                                 ;
 
-                                var n = findNode(root, $stateParams.node, $stateParams.depth);
-                                if (n !== d) {
-                                    transition(n);
+                                if (navigate) {
+                                    var n = findNode(root, $stateParams.node, $stateParams.depth);
+                                    if (n !== d) {
+                                        transition(n);
+                                    }
                                 }
-
 
                                 return g;
 
@@ -299,6 +272,7 @@
 
                                     if (transitioning || !d) return;
                                     transitioning = true;
+                                    g1 = svg.select('.depth');
 
                                     var g2 = display(d),
                                         t1 = g1.transition().duration(750),
@@ -360,7 +334,7 @@
                                 ;
                             }
 
-                            function name(d) {
+                            function traverseParents(d) {
                                 var result = [];
                                 var top = d;
                                 while(true) {
@@ -372,7 +346,8 @@
                                     }
                                 }
 
-                                return result.rotate();
+                                result.reverse();
+                                return result;
                             }
 
                         }

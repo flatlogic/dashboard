@@ -4,8 +4,25 @@
     pointer-events: none;
   }
 
-  .grandparent text {
-    fill: #fff;
+  .grandparent {
+    height: 30px;
+    margin: 0;
+    padding: 0 20px;
+    line-height: 30px;
+    position: relative;
+    z-index: 1;
+    background-color: $gray;
+    border-radius: 3px 3px 0 0;
+
+    > li > a {
+      font-weight: $font-weight-semi-bold;
+      color: $white;
+    }
+
+    > li + li:before {
+      color: $white;
+      content: '>';
+    }
   }
 
   rect {
@@ -13,20 +30,10 @@
     pointer-events: all;
   }
 
-  rect.parent,
-  .grandparent rect {
+  rect.parent {
     stroke-width: 0;
   }
 
-  .grandparent rect {
-    fill: $gray;
-  }
-
-  .grandparent:hover rect {
-    fill: $gray-dark;
-  }
-
-  .grandparent,
   .children rect{
     cursor: pointer;
   }
@@ -58,7 +65,7 @@
 .network-svg {
   background-color: rgba(#bbb, .2);
   border: 1px solid #aaa;
-  border-radius: 3px;
+  border-radius: 0 0 3px 3px;
 }
 
 // other stuff

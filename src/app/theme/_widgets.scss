@@ -405,7 +405,7 @@ $stat-blue-color: #7986CB;
     margin-top: 5px;
     margin-bottom: 0px;
   }
-  
+
   @media (max-width: 1800px) {
     >h3 {
       font-size: 15px;
@@ -713,21 +713,4 @@ $stat-blue-color: #7986CB;
 
 .preloader-container {
   text-align: center;
-}
-
-.grandparent {
-  height: 20px;
-  width: 100%;
-  background-color: #000000;
-
-  >p{
-    display: inline-block;
-    color: white;
-    margin-left: 7px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: yellowgreen;
-    }
-  }
 }
