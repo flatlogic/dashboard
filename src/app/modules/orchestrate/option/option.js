@@ -81,7 +81,7 @@
 //                        debugger;
 //                    });
 
-                $('#timelineContainer').append($compile('<div ql-widget="Timeline" ws-url="ws://52.24.70.156/v1/ws/run/timeline1"></div>')($scope));
+                $('#timelineContainer').append($compile('<div ql-widget="Timeline" ws-url="wss://52.24.70.156/v1/ws/run/timeline1"></div>')($scope));
             }
         }
     }

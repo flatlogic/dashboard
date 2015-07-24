@@ -14,8 +14,8 @@
         $scope.title = $stateParams.inst;
 
         // TODO Change to Angular $http
-        $.getJSON(API_URL + '/v1/orchestrate/blinker.com/ops-test/', function(data) {
-           $scope.$apply(function(){$scope.workflows = data;});
+        $http.get(API_URL + '/v1/orchestrate/blinker.com/ops-test/').success(function(data) {
+            $scope.workflows = data;
         });
 
         $scope.workflows = [];
