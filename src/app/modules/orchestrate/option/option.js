@@ -57,31 +57,26 @@
             $scope.sendMessage = function() {
                 $('#sendMessageButton').button('loading');
 
-                $timeout(function(){
-                    $('#sendMessageButton').button('reset');
-                }, 2000);
-
                 var data = {};
 
                 for (var index in $scope.workflow.default_input) {
                     data[index] = $('#input-'+index).val();
                 }
-//
-//                var request = {
-//                    type: 'POST',
-//                    url:    API_URL + $scope.workflow.activate_url,
-//                    headers: {
-//                        'Content-Type': 'application/json'
-//                    },
-//                    data: data
-//                };
-//
-//                $.ajax(request)
-//                    .done(function(response) {
-//                        debugger;
-//                    });
 
-                $('#timelineContainer').append($compile('<div ql-widget="Timeline" ws-url="wss://ops-dev.blinker.com/v1/ws/run/timeline1"></div>')($scope));
+                var request = {
+                    method: 'POST',
+                    url:    API_URL + $scope.workflow.activate_url,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: data
+                };
+
+                $http(request)
+                    .success(function(response){
+                        $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="wss://ops-dev.blinker.com'+ response.log_ws_url +'"></div>')($scope));
+                        $('#sendMessageButton').button('reset');
+                    });
             }
         }
     }
