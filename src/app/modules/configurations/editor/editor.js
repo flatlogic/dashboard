@@ -25,8 +25,8 @@
             }
         ]);
 
-    editorController.$inject = ['$scope', '$stateParams', 'services', 'domains'];
-    function editorController($scope, $stateParams, services, domains) {
+    editorController.$inject = ['$scope', '$stateParams', 'services', 'domains', 'API_URL', '$http', '$timeout'];
+    function editorController($scope, $stateParams, services, domains, API_URL, $http, $timeout) {
         $scope.domain = domains.filter(function (domain) {
             return domain.id == $stateParams.domain;
         })[0];
@@ -69,62 +69,63 @@
             $scope.values.push(obj);
         };
 
-        $scope.values = [
-            {
-                "name": "PGHOST",
-                "ops-dev": {
-                    "develop": "ops-dev.blinker.io-dev",
-                    "v1.0": "ops-dev.blinker.io-v1.0",
-                    "v1.1": "ops-dev.blinker.io-v1.1"
-                },
-                "staging": {
-                    "develop": "staging-dev.blinker.io-dev",
-                    "v1.0": "staging-dev.blinker.io-v1.0",
-                    "v1.1": "staging-dev.blinker.io-v1.1"
-                },
-                "production": {
-                    "develop": "production-dev.blinker.io-dev",
-                    "v1.0": "production-dev.blinker.io-v1.0",
-                    "v1.1": "production-dev.blinker.io-v1.1"
-                }
-            },
-            {
-                "name": "PGPORT",
-                "ops-dev": {
-                    "develop": "pg-od-dev",
-                    "v1.0": "pg-od-v1.0",
-                    "v1.1": "pg-od-v1.1"
-                },
-                "staging": {
-                    "develop": "staging-od-dev",
-                    "v1.0": "staging-od-v1.0",
-                    "v1.1": "staging-od-v1.1"
-                },
-                "production": {
-                    "develop": "production-od-dev",
-                    "v1.0": "production-od-v1.0",
-                    "v1.1": "production-od-v1.1"
-                }
-            },
-            {
-                "name": "PGUSER",
-                "ops-dev": {
-                    "develop": "pguser-od-dev",
-                    "v1.0": "pguser-od-v1.0",
-                    "v1.1": "pguser-od-v1.1"
-                },
-                "staging": {
-                    "develop": "staging-pguser-dev",
-                    "v1.0": "staging-pguser-v0.1",
-                    "v1.1": "staging-pguser-1.0"
-                },
-                "production": {
-                    "develop": "production-od-1",
-                    "v1.0": "production-od-2",
-                    "v1.1": "production-od-3"
-                }
+        $scope.values = [];
+        $scope.val1 = {};
+//
+//        $scope.$watch('val1', function(n, o) {
+//            formatValues();
+//        }, true);
+
+
+        $scope.service.instances.forEach(function(instance) {
+            for (var i in $scope.service.versions) {
+                var version = $scope.service.versions[i];
+                var request = {
+                    method: 'GET',
+                    url: 'https://ops-dev.blinker.com/v1/env/blinker.com/ops-dev/blinker/develop',
+                    //url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    'version': version
+                };
+
+                $http(request)
+                    .success(function(data, status, headers, config) {
+                        var url = config.url.split('/');
+                        var version = config.version;
+                        data.forEach(function(variable) {
+                            if (!$scope.val1[variable.name]) {
+                                $scope.val1[variable.name] = {};
+                            }
+
+                            if (!$scope.val1[variable.name][instance]) {
+                                $scope.val1[variable.name][instance] = {};
+                            }
+
+                            if (!$scope.val1[variable.name][instance][version]) {
+                                $scope.val1[variable.name][instance][version] = {};
+                            }
+
+                            $scope.val1[variable.name][instance][version] = variable.value + version;
+                        });
+                        if (instance == $scope.service.instances[$scope.service.instances.length - 1]
+                            && version == $scope.service.versions[$scope.service.versions.length - 1]) {
+                            formatValues();
+                        }
+                    })
             }
-        ];
+        });
+
+
+
+        function formatValues() {
+            debugger;
+            for (var index in $scope.val1) {
+                $scope.val1[index]['name'] = index;
+                $scope.values.push($scope.val1[index]);
+            }
+        }
 
         $scope.focusinControl = {
         };

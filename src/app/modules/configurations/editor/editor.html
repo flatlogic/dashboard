@@ -15,13 +15,8 @@
                             <th ng-repeat="instance in service.instances" class="config-table-th" >
                                 <h4>{{instance}}</h4>
                                 <div class="btn-group version-select" role="group" aria-label="...">
-                                    <div class="container-select">
-                                        <select ng-model="version">
-                                            <option ng-click="changeSelectedVersion(instance, version)" ng-repeat="version in service.versions" value="{{version}}">{{isLive(instance, version) ? version + ' (live)' : version}}</option>
-                                        </select>
-                                    </div>
-                                    <!--<button ng-repeat="version in service.versions" type="button" class="btn btn-default" ng-click="changeSelectedVersion(instance, version); "-->
-                                            <!--ng-class="{'active': selectedVersion[instance] == version}">{{version}} <span class="label label-success" ng-show="isLive(instance, version)">Live</span></button>-->
+                                    <button ng-repeat="version in service.versions" type="button" class="btn btn-default" ng-click="changeSelectedVersion(instance, version); "
+                                            ng-class="{'active': selectedVersion[instance] == version}">{{version}} <span class="label label-success" ng-show="isLive(instance, version)">Live</span></button>
                                 </div>
                             </th>
                             <th></th>
