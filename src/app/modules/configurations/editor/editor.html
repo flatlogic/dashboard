@@ -8,7 +8,7 @@
             <div class="loading" ng-if="!values">Loading...</div>
             <div class="filled-content" ng-if="values">
                 <h3 class="config-table-header">Environment Variables</h3>
-                <table class="table table-bordered config-table">
+                <table class="table table-bordered config-table" ng-hide="values.length == 0">
                     <thead>
                         <tr>
                             <th><h4 align="center">Key</h4></th>
@@ -25,14 +25,17 @@
                     <tbody>
                         <tr ng-repeat="value in values">
                             <th inline-edit="value.name" is-name="true" on-save="updateName(oldName, newName)">{{value.name}}</th>
-                            <th ng-repeat="instance in service.instances" parent="value[instance]" inline-edit="value[instance][selectedVersion[instance]]" on-save="updateValues(name, newValue)"></th>
+                            <th ng-repeat="instance in service.instances" parent="value[instance]" instance="instance" version="selectedVersion[instance]" inline-edit="value[instance][selectedVersion[instance]]" on-save="updateValues(name, newValue, instance, selectedVersion[instance])"></th>
                             <th><div class="config-table-actions"><span ng-click="deleteValue(value.name)" class="fa fa-remove config-table-action-btn"> </span></div></th>
                         </tr>
                     </tbody>
                 </table>
+                <div id="env-loader" ng-show="values.length == 0">
+                     <img src="../assets/images/cube.gif">
+                </div>
             </div>
-            <button class="btn qor-btn-primary save-config-button" ng-click="save()" >Save</button>
-            <button class="btn qor-btn-primary add-config-button" ng-click="addValue()" >Add new</button>
+            <button class="btn qor-btn-primary save-config-button" ng-click="save()" ng-hide="values.length == 0">Save</button>
+            <button class="btn qor-btn-primary add-config-button" ng-click="addValue()" ng-hide="values.length == 0">Add new</button>
         </div>
     </div>
 

@@ -51,7 +51,26 @@
 
         $scope.save = function() {
             if (confirm("Are you sure?")) {
+                for (var instance in $scope.itemsForSave) {
+                    var versions = $scope.itemsForSave[instance];
+                    for (var version in versions) {
+                        var data = $scope.itemsForSave[instance][version];
+                        var request =   {
+                            method: 'POST',
+                            url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Dash-Version': '19'
+                            },
+                            data: data
+                        };
 
+                        $http(request)
+                            .success(function(response) {
+                                debugger;
+                            });
+                    }
+                }
             } else {
 
             }
@@ -71,11 +90,6 @@
 
         $scope.values = [];
         $scope.val1 = {};
-//
-//        $scope.$watch('val1', function(n, o) {
-//            formatValues();
-//        }, true);
-
 
         $scope.service.instances.forEach(function(instance) {
             for (var i in $scope.service.versions) {
@@ -92,7 +106,7 @@
 
                 $http(request)
                     .success(function(data, status, headers, config) {
-                        var url = config.url.split('/');
+                        $scope.xDashVersion = headers('X-Dash-Version');
                         var version = config.version;
                         data.forEach(function(variable) {
                             if (!$scope.val1[variable.name]) {
@@ -117,10 +131,7 @@
             }
         });
 
-
-
         function formatValues() {
-            debugger;
             for (var index in $scope.val1) {
                 $scope.val1[index]['name'] = index;
                 $scope.values.push($scope.val1[index]);
@@ -130,7 +141,25 @@
         $scope.focusinControl = {
         };
 
-        $scope.updateValues = function(name, newValue) {
+        $scope.itemsForSave = {};
+
+        $scope.updateValues = function(name, newValue, instance, version) {
+
+            if (!$scope.itemsForSave[instance]) {
+                $scope.itemsForSave[instance] = [];
+            }
+
+            if (!$scope.itemsForSave[instance][version]){
+                $scope.itemsForSave[instance][version] = {
+                    'update' : [],
+                    'delete' : []
+                };
+            }
+            $scope.itemsForSave[instance][version].update.push({
+                'name': name,
+                'value': newValue
+            });
+
             for (var valueIndex in $scope.values) {
                 if ($scope.values[valueIndex].name == name) {
                     $scope.values[valueIndex].value = newValue;
@@ -178,7 +207,9 @@
                 handleCancel: '&onCancel',
                 handleDelete: '&onDelete',
                 isName: '=isName',
-                parent: '='
+                parent: '=',
+                version: '=',
+                'instance': '='
             },
             link: function(scope, elm, attr) {
                 var previousValue;
@@ -205,7 +236,7 @@
                         return;
                     }
                     scope.editMode = false;
-                    scope.handleSave({name: scope.key, newValue: scope.model});
+                    scope.handleSave({name: scope.key, newValue: scope.model, instance: scope.instance, version: scope.version});
                 };
 
                 scope.isSaveAvailable = function() {
