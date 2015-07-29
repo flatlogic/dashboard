@@ -50,29 +50,41 @@
         };
 
         $scope.save = function() {
-            if (confirm("Are you sure?")) {
-                for (var instance in $scope.itemsForSave) {
-                    var versions = $scope.itemsForSave[instance];
-                    for (var version in versions) {
-                        var data = $scope.itemsForSave[instance][version];
-                        var request =   {
-                            method: 'POST',
-                            url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-Dash-Version': '19'
-                            },
-                            data: data
-                        };
+            $('#env-save-button').button('loading');
 
-                        $http(request)
-                            .success(function(response) {
-                                debugger;
-                            });
-                    }
+            if (!$scope.itemsForSave && $scope.itemsForDelete.length != 0) {
+
+            }
+
+            for (var instance in $scope.itemsForSave) {
+                var versions = $scope.itemsForSave[instance];
+                for (var version in versions) {
+                    var data = $scope.itemsForSave[instance][version];
+                    data['delete'] = $scope.itemsForDelete;
+                    var request =   {
+                        method: 'POST',
+                        url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Dash-Version': $scope.xDashVersion
+                        },
+                        data: data
+                    };
+
+                    $scope.itemsForSave = {};
+                    $scope.itemsForDelete = [];
+
+                    debugger;
+                    $http(request)
+                        .success(function(response) {
+                            debugger;
+                            $('#env-save-button').button('reset');
+                        })
+                        .error(function(){
+                            debugger;
+                            $('#env-save-button').button('reset');
+                        });
                 }
-            } else {
-
             }
         };
 
@@ -108,21 +120,21 @@
                     .success(function(data, status, headers, config) {
                         $scope.xDashVersion = headers('X-Dash-Version');
                         var version = config.version;
-                        data.forEach(function(variable) {
-                            if (!$scope.val1[variable.name]) {
-                                $scope.val1[variable.name] = {};
+                        for (var varName in data) {
+                            if (!$scope.val1[varName]) {
+                                $scope.val1[varName] = {};
                             }
 
-                            if (!$scope.val1[variable.name][instance]) {
-                                $scope.val1[variable.name][instance] = {};
+                            if (!$scope.val1[varName][instance]) {
+                                $scope.val1[varName][instance] = {};
                             }
 
-                            if (!$scope.val1[variable.name][instance][version]) {
-                                $scope.val1[variable.name][instance][version] = {};
+                            if (!$scope.val1[varName][instance][version]) {
+                                $scope.val1[varName][instance][version] = {};
                             }
 
-                            $scope.val1[variable.name][instance][version] = variable.value + version;
-                        });
+                            $scope.val1[varName][instance][version] = data[varName] + version;
+                        }
                         if (instance == $scope.service.instances[$scope.service.instances.length - 1]
                             && version == $scope.service.versions[$scope.service.versions.length - 1]) {
                             formatValues();
@@ -142,6 +154,7 @@
         };
 
         $scope.itemsForSave = {};
+        $scope.itemsForDelete = [];
 
         $scope.updateValues = function(name, newValue, instance, version) {
 
@@ -151,14 +164,10 @@
 
             if (!$scope.itemsForSave[instance][version]){
                 $scope.itemsForSave[instance][version] = {
-                    'update' : [],
-                    'delete' : []
+                    'update' : {}
                 };
             }
-            $scope.itemsForSave[instance][version].update.push({
-                'name': name,
-                'value': newValue
-            });
+            $scope.itemsForSave[instance][version].update[name] = newValue;
 
             for (var valueIndex in $scope.values) {
                 if ($scope.values[valueIndex].name == name) {
@@ -169,10 +178,14 @@
         };
 
         $scope.deleteValue = function(name) {
+
+            $scope.itemsForDelete.push(name);
+
             for (var valueIndex in $scope.values) {
                 if ($scope.values[valueIndex].name == name) {
                     $scope.values.splice(valueIndex, 1);
-                    return;                }
+                    return;
+                }
             }
         }
     }

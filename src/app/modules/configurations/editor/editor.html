@@ -25,7 +25,7 @@
                     <tbody>
                         <tr ng-repeat="value in values">
                             <th inline-edit="value.name" is-name="true" on-save="updateName(oldName, newName)">{{value.name}}</th>
-                            <th ng-repeat="instance in service.instances" parent="value[instance]" instance="instance" version="selectedVersion[instance]" inline-edit="value[instance][selectedVersion[instance]]" on-save="updateValues(name, newValue, instance, selectedVersion[instance])"></th>
+                            <th ng-repeat="instance in service.instances" parent="value[instance]" key="value.name" instance="instance" version="selectedVersion[instance]" inline-edit="value[instance][selectedVersion[instance]]" on-save="updateValues(name, newValue, instance, selectedVersion[instance])"></th>
                             <th><div class="config-table-actions"><span ng-click="deleteValue(value.name)" class="fa fa-remove config-table-action-btn"> </span></div></th>
                         </tr>
                     </tbody>
@@ -34,7 +34,7 @@
                      <img src="../assets/images/cube.gif">
                 </div>
             </div>
-            <button class="btn qor-btn-primary save-config-button" ng-click="save()" ng-hide="values.length == 0">Save</button>
+            <button class="btn qor-btn-primary save-config-button" id="env-save-button" ng-click="save()" ng-hide="values.length == 0">Save</button>
             <button class="btn qor-btn-primary add-config-button" ng-click="addValue()" ng-hide="values.length == 0">Add new</button>
         </div>
     </div>
