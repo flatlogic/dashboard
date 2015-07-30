@@ -32,6 +32,7 @@
     function qlNetwork(d3, $window, $stateParams, $state, $http, $timeout) {
         return {
             restrict: 'EA',
+            replace: true,
             link: function (scope, element, attrs) {
                 d3.d3().then(function (d3) {
                     function initJson() {
@@ -57,7 +58,7 @@
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
-                            height = $window.innerHeight - margin.top - margin.bottom - 120,
+                            height = $window.innerHeight - margin.top - margin.bottom - 120 - 45,
                             formatNumber = d3.format(",d"),
                             transitioning;
 
@@ -92,6 +93,9 @@
                             .append("g")
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                             .style("shape-rendering", "crispEdges");
+
+                        var title = wrap.insert("h4", ":first-child")
+                            .attr("class", "network-current-node");
 
                         var grandparent = wrap.insert("ul", ":first-child")
                             .attr("class", "grandparent breadcrumb");
@@ -208,6 +212,12 @@
                                 var navigationItem = grandparent
                                     .selectAll("li")
                                     .data(traverseParents(d));
+
+                                title.datum(d)
+                                    .text(function (d) {
+                                       return d.name;
+                                    })
+                                ;
 
                                 navigationItem.enter()
                                     .append("li")

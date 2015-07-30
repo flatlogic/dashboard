@@ -6,8 +6,8 @@
   }
 
   .child-text {
-    fill: #fff;
-    font-weight: 600;
+    fill: #476bb8;
+    font-weight: $font-weight-normal;
   }
 
   .grandparent {
@@ -22,6 +22,16 @@
     border-radius: 3px 3px 0 0;
 
     > li > a {
+      color: $text-muted;
+      font-weight: $font-weight-normal;
+      font-size: $font-size-mini;
+
+      &:hover {
+        color: $text-color;
+      }
+    }
+
+    > li:last-child > a {
       color: $text-color;
       font-weight: $font-weight-semi-bold;
     }
@@ -50,19 +60,22 @@
     @include transition(fill .1s ease, fill-opacity .1s ease);
     stroke-width: 1px;
     stroke: #aaa;
-
-    &:hover {
-      fill-opacity: .7;
-    }
   }
 
   .children rect.parent {
     fill: #fff;
+
+    &:hover {
+      fill: #e3e9f6;
+    }
   }
 
   rect.child {
-    fill: #7986CB;
-    fill-opacity: .6;
+    fill: #a9caff;
+
+    &:hover {
+      fill: #8fadff;
+    }
   }
 
   .placeholder,
@@ -75,7 +88,18 @@
   }
 }
 
+.network-current-node {
+  margin: 0;
+  padding: 10px 20px;
+  line-height: 1;
+  color: #464A4E;
+  font-weight: $font-weight-normal;
+}
+
 .network-svg {
+  background-color: #fff;
+  border: 1px solid #949da5;
+  border-radius: 3px;
 }
 
 // other stuff
