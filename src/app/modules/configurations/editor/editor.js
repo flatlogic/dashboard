@@ -37,10 +37,20 @@
         $scope.selectedVersion = {};
         $scope.itemsForSave = {};
         $scope.itemsForDelete = [];
+        $scope.newItemsCount = 0;
 
         $scope.service.instances.forEach(function(instance) {
             $scope.selectedVersion[instance] = $scope.service.versions[0];
         });
+
+        var isInstance = function(condidate) {
+            for (var i in $scope.service.instances) {
+                if ($scope.service.instances[i] == condidate) {
+                    return true;
+                }
+            }
+            return false
+        };
 
         $scope.changeSelectedVersion = function(instance, newVersion) {
             $scope.selectedVersion[instance] = newVersion;
@@ -85,6 +95,28 @@
 
             }
 
+            if ($scope.newItemsCount != 0) {
+                for (var i = $scope.values.length - 1; $scope.newItemsCount; --$scope.newItemsCount) {
+                    var objToAdd = $scope.values[i];
+                    for (var index in objToAdd) {
+                        if (isInstance(index)) {
+                            var versionToAdd = objToAdd[index];
+                            for (var versionIndex in versionToAdd) {
+                                if (!$scope.itemsForSave[index][versionIndex]) {
+                                    $scope.itemsForSave[index][versionIndex] = {};
+                                }
+
+                                if (!$scope.itemsForSave[index][versionIndex]['update']) {
+                                    $scope.itemsForSave[index][versionIndex]['update'] = {};
+                                }
+                                $scope.itemsForSave[index][versionIndex]['update'][objToAdd.name] = versionToAdd[versionIndex].value;
+                            }
+                            debugger;
+                        }
+                    }
+                }
+            }
+
             for (var instance in $scope.itemsForSave) {
                 var versions = $scope.itemsForSave[instance];
                 for (var version in versions) {
@@ -99,10 +131,6 @@
                         },
                         data: data
                     };
-
-                    $scope.itemsForSave = {};
-                    $scope.itemsForDelete = [];
-
                     $http(request)
                         .success(function(response) {
                             debugger;
@@ -114,6 +142,10 @@
                         });
                 }
             }
+
+
+            $scope.itemsForSave = {};
+            $scope.itemsForDelete = [];
         };
 
         $scope.addValue = function() {
@@ -126,6 +158,7 @@
                });
             });
             $scope.values.push(obj);
+            $scope.newItemsCount++;
         };
 
         $scope.values = [];
