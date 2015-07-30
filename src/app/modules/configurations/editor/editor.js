@@ -48,6 +48,8 @@
             return $scope.service.live[instance] == version;
         };
 
+        $scope.dashVersions = {};
+
         $scope.save = function() {
             $('#env-save-button').button('loading');
 
@@ -61,11 +63,11 @@
                     var data = $scope.itemsForSave[instance][version];
                     data['delete'] = $scope.itemsForDelete;
                     var request =   {
-                        method: 'POST',
+                        method: 'PATCH',
                         url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-Dash-Version': $scope.xDashVersion
+                            'X-Dash-Version': $scope.dashVersions[version]
                         },
                         data: data
                     };
@@ -73,7 +75,6 @@
                     $scope.itemsForSave = {};
                     $scope.itemsForDelete = [];
 
-                    debugger;
                     $http(request)
                         .success(function(response) {
                             debugger;
@@ -117,7 +118,6 @@
 
                 $http(request)
                     .success(function(data, status, headers, config) {
-                        $scope.xDashVersion = headers('X-Dash-Version');
                         var version = config.version;
                         for (var varName in data) {
                             if (!$scope.val1[varName]) {
@@ -132,7 +132,9 @@
                                 $scope.val1[varName][instance][version] = {};
                             }
 
-                            $scope.val1[varName][instance][version] = data[varName] + version;
+                            $scope.val1[varName][instance][version]['value'] = data[varName] + version;
+
+                            $scope.dashVersions[version] = headers('X-Dash-Version');
                         }
                         if (instance == $scope.service.instances[$scope.service.instances.length - 1]
                             && version == $scope.service.versions[$scope.service.versions.length - 1]) {
@@ -156,7 +158,6 @@
         $scope.itemsForDelete = [];
 
         $scope.updateValues = function(name, newValue, instance, version) {
-
             if (!$scope.itemsForSave[instance]) {
                 $scope.itemsForSave[instance] = [];
             }
@@ -221,7 +222,7 @@
                 isName: '=isName',
                 parent: '=',
                 version: '=',
-                'instance': '='
+                instance: '='
             },
             link: function(scope, elm, attr) {
                 var previousValue;
