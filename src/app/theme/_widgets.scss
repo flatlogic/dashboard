@@ -518,7 +518,10 @@ $stat-blue-color: #7986CB;
 }
 
 .domain-stat-details {
-  margin-top: 15px;
+  >div {
+    padding-left: 0px;
+    margin-top: 10px;
+  }
 }
 
 .chart {

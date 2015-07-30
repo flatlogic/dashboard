@@ -3,7 +3,7 @@
 
     var domainStatModule = angular.module('qorDash.widget.domain_stat');
 
-    var domainStatController = angular.createAuthorizedController('DomainStatController', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout) {
+    var domainStatController = angular.createAuthorizedController('DomainStatController', ['$scope', '$rootScope', '$filter', function($scope, $rootScope, $filter) {
         // TODO Load data from api
         var jsonInput = {
             "services": {
@@ -128,7 +128,15 @@
             var colors = ['purple', 'yellow', 'green', 'blue'];
 
             return colors[Math.floor(Math.random() * 4)];
-        }
+        };
+
+        $scope.putVarOrSpace = function(variable) {
+            return variable ? variable : '<br>';
+        };
+
+        $scope.applyFilter = function(variable, filter, params) {
+            return $filter(filter)(variable, params);
+        };
     }]);
 
     domainStatModule.controller(domainStatController);

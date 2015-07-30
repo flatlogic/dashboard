@@ -26,10 +26,10 @@
                         <p class="text-muted">last_update</p>
                     </div>
                     <div class="col-md-9">
-                        <p class="b">{{service.image}}</p>
-                        <p class="b">{{service.config}}</p>
-                        <p class="b">{{service.git_commit}}</p>
-                        <p class="b">{{service.last_update}}</p>
+                        <p class="b" ng-bind-html="putVarOrSpace(service.image)"></p>
+                        <p class="b" ng-bind-html="putVarOrSpace(service.config)"></p>
+                        <p class="b" ng-bind-html="putVarOrSpace(service.git_commit)"></p>
+                        <p class="b" ng-bind-html="putVarOrSpace(applyFilter(service.last_update * 1000, 'date', 'yyyy-MM-dd HH:mm:ss'))"></p>
                     </div>
                 </div>
             </section>
