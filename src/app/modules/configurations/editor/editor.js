@@ -5,12 +5,10 @@
         .value('services', [
             {
                 "service": "blinker",
-                "instances": [ "ops-dev", "staging", "production" ],
+                "instances": [ "ops-dev" ],
                 "versions":[ "develop", "v1.0", "v1.1" ],
                 "live": {
-                    "ops-dev" : "develop",
-                    "staging" : "v1.0",
-                    "production" : "v1.0"
+                    "ops-dev" : "develop"
                 }
             },
             {
@@ -25,9 +23,10 @@
             }
         ]);
 
-    editorController.$inject = ['$scope', '$stateParams', 'services', 'domains', 'API_URL', '$http', '$timeout'];
-    function editorController($scope, $stateParams, services, domains, API_URL, $http, $timeout) {
-        $scope.domain = domains.filter(function (domain) {
+    editorController.$inject = ['$scope', '$stateParams', 'services', 'API_URL', '$http', '$timeout'];
+    function editorController($scope, $stateParams, services, API_URL, $http, $timeout) {
+
+        $scope.domain = $scope.domains.filter(function (domain) {
             return domain.id == $stateParams.domain;
         })[0];
 
@@ -108,8 +107,8 @@
                 var version = $scope.service.versions[i];
                 var request = {
                     method: 'GET',
-                    url: 'https://ops-dev.blinker.com/v1/env/blinker.com/ops-dev/blinker/develop',
-                    //url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
+                    //url: 'https://ops-dev.blinker.com/v1/env/blinker.com/ops-dev/blinker/develop',
+                    url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
                     headers: {
                         'Content-Type': 'application/json'
                     },

@@ -16,6 +16,7 @@
         // TODO Change to Angular $http
         $http.get(API_URL + '/v1/orchestrate/blinker.com/ops-test/').success(function(data) {
             $scope.workflows = data;
+            debugger;
         });
 
         $scope.workflows = [];
