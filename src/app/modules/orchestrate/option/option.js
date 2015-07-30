@@ -1,10 +1,10 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('qorDash.orchestrate')
         .value('domains', [
-            {"id":"api.foo.com", "name":"Api", "url":"https://server.com/domain/api.foo.com" },
-            {"id":"portal.foo.com", "name": "Portal", "url":"https://server.com/domain/portal.foo.com"}
+            {"id": "api.foo.com", "name": "Api", "url": "https://server.com/domain/api.foo.com" },
+            {"id": "portal.foo.com", "name": "Portal", "url": "https://server.com/domain/portal.foo.com"}
         ])
     ;
 
@@ -17,7 +17,7 @@
             return workflow.name == $stateParams.opt;
         })[0];
 
-        var getType = function(value) {
+        var getType = function (value) {
             return ({}).toString.call(value).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
         };
 
@@ -27,7 +27,7 @@
             switch (getType(value)) {
                 case "string":
                     $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-'+index+'">' + index + '</label>' +
+                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
                         '<div class="col-md-4">' +
                         '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
                         '</div>' +
@@ -35,18 +35,18 @@
                     break;
                 case "number":
                     $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-'+index+'">' + index + '</label>' +
+                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
                         '<div class="col-md-4">' +
                         '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
                         '</div>' +
                         '</div>');
                     break;
                 case "boolean":
-                    var checked = value ? 'checked': '';
+                    var checked = value ? 'checked' : '';
                     $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-'+index+'">'+index+'</label>' +
+                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
                         '<div class="col-md-4">' +
-                        '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" '+ checked +'>'+ '<label for="input-'+index+'"></label>' +
+                        '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" ' + checked + '>' + '<label for="input-' + index + '"></label>' +
                         '</div>' +
                         '</div>');
                     break;
@@ -54,18 +54,18 @@
                     break;
             }
 
-            $scope.sendMessage = function() {
+            $scope.sendMessage = function () {
                 $('#sendMessageButton').button('loading');
 
                 var data = {};
 
                 for (var index in $scope.workflow.default_input) {
-                    data[index] = $('#input-'+index).val();
+                    data[index] = $('#input-' + index).val();
                 }
 
                 var request = {
                     method: 'POST',
-                    url:    API_URL + $scope.workflow.activate_url,
+                    url: API_URL + $scope.workflow.activate_url,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -73,8 +73,8 @@
                 };
 
                 $http(request)
-                    .success(function(response){
-                        $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="wss://ops-dev.blinker.com'+ response.log_ws_url +'"></div>')($scope));
+                    .success(function (response) {
+                        $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="wss://ops-dev.blinker.com' + response.log_ws_url + '"></div>')($scope));
                         $('#sendMessageButton').button('reset');
                     });
             }

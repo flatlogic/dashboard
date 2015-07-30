@@ -10,7 +10,7 @@
             restrict: 'EA',
             link: function (scope, element, attrs) {
 
-                scope.$on("$destroy", function(){
+                scope.$on("$destroy", function () {
                     scope.sourceJson = '';
                 });
 
@@ -44,8 +44,8 @@
                     scope.sourceJsonLink = chooseSource($("#select-type option:selected").val());
 
                     initJson();
-                    scope.heightMargin  = 65;
-                    scope.widthMargin   = 10;
+                    scope.heightMargin = 65;
+                    scope.widthMargin = 10;
 
                     // Watch for resize event
                     scope.$watch(function () {
@@ -68,11 +68,11 @@
                         console.log('call');
                         var margin = 0;
 
-                        var width   = element.parent().width() - scope.widthMargin,
-                            height  = element.parent().parent().height() - scope.heightMargin,
+                        var width = element.parent().width() - scope.widthMargin,
+                            height = element.parent().parent().height() - scope.heightMargin,
                             x = d3.scale.linear().range([0, width]),
                             y = d3.scale.linear().range([0, height]),
-                            color = d3.scale.ordinal().range(['#7986CB','#808080', '#FBC02D', '#3F497F', '#B3B3B3', '#FFFFFF']),
+                            color = d3.scale.ordinal().range(['#7986CB', '#808080', '#FBC02D', '#3F497F', '#B3B3B3', '#FFFFFF']),
                             root,
                             node;
 
@@ -84,8 +84,8 @@
                             height = 0;
                         }
 
-                        scope.width     = element.parent().width();
-                        scope.height    = height;
+                        scope.width = element.parent().width();
+                        scope.height = height;
 
                         var treemap = d3.layout.treemap()
                             .round(false)

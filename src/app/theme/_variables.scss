@@ -11,29 +11,35 @@ $white: #fff !default;
 $black: #000 !default;
 
 //copy from BS
-$gray-darker:            lighten(#000, 13.5%) !default; // #222
-$gray-dark:              #343434 !default;
-$gray:                   lighten(#000, 33.5%) !default; // #555
-$gray-light:             lighten(#000, 60%) !default;   // #999
-$gray-lighter:           lighten(#000, 93.5%) !default; // #eee
-$gray-semi-light:        #777;
-$gray-semi-lighter:      #ddd;
+$gray-darker: lighten(#000, 13.5%) !default;
+// #222
+$gray-dark: #343434 !default;
+$gray: lighten(#000, 33.5%) !default;
+// #555
+$gray-light: lighten(#000, 60%) !default;
+// #999
+$gray-lighter: lighten(#000, 93.5%) !default;
+// #eee
+$gray-semi-light: #777;
+$gray-semi-lighter: #ddd;
 
-$brand-primary:         #5d8fc2 !default; //#618fb0 !default;
-$brand-success:         #64bd63 !default;
-$brand-info:            #5dc4bf !default; //#61c4b8 !default; //#5DADE2 !default;
-$brand-warning:         #f0b518 !default;
-$brand-danger:          #dd5826 !default; // #e5603b !default;
+$brand-primary: #5d8fc2 !default;
+//#618fb0 !default;
+$brand-success: #64bd63 !default;
+$brand-info: #5dc4bf !default;
+//#61c4b8 !default; //#5DADE2 !default;
+$brand-warning: #f0b518 !default;
+$brand-danger: #dd5826 !default;
+// #e5603b !default;
 
 $brand-primary-light: #dee4ee !default;
 
-$brand-success-light:         #ecfaec !default;
-$brand-info-light:            #f2fafa !default;
-$brand-warning-light:         lighten($brand-warning, 43%) !default;
-$brand-danger-light:          #fff2ef !default;
+$brand-success-light: #ecfaec !default;
+$brand-info-light: #f2fafa !default;
+$brand-warning-light: lighten($brand-warning, 43%) !default;
+$brand-danger-light: #fff2ef !default;
 
 $addition-bg: #f8f8f8 !default;
-
 
 $sidebar-bg-color: #242424 !default;
 $sidebar-color: #aaa !default;
@@ -44,12 +50,13 @@ $sidebar-item-hover-bg-color: #111 !default;
 // Typography
 // -------------------------
 
-$text-color:            $gray !default;
+$text-color: $gray !default;
 //$text-color: #57534A; //a bit brown?
 
-$font-size-base:          14px !default;
-$font-size-larger:        $font-size-base + 1;    // 14px
-$font-size-mini:          $font-size-base - 1;
+$font-size-base: 14px !default;
+$font-size-larger: $font-size-base + 1;
+// 14px
+$font-size-mini: $font-size-base - 1;
 
 $font-weight-bold: 700 !default;
 $font-weight-semi-bold: 600 !default;
@@ -60,9 +67,11 @@ $font-weight-base: $font-weight-thin !default;
 $font-size-smaller: 85% !default;
 
 //** Unit-less `line-height` for use in components like buttons.
-$line-height-base:        1.428571429 !default; // 20/14
+$line-height-base: 1.428571429 !default;
+// 20/14
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
+$line-height-computed: floor(($font-size-base * $line-height-base)) !default;
+// ~20px
 
 $link-color: #218BC3 !default;
 
@@ -75,8 +84,8 @@ $sidebar-width: 200px + $sidebar-slim-scroll-width !default;
 
 $sidebar-transition-time: .3s !default;
 
-$navbar-height:                    50px !default;
-$navbar-font-size:              13px !default;
+$navbar-height: 50px !default;
+$navbar-font-size: 13px !default;
 
 $chat-sidebar-width: 250px + $sidebar-slim-scroll-width !default;
 
@@ -95,7 +104,6 @@ $screen-md-height: 670px !default;
 $widget-padding-vertical: 15px !default;
 $widget-padding-horizontal: 20px !default;
 $widget-bg-color: $white;
-
 
 // Bootstrap variables
 // ------------------------
@@ -122,15 +130,16 @@ $headings-font-weight: 300 !default;
 
 //== Forms
 //
-$input-border-radius:            2px;
-$input-border-focus:             #4D90FE !default; //webkit focus color
-$legend-color:                   lighten($text-color, 15%) !default;
+$input-border-radius: 2px;
+$input-border-focus: #4D90FE !default;
+//webkit focus color
+$legend-color: lighten($text-color, 15%) !default;
 
 //== Tables
 //
 
 //$table-bg-accent:               #f3f3f3 !default;
-$table-bg-hover:                $gray-lighter !default;
+$table-bg-hover: $gray-lighter !default;
 
 //== Buttons
 //
@@ -139,58 +148,56 @@ $btn-default-bg: $addition-bg !default;
 
 //== Dropdowns
 //
-$dropdown-link-color:            $text-color !default;
-
+$dropdown-link-color: $text-color !default;
 
 //== Navs
 //
 
-$nav-tabs-active-link-hover-bg:             $white !default;
-$nav-tabs-active-link-hover-color:          $gray !default;
-$nav-tabs-active-link-hover-border-color:   #ddd !default;
+$nav-tabs-active-link-hover-bg: $white !default;
+$nav-tabs-active-link-hover-color: $gray !default;
+$nav-tabs-active-link-hover-border-color: #ddd !default;
 
 //== Navbar
 //
 
-$navbar-margin-bottom:             0 !default;
-$navbar-border-radius:             0 !default;
+$navbar-margin-bottom: 0 !default;
+$navbar-border-radius: 0 !default;
 
-$navbar-default-bg:                $white !default;
+$navbar-default-bg: $white !default;
 
 // Navbar links
-$navbar-default-link-color:                #666 !default;
+$navbar-default-link-color: #666 !default;
 
 //== Form states and alerts
 //
 //## Define colors for form feedback states and, by default, alerts.
 
-$state-success-bg:               $brand-success-light;
-$state-info-bg:                  $brand-info-light !default;
-$state-warning-bg:               $brand-warning-light !default;
-$state-danger-bg:                $brand-danger-light !default;
-
+$state-success-bg: $brand-success-light;
+$state-info-bg: $brand-info-light !default;
+$state-warning-bg: $brand-warning-light !default;
+$state-danger-bg: $brand-danger-light !default;
 
 //== Progress bars
 //
 
 //** Background color of the whole progress component
-$progress-bg:                 $gray-lighter !default;
+$progress-bg: $gray-lighter !default;
 
 //== Tooltips
 //
 
-$tooltip-bg:                  rgba(#000, .85) !default;
+$tooltip-bg: rgba(#000, .85) !default;
 
 //== Panels
 //
 //##
 
-$panel-bg:                    transparent !default;
-$panel-body-padding:          15px !default;
+$panel-bg: transparent !default;
+$panel-body-padding: 15px !default;
 
-$panel-default-text:          $gray-dark !default;
-$panel-default-border:        transparent !default;
-$panel-default-heading-bg:    $gray-semi-lighter !default;
+$panel-default-text: $gray-dark !default;
+$panel-default-border: transparent !default;
+$panel-default-heading-bg: $gray-semi-lighter !default;
 
 //$panel-primary-text:          #fff !default;
 //$panel-primary-border:        $brand-primary !default;
@@ -215,44 +222,44 @@ $panel-default-heading-bg:    $gray-semi-lighter !default;
 //== Popovers
 //
 
-$popover-bg:                          #ebeff1 !default;
-$popover-arrow-outer-color:           $popover-bg !default;
-$popover-arrow-color:                 $popover-bg !default;
+$popover-bg: #ebeff1 !default;
+$popover-arrow-outer-color: $popover-bg !default;
+$popover-arrow-color: $popover-bg !default;
 
 //== Thumbnails
 //
 //##
 
-$thumbnail-bg:                $white !default;
+$thumbnail-bg: $white !default;
 
 //== Breadcrumbs
 //
 
 $breadcrumb-padding-horizontal: 0 !default;
-$breadcrumb-bg:                 transparent !default;
-$breadcrumb-color:              $text-color !default;
-$breadcrumb-active-color:       $text-color !default;
-$breadcrumb-separator:          ">" !default;
+$breadcrumb-bg: transparent !default;
+$breadcrumb-color: $text-color !default;
+$breadcrumb-active-color: $text-color !default;
+$breadcrumb-separator: ">" !default;
 
 //== Pagination
 //
 //##
 
-$pagination-color:                     $gray-semi-light !default;
-$pagination-bg:                        #fff !default;
-$pagination-border:                    transparent !default;
+$pagination-color: $gray-semi-light !default;
+$pagination-bg: #fff !default;
+$pagination-border: transparent !default;
 
-$pagination-hover-color:               $text-color !default;
-$pagination-hover-bg:                  $gray-lighter !default;
-$pagination-hover-border:              transparent !default;
+$pagination-hover-color: $text-color !default;
+$pagination-hover-bg: $gray-lighter !default;
+$pagination-hover-border: transparent !default;
 
-$pagination-active-color:              $text-color !default;
-$pagination-active-bg:                 $gray-lighter !default;
-$pagination-active-border:             transparent !default;
+$pagination-active-color: $text-color !default;
+$pagination-active-bg: $gray-lighter !default;
+$pagination-active-border: transparent !default;
 
-$pagination-disabled-color:            $gray-light !default;
-$pagination-disabled-bg:               #fff !default;
-$pagination-disabled-border:           transparent !default;
+$pagination-disabled-color: $gray-light !default;
+$pagination-disabled-bg: #fff !default;
+$pagination-disabled-border: transparent !default;
 
 //-- Iconography
 //

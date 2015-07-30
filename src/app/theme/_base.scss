@@ -2,11 +2,11 @@
 /*        Layout       */
 /***********************/
 
-.app{
+.app {
   height: 100%; //fill entire body height
 }
 
-.sidebar{
+.sidebar {
   position: fixed;
   z-index: 0;
   left: 0;
@@ -16,13 +16,13 @@
   background-color: $sidebar-bg-color;
   color: $sidebar-color;
 
-  .slimScrollBar{
+  .slimScrollBar {
     @include border-radius(0 !important);
     background-color: $sidebar-color !important;
   }
 }
 
-.page-controls, .content-wrap, .loader-wrap{
+.page-controls, .content-wrap, .loader-wrap {
   left: $sidebar-width;
   @include transition(left $sidebar-transition-time ease-in-out);
 
@@ -31,7 +31,7 @@
     left: $sidebar-width - $sidebar-icon-state-width;
   }
 
-  .nav-collapsed &{
+  .nav-collapsed & {
     left: 0
   }
 
@@ -44,15 +44,14 @@
   }
 }
 
-.page-controls{
+.page-controls {
   @include transition(
           left $sidebar-transition-time ease-in-out,
-          right $sidebar-transition-time ease-in-out
-          !important /* add important! to override inline transition styles added by angular animate */
+          right $sidebar-transition-time ease-in-out !important /* add important! to override inline transition styles added by angular animate */
   );
   right: -$sidebar-width;
 
-  .nav-collapsed &{
+  .nav-collapsed & {
     right: 0
   }
 
@@ -64,55 +63,55 @@
   }
 }
 
-.page-controls{
+.page-controls {
   position: absolute;
   z-index: 1;
 
   @media (max-width: $screen-xs-max) {
     font-size: 16px;
 
-    .navbar-brand{
+    .navbar-brand {
       position: absolute;
       left: 0;
       right: 0;
       font-weight: $font-weight-bold;
       text-align: center;
 
-      > .fa-circle{
+      > .fa-circle {
         font-size: 10px;
       }
     }
 
-    .navbar-nav{
+    .navbar-nav {
       position: relative;
       z-index: 1;
     }
   }
 
-  .avatar{
+  .avatar {
     width: 30px;
     margin-top: -5px;
-    &.pull-left{
+    &.pull-left {
       margin-right: 5px;
     }
-    &.pull-right{
+    &.pull-right {
       margin-left: 5px;
     }
   }
 
   .navbar-nav > li > a {
     .rounded.rounded-lg,
-    .circle.circle.lg{
+    .circle.circle.lg {
       margin: -7px -7px -8px;
     }
   }
 
-  .navbar-form.navbar-left{
+  .navbar-form.navbar-left {
     @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
       padding-right: 0;
     }
   }
-  .navbar-nav .fa-times{
+  .navbar-nav .fa-times {
     font-size: 20px;
     vertical-align: -2px;
   }
@@ -120,18 +119,18 @@
 
 /* ff icons valign fix */
 @-moz-document url-prefix() {
-  .page-controls .navbar-nav > li > a > .rounded-lg > i{
+  .page-controls .navbar-nav > li > a > .rounded-lg > i {
     vertical-align: -8%;
   }
 }
 
-.content-wrap{
+.content-wrap {
   position: relative;
   z-index: 0;
   height: 100%;
 }
 
-.content{
+.content {
   min-height: 100%;
   padding: $content-padding-top $content-padding-horizontal $content-padding-vertical;
   background-color: $body-bg;
@@ -151,7 +150,7 @@
   }
 }
 
-.logo{
+.logo {
   margin: 10px 0 20px;
   height: $navbar-height;
   width: 100%;
@@ -162,16 +161,16 @@
   font-size: $font-size-large;
 
   @include transition(width .3s ease-in-out);
-  a{
+  a {
     color: $white;
     text-decoration: none;
   }
 
-  .nav-collapsed &{
+  .nav-collapsed & {
     width: $sidebar-icon-state-width;
   }
 
-  .nav-static &{
+  .nav-static & {
     @media (min-width: $screen-md-min) {
       width: 100%;
       @include transition(none);
@@ -179,31 +178,31 @@
   }
 }
 
-.sidebar-nav{
+.sidebar-nav {
   padding: 10px 0;
   font-size: 14px;
-  @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max){
+  @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max) {
     font-size: 16px;
   }
 
-  li a{
+  li a {
     display: block;
     color: $sidebar-color;
     text-decoration: none;
     cursor: pointer;
 
-    .toggle{
+    .toggle {
       float: right;
       line-height: 18px;
       margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
       @include transition-transform(.35s ease);
     }
 
-    &.collapsed .toggle{
+    &.collapsed .toggle {
       @include rotate(90deg);
     }
 
-    .label{
+    .label {
       float: right;
       line-height: 15px;
       margin-top: 11px;
@@ -211,21 +210,21 @@
     }
   }
 
-  > li > a{
+  > li > a {
     position: relative;
     border-top: 1px solid $sidebar-item-border-color;
     padding-left: 50px;
     line-height: 35px;
 
-    &:hover{
+    &:hover {
       background-color: $sidebar-item-hover-bg-color;
     }
 
-    @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max){
+    @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max) {
       line-height: 44px;
     }
 
-    .icon{
+    .icon {
       display: block;
       position: absolute;
       top: 3px;
@@ -235,66 +234,66 @@
       line-height: 28px;
       text-align: center;
 
-      @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max){
+      @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max) {
         top: 8px;
       }
 
-      .fa, .glyphicon{
+      .fa, .glyphicon {
         font-size: 16px;
         color: rgba($sidebar-color, .7);
       }
 
-      .glyphicon{
+      .glyphicon {
         left: -1px;
       }
 
       //icons align
-      .glyphicon-map-marker{
+      .glyphicon-map-marker {
         top: 2px;
       }
 
-      .glyphicon-th{
+      .glyphicon-th {
         top: 1px;
         left: 0;
       }
 
-      .glyphicon-tree-conifer{
+      .glyphicon-tree-conifer {
         left: 0;
       }
 
-      .fa-envelope{
+      .fa-envelope {
         position: relative;
         top: -1px;
       }
 
     }
 
-    .toggle{
+    .toggle {
       line-height: 35px;
-      @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max){
+      @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max) {
         line-height: 44px;
       }
     }
 
   }
 
-  > .open > a{
+  > .open > a {
     background-color: lighten($sidebar-item-hover-bg-color, 2%);
   }
 
-  > li:last-child > a{
+  > li:last-child > a {
     border-bottom: 1px solid $sidebar-item-border-color;
   }
 
-  > .active > a{
+  > .active > a {
     color: $sidebar-item-active-color;
     background-color: $sidebar-bg-color;
 
-    .icon{
+    .icon {
       border-radius: 50%;
       background-color: $sidebar-item-active-color;
 
-      .fa, .glyphicon{
+      .fa, .glyphicon {
         color: $sidebar-bg-color;
       }
     }
@@ -304,33 +303,33 @@
    * Sub menus
    */
 
-  > li ul{
+  > li ul {
     padding: 0;
     font-size: 13px;
     background-color: lighten($sidebar-bg-color, 5%);
     list-style: none;
 
-    @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max){
+    @media (min-width: $screen-md-min) and (min-height: $screen-md-height), (max-width: $screen-xs-max) {
       font-size: 14px;
     }
 
-    > li{
-      > a{
+    > li {
+      > a {
         padding: 5px 0 5px 40px;
-        &:hover{
+        &:hover {
           background-color: lighten($sidebar-item-hover-bg-color, 5%);
         }
       }
 
-      &.active{
-        > a{
+      &.active {
+        > a {
           font-weight: normal;
           color: $white;
         }
       }
 
       /* third submenu */
-      ul > li > a{
+      ul > li > a {
         padding-left: 55px;
       }
     }
@@ -339,23 +338,23 @@
   /*
   First sub-menu
    */
-   > li > ul{
-     /* simulate padding */
-     &:before{
-       content: "";
-       display: block;
-       padding-top: $line-height-computed/2;
-     }
+  > li > ul {
+    /* simulate padding */
+    &:before {
+      content: "";
+      display: block;
+      padding-top: $line-height-computed/2;
+    }
 
-     &:after{
-       content: "";
-       display: block;
-       padding-bottom: $line-height-computed/2;
-     }
-   }
+    &:after {
+      content: "";
+      display: block;
+      padding-bottom: $line-height-computed/2;
+    }
+  }
 }
 
-.sidebar-nav-title{
+.sidebar-nav-title {
   margin: 35px 0 5px $sidebar-padding-horizontal;
   font-size: 14px;
   text-transform: uppercase;
@@ -363,22 +362,22 @@
   opacity: 1;
   @include transition(opacity $sidebar-transition-time ease-in-out);
 
-  .action-link{
+  .action-link {
     color: $sidebar-color;
     float: right;
     margin-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
     margin-top: -1px;
 
-    .fa, .glyphicon{
+    .fa, .glyphicon {
       font-size: 9px;
     }
   }
 
-  .nav-collapsed &{
+  .nav-collapsed & {
     opacity: 0;
   }
 
-  .nav-static &{
+  .nav-static & {
     @media (min-width: $screen-md-min) {
       opacity: 1;
       @include transition(none);
@@ -386,19 +385,19 @@
   }
 }
 
-.sidebar-status{
+.sidebar-status {
   position: relative;
   margin: 10px 0 20px;
   padding: 0 ($sidebar-padding-horizontal + $sidebar-slim-scroll-width) 0 $sidebar-padding-horizontal;
 
-  > a{
+  > a {
     display: block;
     line-height: 40px;
     color: $gray-lighter;
     text-decoration: none;
   }
 
-  .dropdown-menu{
+  .dropdown-menu {
     position: fixed;
     top: 60px;
     margin: 0 20px;
@@ -413,19 +412,19 @@
   /* fix notifications dropdown when there is no enough vertical space*/
 
   @media (max-height: 500px) {
-    .dropdown-menu{
+    .dropdown-menu {
       bottom: 20px;
     }
 
-    .notifications{
-      .panel-heading{
+    .notifications {
+      .panel-heading {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
       }
 
-      .list-group{
+      .list-group {
         position: absolute;
         top: 85px;
         left: 0;
@@ -434,7 +433,7 @@
         height: auto;
       }
 
-      .panel-footer{
+      .panel-footer {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -444,19 +443,19 @@
   }
 }
 
-.sidebar-labels{
+.sidebar-labels {
   list-style: none;
   padding: $sidebar-padding-horizontal;
   padding-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
   font-size: $font-size-mini;
-  > li{
-    > a{
+  > li {
+    > a {
       color: $gray-lighter;
       text-decoration: none;
       font-weight: normal;
 
       .circle,
-      .circle-o{
+      .circle-o {
         position: relative;
         top: -2px;
         font-size: 9px;
@@ -466,39 +465,39 @@
         @include transition(margin-left $sidebar-transition-time ease-in-out);
       }
 
-      .fa-circle{
+      .fa-circle {
         font-size: 11px;
         vertical-align: 1px;
         @include transition(margin-left $sidebar-transition-time ease-in-out);
       }
 
-      .circle-o{
+      .circle-o {
         top: 1px;
         left: 1px
       }
 
-      .label-name{
+      .label-name {
         opacity: 1;
         @include transition(opacity $sidebar-transition-time ease-in-out);
       }
 
-      .nav-collapsed &{
+      .nav-collapsed & {
         .circle,
         .circle-o,
-        .fa-circle{
+        .fa-circle {
           margin-left: 8px;
         }
 
-        .label-name{
+        .label-name {
           opacity: 0;
         }
       }
 
-      .nav-static &{
+      .nav-static & {
         @media (min-width: $screen-md-min) {
           .circle,
           .circle-o,
-          .fa-circle{
+          .fa-circle {
             margin-left: 0;
             @include transition(none);
           }
@@ -516,27 +515,27 @@
   }
 }
 
-.sidebar-alerts{
+.sidebar-alerts {
   font-size: $font-size-mini;
   @include transition(opacity $sidebar-transition-time ease-in-out);
   opacity: 1;
 
-  .nav-collapsed &{
+  .nav-collapsed & {
     opacity: 0;
   }
 
-  .nav-static &{
+  .nav-static & {
     @media (min-width: $screen-md-min) {
       opacity: 1;
       @include transition(none);
     }
   }
-  .alert{
+  .alert {
     margin-bottom: 0;
     padding: $line-height-computed/2 $sidebar-padding-horizontal;
     padding-right: $sidebar-padding-horizontal + $sidebar-slim-scroll-width;
 
-    .close{
+    .close {
       font-size: 16px;
       text-shadow: none;
       opacity: 1;
@@ -544,14 +543,14 @@
     }
   }
 
-  .progress{
+  .progress {
     background-color: lighten($sidebar-bg-color, 10%);
   }
 }
 
-.chat-sidebar{
+.chat-sidebar {
   position: fixed;
-  top:0;
+  top: 0;
   bottom: 0;
   right: -$chat-sidebar-width;
   width: $chat-sidebar-width;
@@ -560,24 +559,24 @@
 }
 
 /* body tag is given this class */
-.chat-sidebar-container{
+.chat-sidebar-container {
   position: relative;
-  &, .sidebar{
+  &, .sidebar {
     left: 0;
     @include transition(left $sidebar-transition-time ease-in-out);
   }
-  &.chat-sidebar-opened{
-    &, .sidebar{
+  &.chat-sidebar-opened {
+    &, .sidebar {
       left: -$chat-sidebar-width;
     }
 
-    .chat-sidebar{
+    .chat-sidebar {
       right: 0;
     }
   }
 }
 
-.chat-sidebar-header{
+.chat-sidebar-header {
   position: absolute;
   top: 0;
   padding: 10px;
@@ -585,73 +584,72 @@
   background-color: $sidebar-bg-color;
 }
 
-.chat-sidebar-content{
+.chat-sidebar-content {
   color: $sidebar-color;
 }
 
-
-.chat-sidebar-contacts{
+.chat-sidebar-contacts {
   padding: 20px;
   left: -100%;
   @include transition(left .4s ease-in-out);
-  &.open{
+  &.open {
     left: 0;
   }
-  .sidebar-nav-title{
+  .sidebar-nav-title {
     margin-left: 10px;
     margin-right: 10px;
 
-    &:first-child{
+    &:first-child {
       margin-top: 0;
     }
 
-    .nav-collapsed &{
+    .nav-collapsed & {
       opacity: 1;
     }
   }
 }
 
-.chat-sidebar-chat{
+.chat-sidebar-chat {
   right: -100%;
   padding-bottom: 54px; /*footer height*/
   background-color: $sidebar-bg-color;
   @include transition(right .2s ease-in-out);
-  &.open{
+  &.open {
     right: 0;
   }
 
-  .title{
+  .title {
     margin-bottom: 0;
-    > a{
+    > a {
       display: block;
       padding: $padding-large-vertical $padding-large-horizontal;
-      background-color: rgba(255,255,255, .1);
+      background-color: rgba(255, 255, 255, .1);
       color: $gray-lighter;
       text-decoration: none;
     }
   }
 
-  .message-list{
+  .message-list {
     list-style: none;
     padding-left: 0;
     padding-top: $line-height-computed/2;
   }
 
-  .message{
+  .message {
     padding: 10px 20px;
     @include clearfix();
-    > .thumb-sm{
+    > .thumb-sm {
       float: left;
     }
 
-    &.from-me > .thumb-sm{
+    &.from-me > .thumb-sm {
       float: right;
     }
   }
 
 }
 
-.message-body{
+.message-body {
   .chat-sidebar-chat & {
     position: relative;
     margin-left: 50px;
@@ -662,33 +660,33 @@
     color: $text-color;
     border-radius: $border-radius-base;
 
-    &:before{
+    &:before {
       right: 100%;
       top: 8px;
       content: " ";
       height: 0;
       width: 0;
       position: absolute;
-      border: 10px solid rgba(0,0,0,0);
+      border: 10px solid rgba(0, 0, 0, 0);
       border-right-color: $gray-lighter;
     }
   }
 
-  .chat-sidebar-chat .message.from-me &{
+  .chat-sidebar-chat .message.from-me & {
     margin-left: 0;
     margin-right: 50px;
     background-color: $brand-warning;
     color: $gray-dark;
-    &:before{
+    &:before {
       right: auto;
       left: 100%;
-      border-right-color: rgba(0,0,0,0);
+      border-right-color: rgba(0, 0, 0, 0);
       border-left-color: $brand-warning;
     }
   }
 }
 
-.chat-sidebar-panel{
+.chat-sidebar-panel {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -696,7 +694,7 @@
   padding-top: 100px;
 }
 
-.chat-sidebar-title{
+.chat-sidebar-title {
   margin-left: 10px;
   margin-right: 10px;
   text-transform: uppercase;
@@ -704,9 +702,9 @@
   font-weight: $font-weight-normal;
 }
 
-.chat-sidebar-user-group{
+.chat-sidebar-user-group {
   margin-top: 10px;
-  .list-group-item{
+  .list-group-item {
     background-color: transparent;
     margin-left: -20px;
     margin-right: -20px;
@@ -716,35 +714,35 @@
     color: $gray-lighter;
     border-radius: 0;
 
-    &.active{
+    &.active {
       &,
       &:focus,
-      &:hover{
-        background-color: rgba(255,255,255, .1);
+      &:hover {
+        background-color: rgba(255, 255, 255, .1);
         color: $brand-warning;
       }
 
-      .badge{
+      .badge {
         background-color: $brand-danger;
         color: $white;
       }
 
-      .message-sender{
+      .message-sender {
         font-weight: $font-weight-semi-bold;
       }
     }
 
-    .circle-o{
+    .circle-o {
       margin-top: 13px;
       font-size: 8px;
     }
 
-    .fa-circle{
+    .fa-circle {
       font-size: 11px;
       line-height: 37px;
     }
 
-    .badge{
+    .badge {
       margin-top: 9px;
       margin-right: 6px;
       padding: 3px 5px;
@@ -752,16 +750,16 @@
   }
 
   .thumb .status,
-  .thumb-sm .status{
+  .thumb-sm .status {
     border-color: $sidebar-bg-color;
   }
 
-  a.list-group-item:hover{
+  a.list-group-item:hover {
     color: $gray-lighter;
-    background-color: rgba(0,0,0,.15);
+    background-color: rgba(0, 0, 0, .15);
   }
 
-  .message-preview{
+  .message-preview {
     margin: 0;
     width: 100px;
     white-space: nowrap;
@@ -771,12 +769,12 @@
     color: $text-muted;
   }
 
-  .message-sender{
+  .message-sender {
     margin: 0 0 5px;
   }
 }
 
-.chat-sidebar-footer{
+.chat-sidebar-footer {
   position: absolute;
   bottom: 0;
   right: -100%;
@@ -786,12 +784,12 @@
   background-color: #3a3a3a;
 
   @include transition(right .2s ease-in-out);
-  &.open{
+  &.open {
     right: 0;
   }
 }
 
-.chat-notification{
+.chat-notification {
   position: absolute;
   right: 0;
   top: 35px;
@@ -800,7 +798,7 @@
   padding: 5px 0;
   cursor: pointer;
 
-  &:before{
+  &:before {
     content: ' ';
     position: absolute;
     top: 0;
@@ -813,7 +811,7 @@
   }
 }
 
-.chat-notification-inner{
+.chat-notification-inner {
   min-width: 120px;
   padding: 8px;
   font-size: 12px;
@@ -822,25 +820,25 @@
   background-color: $gray-dark;
   color: $white;
 
-  .title{
+  .title {
     margin: 0;
     font-weight: $font-weight-semi-bold;
     line-height: 28px;
 
-    .thumb-xs{
+    .thumb-xs {
       vertical-align: -9px;
       margin-right: 5px;
     }
   }
 
-  .text{
+  .text {
     margin-top: 5px;
     margin-bottom: 0;
     color: $gray-light;
   }
 }
 
-.chat-notification-sing{
+.chat-notification-sing {
   position: absolute;
   top: 15px;
   left: 11px;
@@ -851,32 +849,32 @@
   background-color: $brand-danger;
 }
 
-.page-title{
+.page-title {
   margin: 0 0 $line-height-computed;
 }
 
-.notifications{
+.notifications {
   @media (min-width: $screen-sm-min) {
     width: 333px;
   }
-  .list-group{
+  .list-group {
     height: 320px;
     overflow-y: scroll;
   }
-  .list-group-item{
+  .list-group-item {
     @include transition(background-color .15s ease-in-out);
-    &:hover{
+    &:hover {
       background-color: $list-group-hover-bg;
-      .progress{
+      .progress {
         background-color: $white;
       }
     }
-    .progress{
+    .progress {
       @include transition(background-color .15s ease-in-out);
     }
   }
 
-  .btn-notifications-reload{
+  .btn-notifications-reload {
     color: $navbar-default-link-color;
   }
 }
@@ -885,51 +883,51 @@
 /*       Widget        */
 /***********************/
 
-.widget{
+.widget {
   position: relative;
   margin-bottom: $grid-gutter-width;
   padding: $widget-padding-vertical $widget-padding-horizontal;
   background: $widget-bg-color;
   border-radius: $border-radius-small;
 
-  > header{
+  > header {
     margin: (-$widget-padding-vertical) (-$widget-padding-horizontal);
     padding: $widget-padding-vertical $widget-padding-horizontal;
-    #{headings()}{
+    #{headings()} {
       margin: 0;
     }
 
     + .widget-body,
-    + .widget-body.no-padding{
+    + .widget-body.no-padding {
       margin-top: $widget-padding-vertical;
     }
   }
 
-  > .widget-body.no-padding{
+  > .widget-body.no-padding {
     margin: (-$widget-padding-vertical) (-$widget-padding-horizontal);
 
-    + footer{
+    + footer {
       margin-top: $widget-padding-vertical;
     }
   }
 
-  > footer{
+  > footer {
     margin: 0 (-$widget-padding-horizontal) (-$widget-padding-vertical);
     padding: $widget-padding-vertical $widget-padding-horizontal;
   }
 
-  &:hover .widget-controls-hover{
+  &:hover .widget-controls-hover {
     opacity: 1;
   }
 
-  .loader{
+  .loader {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
 
-    .spinner{
+    .spinner {
       position: absolute;
       top: 50%;
       width: 100%; //ie fix
@@ -939,12 +937,12 @@
     }
   }
 
-  .widget-table-overflow{
+  .widget-table-overflow {
     margin: 0 (-$widget-padding-horizontal) (-$widget-padding-vertical);
   }
 }
 
-.widget-controls{
+.widget-controls {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -952,76 +950,74 @@
   padding: 14px;
   font-size: $font-size-small;
 
-  &.left{
+  &.left {
     left: 0;
     right: auto;
   }
 
-  &.widget-controls-hover{
+  &.widget-controls-hover {
     opacity: 0;
     @include transition(opacity .15s);
   }
 
-
-
-  > a{
+  > a {
     padding: 1px 4px;
     border-radius: 4px;
     color: rgba($black, .4);
     @include transition(color .15s ease-in-out);
 
-    &:hover{
+    &:hover {
       color: rgba($black, .1);
     }
 
-    > .fa{
+    > .fa {
       vertical-align: middle;
     }
 
-    > .glyphicon{
+    > .glyphicon {
       vertical-align: -1px;
     }
   }
 
-  > .btn-group{
+  > .btn-group {
     vertical-align: baseline;
   }
 
-  .fa-refresh{
+  .fa-refresh {
     position: relative;
     top: -1px;
   }
 }
 
-.widget-icon{
+.widget-icon {
   opacity: .5;
   font-size: 42px;
 }
 
-.widget-image{
+.widget-image {
   position: relative;
   overflow: hidden;
   margin: (-$widget-padding-vertical) (-$widget-padding-horizontal);
   border-radius: $border-radius-base;
 
-  > img{
+  > img {
     max-width: 100%;
     border-radius: $border-radius-base $border-radius-base 0 0;
     @include transition-transform(.15s ease);
   }
 
-  &:hover > img{
-      @include scale(1.1, 1.1);
+  &:hover > img {
+    @include scale(1.1, 1.1);
   }
 
-  .title{
+  .title {
     position: absolute;
     top: 0;
     left: 0;
     margin: 20px;
   }
 
-  .info{
+  .info {
     position: absolute;
     top: 0;
     right: 0;
@@ -1029,17 +1025,17 @@
   }
 }
 
-.widget-footer-bottom{
+.widget-footer-bottom {
   position: absolute;
   bottom: 0;
   width: 100%;
 }
 
-.widget-sm{
+.widget-sm {
   height: 230px;
 }
 
-.widget-md{
+.widget-md {
   height: 373px;
 }
 
@@ -1051,27 +1047,27 @@
   padding: $widget-padding-vertical*2 $widget-padding-horizontal*2;
 }
 
-.widget-body-container{
+.widget-body-container {
   position: relative;
   height: 100%;
 }
 
 .widget-top-overflow,
-.widget-middle-overflow{
+.widget-middle-overflow {
   position: relative;
   margin: 0 (-$widget-padding-horizontal);
 
-  > img{
+  > img {
     max-width: 100%;
   }
 }
 
-.widget-top-overflow{
+.widget-top-overflow {
   margin-top: (-$widget-padding-vertical);
   border-top-left-radius: $border-radius-base;
   border-top-right-radius: $border-radius-base;
 
-  > img{
+  > img {
     border-top-left-radius: $border-radius-base;
     border-top-right-radius: $border-radius-base;
   }
@@ -1081,16 +1077,16 @@
 /**         Widgets Grid          **/
 /***********************************/
 
-.widget-container{
+.widget-container {
   min-height: 30px;
 
-  .widget:not(.fullscreened) > header{
+  .widget:not(.fullscreened) > header {
     cursor: move;
   }
 }
 
-.widget-placeholder{
-  background:  rgba($white, .4);
+.widget-placeholder {
+  background: rgba($white, .4);
   border: 1px dashed $gray-light;
   margin: -1px -1px ($grid-gutter-width - 1px) -1px;
 }
@@ -1099,23 +1095,23 @@
 /*        Forms        */
 /***********************/
 
-.form-actions{
+.form-actions {
   margin: $line-height-computed 0 0;
   padding: $line-height-computed;
   background-color: $well-bg;
 
-  .form-horizontal & .row{
+  .form-horizontal & .row {
     margin-left: ($grid-gutter-width/-2) - $line-height-computed;
     margin-right: ($grid-gutter-width/-2) - $line-height-computed;
   }
 }
 
 input[type=search], input.search {
-  &, .input-group-lg > &, .input-group-sm > &{
+  &, .input-group-lg > &, .input-group-sm > & {
     padding-left: 26px;
   }
   background-color: $input-bg;
-  background:url(../img/search.png) 5px 60% no-repeat $input-bg;
+  background: url(../img/search.png) 5px 60% no-repeat $input-bg;
 }
 
 /***********************/
@@ -1130,19 +1126,19 @@ input[type=search], input.search {
 /*     Content Map     */
 /***********************/
 
-.content-map{
+.content-map {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  + .page-title{
+  + .page-title {
     position: relative;
     z-index: 2;
   }
 }
 
-.content-map-controls{
+.content-map-controls {
   position: absolute;
   right: 0;
   top: 0;

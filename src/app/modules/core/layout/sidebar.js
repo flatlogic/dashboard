@@ -1,22 +1,23 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('qorDash.core')
-            .controller('QorSidebarController', $QorSidebarController)
-            .controller('SidebarStubController', function() {})
-            .directive('qorSidebarContainer', $QorSidebarContainer)
-            .directive('qorSidebar', $QorSidebar)
-            .provider('$qorSidebar', $QorSidebarProvider)
-            .directive('qorSidebarGroupHeading', $QorSidebarGroupHeading)
-            .directive('propertyController', $PropertyController)
-            .directive('bindHtmlCompile', $BindHtmlCompile);
+        .controller('QorSidebarController', $QorSidebarController)
+        .controller('SidebarStubController', function () {
+        })
+        .directive('qorSidebarContainer', $QorSidebarContainer)
+        .directive('qorSidebar', $QorSidebar)
+        .provider('$qorSidebar', $QorSidebarProvider)
+        .directive('qorSidebarGroupHeading', $QorSidebarGroupHeading)
+        .directive('propertyController', $PropertyController)
+        .directive('bindHtmlCompile', $BindHtmlCompile);
 
     $QorSidebarController.$inject = ['$scope', '$rootScope', '$qorSidebar', '$controller'];
     function $QorSidebarController($scope, $rootScope, $qorSidebar) {
         var groups = this.groups = $scope.groups = $qorSidebar.sortedGroups();
 
         function selectGroup(selectedGroup) {
-            groups.forEach(function(group) {
+            groups.forEach(function (group) {
                 if (group.active && group !== selectedGroup) {
                     group.active = false;
                 }
@@ -33,7 +34,9 @@
         }
 
         function resetStates() {
-            groups.forEach(function(group) { group.active = false; });
+            groups.forEach(function (group) {
+                group.active = false;
+            });
         }
 
         $scope.selectGroup = selectGroup;
@@ -41,14 +44,16 @@
         $scope.resetStates = resetStates;
         $scope.appTitle = $qorSidebar.getTitle();
 
-        $scope.hasActiveGroup = function() {
-            return groups.reduce(function(acc, group) { return acc || group.active; }, false);
+        $scope.hasActiveGroup = function () {
+            return groups.reduce(function (acc, group) {
+                return acc || group.active;
+            }, false);
         };
 
-        $scope.activeGroup = function() {
+        $scope.activeGroup = function () {
             var activeGroup;
-            groups.forEach(function(group){
-                if (group.active){
+            groups.forEach(function (group) {
+                if (group.active) {
                     activeGroup = group;
                 }
             });
@@ -65,26 +70,25 @@
             replace: true,
             scope: true,
             controller: 'QorSidebarController',
-            template:
-                '<nav class="qor-sidebar" ng-class="{ opened: hasActiveGroup() }">' +
-                    '<header class="qor-sidebar-groups">' +
-                        '<div class="qor-logo">' +
-                          '<a href="/"><img src="assets/images/logo-without-text.png" height="50" width="50"></a>' +
-                        '</div>' +
-                        '<ul class="qor-sidebar-nav">' +
-                            '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'User\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
-                        '</ul>' +
-                        '<div class="user-actions" user-actions>' +
-                        '<div class="user-action" >' +
-                            '<div><i class="fa fa-cog"></i></div>' +
-                            '<span class="group-nav-heading ">Settings</span>' +
-                        '</div><br>' +
-                        '<div class="user-action" ui-sref="logout">' +
-                            '<div><i class="fa fa-sign-out"></i></div>' +
-                            '<span class="group-nav-heading ">Logout</span>' +
-                        '</div>' +
-                    '</div>' +
-                    '</header>' +
+            template: '<nav class="qor-sidebar" ng-class="{ opened: hasActiveGroup() }">' +
+                '<header class="qor-sidebar-groups">' +
+                '<div class="qor-logo">' +
+                '<a href="/"><img src="assets/images/logo-without-text.png" height="50" width="50"></a>' +
+                '</div>' +
+                '<ul class="qor-sidebar-nav">' +
+                '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'User\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
+                '</ul>' +
+                '<div class="user-actions" user-actions>' +
+                '<div class="user-action" >' +
+                '<div><i class="fa fa-cog"></i></div>' +
+                '<span class="group-nav-heading ">Settings</span>' +
+                '</div><br>' +
+                '<div class="user-action" ui-sref="logout">' +
+                '<div><i class="fa fa-sign-out"></i></div>' +
+                '<span class="group-nav-heading ">Logout</span>' +
+                '</div>' +
+                '</div>' +
+                '</header>' +
                 '</nav>'
         };
     }
@@ -93,12 +97,12 @@
         return {
             restrict: 'EA',
             template: '<i class="group-icon" ng-if="iconClass" ng-class="iconClass"></i>' +
-                      '<span class="group-nav-heading">{{qorSidebarGroupHeading}}</span>',
+                '<span class="group-nav-heading">{{qorSidebarGroupHeading}}</span>',
             scope: {
                 qorSidebarGroupHeading: '@',
                 iconClass: '@'
             },
-            link: function(scope, iElement) {
+            link: function (scope, iElement) {
                 iElement.addClass('group-nav');
             }
         };
@@ -108,10 +112,10 @@
     function $BindHtmlCompile($compile) {
         return {
             restrict: 'A',
-            link: function(scope, element, attrs) {
-                scope.$watch(function() {
+            link: function (scope, element, attrs) {
+                scope.$watch(function () {
                     return scope.$eval(attrs.bindHtmlCompile);
-                }, function(value) {
+                }, function (value) {
                     element.html(value);
                     $compile(element.contents())(scope);
                 });
@@ -123,7 +127,7 @@
         var groups = {};
         var title = 'qorio';
 
-        this.config = function(id, options) {
+        this.config = function (id, options) {
             if (!groups.id) {
                 groups[id] = options;
             } else {
@@ -131,12 +135,12 @@
             }
         };
 
-        this.setTitle = function(titleTpl) {
+        this.setTitle = function (titleTpl) {
             title = titleTpl;
         };
 
         function _groups() {
-            return Object.keys(groups).map(function(key) {
+            return Object.keys(groups).map(function (key) {
                 var v = angular.extend({
                     id: key
                 }, groups[key]);
@@ -152,27 +156,29 @@
         function $QorSidebarService($rootScope) {
             var expanded = true;
             return {
-                sortedGroups: function() {
+                sortedGroups: function () {
                     return _groups();
                     // TODO ??
-                    return _groups().sort(function(g1, g2) { return (g1.nav || 0) - (g2.nav || 0); });
+                    return _groups().sort(function (g1, g2) {
+                        return (g1.nav || 0) - (g2.nav || 0);
+                    });
                 },
-                isExpanded: function() {
+                isExpanded: function () {
                     return expanded;
                 },
-                showSidebar: function() {
+                showSidebar: function () {
                     expanded = true;
                     $rootScope.$broadcast('qorSidebarStateChange', expanded);
                 },
-                hideSidebar: function() {
+                hideSidebar: function () {
                     expanded = false;
                     $rootScope.$broadcast('qorSidebarStateChange', expanded);
                 },
-                toggleSidebar: function() {
+                toggleSidebar: function () {
                     expanded = !expanded;
                     $rootScope.$broadcast('qorSidebarStateChange', expanded);
                 },
-                getTitle: function() {
+                getTitle: function () {
                     return title;
                 }
             };
@@ -181,10 +187,10 @@
         this.$get = $QorSidebarService;
     }
 
-    function $QorSidebarContainer(){
+    function $QorSidebarContainer() {
         return {
             restrict: 'EA',
-            link: function(scope, $el, attrs) {
+            link: function (scope, $el, attrs) {
                 if (!$el.find('[qor-sidebar]').length) {
                     throw Error('qor-sidebar should be defined inside');
                 }
@@ -194,7 +200,7 @@
 
                 $el.find('[qor-content]').addClass('qor-content');
 
-                scope.$on('qorSidebarStateChange', function(newVal) {
+                scope.$on('qorSidebarStateChange', function (newVal) {
                     $el.toggleClass('qor-sidebar-expanded', newVal);
                 });
             }
@@ -207,8 +213,8 @@
             restrict: 'A',
             scope: true,
             priority: 500,
-            compile: function() {
-                return function(scope, $element, attrs) {
+            compile: function () {
+                return function (scope, $element, attrs) {
                     var controller = $controller(scope.$eval(attrs.propertyController), { $scope: scope });
                     $element.data('$ngControllerController', controller);
                     $element.children().data('$ngControllerController', controller);

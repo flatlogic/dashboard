@@ -2,10 +2,10 @@
     <header horizontal-ui-sheet-header title="Domains">
     </header>
     <div horizontal-ui-sheet-content>
-        <div class="list-group text-left ng-scope" >
+        <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="domain in domains"
                ui-sref-active="active"
-               ui-sref="app.orchestrate.domain({id : domain.id})" >
+               ui-sref="app.orchestrate.domain({id : domain.id})">
                 {{domain.name}}
             </a>
         </div>

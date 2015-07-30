@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('qorDash.configurations');
@@ -13,12 +13,12 @@
             {
                 "service": "blinker",
                 "instances": [ "ops-dev", "staging", "production" ],
-                "versions":[ "develop", "v1.0", "v1.1" ]
+                "versions": [ "develop", "v1.0", "v1.1" ]
             },
             {
                 "service": "vdp",
                 "instances": [ "ops-dev", "staging", "production" ],
-                "versions":[ "v0.1", "v1.0" ]
+                "versions": [ "v0.1", "v1.0" ]
             }
         ];
 

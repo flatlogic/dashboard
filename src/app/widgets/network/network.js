@@ -70,11 +70,17 @@
                             .range([0, height]);
 
                         var treemap = d3.layout.treemap()
-                            .children(function(d, depth) { return depth ? null : d._children; })
-                            .sort(function(a, b) { return -a.name.localeCompare(b.name); })
+                            .children(function (d, depth) {
+                                return depth ? null : d._children;
+                            })
+                            .sort(function (a, b) {
+                                return -a.name.localeCompare(b.name);
+                            })
                             .ratio(1)
                             .round(false)
-                            .value(function(d) { return d.amount; });
+                            .value(function (d) {
+                                return d.amount;
+                            });
 
                         var wrap = d3.select(element[0]);
                         var svg = wrap.append("svg")
@@ -87,7 +93,7 @@
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                             .style("shape-rendering", "crispEdges");
 
-                        var grandparent = wrap.insert("ul",":first-child")
+                        var grandparent = wrap.insert("ul", ":first-child")
                             .attr("class", "grandparent breadcrumb");
 
 
@@ -179,7 +185,7 @@
                                     if (d._children) {
                                         treemap.nodes({_children: d._children});
                                         _depth++;
-                                        d._children.forEach(function(c) {
+                                        d._children.forEach(function (c) {
                                             c.x = d.x + c.x * d.dx;
                                             c.y = d.y + c.y * d.dy;
                                             c.dx *= d.dx;
@@ -206,7 +212,9 @@
                                 navigationItem.enter()
                                     .append("li")
                                     .append("a")
-                                    .text(function(d) {return d.name;})
+                                    .text(function (d) {
+                                        return d.name;
+                                    })
                                     .on('click', transition)
                                 ;
 
@@ -222,7 +230,9 @@
                                     .data((d._children || [d]).filter(_isNotPlaceholder))
                                     .enter().append("g");
 
-                                g.filter(function(d) { return d._children; })
+                                g.filter(function (d) {
+                                    return d._children;
+                                })
                                     .classed("children", true)
                                 ;
 
@@ -231,10 +241,12 @@
                                     .call(rect)
                                     .on("click", transition)
                                     .append("title")
-                                    .text(function(d) { return formatNumber(d.value); });
+                                    .text(function (d) {
+                                        return formatNumber(d.value);
+                                    });
 
                                 g.selectAll(".child")
-                                    .data(function(d) {
+                                    .data(function (d) {
                                         return (d._children || [d]).filter(_isNotPlaceholder);
                                     })
                                     .enter().append("rect")
@@ -244,17 +256,21 @@
                                 ;
 
                                 g.selectAll(".child-text")
-                                    .data(function(d) {
+                                    .data(function (d) {
                                         return (d._children || [d]).filter(_isNotPlaceholder);
                                     })
                                     .enter().append("text")
                                     .classed("child-text", true)
-                                    .text(function(d) { return d.name; })
+                                    .text(function (d) {
+                                        return d.name;
+                                    })
                                     .call(text)
                                 ;
 
                                 g.append("text")
-                                    .text(function(d) { return d.name; })
+                                    .text(function (d) {
+                                        return d.name;
+                                    })
                                     .classed("parent-text", true)
                                     .call(parentText)
                                 ;
@@ -286,7 +302,9 @@
                                     svg.style("shape-rendering", null);
 
 
-                                    svg.selectAll(".depth").sort(function(a, b) { return a.depth - b.depth; });
+                                    svg.selectAll(".depth").sort(function (a, b) {
+                                        return a.depth - b.depth;
+                                    });
 
                                     t1.selectAll(".parent-text").call(parentText).style("fill-opacity", 0);
                                     t2.selectAll(".parent-text").call(parentText).style("fill-opacity", 1);
@@ -297,7 +315,7 @@
                                     t2.selectAll("rect").call(rect);
 
 
-                                    t1.remove().each("end", function() {
+                                    t1.remove().each("end", function () {
                                         svg.style("shape-rendering", "crispEdges");
                                         transitioning = false;
                                     });
@@ -316,20 +334,36 @@
                             }
 
                             function text(text) {
-                                text.attr("x", function(d) { return x(d.x) + 6; })
-                                    .attr("y", function(d) { return y(d.y) + 16; });
+                                text.attr("x", function (d) {
+                                    return x(d.x) + 6;
+                                })
+                                    .attr("y", function (d) {
+                                        return y(d.y) + 16;
+                                    });
                             }
 
                             function parentText(text) {
-                                text.attr("x", function(d) { return x(d.x) + 6; })
-                                    .attr("y", function(d) { return y(d.y) - 6; });
+                                text.attr("x", function (d) {
+                                    return x(d.x) + 6;
+                                })
+                                    .attr("y", function (d) {
+                                        return y(d.y) - 6;
+                                    });
                             }
 
                             function rect(rect) {
-                                rect.attr("x", function(d) { return x(d.x); })
-                                    .attr("y", function(d) { return y(d.y); })
-                                    .attr("width", function(d) { return x(d.x + d.dx) - x(d.x); })
-                                    .attr("height", function(d) { return y(d.y + d.dy) - y(d.y); })
+                                rect.attr("x", function (d) {
+                                    return x(d.x);
+                                })
+                                    .attr("y", function (d) {
+                                        return y(d.y);
+                                    })
+                                    .attr("width", function (d) {
+                                        return x(d.x + d.dx) - x(d.x);
+                                    })
+                                    .attr("height", function (d) {
+                                        return y(d.y + d.dy) - y(d.y);
+                                    })
                                     .attr("rx", "3px")
                                 ;
                             }
@@ -337,7 +371,7 @@
                             function traverseParents(d) {
                                 var result = [];
                                 var top = d;
-                                while(true) {
+                                while (true) {
                                     result.push(d);
                                     if (d.parent) {
                                         d = d.parent;

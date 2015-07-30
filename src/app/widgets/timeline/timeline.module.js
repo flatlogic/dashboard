@@ -1,10 +1,10 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  var module = angular.module('qorDash.widget.timeline', [
-    'relativeDate',
-      'ui.bootstrap'
-  ]);
+    var module = angular.module('qorDash.widget.timeline', [
+        'relativeDate',
+        'ui.bootstrap'
+    ]);
 
 
 })();

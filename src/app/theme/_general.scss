@@ -1,26 +1,25 @@
-
 /**
 * if set to device-width ie10 built-in scrollbar overflows content. Fix it as of here
 * http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that-might-be-bootstrap
 */
-@-ms-viewport{
+@-ms-viewport {
   width: auto;
 }
 
-html, body{
+html, body {
   height: 100%;
 }
 
-body{
+body {
   font-weight: $font-weight-base;
   overflow: hidden;
 }
 
-th{
+th {
   font-weight: $font-weight-semi-bold;
 }
 
 // follow bootstrap-angular instructions
-a{
+a {
   cursor: pointer;
 }

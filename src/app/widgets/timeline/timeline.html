@@ -1,31 +1,35 @@
 <div id="timeline" ql-time-line>
-  <ul class="timeline" style="padding: 10px; margin-bottom: 0px;" ng-controller="TimelineController">
-    <li class="on-left" ng-repeat="event in events" id="{{::event.id | limitTo:7}}">
-      <time class="event-time" datetime="{{::event.timestamp}}">
-        <span class="date">{{::event.timestamp * 1000 | date: 'EEE'}}</span>
-        <span class="time">{{::event.timestamp * 1000 | date: 'shortTime'}}</span>
-      </time>
+    <ul class="timeline" style="padding: 10px; margin-bottom: 0px;" ng-controller="TimelineController">
+        <li class="on-left" ng-repeat="event in events" id="{{::event.id | limitTo:7}}">
+            <time class="event-time" datetime="{{::event.timestamp}}">
+                <span class="date">{{::event.timestamp * 1000 | date: 'EEE'}}</span>
+                <span class="time">{{::event.timestamp * 1000 | date: 'shortTime'}}</span>
+            </time>
       <span class="event-icon {{ event.event_icon_class}}">
           <i class="glyphicon glyphicon-comment"></i>
       </span>
-      <section class="event">
-        <h4 class="event-heading"><a ng-click="showDetails(event)">{{event.title}}</a></h4>
-        <p class="fs-sm text-muted">{{::event.timestamp * 1000 | date:'EEEE, MMMM d, y HH:mm:ss'}}</p>
-        <p class="fs-mini">
-          {{::event.text}}
-        </p>
-        <footer>
-          <ul class="post-links">
-            <li><a href="#" data-original="{{::event.timestamp}}">{{::event.timestamp * 1000 | relativeDate }}</a></li>
-            <a class="details-link" style="visibility: hidden;" ng-click="showDetails(event)"><img src="assets/images/collapse-button.png" height="20px" width="20px"></a>
-          </ul>
-          <div collapse="event.isInfoCollapsed">
-            <div class="terminal-wrapper mt-sm">
-              <div></div>
-            </div>
-          </div>
-        </footer>
-      </section>
-    </li>
-  </ul>
+            <section class="event">
+                <h4 class="event-heading"><a ng-click="showDetails(event)">{{event.title}}</a></h4>
+
+                <p class="fs-sm text-muted">{{::event.timestamp * 1000 | date:'EEEE, MMMM d, y HH:mm:ss'}}</p>
+
+                <p class="fs-mini">
+                    {{::event.text}}
+                </p>
+                <footer>
+                    <ul class="post-links">
+                        <li><a href="#" data-original="{{::event.timestamp}}">{{::event.timestamp * 1000 | relativeDate
+                            }}</a></li>
+                        <a class="details-link" style="visibility: hidden;" ng-click="showDetails(event)"><img
+                                src="assets/images/collapse-button.png" height="20px" width="20px"></a>
+                    </ul>
+                    <div collapse="event.isInfoCollapsed">
+                        <div class="terminal-wrapper mt-sm">
+                            <div></div>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </li>
+    </ul>
 </div>

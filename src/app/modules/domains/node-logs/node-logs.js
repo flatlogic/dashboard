@@ -1,11 +1,11 @@
-(function() {
+(function () {
     'use strict';
 
     logNewWindow.$inject = ['$window', '$state', '$compile'];
     function logNewWindow($window, $state, $compile) {
         return {
-            link: function(scope, element, attrs) {
-                $(element).bind('click', function(event) {
+            link: function (scope, element, attrs) {
+                $(element).bind('click', function (event) {
                     var domTerminal = $('#terminal');
                     var terminal = domTerminal.terminal();
                     var currentData = terminal.get_output();

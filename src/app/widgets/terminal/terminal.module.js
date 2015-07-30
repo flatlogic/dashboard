@@ -1,7 +1,7 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  var module = angular.module('qorDash.widget.terminal', []);
+    var module = angular.module('qorDash.widget.terminal', []);
 
 
 })();

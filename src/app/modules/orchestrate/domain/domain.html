@@ -2,10 +2,10 @@
     <header horizontal-ui-sheet-header title="{{domain.name}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div class="list-group text-left ng-scope" >
+        <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="environment in environments"
                ui-sref-active="active"
-               ui-sref="app.orchestrate.domain.instance({inst : environment.name})" >
+               ui-sref="app.orchestrate.domain.instance({inst : environment.name})">
                 {{environment.name}}
             </a>
         </div>

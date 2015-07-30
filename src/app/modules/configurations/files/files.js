@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('qorDash.configurations');
@@ -13,17 +13,17 @@
             return service.service == $stateParams.service;
         })[0];
 
-        $scope.codemirrorLoaded = function(editor) {
+        $scope.codemirrorLoaded = function (editor) {
             $scope.codeMirrorInstance = editor;
         };
 
-        $scope.showFile = function(filePath, instance, version) {
+        $scope.showFile = function (filePath, instance, version) {
             $scope.selectedFile.file_path = filePath;
             $scope.selectedFile.version = version;
             $scope.selectedFile.instance = instance;
 
             $http.get(filePath)
-                .success(function(data){
+                .success(function (data) {
                     $scope.fileData = 'Content of ' + filePath + '\n';
                     $scope.fileData += data;
                     $scope.setEditorText();
@@ -31,7 +31,7 @@
                 });
         };
 
-        $scope.setEditorText = function(text) {
+        $scope.setEditorText = function (text) {
             if (text == undefined) {
                 $scope.codeMirrorInstance.getDoc().setValue($scope.fileData);
             } else {
@@ -39,7 +39,7 @@
             }
         };
 
-        $scope.deleteFile = function(filePath) {
+        $scope.deleteFile = function (filePath) {
             for (var i in $scope.files) {
                 if ($scope.files[i].path == filePath) {
                     $scope.files.splice(i, 1);
@@ -54,11 +54,11 @@
 
         $scope.selectedFile = {
             "file_path": "",
-            "version" : "",
+            "version": "",
             "instance": ""
         };
 
-        $scope.saveFile = function() {
+        $scope.saveFile = function () {
             // Take $scope.selectedFile
             alert('saved');
         };
@@ -66,7 +66,7 @@
         $scope.fileData = 'Select file to view/edit';
 
         $scope.editorOptions = {
-            lineWrapping : true,
+            lineWrapping: true,
             lineNumbers: true,
             viewportMargin: '9999',
             theme: 'monokai',

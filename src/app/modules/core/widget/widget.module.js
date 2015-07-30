@@ -1,6 +1,6 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  var module = angular.module('qorDash.widget', []);
+    var module = angular.module('qorDash.widget', []);
 
 })();

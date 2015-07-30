@@ -2,12 +2,14 @@
     <header horizontal-ui-sheet-header title="{{domain.name}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div class="list-group text-left ng-scope" >
+        <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="service in services"
                ui-sref-active="active"
                ui-sref="app.configurations.services.editor({service: service.service})"
-                >
-                {{service.service}} <div class="navigation-details"><span>{{service.instances.length}}</span> <span>{{service.versions.length}}</span></div>
+                    >
+                {{service.service}}
+                <div class="navigation-details"><span>{{service.instances.length}}</span> <span>{{service.versions.length}}</span>
+                </div>
             </a>
         </div>
     </div>

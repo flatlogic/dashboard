@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('qorDash.configurations')
@@ -6,25 +6,36 @@
             {
                 "service": "blinker",
                 "instances": [ "ops-dev" ],
-                "versions":[ "develop", "v1.0", "v1.1" ],
+                "versions": [ "develop", "v1.0", "v1.1" ],
                 "live": {
-                    "ops-dev" : "develop"
+                    "ops-dev": "develop"
                 }
             },
             {
                 "service": "vdp",
                 "instances": [ "ops-dev", "staging", "production" ],
-                "versions":[ "v0.1", "v1.0" ],
+                "versions": [ "v0.1", "v1.0" ],
                 "live": {
-                    "ops-dev" : "v1.0",
-                    "staging" : "v0.1",
-                    "production" : "v0.1"
+                    "ops-dev": "v1.0",
+                    "staging": "v0.1",
+                    "production": "v0.1"
                 }
             }
         ]);
 
-    editorController.$inject = ['$scope', '$stateParams', 'services', 'API_URL', '$http', '$timeout'];
-    function editorController($scope, $stateParams, services, API_URL, $http, $timeout) {
+    editorController.$inject = ['$scope', '$stateParams', 'services', 'API_URL', '$http'];
+    function editorController($scope, $stateParams, services, API_URL, $http) {
+
+        $scope.selectedVersion = {};
+
+        $scope.itemsForSave = {};
+        $scope.itemsForDelete = [];
+        $scope.newItemsCount = 0;
+
+        $scope.dashVersions = {};
+
+        $scope.values = [];
+        $scope.val1 = {};
 
         $scope.domain = $scope.domains.filter(function (domain) {
             return domain.id == $stateParams.domain;
@@ -34,49 +45,36 @@
             return service.service == $stateParams.service;
         })[0];
 
-        $scope.selectedVersion = {};
-        $scope.itemsForSave = {};
-        $scope.itemsForDelete = [];
-        $scope.newItemsCount = 0;
-
-        $scope.service.instances.forEach(function(instance) {
+        $scope.service.instances.forEach(function (instance) {
             $scope.selectedVersion[instance] = $scope.service.versions[0];
         });
 
-        var isInstance = function(condidate) {
+        var isInstance = function (candidate) {
             for (var i in $scope.service.instances) {
-                if ($scope.service.instances[i] == condidate) {
+                if ($scope.service.instances[i] == candidate) {
                     return true;
                 }
             }
             return false
         };
 
-        $scope.changeSelectedVersion = function(instance, newVersion) {
+        $scope.changeSelectedVersion = function (instance, newVersion) {
             $scope.selectedVersion[instance] = newVersion;
         };
 
-        $scope.isLive = function(instance, version) {
+        $scope.isLive = function (instance, version) {
             return $scope.service.live[instance] == version;
         };
-
-        $scope.dashVersions = {};
 
         var hasOwnProperty = Object.prototype.hasOwnProperty;
 
         function isEmpty(obj) {
 
-            // null and undefined are "empty"
             if (obj == null) return true;
 
-            // Assume if it has a length property with a non-zero value
-            // that that property is correct.
             if (obj.length > 0)    return false;
             if (obj.length === 0)  return true;
 
-            // Otherwise, does it have any properties of its own?
-            // Note that this doesn't handle
-            // toString and valueOf enumeration bugs in IE < 9
             for (var key in obj) {
                 if (hasOwnProperty.call(obj, key)) return false;
             }
@@ -84,19 +82,19 @@
             return true;
         }
 
-        $scope.isSavable = function() {
+        $scope.isSavable = function () {
             return !isEmpty($scope.itemsForSave) || !isEmpty($scope.itemsForDelete);
         };
 
-        $scope.save = function() {
+        $scope.save = function () {
             $('#env-save-button').button('loading');
 
             if (!$scope.itemsForSave && $scope.itemsForDelete.length != 0) {
-
+                // TODO send delete request
             }
 
             if ($scope.newItemsCount != 0) {
-                for (var i = $scope.values.length - 1; $scope.newItemsCount; --$scope.newItemsCount) {
+                for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
                     var objToAdd = $scope.values[i];
                     for (var index in objToAdd) {
                         if (isInstance(index)) {
@@ -109,9 +107,9 @@
                                 if (!$scope.itemsForSave[index][versionIndex]['update']) {
                                     $scope.itemsForSave[index][versionIndex]['update'] = {};
                                 }
+
                                 $scope.itemsForSave[index][versionIndex]['update'][objToAdd.name] = versionToAdd[versionIndex].value;
                             }
-                            debugger;
                         }
                     }
                 }
@@ -122,9 +120,9 @@
                 for (var version in versions) {
                     var data = $scope.itemsForSave[instance][version];
                     data['delete'] = $scope.itemsForDelete;
-                    var request =   {
+                    var request = {
                         method: 'PATCH',
-                        url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
+                        url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.service.service + '/' + version,
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Dash-Version': $scope.dashVersions[version]
@@ -132,45 +130,42 @@
                         data: data
                     };
                     $http(request)
-                        .success(function(response) {
+                        .success(function (response) {
                             debugger;
                             $('#env-save-button').button('reset');
                         })
-                        .error(function(){
+                        .error(function () {
                             debugger;
                             $('#env-save-button').button('reset');
                         });
                 }
             }
 
-
             $scope.itemsForSave = {};
             $scope.itemsForDelete = [];
         };
 
-        $scope.addValue = function() {
+        $scope.addValue = function () {
             var obj = {};
             obj.name = "";
-            $scope.service.instances.forEach(function(instance) {
+            $scope.service.instances.forEach(function (instance) {
                 obj[instance] = {};
-               $scope.service.versions.forEach(function(version) {
-                   obj[instance][version] = "";
-               });
+                $scope.service.versions.forEach(function (version) {
+                    obj[instance][version] = "";
+                });
             });
             $scope.values.push(obj);
             $scope.newItemsCount++;
         };
 
-        $scope.values = [];
-        $scope.val1 = {};
 
-        $scope.service.instances.forEach(function(instance) {
+        $scope.service.instances.forEach(function (instance) {
             for (var i in $scope.service.versions) {
                 var version = $scope.service.versions[i];
                 var request = {
                     method: 'GET',
                     //url: 'https://ops-dev.blinker.com/v1/env/blinker.com/ops-dev/blinker/develop',
-                    url: API_URL + '/v1/env/'+$scope.domain.id+'/'+instance+'/'+$scope.service.service+'/'+version,
+                    url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.service.service + '/' + version,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -178,7 +173,7 @@
                 };
 
                 $http(request)
-                    .success(function(data, status, headers, config) {
+                    .success(function (data, status, headers, config) {
                         var version = config.version;
                         for (var varName in data) {
                             if (!$scope.val1[varName]) {
@@ -212,19 +207,14 @@
             }
         }
 
-        $scope.focusinControl = {
-        };
-
-
-
-        $scope.updateValues = function(name, newValue, instance, version) {
+        $scope.updateValues = function (name, newValue, instance, version) {
             if (!$scope.itemsForSave[instance]) {
                 $scope.itemsForSave[instance] = [];
             }
 
-            if (!$scope.itemsForSave[instance][version]){
+            if (!$scope.itemsForSave[instance][version]) {
                 $scope.itemsForSave[instance][version] = {
-                    'update' : {}
+                    'update': {}
                 };
             }
             $scope.itemsForSave[instance][version].update[name] = newValue;
@@ -237,7 +227,7 @@
             }
         };
 
-        $scope.deleteValue = function(name) {
+        $scope.deleteValue = function (name) {
 
             $scope.itemsForDelete.push(name);
 
@@ -261,8 +251,8 @@
     }
 
     function onEsc() {
-        return function(scope, elm, attr) {
-            elm.bind('keydown', function(e) {
+        return function (scope, elm, attr) {
+            elm.bind('keydown', function (e) {
                 if (e.keyCode === 27) {
                     scope.$apply(attr.onEsc);
                 }
@@ -284,10 +274,10 @@
                 version: '=',
                 instance: '='
             },
-            link: function(scope, elm, attr) {
+            link: function (scope, elm, attr) {
                 var previousValue;
 
-                scope.edit = function() {
+                scope.edit = function () {
                     if (scope.isName && scope.model) {
                         return;
                     }
@@ -295,11 +285,11 @@
                     scope.editMode = true;
                     scope.previousValue = scope.model;
 
-                    $timeout(function() {
+                    $timeout(function () {
                         elm.find('input')[0].focus();
                     }, 0, false);
                 };
-                scope.save = function() {
+                scope.save = function () {
                     for (var versionIndex in scope.parent) {
                         if (!scope.parent[versionIndex]) {
                             return;
@@ -312,7 +302,7 @@
                     scope.handleSave({name: scope.key, newValue: scope.model, instance: scope.instance, version: scope.version});
                 };
 
-                scope.isSaveAvailable = function() {
+                scope.isSaveAvailable = function () {
                     for (var versionIndex in scope.parent) {
                         if (!scope.parent[versionIndex]) {
                             return false;
@@ -321,13 +311,13 @@
                     return true;
                 };
 
-                scope.cancel = function() {
+                scope.cancel = function () {
                     scope.editMode = false;
                     scope.model = previousValue;
                     scope.handleCancel({value: scope.model});
                 };
 
-                scope.remove = function(key) {
+                scope.remove = function (key) {
                     scope.handleDelete({name: key});
                 };
 
@@ -341,7 +331,7 @@
 
     function addValue() {
         return {
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
 
             },
             templateUrl: 'addNewValue.html'
@@ -350,10 +340,10 @@
 
     function customSelect() {
         return {
-            link: function(scope, element, attr) {
-                [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {
+            link: function (scope, element, attr) {
+                [].slice.call(document.querySelectorAll('select.cs-select')).forEach(function (el) {
                     new SelectFx(el);
-                } );
+                });
             }
         }
     }

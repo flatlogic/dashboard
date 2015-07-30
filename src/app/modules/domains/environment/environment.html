@@ -1,26 +1,30 @@
 <section horizontal-ui-sheet class="qor-sheet-full">
-  <header horizontal-ui-sheet-header title="{{domain.name}} > {{environment.name}}"></header>
-  <div horizontal-ui-sheet-content class="no-padding">
-      <div ui-layout="{ flow : 'column' }" class="domains-layout">
-      <div ui-layout-container size="70%">
-        <div class="col-lg-12" ql-widget="domain_stat"></div>
-      </div>
-      <div ui-layout-container >
-        <div class="row">
-          <div ui-layout="{flow : 'row'}" >
-            <div ui-layout-container class="col-lg-9" auto-scroll style="width: 100%;">
-                  <div ql-widget="Events" ws-url="wss://ops-dev.blinker.com/v1/events" ></div>
+    <header horizontal-ui-sheet-header title="{{domain.name}} > {{environment.name}}"></header>
+    <div horizontal-ui-sheet-content class="no-padding">
+        <div ui-layout="{ flow : 'column' }" class="domains-layout">
+            <div ui-layout-container size="70%">
+                <div class="col-lg-12" ql-widget="domain_stat"></div>
             </div>
-            <div ui-layout-container class="col-lg-9" size="22%" style="overflow-x: hidden; width: 100%;">
-                <button type="button" ui-sref="app.domains.domain.env.network"   ui-sref-active="active"  class="btn btn-lg env-button" style="top: 10px;">Network</button>
-                <button type="button" ui-sref="app.domains.domain.env.resources" ui-sref-active="active" class="btn btn-lg env-button" style="top: 70px;">Resources</button>
-                <button type="button" class="btn btn-lg env-button" style="top: 130px;">Traffic</button>
+            <div ui-layout-container>
+                <div class="row">
+                    <div ui-layout="{flow : 'row'}">
+                        <div ui-layout-container class="col-lg-9" auto-scroll style="width: 100%;">
+                            <div ql-widget="Events" ws-url="wss://ops-dev.blinker.com/v1/events"></div>
+                        </div>
+                        <div ui-layout-container class="col-lg-9" size="22%" style="overflow-x: hidden; width: 100%;">
+                            <button type="button" ui-sref="app.domains.domain.env.network" ui-sref-active="active"
+                                    class="btn btn-lg env-button" style="top: 10px;">Network
+                            </button>
+                            <button type="button" ui-sref="app.domains.domain.env.resources" ui-sref-active="active"
+                                    class="btn btn-lg env-button" style="top: 70px;">Resources
+                            </button>
+                            <button type="button" class="btn btn-lg env-button" style="top: 130px;">Traffic</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
 
-  </div>
+    </div>
 </section>

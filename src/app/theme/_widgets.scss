@@ -13,7 +13,7 @@ $stat-blue-color: #7986CB;
 /**             LOGIN             **/
 /***********************************/
 
-.login-page{
+.login-page {
   background-color: $gray-semi-lighter;
 }
 
@@ -30,31 +30,31 @@ $stat-blue-color: #7986CB;
   }
 }
 
-.widget-login-container{
+.widget-login-container {
   padding-top: 10%;
 }
 
-.widget-login-logo{
+.widget-login-logo {
   margin-bottom: 15px;
   text-align: center;
   font-weight: $font-weight-normal;
-  .fa-circle{
+  .fa-circle {
     font-size: 13px;
     margin: 0 20px;
   }
 }
 
-.widget-login{
+.widget-login {
   padding: 30px;
 
-  > header{
-    #{headings()}{
+  > header {
+    #{headings()} {
       font-weight: $font-weight-normal;
     }
   }
 }
 
-.widget-login-info{
+.widget-login-info {
   font-size: $font-size-mini;
   color: #B4B4B4;
   margin-top: 1px;
@@ -74,17 +74,17 @@ $stat-blue-color: #7986CB;
   color: #B4B4B4;
 }
 
-.login-form{
-  .form-control{
+.login-form {
+  .form-control {
     font-size: $font-size-mini;
     border: none;
     background-color: $gray-lighter;
-    &:focus{
+    &:focus {
       background-color: $gray-semi-lighter;
     }
   }
 
-  >.small-margin {
+  > .small-margin {
     margin-bottom: 10px;
   }
 }
@@ -92,20 +92,20 @@ $stat-blue-color: #7986CB;
 .login-toolbar {
   width: 100%;
 
-  >.btn {
+  > .btn {
     border-radius: 0;
     font-size: $font-size-larger;
     color: #ffffff;
     font-weight: $font-weight-thin;
   }
 
-  >.btn-login {
+  > .btn-login {
     width: 49%;
     background-color: #EDA22D;
     border-color: #EDA22D;
   }
 
-  >.btn-signup {
+  > .btn-signup {
     width: 46%;
     background-color: #B3B3B3;
     border-color: #B3B3B3;
@@ -116,7 +116,7 @@ $stat-blue-color: #7986CB;
 /**           Time Line           **/
 /***********************************/
 
-.timeline{
+.timeline {
   position: relative;
   min-height: 100%;
   list-style: none;
@@ -127,13 +127,13 @@ $stat-blue-color: #7986CB;
   > li {
     @include clearfix();
 
-    + li{
+    + li {
       margin-top: 30px;
     }
   }
 
   /* the time line :) */
-  &:before{
+  &:before {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -150,8 +150,7 @@ $stat-blue-color: #7986CB;
 
 }
 
-
-.event{
+.event {
   .timeline & {
     float: right;
     width: 68%;
@@ -160,18 +159,18 @@ $stat-blue-color: #7986CB;
     padding: 15px 20px 15px;
     position: relative;
 
-    &:before{
+    &:before {
       right: 100%;
       content: " ";
       height: 0;
       width: 0;
       position: absolute;
-      border: 10px solid rgba(0,0,0,0);
+      border: 10px solid rgba(0, 0, 0, 0);
       border-right-color: $white;
       top: 15px;
     }
 
-    > footer{
+    > footer {
       margin: 20px -20px 0;
       padding: 10px 20px;
       border-bottom-left-radius: $border-radius-base;
@@ -180,12 +179,12 @@ $stat-blue-color: #7986CB;
 
       @include clearfix();
 
-      .thumb{
+      .thumb {
         margin-left: 10px;
       }
     }
 
-    .post-comments{
+    .post-comments {
       margin-left: -20px;
       margin-right: -20px;
     }
@@ -196,19 +195,19 @@ $stat-blue-color: #7986CB;
   }
 }
 
-.event-time{
-  .timeline &{
+.event-time {
+  .timeline & {
     float: left;
     width: 18%;
     margin-top: 5px;
     text-align: right;
 
-    > .date{
+    > .date {
       display: block;
       font-size: $font-size-larger;
     }
 
-    > .time{
+    > .time {
       display: block;
       font-size: $font-size-large;
     }
@@ -219,8 +218,8 @@ $stat-blue-color: #7986CB;
   }
 }
 
-.event-icon{
-  .timeline &{
+.event-icon {
+  .timeline & {
     position: absolute;
     left: 24%;
     width: 50px;
@@ -232,17 +231,32 @@ $stat-blue-color: #7986CB;
     border-radius: 50%;
     text-align: center;
 
-    &.event-icon-danger{ background-color: $brand-danger; border-color: lighten($brand-danger, 7%)}
-    &.event-icon-warning{ background-color: $brand-warning; border-color: lighten($brand-warning, 7%)}
-    &.event-icon-success{ background-color: $brand-success; border-color: lighten($brand-success, 7%)}
-    &.event-icon-info{ background-color: $brand-info; border-color: lighten($brand-info, 7%)}
-    &.event-icon-primary{ background-color: $brand-primary; border-color: lighten($brand-primary, 7%)}
+    &.event-icon-danger {
+      background-color: $brand-danger;
+      border-color: lighten($brand-danger, 7%)
+    }
+    &.event-icon-warning {
+      background-color: $brand-warning;
+      border-color: lighten($brand-warning, 7%)
+    }
+    &.event-icon-success {
+      background-color: $brand-success;
+      border-color: lighten($brand-success, 7%)
+    }
+    &.event-icon-info {
+      background-color: $brand-info;
+      border-color: lighten($brand-info, 7%)
+    }
+    &.event-icon-primary {
+      background-color: $brand-primary;
+      border-color: lighten($brand-primary, 7%)
+    }
 
     &.event-icon-danger,
     &.event-icon-warning,
     &.event-icon-success,
     &.event-icon-info,
-    &.event-icon-primary{
+    &.event-icon-primary {
       color: $white;
     }
 
@@ -250,7 +264,7 @@ $stat-blue-color: #7986CB;
       left: 14%;
     }
 
-    > img{
+    > img {
       width: 36px;
       height: 36px;
       margin-top: -4px;
@@ -258,33 +272,33 @@ $stat-blue-color: #7986CB;
   }
 }
 
-.event-heading{
+.event-heading {
   margin: 0 0 2px;
   font-weight: $font-weight-normal;
   > a {
     text-decoration: none;
     color: #9E9E9E;
   }
-  > small{
+  > small {
     font-weight: $font-weight-semi-bold;
-    > a{
+    > a {
       text-decoration: none;
       color: $text-muted;
     }
   }
 }
 
-.event-map{
+.event-map {
   height: 200px;
   margin: 0 -20px -20px;
   overflow: visible !important;
 }
 
-.event-image{
+.event-image {
   margin: 0 -20px -20px;
   max-height: 260px;
   overflow: hidden;
-  > img{
+  > img {
     max-width: 100%;
   }
 }
@@ -293,21 +307,21 @@ $stat-blue-color: #7986CB;
 /**          ERROR PAGE           **/
 /***********************************/
 
-.error-page{
+.error-page {
   background-color: $gray-semi-lighter;
 }
 
-.error-container{
+.error-container {
   padding-top: 5%;
   text-align: center;
 
-  > .btn{
+  > .btn {
     padding-left: 35px;
     padding-right: 35px;
   }
 }
 
-.error-code{
+.error-code {
   font-size: 80px;
   font-weight: $font-weight-normal;
   color: $gray-dark;
@@ -316,12 +330,12 @@ $stat-blue-color: #7986CB;
   }
 }
 
-.error-info{
+.error-info {
   font-size: 20px;
   color: $gray-dark;
 }
 
-.error-help{
+.error-help {
   font-size: 14px;
 }
 
@@ -364,7 +378,7 @@ $stat-blue-color: #7986CB;
   padding: 0 0 5px 0;
   margin-top: 10px;
 
-  >.row {
+  > .row {
     margin: 0px;
   }
 
@@ -401,63 +415,63 @@ $stat-blue-color: #7986CB;
     border-left: none;
   }
 
-  >h3 {
+  > h3 {
     margin-top: 5px;
     margin-bottom: 0px;
   }
 
   @media (max-width: 1800px) {
-    >h3 {
+    > h3 {
       font-size: 15px;
     }
-    >p {
+    > p {
       font-size: 12px;
     }
   }
 
   @media (max-width: 1300px) {
-    >h3 {
+    > h3 {
       font-size: 14px;
     }
-    >p {
+    > p {
       font-size: 11px;
     }
   }
 }
 
-
 .widget-stat-other-details {
   padding-top: 10px;
 
-  >div>p {
+  > div > p {
     margin-bottom: 5px;
   }
 
-  >div>.b {
+  > div > .b {
     font-weight: 400;
     @media (max-width: 1800px) {
-        font-size: 12px;
+      font-size: 12px;
     }
     @media (max-width: 1300px) {
-        font-size: 11px;
+      font-size: 11px;
     }
   }
 
-  >.right-text {
+  > .right-text {
     text-align: right;
 
     @media (max-width: 1800px) {
-      >p {
+      > p {
         font-size: 12px;
       }
     }
     @media (max-width: 1300px) {
-      >p {
+      > p {
         font-size: 11px;
       }
     }
   }
 }
+
 .tile-header {
   margin-top: 0px;
   margin-bottom: 5px;
@@ -518,7 +532,7 @@ $stat-blue-color: #7986CB;
 }
 
 .domain-stat-details {
-  >div {
+  > div {
     padding-left: 0px;
     margin-top: 10px;
   }
@@ -528,7 +542,6 @@ $stat-blue-color: #7986CB;
   display: block;
   margin-top: -20px;
 }
-
 
 .user-actions {
 
@@ -543,7 +556,7 @@ $stat-blue-color: #7986CB;
   visibility: hidden;
   opacity: 0.0;
 
-  >.user-action {
+  > .user-action {
     margin-bottom: 5px;
     display: inline-block;
     position: relative;
@@ -557,7 +570,7 @@ $stat-blue-color: #7986CB;
 
     color: $qor-sidebar-color;
 
-    >div>i {
+    > div > i {
       font-size: 20px;
     }
 
@@ -570,7 +583,7 @@ $stat-blue-color: #7986CB;
 .container-select {
   display: inline;
 
-  >select {
+  > select {
     box-shadow: 0 0 3px;
     border: none;
     padding: 5px;
@@ -584,13 +597,13 @@ $stat-blue-color: #7986CB;
 }
 
 .container-view {
-  >.chart {
+  > .chart {
     margin-top: 20px;
   }
 }
 
 .editor-content {
-  >.loading {
+  > .loading {
     width: 100%;
     text-align: center;
   }
@@ -639,7 +652,7 @@ $stat-blue-color: #7986CB;
   float: right;
   display: inline;
 
-  >span {
+  > span {
     background-color: #DBDBDB;
     padding: 1px 5px 1px 5px;
     border-radius: 3px;
@@ -667,11 +680,11 @@ $stat-blue-color: #7986CB;
 }
 
 .config-table-th {
-  >.version-select {
+  > .version-select {
     float: right;
   }
 
-  >h4 {
+  > h4 {
     position: absolute;
     margin-top: 5px;
     display: inline;
@@ -687,27 +700,26 @@ $stat-blue-color: #7986CB;
   cursor: pointer;
 }
 
-
 .orchestration-parameters {
-  >fieldset {
-    >.form-group {
+  > fieldset {
+    > .form-group {
       margin-bottom: 7px;
 
-      >div>input[type="checkbox"] {
+      > div > input[type="checkbox"] {
         display: none;
 
         + label {
           margin: 6px 0 6px 0;
-          display:inline-block;
-          width:19px;
-          height:19px;
-          vertical-align:middle;
-          background:url(../assets/images/checkboxes.png) left top no-repeat;
+          display: inline-block;
+          width: 19px;
+          height: 19px;
+          vertical-align: middle;
+          background: url(../assets/images/checkboxes.png) left top no-repeat;
           cursor: pointer;
         }
 
         &:checked + label {
-          background:url(../assets/images/checkboxes.png) -19px top no-repeat;
+          background: url(../assets/images/checkboxes.png) -19px top no-repeat;
         }
       }
     }

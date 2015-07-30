@@ -3,12 +3,12 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="preloader-container" ng-hide="workflows.length">
-           <img src="assets/images/cube.gif">
+            <img src="assets/images/cube.gif">
         </div>
-        <div class="list-group text-left ng-scope" >
+        <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="workflow in workflows"
                ui-sref-active="active"
-               ui-sref="app.orchestrate.domain.instance.option({opt : workflow.name})" >
+               ui-sref="app.orchestrate.domain.instance.option({opt : workflow.name})">
                 {{workflow.label}}
             </a>
         </div>

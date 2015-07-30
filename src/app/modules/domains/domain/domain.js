@@ -1,10 +1,10 @@
-(function() {
+(function () {
     'use strict';
 
     angular.module('qorDash.domains')
         .value('domains', [
-            {"id":"api.foo.com", "name":"Api", "url":"https://server.com/domain/api.foo.com" },
-            {"id":"blinker.com", "name": "Portal", "url":"https://server.com/domain/blinker.com"}
+            {"id": "api.foo.com", "name": "Api", "url": "https://server.com/domain/api.foo.com" },
+            {"id": "blinker.com", "name": "Portal", "url": "https://server.com/domain/blinker.com"}
         ])
     ;
 

@@ -2,7 +2,7 @@
 // Typography
 // --------------------------------------------------
 
-.blockquote-sm{
+.blockquote-sm {
   padding: 3px 15px;
   font-size: $font-size-base;
 }
@@ -11,7 +11,7 @@
 // -------------------------
 
 h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6{
+.h1, .h2, .h3, .h4, .h5, .h6 {
   small,
   .small {
     font-weight: $headings-font-weight;
@@ -22,11 +22,10 @@ h1, h2, h3, h4, h5, h6,
 // Forms
 // --------------------------------------------------
 
-
 .form-control {
   font-weight: $font-weight-normal;
   @include box-shadow(none);
-  &:focus{
+  &:focus {
     @include box-shadow(none);
   }
 }
@@ -35,7 +34,7 @@ label {
   font-weight: $font-weight-normal;
 }
 
-.help-block{
+.help-block {
   font-size: $font-size-smaller;
   color: $text-muted;
 }
@@ -49,20 +48,20 @@ legend {
   margin-bottom: $line-height-computed;
 }
 
-.input-group-addon{
-  &.bg-primary{
+.input-group-addon {
+  &.bg-primary {
     border-color: darken($brand-primary, 10%);
   }
-  &.bg-success{
+  &.bg-success {
     border-color: darken($state-success-bg, 10%);
   }
-  &.bg-info{
+  &.bg-info {
     border-color: darken($state-info-bg, 10%);
   }
-  &.bg-warning{
+  &.bg-warning {
     border-color: darken($state-warning-bg, 10%);
   }
-  &.bg-danger{
+  &.bg-danger {
     border-color: darken($state-danger-bg, 10%);
   }
 }
@@ -79,9 +78,11 @@ legend {
 .has-success {
   @include form-control-validation($brand-success, $brand-success, $brand-success);
 }
+
 .has-warning {
   @include form-control-validation($brand-warning, $brand-warning, $brand-warning);
 }
+
 .has-error {
   @include form-control-validation($brand-danger, $brand-danger, $brand-danger);
 }
@@ -97,18 +98,17 @@ legend {
   }
 }
 
-.input-lg, .input-sm{
+.input-lg, .input-sm {
   @include border-radius($input-border-radius)
 }
 
-.input-group-addon{
+.input-group-addon {
   @include border-radius($input-border-radius);
 }
 
-.input-rounded{
+.input-rounded {
   border-radius: $border-radius-base;
 }
-
 
 // Checkboxes and radios
 //
@@ -128,25 +128,25 @@ legend {
 // --------------------------------------------------
 
 .table td > .checkbox,
-.table th > .checkbox{
+.table th > .checkbox {
   position: relative;
   top: -8px;
   margin-top: 0;
   margin-bottom: 0;
   padding-left: 0;
   > label:before,
-  > label:after{
+  > label:after {
     margin-left: 0;
   }
 }
 
-.table > thead > tr > th{
+.table > thead > tr > th {
   font-weight: $font-weight-semi-bold;
   text-transform: uppercase;
   border-bottom-width: 1px;
 }
 
-.table-bordered th{
+.table-bordered th {
   background-color: $gray-lighter;
 }
 
@@ -176,7 +176,7 @@ legend {
   }
 }
 
-.table-hover > tbody > tr:hover .progress{
+.table-hover > tbody > tr:hover .progress {
   background-color: $white;
 }
 
@@ -184,10 +184,10 @@ legend {
 // Dropdown menus
 // --------------------------------------------------
 
-.dropdown-menu{
+.dropdown-menu {
   font-size: $font-size-mini;
 
-  & > li > a{
+  & > li > a {
     padding-top: 5px;
     padding-bottom: 5px;
   }
@@ -215,10 +215,10 @@ legend {
       }
     }
 
-    &.open > a{
+    &.open > a {
       &,
       &:hover,
-      &:focus{
+      &:focus {
         background-color: $nav-tabs-active-link-hover-bg;
         color: $nav-tabs-active-link-hover-color;
       }
@@ -250,13 +250,13 @@ legend {
 // TABBABLE
 // --------
 
-
 // COMMON STYLES
 // -------------
 
 .tabbable {
   @include clearfix();
 }
+
 .tab-content {
   overflow: auto; // prevent content from running below tabs
 }
@@ -273,6 +273,7 @@ legend {
 .pill-content > .pill-pane {
   display: none;
 }
+
 .tab-content > .active,
 .pill-content > .active {
   display: block;
@@ -286,6 +287,7 @@ legend {
 .tabs-right > .nav-tabs > li {
   float: none;
 }
+
 .tabs-left > .nav-tabs > li > a,
 .tabs-right > .nav-tabs > li > a {
   min-width: 74px;
@@ -294,7 +296,7 @@ legend {
 }
 
 .tabs-left > .nav-tabs > li:last-child > a,
-.tabs-right > .nav-tabs > li:last-child > a{
+.tabs-right > .nav-tabs > li:last-child > a {
   margin-bottom: 0;
 }
 
@@ -303,6 +305,7 @@ legend {
   float: left;
   border-top-right-radius: 0;
 }
+
 .tabs-left > .nav-tabs > li > a {
   margin-right: -1px;
   @include border-radius(4px 0 0 4px);
@@ -313,15 +316,15 @@ legend {
   float: right;
   border-top-left-radius: 0;
 }
+
 .tabs-right > .nav-tabs > li > a {
   margin-left: -1px;
   @include border-radius(0 4px 4px 0);
 }
 
-.tabs-right > .nav-tabs > li.active > a{
+.tabs-right > .nav-tabs > li.active > a {
   @include box-shadow(-1px 1px 2px #ccc);
 }
-
 
 //
 // Navbars
@@ -335,25 +338,25 @@ legend {
   position: fixed;
   top: 0;
 
-  h5{
+  h5 {
     font-size: $navbar-font-size;
   }
 
-  .deemphasize{
+  .deemphasize {
     font-size: $font-size-small;
   }
 }
 
-.navbar-form{
-  .form-control{
+.navbar-form {
+  .form-control {
     font-size: $navbar-font-size;
   }
 
-  .input-group{
+  .input-group {
     width: 245px;
   }
 
-  .input-group-addon{
+  .input-group-addon {
     color: $navbar-default-link-color;
   }
 }
@@ -364,15 +367,15 @@ legend {
   > .navbar-collapse {
     @media (min-width: $grid-float-breakpoint) {
       margin-right: -$navbar-padding-horizontal;
-      margin-left:  -$navbar-padding-horizontal;
+      margin-left: -$navbar-padding-horizontal;
     }
   }
 }
 
-.navbar-header > .navbar-nav{
+.navbar-header > .navbar-nav {
   float: left;
 
-  &.navbar-right{
+  &.navbar-right {
     float: right;
   }
 
@@ -383,7 +386,7 @@ legend {
     margin-top: 5px;
     margin-bottom: 5px;
 
-    + .navbar-brand{
+    + .navbar-brand {
       height: 60px;
       line-height: 30px;
     }
@@ -392,7 +395,7 @@ legend {
   > li {
     float: left;
     > a {
-      padding-top:    $navbar-padding-vertical;
+      padding-top: $navbar-padding-vertical;
       padding-bottom: $navbar-padding-vertical;
     }
   }
@@ -408,7 +411,6 @@ legend {
 // Breadcrumbs
 // --------------------------------------------------
 
-
 .breadcrumb {
   color: $gray-light;
 
@@ -416,7 +418,7 @@ legend {
     font-weight: $font-weight-semi-bold;
   }
 
-  .content &{
+  .content & {
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -426,35 +428,33 @@ legend {
 // Buttons
 // --------------------------------------------------
 
-.btn-rounded{
+.btn-rounded {
   @include border-radius(6px);
 }
 
-.btn-gray{
+.btn-gray {
   @include button-variant($text-color, $gray-semi-lighter, darken($gray-semi-lighter, 5%));
 }
 
 .btn-link:focus,
 .btn-link:active:focus,
-.btn-link.active:focus{
+.btn-link.active:focus {
   outline: 0;
 }
-
 
 //
 // Labels
 // --------------------------------------------------
-.label{
+.label {
   font-size: 11px;
   font-weight: $font-weight-semi-bold;
 }
-
 
 //
 // Button groups
 // --------------------------------------------------
 
-.btn-toolbar{
+.btn-toolbar {
   margin-top: $line-height-computed/2;
   margin-bottom: $line-height-computed/2;
 }
@@ -463,25 +463,24 @@ legend {
 // Progress bars
 // --------------------------------------------------
 
-.progress{
+.progress {
   @include box-shadow(none);
 }
 
-.progress-bar{
+.progress-bar {
   border-radius: $border-radius-base;
   @include box-shadow(none);
 }
 
-.progress-sm{
+.progress-sm {
   height: 10px;
   margin-bottom: $line-height-computed/2;
 }
 
-.progress-xs{
+.progress-xs {
   height: 5px;
   margin-bottom: $line-height-computed/2;
 }
-
 
 .progress-bar-gray {
   @include progress-bar-variant($gray);
@@ -491,28 +490,27 @@ legend {
   @include progress-bar-variant($gray-light);
 }
 
-
 //
 // List groups
 // --------------------------------------------------
 
-.list-group{
-  .widget-body.no-padding > &{
+.list-group {
+  .widget-body.no-padding > & {
     margin: 0;
 
-    .list-group-item{
+    .list-group-item {
       border-width: 1px 0;
     }
   }
 }
 
-.list-group-item{
+.list-group-item {
 
   .list-group-lg & {
     padding: 15px 15px;
   }
 
-  .list-group:last-of-type &:last-child{
+  .list-group:last-of-type &:last-child {
     border-bottom: 0;
   }
 }
@@ -526,25 +524,25 @@ legend {
   @include box-shadow(none);
 }
 
-.panel-heading{
+.panel-heading {
   padding-top: 13px;
   padding-bottom: 13px;
 }
 
-.panel-title{
-  > a{
+.panel-title {
+  > a {
     display: block;
 
-    >i{
+    > i {
       @include transition-transform(.35s ease);
     }
 
-    &.collapsed{
+    &.collapsed {
       color: $text-muted;
-      &:hover{
+      &:hover {
         color: $panel-default-text;
       }
-      > i{
+      > i {
         @include rotate(180deg);
       }
     }
@@ -552,21 +550,50 @@ legend {
 }
 
 // return back h* font-sizes
-h1, .h1 { &.panel-title{ font-size: $font-size-h1; }}
-h2, .h2 { &.panel-title{ font-size: $font-size-h2; }}
-h3, .h3 { &.panel-title{ font-size: $font-size-h3; }}
-h4, .h4 { &.panel-title{ font-size: $font-size-h4; }}
-h5, .h5 { &.panel-title{ font-size: $font-size-h5; }}
-h6, .h6 { &.panel-title{ font-size: $font-size-h6; }}
+h1, .h1 {
+  &.panel-title {
+    font-size: $font-size-h1;
+  }
+}
 
-.panel{
-  .dropdown-menu > &{
+h2, .h2 {
+  &.panel-title {
+    font-size: $font-size-h2;
+  }
+}
+
+h3, .h3 {
+  &.panel-title {
+    font-size: $font-size-h3;
+  }
+}
+
+h4, .h4 {
+  &.panel-title {
+    font-size: $font-size-h4;
+  }
+}
+
+h5, .h5 {
+  &.panel-title {
+    font-size: $font-size-h5;
+  }
+}
+
+h6, .h6 {
+  &.panel-title {
+    font-size: $font-size-h6;
+  }
+}
+
+.panel {
+  .dropdown-menu > & {
     margin-top: -5px;
     margin-bottom: -5px;
   }
 }
 
-.panel-heading{
+.panel-heading {
   border-color: $panel-inner-border;
 }
 
@@ -574,7 +601,7 @@ h6, .h6 { &.panel-title{ font-size: $font-size-h6; }}
 // Tooltips
 // --------------------------------------------------
 
-.tooltip-inner{
+.tooltip-inner {
   @include border-radius(3px);
 }
 
@@ -582,26 +609,24 @@ h6, .h6 { &.panel-title{ font-size: $font-size-h6; }}
 // Alerts
 // --------------------------------------------------
 
-
-.alert-sm{
+.alert-sm {
   padding: 10px 12px;
   font-size: $font-size-mini;
 
-  .close{
+  .close {
     font-size: 18px;
   }
 }
 
-.alert-dismissable .close{
+.alert-dismissable .close {
   position: static;
   color: $close-color;
 }
 
-
 //
 // Popovers
 
-.popover{
+.popover {
   border: none;
   @include box-shadow(none);
 }
@@ -615,16 +640,16 @@ h6, .h6 { &.panel-title{ font-size: $font-size-h6; }}
 // --------------------------------------------------
 
 // z-index fix. modal doesn't show up properly when .content-wrap is relative
-.modal-open{
-  &, &.nav-collapsed, &.nav-static{
-    .content-wrap{
+.modal-open {
+  &, &.nav-collapsed, &.nav-static {
+    .content-wrap {
       -webkit-transform: none;
       -ms-transform: none;
       transform: none;
       position: static;
     }
 
-    .sidebar{
+    .sidebar {
       z-index: -1;
     }
   }
@@ -634,13 +659,13 @@ h6, .h6 { &.panel-title{ font-size: $font-size-h6; }}
 // Pagination
 // --------------------------------------------------
 
-.pagination{
+.pagination {
   font-weight: $font-weight-normal;
 
   > li {
     display: inline; // Remove list-style and block-level defaults
     > a,
-    > span{
+    > span {
       border-radius: $border-radius-base;
       margin: 0 2px;
     }

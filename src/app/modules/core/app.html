@@ -1,13 +1,13 @@
 <div class="qor-app" qor-sidebar-container>
-  <header class="qor-header">
-    <a class="qor-sidebar-toggle" ng-click="vm.toggleSidebar()"><i class="fa fa-bars"></i></a>
+    <header class="qor-header">
+        <a class="qor-sidebar-toggle" ng-click="vm.toggleSidebar()"><i class="fa fa-bars"></i></a>
     <span class="qor-header-userinfo pull-right">
       {{vm.title}}
     </span>
-  </header>
+    </header>
 
-  <nav qor-sidebar></nav>
+    <nav qor-sidebar></nav>
 
-  <main horizontal-ui-view="main" horizontal-scroll class="shuffle-animation" qor-content></main>
+    <main horizontal-ui-view="main" horizontal-scroll class="shuffle-animation" qor-content></main>
 
 </div>

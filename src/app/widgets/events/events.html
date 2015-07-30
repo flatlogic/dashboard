@@ -7,7 +7,9 @@
             </time>
             <section class="event event-padding">
                 <h4 class="event-heading"><a ng-click="showDetails(event)">{{event.title}}</a></h4>
+
                 <p class="fs-sm text-muted">{{::event.timestamp * 1000 | date:'EEEE, MMMM d, y HH:mm:ss'}}</p>
+
                 <p class="fs-mini">
                     {{::event.description}}
                 </p>

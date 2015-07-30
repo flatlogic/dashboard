@@ -1,7 +1,7 @@
-(function() {
+(function () {
     'use strict';
 
-    var composeController = angular.createAuthorizedController('ComposeController', ['$scope', '$rootScope', '$location', function($scope, $rootScope, $location) {
+    var composeController = angular.createAuthorizedController('ComposeController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     }]);
 
