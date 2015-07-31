@@ -545,8 +545,8 @@ $stat-blue-color: #7986CB;
 
 .user-actions {
 
+  transition: all 100ms ease-in-out;
   position: fixed;
-  left: 5px;
   bottom: 0;
   z-index: 999;
 
@@ -557,25 +557,27 @@ $stat-blue-color: #7986CB;
   opacity: 0.0;
 
   > .user-action {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     display: inline-block;
     position: relative;
+    left: 10px;
     background-color: #ffffff;
     border-radius: 2px;
-    box-shadow: 0 0 5px;
+    border-top: 1px solid #c9c9c9;
     padding: 10px;
-    width: 70px;
+    width: 65px;
     text-align: center;
     cursor: pointer;
 
-    color: $qor-sidebar-color;
+
 
     > div > i {
       font-size: 20px;
     }
 
     &:hover {
-      background-color: $qor-sidebar-item-hover-bg-color;
+      background-color: #eaeaea;
+      transition: background-color 250ms ease-in-out;
     }
   }
 }
