@@ -49,6 +49,11 @@
             $scope.selectedVersion[instance] = $scope.service.versions[0];
         });
 
+        /**
+         * Checks that candidate is exist in instance array of current selected service
+         * @param candidate Value to check
+         * @returns {boolean}
+         */
         var isInstance = function (candidate) {
             for (var i in $scope.service.instances) {
                 if ($scope.service.instances[i] == candidate) {
@@ -58,10 +63,21 @@
             return false
         };
 
+        /**
+         * Change selected version in the table header
+         * @param instance Instance name for version change
+         * @param newVersion version to change
+         */
         $scope.changeSelectedVersion = function (instance, newVersion) {
             $scope.selectedVersion[instance] = newVersion;
         };
 
+        /**
+         * Checks that version in instance has live status
+         * @param instance
+         * @param version
+         * @returns {boolean}
+         */
         $scope.isLive = function (instance, version) {
             return $scope.service.live[instance] == version;
         };
@@ -82,17 +98,58 @@
             return true;
         }
 
+        /**
+         * Checks that we have something to save (using for displaying save button)
+         * @returns {boolean}
+         */
         $scope.isSavable = function () {
             return !isEmpty($scope.itemsForSave) || !isEmpty($scope.itemsForDelete);
         };
 
+        /**
+         * Function or making delete request (doesn't work without function because of some magic)
+         * @param instance
+         * @param version
+         */
+        var makeDeleteRequest = function(instance, version) {
+                var request = {
+                    method: 'PATCH',
+                    url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.service.service + '/' + version,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Dash-Version': $scope.dashVersions[version]
+                    },
+                    data: {
+                        delete: $scope.itemsForDelete
+                    }
+                };
+
+                $http(request)
+                    .success(function (response) {
+                        debugger;
+                        $('#env-save-button').button('reset');
+                    })
+                    .error(function () {
+                        debugger;
+                        $('#env-save-button').button('reset');
+                    });
+        };
+
+        /**
+         * Listener for save button
+         */
         $scope.save = function () {
             $('#env-save-button').button('loading');
 
-            if (!$scope.itemsForSave && $scope.itemsForDelete.length != 0) {
-                // TODO send delete request
+            // If we have only deleted variable we need to send special request
+            if (isEmpty($scope.itemsForSave) && !isEmpty($scope.itemsForDelete)) {
+                var instance = $scope.service.instances[0];
+                var version = $scope.service.versions[0];
+
+                makeDeleteRequest(instance, version);
             }
 
+            // Add new items to array for saving
             if ($scope.newItemsCount != 0) {
                 for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
                     var objToAdd = $scope.values[i];
@@ -145,6 +202,9 @@
             $scope.itemsForDelete = [];
         };
 
+        /**
+         * Add value listener. Add empty value to items array and increment new items count.
+         */
         $scope.addValue = function () {
             var obj = {};
             obj.name = "";
@@ -158,13 +218,14 @@
             $scope.newItemsCount++;
         };
 
-
+        /**
+         * Download and write all version variables
+         */
         $scope.service.instances.forEach(function (instance) {
             for (var i in $scope.service.versions) {
                 var version = $scope.service.versions[i];
                 var request = {
                     method: 'GET',
-                    //url: 'https://ops-dev.blinker.com/v1/env/blinker.com/ops-dev/blinker/develop',
                     url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.service.service + '/' + version,
                     headers: {
                         'Content-Type': 'application/json'
@@ -200,6 +261,9 @@
             }
         });
 
+        /**
+         * Format downloaded variables to the displaying array
+         */
         function formatValues() {
             for (var index in $scope.val1) {
                 $scope.val1[index]['name'] = index;
@@ -207,6 +271,13 @@
             }
         }
 
+        /**
+         * Calling after editing of some variable
+         * @param name name of the edited variable
+         * @param newValue
+         * @param instance
+         * @param version
+         */
         $scope.updateValues = function (name, newValue, instance, version) {
             if (!$scope.itemsForSave[instance]) {
                 $scope.itemsForSave[instance] = [];
@@ -227,9 +298,15 @@
             }
         };
 
+        /**
+         * Calls after clicking delete button on some value in the table
+         * @param name
+         */
         $scope.deleteValue = function (name) {
 
-            $scope.itemsForDelete.push(name);
+            if (name) {
+                $scope.itemsForDelete.push(name);
+            }
 
             for (var valueIndex in $scope.values) {
                 if ($scope.values[valueIndex].name == name) {
@@ -272,7 +349,8 @@
                 isName: '=isName',
                 parent: '=',
                 version: '=',
-                instance: '='
+                instance: '=',
+                changeSelected: '='
             },
             link: function (scope, elm, attr) {
                 var previousValue;
@@ -309,6 +387,65 @@
                         }
                     }
                     return true;
+                };
+
+                scope.isLeftVersionAvailable = function() {
+                    var i = 0;
+                    for (var versionIndex in scope.parent) {
+                        ++i;
+                        if (versionIndex == scope.version) {
+                            if (i > 1) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                };
+
+                scope.isRightVersionAvailable = function() {
+                    var i = 0, j = 0;
+                    for (var versionIndex in scope.parent) {
+                        ++i;
+                        if (versionIndex == scope.version) {
+                            j = i;
+                        }
+                    }
+                    return (i - j) > 0;
+                };
+
+                scope.changeVersionToTheRight = function() {
+                    if (!scope.isRightVersionAvailable()) {
+                        return;
+                    }
+
+                    var blocked = false;
+                    for (var versionIndex in scope.parent) {
+                        if (blocked) {
+                            scope.changeSelected(scope.instance, versionIndex);
+                            return;
+                        }
+                        if (versionIndex == scope.version) {
+                            blocked++;
+                        }
+                    }
+                };
+
+                scope.changeVersionToTheLeft = function() {
+                    if (!scope.isLeftVersionAvailable()) {
+                        return;
+                    }
+
+                    var previousVersion = null;
+                    for (var versionIndex in scope.parent) {
+                        if (versionIndex == scope.version) {
+                            if (!previousVersion) {
+                                continue;
+                            } else {
+                                scope.changeSelected(scope.instance, previousVersion);
+                            }
+                        }
+                        previousVersion = versionIndex;
+                    }
                 };
 
                 scope.cancel = function () {
