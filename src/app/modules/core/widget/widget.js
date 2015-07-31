@@ -9,6 +9,7 @@
     qlWidget.$inject = ['user', '$templateRequest', '$compile'];
     function qlWidget(user, $templateRequest, $compile) {
         return {
+            replace: true,
             link: function ($scope, $element, $attr) {
 
                 $scope.wsUrl = $attr.wsUrl;
