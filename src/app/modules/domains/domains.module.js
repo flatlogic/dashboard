@@ -8,7 +8,14 @@
         'qorDash.widget.domain_stat',
         'qorDash.widget.network',
         'qorDash.widget.domain_details',
-        'qorDash.widget.container'
+        'qorDash.widget.container',
+        'qorDash.domains.domain',
+        'qorDash.domains.env',
+        'qorDash.domains.env.network',
+        'qorDash.domains.env.network.node',
+        'qorDash.domains.env.network.note.logs',
+        'qorDash.domains.env.resources',
+        'log_details'
 
     ]);
 
@@ -27,46 +34,7 @@
                     }
                 },
                 authenticate: true
-            })
-            .state('app.domains.domain', {
-                url: '/:id',
-                templateUrl: 'app/modules/domains/domain/domain.html',
-                controller: 'DomainController',
-                authenticate: true
-            })
-            .state('app.domains.domain.env', {
-                url: '/:env',
-                templateUrl: 'app/modules/domains/environment/environment.html',
-                controller: 'DomainEnvironmentController',
-                authenticate: true
-            })
-            .state('app.domains.domain.env.network', {
-                url: '/network',
-                templateUrl: 'app/modules/domains/network/network.html',
-                authenticate: true
-            })
-            .state('app.domains.domain.env.network.node', {
-                url: '/:depth/:node',
-                templateUrl: 'app/modules/domains/node/node.html',
-                controller: 'DomainNodeController',
-                authenticate: true
-            })
-            .state('app.domains.domain.env.network.node.logs', {
-                url: '/logs',
-                templateUrl: 'app/modules/domains/node-logs/node-logs.html',
-                authenticate: true
-            })
-            .state('app.domains.domain.env.resources', {
-                url: '/resources',
-                templateUrl: 'app/modules/domains/resources/resources.html',
-                authenticate: true
             });
-
-        $stateProvider.state('log_details', {
-            url: '/log-details',
-            templateUrl: 'app/modules/domains/node-logs/log-details.html',
-            authenticate: false
-        });
 
         $qorSidebarProvider.config('domains', {
             title: 'Environments',
