@@ -3,7 +3,10 @@
 
     var module = angular.module('qorDash.orchestrate', [
         'ui.router',
-        'qorDash.widget.traffic'
+        'qorDash.orchestrate.domain',
+        'qorDash.orchestrate.domain.instance',
+        'qorDash.orchestrate.domain.instance.history',
+        'qorDash.orchestrate.domain.instance.history.option'
     ]);
 
     module.config(appConfig);
@@ -20,33 +23,6 @@
                         controller: 'OrchestrateController'
                     }
                 },
-                authenticate: true
-            })
-            .state('app.orchestrate.domain', {
-                url: '/:id',
-                templateUrl: 'app/modules/orchestrate/domain/domain.html',
-                controller: 'OrchestrateDomainController',
-                authenticate: true
-            })
-
-            .state('app.orchestrate.domain.instance', {
-                url: '/:inst',
-                templateUrl: 'app/modules/orchestrate/instance/instance.html',
-                controller: 'OrchestrateInstanceController',
-                authenticate: true
-            })
-
-            .state('app.orchestrate.domain.instance.history', {
-                url: '/:opt',
-                templateUrl: 'app/modules/orchestrate/history/history.html',
-                controller: 'OrchestrateHistoryController',
-                authenticate: true
-            })
-
-            .state('app.orchestrate.domain.instance.history.option', {
-                url: '/:opt_id',
-                templateUrl: 'app/modules/orchestrate/option/option.html',
-                controller: 'OrchestrateOptionController',
                 authenticate: true
             });
 

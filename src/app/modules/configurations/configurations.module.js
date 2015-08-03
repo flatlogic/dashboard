@@ -3,7 +3,10 @@
 
     var module = angular.module('qorDash.configurations', [
         'ui.router',
-        'ui.codemirror'
+        'ui.codemirror',
+        'qorDash.configurations.services',
+        'qorDash.configurations.services.editor',
+        'qorDash.configurations.services.editor.files'
     ]);
 
     module.config(appConfig);
@@ -20,24 +23,6 @@
                         controller: 'ConfigurationsController'
                     }
                 },
-                authenticate: true
-            })
-            .state('app.configurations.services', {
-                url: '/:domain',
-                templateUrl: 'app/modules/configurations/services/services.html',
-                controller: 'ServicesController',
-                authenticate: true
-            })
-            .state('app.configurations.services.editor', {
-                url: '/:service',
-                templateUrl: 'app/modules/configurations/editor/editor.html',
-                controller: 'EditorController',
-                authenticate: true
-            })
-            .state('app.configurations.services.editor.files', {
-                url: '/files',
-                templateUrl: 'app/modules/configurations/files/files.html',
-                controller: 'FilesController',
                 authenticate: true
             });
 
