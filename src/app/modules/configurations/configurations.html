@@ -9,12 +9,8 @@
                 {{domain.name}}
             </a>
         </div>
-        <!--<div class="list-group text-left ng-scope" >-->
-        <!--<a class="list-group-item" ng-repeat="environment in environments"-->
-        <!--ui-sref-active="active"-->
-        <!--ui-sref="app.domains.env({env : environment.name})" >-->
-        <!--{{environment.name}}-->
-        <!--</a>-->
-        <!--</div>-->
+        <div id="env-loader" ng-hide="domains">
+            <img src="../assets/images/cube.gif">
+        </div>
     </div>
 </section>
