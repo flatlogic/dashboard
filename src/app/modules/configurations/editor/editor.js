@@ -126,11 +126,11 @@
 
                 $http(request)
                     .success(function (response) {
-                        debugger;
+                        alert('Saved successfully');
                         $('#env-save-button').button('reset');
                     })
-                    .error(function () {
-                        debugger;
+                    .error(function (error) {
+                        alert('Saving error' + error);
                         $('#env-save-button').button('reset');
                     });
         };
@@ -188,11 +188,11 @@
                     };
                     $http(request)
                         .success(function (response) {
-                            debugger;
+                            alert('Saved successfully');
                             $('#env-save-button').button('reset');
                         })
-                        .error(function () {
-                            debugger;
+                        .error(function (error) {
+                            alert('Saving error' + error);
                             $('#env-save-button').button('reset');
                         });
                 }
@@ -249,7 +249,11 @@
                                 $scope.val1[varName][instance][version] = {};
                             }
 
-                            $scope.val1[varName][instance][version]['value'] = data[varName] + version;
+                            if (data[varName]) {
+                                $scope.val1[varName][instance][version]['value'] = data[varName];
+                            } else {
+                                $scope.val1[varName][instance][version]['value'] = '-';
+                            }
 
                             $scope.dashVersions[version] = headers('X-Dash-Version');
                         }
@@ -350,7 +354,8 @@
                 parent: '=',
                 version: '=',
                 instance: '=',
-                changeSelected: '='
+                changeSelected: '=',
+                versions: '='
             },
             link: function (scope, elm, attr) {
                 var previousValue;
@@ -391,9 +396,9 @@
 
                 scope.isLeftVersionAvailable = function() {
                     var i = 0;
-                    for (var versionIndex in scope.parent) {
+                    for (var versionIndex in scope.versions) {
                         ++i;
-                        if (versionIndex == scope.version) {
+                        if (scope.versions[versionIndex] == scope.version) {
                             if (i > 1) {
                                 return true;
                             }
@@ -404,9 +409,9 @@
 
                 scope.isRightVersionAvailable = function() {
                     var i = 0, j = 0;
-                    for (var versionIndex in scope.parent) {
+                    for (var versionIndex in scope.versions) {
                         ++i;
-                        if (versionIndex == scope.version) {
+                        if (scope.versions[versionIndex] == scope.version) {
                             j = i;
                         }
                     }
@@ -419,12 +424,12 @@
                     }
 
                     var blocked = false;
-                    for (var versionIndex in scope.parent) {
+                    for (var versionIndex in scope.versions) {
                         if (blocked) {
-                            scope.changeSelected(scope.instance, versionIndex);
+                            scope.changeSelected(scope.instance, scope.versions[versionIndex]);
                             return;
                         }
-                        if (versionIndex == scope.version) {
+                        if (scope.versions[versionIndex] == scope.version) {
                             blocked++;
                         }
                     }
@@ -436,15 +441,15 @@
                     }
 
                     var previousVersion = null;
-                    for (var versionIndex in scope.parent) {
-                        if (versionIndex == scope.version) {
+                    for (var versionIndex in scope.versions) {
+                        if (scope.versions[versionIndex] == scope.version) {
                             if (!previousVersion) {
                                 continue;
                             } else {
                                 scope.changeSelected(scope.instance, previousVersion);
                             }
                         }
-                        previousVersion = versionIndex;
+                        previousVersion = scope.versions[versionIndex];
                     }
                 };
 

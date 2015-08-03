@@ -34,6 +34,7 @@
                             {{value.name}}
                         </th>
                         <th ng-repeat="instance in service.instances" parent="value[instance]" key="value.name"
+                            versions="service.versions"
                             instance="instance" version="selectedVersion[instance]"
                             inline-edit="value[instance][selectedVersion[instance]]['value']"
                             change-selected="changeSelectedVersion"
