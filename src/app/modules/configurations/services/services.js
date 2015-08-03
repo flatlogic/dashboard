@@ -3,28 +3,17 @@
 
     angular.module('qorDash.configurations');
 
-    servicesController.$inject = ['$scope', '$stateParams'];
-    function servicesController($scope, $stateParams) {
-        $scope.domain = $scope.domains.filter(function (domain) {
-            return domain.id == $stateParams.domain;
-        })[0];
+    servicesController.$inject = ['$scope', '$stateParams', '$http', 'API_URL'];
+    function servicesController($scope, $stateParams, $http, API_URL) {
+        var domainId = $stateParams.domain;
 
-        var subs = [
-            {
-                "service": "blinker",
-                "instances": [ "ops-dev", "staging", "production" ],
-                "versions": [ "develop", "v1.0", "v1.1" ]
-            },
-            {
-                "service": "vdp",
-                "instances": [ "ops-dev", "staging", "production" ],
-                "versions": [ "v0.1", "v1.0" ]
-            }
-        ];
-
-        if (!$scope.services) {
-            $scope.services = subs;
-        }
+        $http.get(API_URL + '/v1/env/' + domainId + '/')
+            .success(function (response, status, headers) {
+                $scope.services = response;
+            })
+            .error(function (response, status) {
+                // TODO Add error message
+            });
     }
 
     angular.module('qorDash.configurations')

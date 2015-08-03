@@ -1,11 +1,18 @@
 (function () {
     'use strict';
 
-    var configurationsController = angular.createAuthorizedController('ConfigurationsController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
-        $scope.domains = [
-            {"id": "api.foo.com", "name": "Api", "url": "https://server.com/domain/api.foo.com" },
-            {"id": "blinker.com", "name": "Blinker", "url": "https://server.com/domain/blinker.com"}
-        ];
+    var configurationsController = angular.createAuthorizedController('ConfigurationsController', ['$scope', '$http', '$stateParams', 'API_URL', function ($scope, $http, $stateParams, API_URL) {
+        $http.get(API_URL + '/v1/domain/')
+            .success(function (response, status, headers) {
+                $scope.domains = response;
+
+                $scope.domain = $scope.domains.filter(function (domain) {
+                    return domain.id == $stateParams.id;
+                })[0];
+            })
+            .error(function (response, code) {
+                // TODO Add error message
+            });
     }]);
 
     angular.module('qorDash.configurations')

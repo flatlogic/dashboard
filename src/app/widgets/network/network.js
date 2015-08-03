@@ -28,6 +28,27 @@
         }
     }
 
+    function findNodeByName(currentNode, name) {
+        return findNodeInner(currentNode, name);
+
+        function findNodeInner(currentNode, name) {
+            var i, currentChild, result;
+            if (name == currentNode.name) {
+                return currentNode;
+            } else if (currentNode._children) {
+                for (i = 0; i < currentNode._children.length; i++) {
+                    currentChild = currentNode._children[i];
+                    result = findNodeInner(currentChild, name);
+                    if (result) {
+                        return result;
+                    }
+                }
+            } else {
+                return void 0;
+            }
+        }
+    }
+
     qlNetwork.$inject = ['d3', '$window', '$stateParams', '$state', '$http', '$timeout'];
     function qlNetwork(d3, $window, $stateParams, $state, $http, $timeout) {
         return {
@@ -52,9 +73,13 @@
                         $state.go('app.domains.domain.env.network.node', {depth: root.depth, node: root.name});
                     }
 
+                    scope.highlightNode = function(root, nodeName, type) {
+                        var node = findNodeByName(root, nodeName);
+                        node['_highlight'] = type;
+                    };
+
                     scope.render = function (data) {
                         var root = data;
-
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
@@ -209,6 +234,9 @@
                             }
 
                             function display(d, navigate) {
+
+                                scope.highlightNode(root, 'sg-appserver', 'error');
+
                                 var navigationItem = grandparent
                                     .selectAll("li")
                                     .data(traverseParents(d));
@@ -250,6 +278,9 @@
                                     .attr("class", "parent")
                                     .call(rect)
                                     .on("click", transition)
+                                    .classed('highlight-error', function(d) {
+                                        return findNodeByName(root, d.name)._highlight == 'error';
+                                    })
                                     .append("title")
                                     .text(function (d) {
                                         return formatNumber(d.value);

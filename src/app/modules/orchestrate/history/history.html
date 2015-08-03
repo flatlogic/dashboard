@@ -1,15 +1,15 @@
 <section horizontal-ui-sheet class="qor-sheet-s">
-    <header horizontal-ui-sheet-header title="{{domain.name}}">
+    <header horizontal-ui-sheet-header title="{{title}}">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="environment in domain.instances"
+            <a class="list-group-item" ng-repeat="call in previousCalls"
                ui-sref-active="active"
-               ui-sref="app.domains.domain.env({env : environment})">
-                {{environment}}
+               ui-sref="app.orchestrate.domain.instance.history.option({opt_id : call.id})">
+                {{call.note}}
             </a>
         </div>
-        <div id="env-loader" ng-hide="domain">
+        <div id="env-loader" ng-hide="previousCalls">
             <img src="../assets/images/cube.gif">
         </div>
     </div>

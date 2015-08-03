@@ -121,6 +121,7 @@ $stat-blue-color: #7986CB;
   min-height: 100%;
   list-style: none;
   padding-left: 0;
+  padding-top: 10px;
   margin-bottom: -40px; /* content padding bottom */
   padding-bottom: 80px;
 
@@ -549,8 +550,8 @@ $stat-blue-color: #7986CB;
 
 .user-actions {
 
-  transition: all 100ms ease-in-out;
   position: fixed;
+  left: 5px;
   bottom: 0;
   z-index: 999;
 
@@ -561,27 +562,25 @@ $stat-blue-color: #7986CB;
   opacity: 0.0;
 
   > .user-action {
-    margin-bottom: 0px;
+    margin-bottom: 5px;
     display: inline-block;
     position: relative;
-    left: 10px;
     background-color: #ffffff;
     border-radius: 2px;
-    border-top: 1px solid #c9c9c9;
+    box-shadow: 0 0 5px;
     padding: 10px;
-    width: 65px;
+    width: 70px;
     text-align: center;
     cursor: pointer;
 
-
+    color: $qor-sidebar-color;
 
     > div > i {
       font-size: 20px;
     }
 
     &:hover {
-      background-color: #eaeaea;
-      transition: background-color 250ms ease-in-out;
+      background-color: $qor-sidebar-item-hover-bg-color;
     }
   }
 }

@@ -36,8 +36,15 @@
                 authenticate: true
             })
 
-            .state('app.orchestrate.domain.instance.option', {
+            .state('app.orchestrate.domain.instance.history', {
                 url: '/:opt',
+                templateUrl: 'app/modules/orchestrate/history/history.html',
+                controller: 'OrchestrateHistoryController',
+                authenticate: true
+            })
+
+            .state('app.orchestrate.domain.instance.history.option', {
+                url: '/:opt_id',
                 templateUrl: 'app/modules/orchestrate/option/option.html',
                 controller: 'OrchestrateOptionController',
                 authenticate: true

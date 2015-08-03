@@ -8,54 +8,66 @@
         ])
     ;
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$timeout', '$http', 'API_URL', '$compile'];
-    function orchestrateOptionController($scope, $stateParams, $timeout, $http, API_URL, $compile) {
+    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile'];
+    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile) {
 
         $scope.title = $stateParams.opt;
-
-        $scope.workflow = $scope.workflows.filter(function (workflow) {
-            return workflow.name == $stateParams.opt;
-        })[0];
 
         var getType = function (value) {
             return ({}).toString.call(value).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
         };
 
-        for (var index in $scope.workflow.default_input) {
-            var value = $scope.workflow.default_input[index];
+        var domain = $stateParams.id,
+            instance = $stateParams.inst,
+            opt = $stateParams.opt,
+            optId = $stateParams.opt_id;
 
-            switch (getType(value)) {
-                case "string":
-                    $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                        '<div class="col-md-4">' +
-                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
-                        '</div>' +
-                        '</div>');
-                    break;
-                case "number":
-                    $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                        '<div class="col-md-4">' +
-                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
-                        '</div>' +
-                        '</div>');
-                    break;
-                case "boolean":
-                    var checked = value ? 'checked' : '';
-                    $('#dynamic-form').append('<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                        '<div class="col-md-4">' +
-                        '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" ' + checked + '>' + '<label for="input-' + index + '"></label>' +
-                        '</div>' +
-                        '</div>');
-                    break;
-                default:
-                    break;
-            }
+        $http.get(API_URL + '/v1/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId)
+            .success(function (response, status, headers) {
 
-            $scope.sendMessage = function () {
-                $('#sendMessageButton').button('loading');
+                $scope.workflow = response;
+                for (var index in $scope.workflow.context) {
+                    var value = $scope.workflow.context[index];
+
+                    switch (getType(value)) {
+                        case "string":
+                            $('#dynamic-form').append('<div class="form-group" > ' +
+                                '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
+                                '<div class="col-md-4">' +
+                                '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
+                                '</div>' +
+                                '</div>');
+                            break;
+                        case "number":
+                            $('#dynamic-form').append('<div class="form-group" > ' +
+                                '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
+                                '<div class="col-md-4">' +
+                                '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
+                                '</div>' +
+                                '</div>');
+                            break;
+                        case "boolean":
+                            var checked = value ? 'checked' : '';
+                            $('#dynamic-form').append('<div class="form-group" > ' +
+                                '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
+                                '<div class="col-md-4">' +
+                                '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" ' + checked + '>' + '<label for="input-' + index + '"></label>' +
+                                '</div>' +
+                                '</div>');
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            })
+            .error (function (response, status) {
+                // TODO Error handler
+            });
+
+        $scope.sendMessage = function () {
+            $('#sendMessageButton').button('loading');
+
+            if (!$scope.workflow.model) {
 
                 var data = {};
 
@@ -77,6 +89,9 @@
                         $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="wss://ops-dev.blinker.com' + response.log_ws_url + '"></div>')($scope));
                         $('#sendMessageButton').button('reset');
                     });
+            } else {
+                var wsUrl = 'wss://ops-dev.blinker.com/v1/ws/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId;
+                $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="'+ wsUrl +'"></div>')($scope));
             }
         }
     }

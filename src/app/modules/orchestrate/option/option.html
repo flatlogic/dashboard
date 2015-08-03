@@ -2,6 +2,9 @@
     <header horizontal-ui-sheet-header title="{{title}}">
     </header>
     <div horizontal-ui-sheet-content>
+        <div id="env-loader" ng-hide="workflow">
+            <img src="../assets/images/cube.gif">
+        </div>
         <form class="form-horizontal orchestration-parameters">
             <fieldset id="dynamic-form">
             </fieldset>
@@ -9,7 +12,7 @@
             <div class="form-group">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 text-align-right">
-                    <button type="button" ng-click="sendMessage()" id="sendMessageButton" class="btn qor-btn-primary">
+                    <button type="button" ng-click="sendMessage()" ng-show="workflow" id="sendMessageButton" class="btn qor-btn-primary">
                         Run
                     </button>
                 </div>
