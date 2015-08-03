@@ -148,6 +148,10 @@ $stat-blue-color: #7986CB;
     }
   }
 
+  .margin-top-timeline & {
+    margin-top: $line-height-computed;
+  }
+
 }
 
 .event {
