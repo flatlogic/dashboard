@@ -3,13 +3,13 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="workflow in workflows"
+            <a class="list-group-item" ng-repeat="call in previousCalls"
                ui-sref-active="active"
-               ui-sref="app.orchestrate.domain.instance.history({opt : workflow.name})">
-                {{workflow.label}}
+               ui-sref="app.orchestrate.domain.instance.history.option({opt_id : call.id})">
+                {{call.note}}
             </a>
         </div>
-        <div id="env-loader" ng-hide="workflows.length">
+        <div id="env-loader" ng-hide="previousCalls">
             <img src="../assets/images/cube.gif">
         </div>
     </div>

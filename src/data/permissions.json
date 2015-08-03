@@ -12,6 +12,7 @@
     "DomainsController": "my_account",
     "ComposeController": "my_account",
     "DomainStatController": "my_account",
+    "OrchestrateHistoryController": "my_account",
     "domain_stat": "my_account",
     "domain_details": "my_account",
     "DomainDetailsController": "my_account",
