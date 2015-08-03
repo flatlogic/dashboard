@@ -66,16 +66,19 @@
     fill: #fff;
 
     &:hover {
-      fill: #e3e9f6;
+      fill: #dae0ed;
     }
   }
 
   rect.child {
-    fill: #a9caff;
-
+    fill: #fff;
     &:hover {
-      fill: #8fadff;
+      fill: #dae0ed;
+      fill-opacity: 0.3;
     }
+  }
+  rect.child-header {
+    fill: #dae0ed;
   }
 
   .placeholder,
