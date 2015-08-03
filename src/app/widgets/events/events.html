@@ -1,5 +1,5 @@
 <div id="events">
-    <ul class="timeline" style="padding: 0px; margin-bottom: 0px;" ng-controller="EventsController">
+    <ul class="timeline" style="padding: 10px 0 0 0; margin-bottom: 0px;" ng-controller="EventsController">
         <li class="on-left" ng-repeat="event in events" id="{{::event.id | limitTo:7}}">
             <time class="event-time" datetime="{{::event.timestamp}}">
                 <span class="date">{{::event.timestamp * 1000 | date: 'EEE'}}</span>

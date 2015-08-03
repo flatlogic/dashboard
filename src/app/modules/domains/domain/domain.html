@@ -3,10 +3,10 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="environment in environments"
+            <a class="list-group-item" ng-repeat="environment in domain.instances"
                ui-sref-active="active"
-               ui-sref="app.domains.domain.env({env : environment.name})">
-                {{environment.name}}
+               ui-sref="app.domains.domain.env({env : environment})">
+                {{environment}}
             </a>
         </div>
     </div>
