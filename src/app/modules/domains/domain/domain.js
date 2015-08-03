@@ -4,11 +4,11 @@
     angular.module('qorDash.domains')
         .controller('DomainController', domainController);
 
-    domainController.$inject = ['$scope', '$stateParams', '$http'];
-    function domainController($scope, $stateParams, $http) {
+    domainController.$inject = ['$scope', '$stateParams', '$http', 'API_URL'];
+    function domainController($scope, $stateParams, $http, API_URL) {
         var domainId = $stateParams.id;
 
-        $http.get('https://ops-dev.blinker.com/v1/domain/' + domainId)
+        $http.get(API_URL + '/v1/domain/' + domainId)
             .success(function (response, status, headers) {
                 $scope.domain = response;
             })
@@ -16,4 +16,5 @@
                 // TODO Add error message
             });
     }
+
 })();

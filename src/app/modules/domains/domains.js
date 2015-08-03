@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    var domainsController = angular.createAuthorizedController('DomainsController', ['$scope', '$stateParams', '$http', function ($scope, $stateParams, $http) {
+    var domainsController = angular.createAuthorizedController('DomainsController', ['$scope', '$stateParams', '$http', 'API_URL', function ($scope, $stateParams, $http, API_URL) {
 
-        $http.get('https://ops-dev.blinker.com/v1/domain/')
+        $http.get(API_URL + '/v1/domain/')
             .success(function (response, status, headers) {
                 $scope.domains = response;
 
