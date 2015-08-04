@@ -60,7 +60,7 @@ $font-size-mini: $font-size-base - 1;
 
 $font-weight-bold: 700 !default;
 $font-weight-semi-bold: 600 !default;
-$font-weight-normal: 400 !default;
+$font-weight-normal: 500 !default;
 $font-weight-thin: 300 !default;
 $font-weight-base: $font-weight-thin !default;
 
@@ -145,6 +145,14 @@ $table-bg-hover: $gray-lighter !default;
 //
 
 $btn-default-bg: $addition-bg !default;
+
+//== List group
+//
+$list-group-active-bg: #fff;
+$list-group-active-color: #000000;
+$list-group-bg: rgba(0,0,0,0);
+$list-group-border: rgba(0,0,0,0);
+$list-group-hover-bg: #f7f7f7;
 
 //== Dropdowns
 //
@@ -240,6 +248,10 @@ $breadcrumb-bg: transparent !default;
 $breadcrumb-color: $text-color !default;
 $breadcrumb-active-color: $text-color !default;
 $breadcrumb-separator: ">" !default;
+
+//== GrandParent Breadcrumb
+//
+$grandparent-breadcrumb-text-color: #C75E5E;
 
 //== Pagination
 //

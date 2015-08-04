@@ -519,23 +519,6 @@ iframe.ui-layout-mask {
   }
 }
 
-.list-group-item {
-  &.active {
-    background-color: #B3B3B3;
-    border-color: #B3B3B3;
-
-    &:focus {
-      background-color: #B3B3B3;
-      border-color: #B3B3B3;
-    }
-
-    &:hover {
-      background-color: #B3B3B3;
-      border-color: #B3B3B3;
-    }
-  }
-}
-
 .form-control-feedback {
   color: #B3B3B3;
 }

@@ -4,19 +4,20 @@
  */
 
 $qor-sheet-bg: #f0f0f0;
-$qor-sheet-header-bg: #fff;
+$qor-sheet-close: #fff;
+$qor-sheet-header-bg: #464C64;
 $qor-sheet-header-height: 50px;
 $qor-sheet-header-height-sm: 50px;
 $qor-sheet-padding-vertical: 15px;
 $qor-sheet-padding-horizontal: 15px;
 
 $qor-sidebar-width: 80px !default;
-$qor-sidebar-bg-color: #ffffff !default;
-$qor-sidebar-color: #7e7e7e !default;
-$qor-sidebar-item-border-color: #cccccc !default;
+$qor-sidebar-bg-color: #181F3B !default;
+$qor-sidebar-color: #fff !default;
+$qor-sidebar-item-border-color: rgba(#cccccc, .5) !default;
 $qor-sidebar-active-bg-color: #ededed !default;
 $qor-sidebar-item-active-color: #4e4e4e !default;
-$qor-sidebar-item-hover-bg-color: #ededed !default;
+$qor-sidebar-item-hover-bg-color: #464B65 !default;
 $qor-sidebar-body-bg-color: #bdbdbd !default;
 $qor-sidebar-padding-horizontal: 11px;
 $qor-sidebar-transition-time: .3s !default;
@@ -128,7 +129,7 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
   line-height: 1;
   padding-top: 5px;
   text-transform: uppercase;
-  color: #F1B354;
+  color: #fff;
   font-weight: $font-weight-normal;
 }
 
@@ -175,7 +176,7 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
   }
 
   .qor-sheet-close {
-
+    color: $qor-sheet-close;
   }
 }
 
@@ -322,14 +323,15 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
       display: block;
       content: ' ';
       height: 0;
-      border-top: 1px solid $qor-sidebar-item-border-color;
       position: relative;
       margin-left: 6px;
       margin-right: 0px;
       top: -10px;
       margin-top: -2px;
     }
-
+    &:first-child{
+      transition: all 100ms ease-in-out;
+    }
     &:before {
       top: -10px;
       margin-top: -2px;
@@ -348,8 +350,8 @@ $qor-header-bg-color: $qor-sidebar-bg-color;
       //      background-color: $qor-sidebar-active-bg-color;
       //      color: $qor-sidebar-item-active-color;
 
-      border-right: 5px solid #EEA22D;
-      padding-right: 0px;
+      background-color: $qor-sidebar-item-hover-bg-color;
+      color: #ECAA57;
 
       .group-icon {
         //color: $brand-warning;

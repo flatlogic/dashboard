@@ -27,12 +27,12 @@
       font-size: $font-size-mini;
 
       &:hover {
-        color: $text-color;
+        color: $grandparent-breadcrumb-text-color;
       }
     }
 
     > li:last-child > a {
-      color: $text-color;
+      color: $grandparent-breadcrumb-text-color;
       font-weight: $font-weight-semi-bold;
     }
 

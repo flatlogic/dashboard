@@ -718,7 +718,7 @@
       &,
       &:focus,
       &:hover {
-        background-color: rgba(255, 255, 255, .1);
+        background-color: rgba(255, 255, 255, 1);
         color: $brand-warning;
       }
 
@@ -1145,4 +1145,10 @@ input[type=search], input.search {
   z-index: 2;
   margin-top: $content-padding-top;
   margin-right: $content-padding-horizontal;
+}
+/***********************************/
+/**          List Group           **/
+/***********************************/
+.list-group-item{
+  @include border-radius($list-group-border-radius)
 }
