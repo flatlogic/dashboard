@@ -1,10 +1,14 @@
 (function () {
     'use strict';
 
-    var orchestrateController = angular.createAuthorizedController('OrchestrateController', ['$scope', '$stateParams', '$http', 'API_URL', function ($scope, $stateParams, $http, API_URL) {
+    var orchestrateController = angular.createAuthorizedController('OrchestrateController', ['$scope', '$state', '$stateParams', '$http', 'API_URL', function ($scope, $state, $stateParams, $http, API_URL) {
         $http.get(API_URL + '/v1/domain/')
             .success(function (response, status, headers) {
                 $scope.domains = response;
+
+                if($scope.domains.length === 1){
+                    $state.go('app.orchestrate.domain', {id:$scope.domains[0].id})
+                }
 
                 $scope.domain = $scope.domains.filter(function (domain) {
                     return domain.id == $stateParams.id;

@@ -3,8 +3,8 @@
 
     angular.module('qorDash.configurations');
 
-    servicesController.$inject = ['$scope', '$stateParams', '$http', 'API_URL'];
-    function servicesController($scope, $stateParams, $http, API_URL) {
+    servicesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL'];
+    function servicesController($scope, $state, $stateParams, $http, API_URL) {
         var domainId = $stateParams.domain;
 
         $scope.$watch('domains', function() {
@@ -20,6 +20,11 @@
         $http.get(API_URL + '/v1/env/' + domainId + '/')
             .success(function (response, status, headers) {
                 $scope.services = response;
+
+                if($scope.services.length === 1){
+                    $state.go('app.configurations.services.editor', {service: $scope.services[0].service})
+                }
+
             })
             .error(function (response, status) {
                 // TODO Add error message
