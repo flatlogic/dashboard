@@ -610,6 +610,10 @@ $stat-blue-color: #7986CB;
   }
 }
 
+.config-table {
+  width: inherit;
+}
+
 .config-table-action-btn {
   color: #ffffff;
   background-color: #cccccc;
@@ -686,9 +690,8 @@ $stat-blue-color: #7986CB;
   }
 
   > h4 {
-    position: absolute;
     margin-top: 5px;
-    display: inline;
+    text-align: center;
   }
 }
 

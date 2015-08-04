@@ -13,7 +13,7 @@
                 <table class="table table-bordered config-table" ng-hide="values.length == 0">
                     <thead>
                     <tr>
-                        <th><h4 align="center">Key</h4></th>
+                        <th></th>
                         <th ng-repeat="instance in service.instances" class="config-table-th">
                             <h4>{{instance}}</h4>
 
@@ -25,7 +25,6 @@
                                 </button>
                             </div>
                         </th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,12 +37,8 @@
                             instance="instance" version="selectedVersion[instance]"
                             inline-edit="value[instance][selectedVersion[instance]]['value']"
                             change-selected="changeSelectedVersion"
+                            on-delete="deleteValue(name, instance, version)"
                             on-save="updateValues(name, newValue, instance, selectedVersion[instance], xDashVersion)"></th>
-                        <th>
-                            <div class="config-table-actions"><span ng-click="deleteValue(value.name)"
-                                                                    class="fa fa-remove config-table-action-btn"> </span>
-                            </div>
-                        </th>
                     </tr>
                     </tbody>
                 </table>
@@ -61,15 +56,20 @@
     </div>
 
     <script type="text/ng-template" id="inlineEdit.html">
-        <span  ng-show="editMode && isLeftVersionAvailable()" ng-click="changeVersionToTheLeft()"
-              class="config-table-action-btn fa fa-arrow-left"></span>
+        <span  ng-show="isEditAvailable()" ng-click="edit()"
+               class="config-table-action-btn fa fa-edit"></span>
+        <!--<span  ng-show="editMode && isLeftVersionAvailable()" ng-click="changeVersionToTheLeft()"-->
+              <!--class="config-table-action-btn fa fa-arrow-left"></span>-->
         <input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode"
                class="config-input-edit">
-        <span  ng-show="editMode && isRightVersionAvailable()" ng-click="changeVersionToTheRight()"
-               class="config-table-action-btn fa fa-arrow-right"></span>
+        <!--<span  ng-show="editMode && isRightVersionAvailable()" ng-click="changeVersionToTheRight()"-->
+               <!--class="config-table-action-btn fa fa-arrow-right"></span>-->
         <span ng-click="save()" ng-show="editMode && isSaveAvailable()"
               class="config-table-action-btn fa fa-check"></span>
         <span ng-hide="editMode" ng-click="edit()">{{model}}</span>
+        <span  ng-hide="isDeleteUnavailable()" ng-click="delete()"
+               style="float: right;"
+               class="config-table-action-btn fa fa-remove"></span>
     </script>
 
 </section>

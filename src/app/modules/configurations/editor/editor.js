@@ -1,35 +1,14 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.configurations')
-        .value('services', [
-            {
-                "service": "blinker",
-                "instances": [ "ops-dev" ],
-                "versions": [ "develop", "v1.0", "v1.1" ],
-                "live": {
-                    "ops-dev": "develop"
-                }
-            },
-            {
-                "service": "vdp",
-                "instances": [ "ops-dev", "staging", "production" ],
-                "versions": [ "v0.1", "v1.0" ],
-                "live": {
-                    "ops-dev": "v1.0",
-                    "staging": "v0.1",
-                    "production": "v0.1"
-                }
-            }
-        ]);
+    angular.module('qorDash.configurations');
 
-    editorController.$inject = ['$scope', '$stateParams', 'services', 'API_URL', '$http'];
-    function editorController($scope, $stateParams, services, API_URL, $http) {
+    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http'];
+    function editorController($scope, $stateParams, API_URL, $http) {
 
         $scope.selectedVersion = {};
 
         $scope.itemsForSave = {};
-        $scope.itemsForDelete = [];
         $scope.newItemsCount = 0;
 
         $scope.dashVersions = {};
@@ -37,11 +16,13 @@
         $scope.values = [];
         $scope.val1 = {};
 
+        $scope.requestsCounter = 0;
+
         $scope.domain = $scope.domains.filter(function (domain) {
             return domain.id == $stateParams.domain;
         })[0];
 
-        $scope.service = services.filter(function (service) {
+        $scope.service = $scope.services.filter(function (service) {
             return service.service == $stateParams.service;
         })[0];
 
@@ -107,47 +88,10 @@
         };
 
         /**
-         * Function or making delete request (doesn't work without function because of some magic)
-         * @param instance
-         * @param version
-         */
-        var makeDeleteRequest = function(instance, version) {
-                var request = {
-                    method: 'PATCH',
-                    url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.service.service + '/' + version,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Dash-Version': $scope.dashVersions[version]
-                    },
-                    data: {
-                        delete: $scope.itemsForDelete
-                    }
-                };
-
-                $http(request)
-                    .success(function (response) {
-                        alert('Saved successfully');
-                        $('#env-save-button').button('reset');
-                    })
-                    .error(function (error) {
-                        alert('Saving error' + error);
-                        $('#env-save-button').button('reset');
-                    });
-        };
-
-        /**
          * Listener for save button
          */
         $scope.save = function () {
             $('#env-save-button').button('loading');
-
-            // If we have only deleted variable we need to send special request
-            if (isEmpty($scope.itemsForSave) && !isEmpty($scope.itemsForDelete)) {
-                var instance = $scope.service.instances[0];
-                var version = $scope.service.versions[0];
-
-                makeDeleteRequest(instance, version);
-            }
 
             // Add new items to array for saving
             if ($scope.newItemsCount != 0) {
@@ -157,6 +101,11 @@
                         if (isInstance(index)) {
                             var versionToAdd = objToAdd[index];
                             for (var versionIndex in versionToAdd) {
+
+                                if (!$scope.itemsForSave[index]) {
+                                    $scope.itemsForSave[index] = {};
+                                }
+
                                 if (!$scope.itemsForSave[index][versionIndex]) {
                                     $scope.itemsForSave[index][versionIndex] = {};
                                 }
@@ -176,13 +125,12 @@
                 var versions = $scope.itemsForSave[instance];
                 for (var version in versions) {
                     var data = $scope.itemsForSave[instance][version];
-                    data['delete'] = $scope.itemsForDelete;
                     var request = {
                         method: 'PATCH',
                         url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.service.service + '/' + version,
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-Dash-Version': $scope.dashVersions[version]
+                            'X-Dash-Version': $scope.dashVersions[instance][version]
                         },
                         data: data
                     };
@@ -233,8 +181,10 @@
                     'version': version
                 };
 
+                $scope.requestsCounter++;
                 $http(request)
                     .success(function (data, status, headers, config) {
+                        $scope.requestsCounter--;
                         var version = config.version;
                         for (var varName in data) {
                             if (!$scope.val1[varName]) {
@@ -255,10 +205,12 @@
                                 $scope.val1[varName][instance][version]['value'] = '-';
                             }
 
-                            $scope.dashVersions[version] = headers('X-Dash-Version');
+                            if (!$scope.dashVersions[instance]) {
+                                $scope.dashVersions[instance] = {};
+                            }
+                            $scope.dashVersions[instance][version] = headers('X-Dash-Version');
                         }
-                        if (instance == $scope.service.instances[$scope.service.instances.length - 1]
-                            && version == $scope.service.versions[$scope.service.versions.length - 1]) {
+                        if ($scope.requestsCounter == 0) {
                             formatValues();
                         }
                     })
@@ -289,7 +241,8 @@
 
             if (!$scope.itemsForSave[instance][version]) {
                 $scope.itemsForSave[instance][version] = {
-                    'update': {}
+                    'update': {},
+                    'delete': []
                 };
             }
             $scope.itemsForSave[instance][version].update[name] = newValue;
@@ -302,23 +255,18 @@
             }
         };
 
-        /**
-         * Calls after clicking delete button on some value in the table
-         * @param name
-         */
-        $scope.deleteValue = function (name) {
-
-            if (name) {
-                $scope.itemsForDelete.push(name);
+        $scope.deleteValue = function(name, instance, version) {
+            if (!$scope.itemsForSave[instance]) {
+                $scope.itemsForSave[instance] = [];
             }
 
-            for (var valueIndex in $scope.values) {
-                if ($scope.values[valueIndex].name == name) {
-                    $scope.values.splice(valueIndex, 1);
-                    return;
-                }
+            if (!$scope.itemsForSave[instance][version]) {
+                $scope.itemsForSave[instance][version] = {
+                    'update': {},
+                    'delete': [name]
+                };
             }
-        }
+        };
     }
 
     function onEnter() {
@@ -361,6 +309,10 @@
                 var previousValue;
 
                 scope.edit = function () {
+                    scope.showEdit = false;
+
+                    scope.oldValue = scope.model;
+
                     if (scope.isName && scope.model) {
                         return;
                     }
@@ -373,25 +325,36 @@
                     }, 0, false);
                 };
                 scope.save = function () {
-                    for (var versionIndex in scope.parent) {
-                        if (!scope.parent[versionIndex]) {
-                            return;
-                        }
-                    }
-                    if (!scope.model) {
-                        return;
-                    }
+//                    for (var versionIndex in scope.parent) {
+//                        if (!scope.parent[versionIndex]) {
+//                            return;
+//                        }
+//                    }
+//                    if (!scope.model) {
+//                        return;
+//                    }
                     scope.editMode = false;
-                    scope.handleSave({name: scope.key, newValue: scope.model, instance: scope.instance, version: scope.version});
+
+                    if (!scope.model) {
+                        scope.showEdit = true;
+                    }
+
+                    if (scope.model != scope.oldValue) {
+                        scope.handleSave({name: scope.key, newValue: scope.model, instance: scope.instance, version: scope.version});
+                    }
                 };
 
                 scope.isSaveAvailable = function () {
-                    for (var versionIndex in scope.parent) {
-                        if (!scope.parent[versionIndex]) {
-                            return false;
-                        }
-                    }
+//                    for (var versionIndex in scope.parent) {
+//                        if (!scope.parent[versionIndex]) {
+//                            return false;
+//                        }
+//                    }
                     return true;
+                };
+
+                scope.isDeleteUnavailable = function() {
+                    return scope.showEdit || scope.isName || scope.editMode;
                 };
 
                 scope.isLeftVersionAvailable = function() {
@@ -453,6 +416,19 @@
                     }
                 };
 
+                scope.delete = function() {
+                  console.log(scope);
+
+                    scope.model = '';
+                    scope.showEdit = true;
+
+                    scope.handleDelete({name : scope.key, instance : scope.instance, version : scope.version});
+                };
+
+                scope.isEditAvailable = function() {
+                    return (scope.model ? false : true) && !scope.editMode;
+                };
+
                 scope.cancel = function () {
                     scope.editMode = false;
                     scope.model = previousValue;
@@ -464,7 +440,7 @@
                 };
 
                 if (!scope.model) {
-                    scope.edit();
+                    scope.showEdit = true;
                 }
             },
             templateUrl: 'inlineEdit.html'

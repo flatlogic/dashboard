@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    var configurationsController = angular.createAuthorizedController('ConfigurationsController', ['$scope', '$http', '$stateParams', 'API_URL', function ($scope, $http, $stateParams, API_URL) {
-        $http.get(API_URL + '/v1/domain/')
+    var configurationsController = angular.createAuthorizedController('ConfigurationsController', ['$scope', '$http', '$stateParams', 'API_URL', '$timeout', function ($scope, $http, $stateParams, API_URL, $timeout) {
+        $scope.domainsPromise = $http.get(API_URL + '/v1/domain/')
             .success(function (response, status, headers) {
                 $scope.domains = response;
 
