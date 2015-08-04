@@ -1,12 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate')
-        .value('domains', [
-            {"id": "api.foo.com", "name": "Api", "url": "https://server.com/domain/api.foo.com" },
-            {"id": "portal.foo.com", "name": "Portal", "url": "https://server.com/domain/portal.foo.com"}
-        ])
-    ;
+    angular.module('qorDash.orchestrate');
 
     orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile'];
     function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile) {
@@ -22,47 +17,61 @@
             opt = $stateParams.opt,
             optId = $stateParams.opt_id;
 
-        $http.get(API_URL + '/v1/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId)
-            .success(function (response, status, headers) {
+        var getElement = function(value, index) {
+            switch (getType(value)) {
+                case "string":
+                    return '<div class="form-group" > ' +
+                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
+                        '<div class="col-md-4">' +
+                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
+                        '</div>' +
+                        '</div>';
+                    break;
+                case "number":
+                    return '<div class="form-group" > ' +
+                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
+                        '<div class="col-md-4">' +
+                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
+                        '</div>' +
+                        '</div>';
+                    break;
+                case "boolean":
+                    var checked = value ? 'checked' : '';
+                    return '<div class="form-group" > ' +
+                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
+                        '<div class="col-md-4">' +
+                        '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" ' + checked + '>' + '<label for="input-' + index + '"></label>' +
+                        '</div>' +
+                        '</div>';
+                    break;
+                default:
+                    break;
+            }
+        };
 
-                $scope.workflow = response;
-                for (var index in $scope.workflow.context) {
-                    var value = $scope.workflow.context[index];
+        if (optId == 'new') {
+            $scope.workflow = $scope.$parent.$parent.workflows.filter(function (workflow) {
+                return workflow.name == $stateParams.opt;
+            })[0];
 
-                    switch (getType(value)) {
-                        case "string":
-                            $('#dynamic-form').append('<div class="form-group" > ' +
-                                '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                                '<div class="col-md-4">' +
-                                '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
-                                '</div>' +
-                                '</div>');
-                            break;
-                        case "number":
-                            $('#dynamic-form').append('<div class="form-group" > ' +
-                                '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                                '<div class="col-md-4">' +
-                                '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
-                                '</div>' +
-                                '</div>');
-                            break;
-                        case "boolean":
-                            var checked = value ? 'checked' : '';
-                            $('#dynamic-form').append('<div class="form-group" > ' +
-                                '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                                '<div class="col-md-4">' +
-                                '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" ' + checked + '>' + '<label for="input-' + index + '"></label>' +
-                                '</div>' +
-                                '</div>');
-                            break;
-                        default:
-                            break;
+            for (var index in $scope.workflow.default_input) {
+                var value = $scope.workflow.default_input[index];
+                $('#dynamic-form').append(getElement(value, index));
+            }
+        } else {
+            $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + opt + '/' + optId)
+                .success(function (response, status, headers) {
+
+                    $scope.workflow = response;
+                    for (var index in $scope.workflow.context) {
+                        var value = $scope.workflow.context[index];
+                        $('#dynamic-form').append(getElement(value, index));
                     }
-                }
-            })
-            .error (function (response, status) {
+                })
+                .error(function (response, status) {
                 // TODO Error handler
             });
+        }
 
         $scope.sendMessage = function () {
             $('#sendMessageButton').button('loading');
