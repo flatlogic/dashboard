@@ -3,7 +3,8 @@
 
     var module = angular.module('qorDash.configurations.services.editor', [
         'ui.router',
-        'ui.codemirror'
+        'ui.codemirror',
+        'ui.bootstrap'
     ]);
 
     module.config(appConfig);

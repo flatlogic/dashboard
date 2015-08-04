@@ -16,14 +16,19 @@
                         <th></th>
                         <th ng-repeat="instance in service.instances" class="config-table-th">
                             <h4>{{instance}}</h4>
-
-                            <div class="btn-group version-select" role="group" aria-label="...">
-                                <button ng-repeat="version in service.versions" type="button" class="btn btn-default"
-                                        ng-click="changeSelectedVersion(instance, version); "
-                                        ng-class="{'active': selectedVersion[instance] == version}">{{version}} <span
-                                        class="label label-success" ng-show="isLive(instance, version)">Live</span>
+                            <span dropdown dropdown-append-to-body class="dropdown">
+                                <button class="btn config-table-header-button" dropdown-toggle>
+                                  {{selectedVersion[instance]}} <span class="fa fa-chevron-down pull-right"></span>
                                 </button>
-                            </div>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="version in service.versions">
+                                        <a ng-click="changeSelectedVersion(instance, version);" ng-class="{'li-active': selectedVersion[instance] == version}">
+                                            {{version}}
+                                            <span class="label label-success pull-right" ng-show="isLive(instance, version)">Live</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                </span>
                         </th>
                     </tr>
                     </thead>
@@ -58,12 +63,8 @@
     <script type="text/ng-template" id="inlineEdit.html">
         <span  ng-show="isEditAvailable()" ng-click="edit()"
                class="config-table-action-btn fa fa-edit"></span>
-        <!--<span  ng-show="editMode && isLeftVersionAvailable()" ng-click="changeVersionToTheLeft()"-->
-              <!--class="config-table-action-btn fa fa-arrow-left"></span>-->
         <input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode"
                class="config-input-edit">
-        <!--<span  ng-show="editMode && isRightVersionAvailable()" ng-click="changeVersionToTheRight()"-->
-               <!--class="config-table-action-btn fa fa-arrow-right"></span>-->
         <span ng-click="save()" ng-show="editMode && isSaveAvailable()"
               class="config-table-action-btn fa fa-check"></span>
         <span ng-hide="editMode" ng-click="edit()">{{model}}</span>

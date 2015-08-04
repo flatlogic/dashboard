@@ -615,7 +615,7 @@ $stat-blue-color: #7986CB;
 }
 
 .config-table {
-  width: inherit;
+  width: 100%;
 }
 
 .config-table-action-btn {
@@ -693,10 +693,8 @@ $stat-blue-color: #7986CB;
     float: right;
   }
 
-  > h4 {
-    margin-top: 5px;
-    text-align: center;
-  }
+  margin-top: 5px;
+  text-align: center;
 }
 
 .file-save-button {
@@ -832,4 +830,19 @@ width: 20px;
 
 .orchestrate-run-new-button {
   float: right;
+}
+
+.li-active {
+  background-color: #e3e3e3;
+}
+
+.config-table-header-button {
+  width: 200px;
+  background-color: white;
+  color: #555;
+}
+
+.dropdown-menu {
+  margin-top: 10px;
+  width: 200px;
 }
