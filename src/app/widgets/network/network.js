@@ -296,6 +296,16 @@
                                     .on("click", transition)
                                 ;
 
+                                g.selectAll(".child-header").append("rect")
+                                    .data(function (d) {
+                                        return (d._children || [d]).filter(_isNotPlaceholder);
+                                    })
+                                    .enter().append("rect")
+                                    .attr("class", "child-header")
+                                    .call(header);
+
+
+
                                 g.selectAll(".child-text")
                                     .data(function (d) {
                                         return (d._children || [d]).filter(_isNotPlaceholder);
@@ -354,6 +364,8 @@
                                     t2.selectAll(".child-text").call(text).style("fill-opacity", 1);
                                     t1.selectAll("rect").call(rect);
                                     t2.selectAll("rect").call(rect);
+                                    t1.selectAll(".child-header").call(header);
+                                    t2.selectAll(".child-header").call(header);
 
 
                                     t1.remove().each("end", function () {
@@ -391,7 +403,21 @@
                                         return y(d.y) - 6;
                                     });
                             }
-
+                            function header(rect){
+                                rect.attr("x", function (d) {
+                                    return x(d.x)+0.5;
+                                })
+                                    .attr("y", function (d) {
+                                        return y(d.y)+0.5;
+                                    })
+                                    .attr("width", function (d) {
+                                        return x(d.x + d.dx) - x(d.x)-1;
+                                    })
+                                    .attr("height", 20
+                                    )
+                                    .attr("rx", "2px")
+                                ;
+                            }
                             function rect(rect) {
                                 rect.attr("x", function (d) {
                                     return x(d.x);
