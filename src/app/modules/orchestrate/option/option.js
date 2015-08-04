@@ -50,14 +50,24 @@
         };
 
         if (optId == 'new') {
-            $scope.workflow = $scope.$parent.$parent.workflows.filter(function (workflow) {
-                return workflow.name == $stateParams.opt;
-            })[0];
+            $scope.$watch('workflows', function() {
+                if (!$scope.$parent.$parent.workflows) {
+                    return;
+                }
 
-            for (var index in $scope.workflow.default_input) {
-                var value = $scope.workflow.default_input[index];
-                $('#dynamic-form').append(getElement(value, index));
-            }
+                $scope.workflow = $scope.$parent.$parent.workflows.filter(function (workflow) {
+                    return workflow.name == $stateParams.opt;
+                })[0];
+
+                if (!$scope.workflow) {
+                    return;
+                }
+
+                for (var index in $scope.workflow.default_input) {
+                    var value = $scope.workflow.default_input[index];
+                    $('#dynamic-form').append(getElement(value, index));
+                }
+            });
         } else {
             $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + opt + '/' + optId)
                 .success(function (response, status, headers) {
