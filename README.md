@@ -39,3 +39,10 @@ Building on the framework of Project 1
   + listing all accounts (dynamic table)
 + Rendering of the UI components will be permission-based as described in Project 1.
 + We will iterate on the forms.  Please provide UX/ UI advice for best interaction and visual design.
+
+
+## Network structure
+
+For reference:
+
+private cloud -> availability zone -> subnets -> security group -> hosts -> services -> containers
