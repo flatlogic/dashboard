@@ -318,7 +318,8 @@
                                     .call(text)
                                 ;
 
-                                g.append("text")
+                                g.filter(function(d) { return d._children; })
+                                    .append("text")
                                     .text(function (d) {
                                         return d.name;
                                     })
