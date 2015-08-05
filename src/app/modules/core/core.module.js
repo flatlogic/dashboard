@@ -9,7 +9,7 @@
 
     core.config(appConfig);
 
-    appConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$rootScope'];
+    appConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
     function appConfig($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('app', {

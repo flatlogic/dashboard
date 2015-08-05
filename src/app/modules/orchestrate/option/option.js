@@ -111,6 +111,7 @@
             } else {
                 var wsUrl = 'wss://ops-dev.blinker.com/v1/ws/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId;
                 $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="'+ wsUrl +'"></div>')($scope));
+                $('#sendMessageButton').button('reset');
             }
         }
     }
