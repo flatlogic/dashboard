@@ -6,7 +6,7 @@
             .success(function (response, status, headers) {
                 $scope.domains = response;
 
-                if($scope.domains.length === 1){
+                if($scope.domains.length === 1 && $state.current.name == 'app.configurations'){
                     $state.go('app.configurations.services', {domain:$scope.domains[0].id})
                 }
 

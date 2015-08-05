@@ -21,7 +21,7 @@
             .success(function (response, status, headers) {
                 $scope.services = response;
 
-                if($scope.services.length === 1){
+                if($scope.services.length === 1 && $state.current.name == 'app.configurations.services'){
                     $state.go('app.configurations.services.editor', {service: $scope.services[0].service})
                 }
 

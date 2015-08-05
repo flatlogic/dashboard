@@ -3,15 +3,26 @@
 
     angular.module('qorDash.configurations');
 
-    filesController.$inject = ['$scope', '$stateParams', 'services', 'domains', '$http'];
-    function filesController($scope, $stateParams, services, domains, $http) {
-        $scope.domain = domains.filter(function (domain) {
-            return domain.id == $stateParams.domain;
-        })[0];
+    filesController.$inject = ['$scope', '$stateParams', '$http'];
+    function filesController($scope, $stateParams, $http) {
 
-        $scope.service = services.filter(function (service) {
-            return service.service == $stateParams.service;
-        })[0];
+        $scope.$watch('domains', function() {
+            if (!$scope.domains) {
+                return;
+            }
+            $scope.domain = $scope.domains.filter(function (domain) {
+                return domain.id == $stateParams.domain;
+            })[0];
+        });
+
+        $scope.$watch('services', function() {
+            if (!$scope.services) {
+                return;
+            }
+            $scope.service = $scope.services.filter(function (service) {
+                return service.id == $stateParams.service;
+            })[0];
+        });
 
         $scope.codemirrorLoaded = function (editor) {
             $scope.codeMirrorInstance = editor;
