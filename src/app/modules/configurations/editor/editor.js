@@ -40,6 +40,33 @@
                 $scope.selectedVersion[instance] = $scope.service.versions[0];
             });
 
+            // Versions that doesn't exist
+            $scope.deletedVersions = {};
+
+            $scope.isVersionDeleted = function(instance, version) {
+                if (!$scope.deletedVersions[instance]) {
+                    return false;
+                } else {
+                    for (var i in $scope.deletedVersions[instance]) {
+                        if ($scope.deletedVersions[instance][i] == version) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+
+            $scope.changeSelected = function (instance, version) {
+                if ($scope.isVersionDeleted(instance, $scope.selectedVersion[instance])) {
+                    for (var i in $scope.service.versions) {
+                        if (!$scope.isVersionDeleted(instance, $scope.service.versions[i])) {
+                            $scope.selectedVersion[instance] = $scope.service.versions[i];
+                        }
+                    }
+                }
+                return true;
+            };
+
             /**
              * Download and write all version variables
              */
@@ -84,10 +111,30 @@
                                 }
                                 $scope.dashVersions[instance][version] = headers('X-Dash-Version');
                             }
-                            if ($scope.requestsCounter == 0) {
+                            if ($scope.requestsCounter <= 0) {
                                 formatValues();
                             }
                         })
+                        .error(function(error, status, headers, request) {
+                            $scope.requestsCounter--;
+
+                            if (status == 404) {
+                                var splitedUrl = request.url.split('/');
+
+                                var version = splitedUrl[splitedUrl.length - 1],
+                                    instance = splitedUrl[splitedUrl.length - 3];
+
+                                if (!$scope.deletedVersions[instance]) {
+                                    $scope.deletedVersions[instance] = [];
+                                }
+
+                                $scope.deletedVersions[instance].push(version);
+                            }
+
+                            if ($scope.requestsCounter <= 0) {
+                                formatValues();
+                            }
+                        });
                 }
             });
         });

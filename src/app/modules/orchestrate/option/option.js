@@ -103,6 +103,7 @@
                     data: data
                 };
 
+
                 $http(request)
                     .success(function (response) {
                         $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="wss://ops-dev.blinker.com' + response.log_ws_url + '"></div>')($scope));

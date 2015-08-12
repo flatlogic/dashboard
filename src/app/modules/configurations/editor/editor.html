@@ -22,7 +22,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="version in service.versions">
-                                        <a ng-click="changeSelectedVersion(instance, version);" ng-class="{'li-active': selectedVersion[instance] == version}">
+                                        <a ng-if="changeSelected(instance, version)" ng-hide="isVersionDeleted(instance, version)" ng-click="changeSelectedVersion(instance, version);" ng-class="{'li-active': selectedVersion[instance] == version}">
                                             {{version}}
                                             <span class="label label-success pull-right" ng-show="isLive(instance, version)">Live</span>
                                         </a>
