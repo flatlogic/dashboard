@@ -39,6 +39,7 @@
                         </th>
                         <th ng-repeat="instance in service.instances" parent="value[instance]" key="value.name"
                             versions="service.versions"
+                            ng-class="{'no-value': !value[instance][selectedVersion[instance]]['value']}"
                             instance="instance" version="selectedVersion[instance]"
                             inline-edit="value[instance][selectedVersion[instance]]['value']"
                             change-selected="changeSelectedVersion"

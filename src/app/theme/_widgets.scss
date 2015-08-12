@@ -653,10 +653,17 @@ $stat-blue-color: #7986CB;
   padding: 3px;
   border-radius: 5px;
 
+  width: 90%;
+
   &:focus, &.focus {
     box-shadow: none;
     outline: none;
   }
+}
+
+.no-value {
+  background-color: #de5e5d !important;
+  opacity: .6;
 }
 
 .navigation-details {

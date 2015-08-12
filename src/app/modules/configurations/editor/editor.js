@@ -412,7 +412,7 @@
                 };
 
                 scope.isDeleteUnavailable = function() {
-                    return scope.showEdit || scope.isName || scope.editMode;
+                    return scope.showEdit || scope.isName || scope.editMode || !scope.model;
                 };
 
                 scope.isLeftVersionAvailable = function() {
