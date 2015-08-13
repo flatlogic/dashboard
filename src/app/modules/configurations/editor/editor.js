@@ -260,6 +260,7 @@
                         })
                         .error(function (error) {
                             alert('Saving error' + error);
+                            console.log(error);
                             $('#env-save-button').button('reset');
                         });
                 }
@@ -333,6 +334,26 @@
                     'update': {},
                     'delete': [name]
                 };
+                return;
+            }
+
+            $scope.itemsForSave[instance][version].delete.push(name);
+        };
+
+        $scope.deleteInAllVersions = function(name) {
+
+            for (var i in $scope.values) {
+                if ($scope.values[i].name == name) {
+                    $scope.values.splice(i, 1);
+                }
+            }
+
+            for (var i in $scope.service.instances) {
+                for (var j in $scope.service.versions) {
+                    if (!$scope.isVersionDeleted($scope.service.instances[i], $scope.service.versions[j])) {
+                        $scope.deleteValue(name, $scope.service.instances[i], $scope.service.versions[j]);
+                    }
+                }
             }
         };
     }
