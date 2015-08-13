@@ -27,14 +27,24 @@
             })[0];
         });
 
+        Object.filter = function( obj, predicate) {
+            var key;
+
+            for (key in obj) {
+                if (obj.hasOwnProperty(key) && predicate(key)) {
+                    return obj[key];
+                }
+            }
+        };
+
         $scope.$watch('services', function() {
             if (!$scope.services) {
                 return;
             }
 
-            $scope.service = $scope.services.filter(function (service) {
-                return service.service == $stateParams.service;
-            })[0];
+            $scope.service = Object.filter($scope.services, function(key) {
+                return $stateParams.service == key;
+            });
 
             $scope.service.instances.forEach(function (instance) {
                 $scope.selectedVersion[instance] = $scope.service.versions[0];

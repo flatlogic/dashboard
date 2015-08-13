@@ -3,6 +3,14 @@
 
     angular.module('qorDash.configurations');
 
+    Object.size = function(obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
+
     servicesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL'];
     function servicesController($scope, $state, $stateParams, $http, API_URL) {
         var domainId = $stateParams.domain;
@@ -21,8 +29,8 @@
             .success(function (response, status, headers) {
                 $scope.services = response;
 
-                if($scope.services.length === 1 && $state.current.name == 'app.configurations.services'){
-                    $state.go('app.configurations.services.editor', {service: $scope.services[0].service})
+                if(Object.size($scope.services) == 1 && $state.current.name == 'app.configurations.services'){
+                    $state.go('app.configurations.services.editor', {service: $scope.services[Object.keys($scope.services)[0]].service})
                 }
 
             })
