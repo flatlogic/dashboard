@@ -77,76 +77,85 @@
                 return true;
             };
 
+
             /**
              * Download and write all version variables
              */
-            $scope.service.instances.forEach(function (instance) {
-                for (var i in $scope.service.versions) {
-                    var version = $scope.service.versions[i];
-                    var request = {
-                        method: 'GET',
-                        url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.service.service + '/' + version,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        'version': version
-                    };
+            $scope.loadData = function() {
 
-                    $scope.requestsCounter++;
-                    $http(request)
-                        .success(function (data, status, headers, config) {
-                            $scope.requestsCounter--;
-                            var version = config.version;
-                            for (var varName in data) {
-                                if (!$scope.val1[varName]) {
-                                    $scope.val1[varName] = {};
+                $scope.values = [];
+                $scope.val1 = {};
+
+                $scope.service.instances.forEach(function (instance) {
+                    for (var i in $scope.service.versions) {
+                        var version = $scope.service.versions[i];
+                        var request = {
+                            method: 'GET',
+                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.service.service + '/' + version,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            'version': version
+                        };
+
+                        $scope.requestsCounter++;
+                        $http(request)
+                            .success(function (data, status, headers, config) {
+                                $scope.requestsCounter--;
+                                var version = config.version;
+                                for (var varName in data) {
+                                    if (!$scope.val1[varName]) {
+                                        $scope.val1[varName] = {};
+                                    }
+
+                                    if (!$scope.val1[varName][instance]) {
+                                        $scope.val1[varName][instance] = {};
+                                    }
+
+                                    if (!$scope.val1[varName][instance][version]) {
+                                        $scope.val1[varName][instance][version] = {};
+                                    }
+
+                                    if (data[varName]) {
+                                        $scope.val1[varName][instance][version]['value'] = data[varName];
+                                    } else {
+                                        $scope.val1[varName][instance][version]['value'] = '-';
+                                    }
+
+                                    if (!$scope.dashVersions[instance]) {
+                                        $scope.dashVersions[instance] = {};
+                                    }
+                                    $scope.dashVersions[instance][version] = headers('X-Dash-Version');
+                                }
+                                if ($scope.requestsCounter <= 0) {
+                                    formatValues();
+                                }
+                            })
+                            .error(function (error, status, headers, request) {
+                                $scope.requestsCounter--;
+
+                                if (status == 404) {
+                                    var splitedUrl = request.url.split('/');
+
+                                    var version = splitedUrl[splitedUrl.length - 1],
+                                        instance = splitedUrl[splitedUrl.length - 3];
+
+                                    if (!$scope.deletedVersions[instance]) {
+                                        $scope.deletedVersions[instance] = [];
+                                    }
+
+                                    $scope.deletedVersions[instance].push(version);
                                 }
 
-                                if (!$scope.val1[varName][instance]) {
-                                    $scope.val1[varName][instance] = {};
+                                if ($scope.requestsCounter <= 0) {
+                                    formatValues();
                                 }
+                            });
+                    }
+                });
+            };
 
-                                if (!$scope.val1[varName][instance][version]) {
-                                    $scope.val1[varName][instance][version] = {};
-                                }
-
-                                if (data[varName]) {
-                                    $scope.val1[varName][instance][version]['value'] = data[varName];
-                                } else {
-                                    $scope.val1[varName][instance][version]['value'] = '-';
-                                }
-
-                                if (!$scope.dashVersions[instance]) {
-                                    $scope.dashVersions[instance] = {};
-                                }
-                                $scope.dashVersions[instance][version] = headers('X-Dash-Version');
-                            }
-                            if ($scope.requestsCounter <= 0) {
-                                formatValues();
-                            }
-                        })
-                        .error(function(error, status, headers, request) {
-                            $scope.requestsCounter--;
-
-                            if (status == 404) {
-                                var splitedUrl = request.url.split('/');
-
-                                var version = splitedUrl[splitedUrl.length - 1],
-                                    instance = splitedUrl[splitedUrl.length - 3];
-
-                                if (!$scope.deletedVersions[instance]) {
-                                    $scope.deletedVersions[instance] = [];
-                                }
-
-                                $scope.deletedVersions[instance].push(version);
-                            }
-
-                            if ($scope.requestsCounter <= 0) {
-                                formatValues();
-                            }
-                        });
-                }
-            });
+            $scope.loadData();
         });
 
         /**
@@ -257,6 +266,7 @@
                         .success(function (response) {
                             alert('Saved successfully');
                             $('#env-save-button').button('reset');
+                            $scope.loadData();
                         })
                         .error(function (error) {
                             alert('Saving error' + error);
