@@ -682,3 +682,24 @@ h6, .h6 {
     padding-right: $jumbotron-padding;
   }
 }
+
+.modal-header {
+  text-align: center;
+}
+
+.modal-footer {
+  >.btn {
+    border: none;
+    padding: 5px 20px 5px 20px;
+  }
+
+  >.btn-primary {
+    background-color: #eea22d;
+    color: #FFFFFF;
+  }
+
+  >.btn-warning {
+    background-color: #9094A1;
+    color: #FFFFFF;
+  }
+}

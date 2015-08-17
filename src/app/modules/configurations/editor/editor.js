@@ -230,6 +230,9 @@
                     $scope.instance = instance;
 
                     $scope.ok = function () {
+                        if (!$scope.newVersionName) {
+                            return;
+                        }
                         $modalInstance.close($scope.newVersionName);
                     };
 
@@ -248,6 +251,10 @@
             });
 
             modalInstance.result.then(function (newVersionName) {
+                if (!newVersionName) {
+                    return;
+                }
+
                 $scope.editorService.versions.push(newVersionName);
 
                 for (var i in $scope.deletedVersions) {

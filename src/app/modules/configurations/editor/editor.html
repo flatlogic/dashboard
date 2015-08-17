@@ -28,7 +28,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <span class="fa fa-copy" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
+                                <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
                             </span>
                         </th>
                         <th></th>
@@ -78,11 +78,10 @@
 
     <script type="text/ng-template" id="newVersionModal.html">
         <div class="modal-header">
-            <h3 class="modal-title">Create copy of {{version}}</h3>
+            <h3 class="modal-title">Create copy of {{version}} in {{instance}}</h3>
         </div>
         <div class="modal-body">
-            <h3 align="center">New version name</h3>
-            <input type="text" ng-model="newVersionName">
+            <input type="text" class="form-control" ng-model="newVersionName" placeholder="New version name">
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
