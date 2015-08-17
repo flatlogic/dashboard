@@ -3,8 +3,8 @@
 
     angular.module('qorDash.configurations');
 
-    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http'];
-    function editorController($scope, $stateParams, API_URL, $http) {
+    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal'];
+    function editorController($scope, $stateParams, API_URL, $http, $modal) {
 
         $scope.selectedVersion = {};
 
@@ -217,6 +217,68 @@
          */
         $scope.isSavable = function () {
             return !isEmpty($scope.itemsForSave) || !isEmpty($scope.itemsForDelete);
+        };
+
+        $scope.makeCopy = function(instance, version) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'newVersionModal.html',
+                controller: function($scope, $modalInstance, version, instance) {
+                    $scope.newVersionName = '';
+
+                    $scope.version = version;
+                    $scope.instance = instance;
+
+                    $scope.ok = function () {
+                        $modalInstance.close($scope.newVersionName);
+                    };
+
+                    $scope.cancel = function () {
+                        $modalInstance.dismiss('cancel');
+                    };
+                },
+                resolve: {
+                    version: function() {
+                        return version;
+                    },
+                    instance: function() {
+                        return instance;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (newVersionName) {
+                $scope.editorService.versions.push(newVersionName);
+
+                for (var i in $scope.deletedVersions) {
+                    if (i != instance) {
+                        $scope.deletedVersions[i].push(newVersionName);
+                    }
+                }
+
+                if (!$scope.itemsForSave[instance]) {
+                    $scope.itemsForSave[instance] = {};
+                }
+
+                if (!$scope.itemsForSave[instance][newVersionName]) {
+                    $scope.itemsForSave[instance][newVersionName] = {};
+                    $scope.itemsForSave[instance][newVersionName]['update'] = {};
+                    $scope.itemsForSave[instance][newVersionName]['delete'] = [];
+                }
+
+                for (var i in $scope.values) {
+
+                    if (!$scope.values[i][instance]) {
+                        continue;
+                    }
+
+                    $scope.values[i][instance][newVersionName] = {
+                        value: $scope.values[i][instance][version].value
+                    };
+
+                    $scope.itemsForSave[instance][newVersionName]['update'][$scope.values[i].name] = $scope.values[i][instance][version].value;
+                }
+            });
         };
 
         /**
