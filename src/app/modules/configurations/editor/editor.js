@@ -42,12 +42,16 @@
                 return;
             }
 
-            $scope.service = Object.filter($scope.services, function(key) {
+            $scope.editorService = Object.filter($scope.services, function(key) {
                 return $stateParams.service == key;
             });
 
-            $scope.service.instances.forEach(function (instance) {
-                $scope.selectedVersion[instance] = $scope.service.versions[0];
+            $scope.editorService = JSON.parse(JSON.stringify($scope.editorService));
+
+            $scope.editorService.instances = $stateParams.instances.split(',');
+
+            $scope.editorService.instances.forEach(function (instance) {
+                $scope.selectedVersion[instance] = $scope.editorService.versions[0];
             });
 
             // Versions that doesn't exist
@@ -68,9 +72,9 @@
 
             $scope.changeSelected = function (instance, version) {
                 if ($scope.isVersionDeleted(instance, $scope.selectedVersion[instance])) {
-                    for (var i in $scope.service.versions) {
-                        if (!$scope.isVersionDeleted(instance, $scope.service.versions[i])) {
-                            $scope.selectedVersion[instance] = $scope.service.versions[i];
+                    for (var i in $scope.editorService.versions) {
+                        if (!$scope.isVersionDeleted(instance, $scope.editorService.versions[i])) {
+                            $scope.selectedVersion[instance] = $scope.editorService.versions[i];
                         }
                     }
                 }
@@ -86,12 +90,12 @@
                 $scope.values = [];
                 $scope.val1 = {};
 
-                $scope.service.instances.forEach(function (instance) {
-                    for (var i in $scope.service.versions) {
-                        var version = $scope.service.versions[i];
+                $scope.editorService.instances.forEach(function (instance) {
+                    for (var i in $scope.editorService.versions) {
+                        var version = $scope.editorService.versions[i];
                         var request = {
                             method: 'GET',
-                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.service.service + '/' + version,
+                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                             headers: {
                                 'Content-Type': 'application/json'
                             },
@@ -164,8 +168,8 @@
          * @returns {boolean}
          */
         var isInstance = function (candidate) {
-            for (var i in $scope.service.instances) {
-                if ($scope.service.instances[i] == candidate) {
+            for (var i in $scope.editorService.instances) {
+                if ($scope.editorService.instances[i] == candidate) {
                     return true;
                 }
             }
@@ -188,7 +192,7 @@
          * @returns {boolean}
          */
         $scope.isLive = function (instance, version) {
-            return $scope.service.live[instance] == version;
+            return $scope.editorService.live[instance] == version;
         };
 
         var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -255,7 +259,7 @@
                     var data = $scope.itemsForSave[instance][version];
                     var request = {
                         method: 'PATCH',
-                        url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.service.service + '/' + version,
+                        url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Dash-Version': $scope.dashVersions[instance][version]
@@ -288,9 +292,9 @@
         $scope.addValue = function () {
             var obj = {};
             obj.name = "";
-            $scope.service.instances.forEach(function (instance) {
+            $scope.editorService.instances.forEach(function (instance) {
                 obj[instance] = {};
-                $scope.service.versions.forEach(function (version) {
+                $scope.editorService.versions.forEach(function (version) {
                     obj[instance][version] = "";
                 });
             });
@@ -360,10 +364,10 @@
                 }
             }
 
-            for (var i in $scope.service.instances) {
-                for (var j in $scope.service.versions) {
-                    if (!$scope.isVersionDeleted($scope.service.instances[i], $scope.service.versions[j])) {
-                        $scope.deleteValue(name, $scope.service.instances[i], $scope.service.versions[j]);
+            for (var i in $scope.editorService.instances) {
+                for (var j in $scope.editorService.versions) {
+                    if (!$scope.isVersionDeleted($scope.editorService.instances[i], $scope.editorService.versions[j])) {
+                        $scope.deleteValue(name, $scope.editorService.instances[i], $scope.editorService.versions[j]);
                     }
                 }
             }

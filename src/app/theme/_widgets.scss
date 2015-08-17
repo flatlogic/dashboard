@@ -855,3 +855,34 @@ width: 20px;
   margin-top: 10px;
   width: 200px;
 }
+
+.new-checkbox {
+  display: none;
+
+  + label {
+    margin: 6px 0 6px 0;
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    vertical-align: middle;
+    background: url(../assets/images/checkboxes.png) left top no-repeat;
+    cursor: pointer;
+  }
+
+  &:checked + label {
+    background: url(../assets/images/checkboxes.png) -19px top no-repeat;
+  }
+}
+
+.instances-table {
+  width: 100%;
+
+  >tbody >tr {
+    border-bottom: 1px solid #e3e3e3;
+  }
+}
+
+.config-instances-button {
+  margin-top: 15px;
+  float: right;
+}

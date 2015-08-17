@@ -29,9 +29,9 @@
             .success(function (response, status, headers) {
                 $scope.services = response;
 
-                if(Object.size($scope.services) == 1 && $state.current.name == 'app.configurations.services'){
-                    $state.go('app.configurations.services.editor', {service: $scope.services[Object.keys($scope.services)[0]].service})
-                }
+//                if(Object.size($scope.services) == 1 && $state.current.name == 'app.configurations.services'){
+//                    $state.go('app.configurations.services.editor', {service: $scope.services[Object.keys($scope.services)[0]].service})
+//                }
 
             })
             .error(function (response, status) {

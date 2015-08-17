@@ -1,0 +1,29 @@
+<section horizontal-ui-sheet class="qor-sheet-s">
+    <header horizontal-ui-sheet-header title="{{service.service}}">
+    </header>
+    <div horizontal-ui-sheet-content>
+
+        <table class="instances-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="instance in service.instances">
+                    <td>{{instance}}</td>
+                    <td><input ng-click="changeState(checked[instance])" class="new-checkbox" id="input-{{instance}}" name="input-{{instance}}" ng-model="checked[instance]" type="checkbox"><label class="pull-right" for="input-{{instance}}"></label></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button ng-show="saveAvailableHelper > 0" type="button" ng-click="show()" id="sendMessageButton" class="btn qor-btn-primary config-instances-button">
+            Show
+        </button>
+
+        <div id="env-loader" ng-hide="services">
+            <img src="assets/images/cube.gif">
+        </div>
+    </div>
+</section>

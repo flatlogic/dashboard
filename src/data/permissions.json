@@ -14,6 +14,7 @@
     "DomainStatController": "my_account",
     "OrchestrateHistoryController": "my_account",
     "domain_stat": "my_account",
+    "InstancesController": "my_account",
     "domain_details": "my_account",
     "DomainDetailsController": "my_account",
     "DomainEnvironmentController": "my_account",

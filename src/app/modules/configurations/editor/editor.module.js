@@ -13,8 +13,8 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.configurations.services.editor', {
-                url: '/:service',
+            .state('app.configurations.services.instances.editor', {
+                url: '/:instances',
                 templateUrl: 'app/modules/configurations/editor/editor.html',
                 controller: 'EditorController',
                 authenticate: true
