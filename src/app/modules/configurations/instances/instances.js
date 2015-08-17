@@ -31,6 +31,15 @@
             $scope.service.instances.forEach(function(instance) {
                 $scope.checked[instance] = false;
             });
+
+            if ($state.params.instances) {
+                $state.params.instances.split(',').forEach(function(instance){
+                    if ($scope.checked[instance] != 'undefined') {
+                        $scope.checked[instance] = true;
+                        $scope.saveAvailableHelper++;
+                    }
+                });
+            }
         });
 
         $scope.saveAvailableHelper = 0;
