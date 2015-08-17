@@ -787,6 +787,16 @@ $stat-blue-color: #7986CB;
       background-color: white;
       border-bottom: 3px solid $qor-sheet-bg;
 
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f4f4f4;
+      }
+
+      &.active {
+        background-color: #e3e3e3;
+      }
+
       >td {
         padding: 7px 3px 7px 3px;
         text-align: center;
@@ -839,6 +849,7 @@ width: 20px;
 
 .orchestrate-run-new-button {
   float: right;
+  margin-bottom: 10px;
 }
 
 .li-active {

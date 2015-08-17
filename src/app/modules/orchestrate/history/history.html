@@ -2,19 +2,26 @@
     <header horizontal-ui-sheet-header title="{{title}}">
     </header>
     <div horizontal-ui-sheet-content>
+
+        <button class="btn qor-btn-primary orchestrate-run-new-button"
+                ui-sref="app.orchestrate.domain.instance.history.option({opt_id : 'new'})"
+                >New</button>
+
         <div class="list-group text-left ng-scope" ng-show="previousCalls.length > 0">
             <table class="orchestrate-history-table">
                 <thead>
                     <tr>
                         <th class="p10">Status</th>
-                        <th class="p20">Time</th>
+                        <th class="p20">Started on</th>
                         <th class="p15">User name</th>
                         <th class="p30">Note</th>
-                        <th class="p20"></th>
+                        <th class="p20">Completed on</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="call in previousCalls">
+                    <tr ng-repeat="call in previousCalls"
+                        ui-sref="app.orchestrate.domain.instance.history.option({opt_id : call.id})"
+                        ui-sref-active="active">
                         <td class="history-table-icon-item">
                             <span class="glyphicon"
                                 ng-class="{'error glyphicon-remove-sign': call.status == 'error', 'warning glyphicon-info-sign': call.status == 'Started', 'success glyphicon-ok-sign': call.status == 'completed'}">
@@ -23,9 +30,7 @@
                         <td>{{call.start_time | date : 'medium'}}</td>
                         <td>{{call.user}}</td>
                         <td>{{call.note}}</td>
-                        <td><button class="btn qor-btn-primary orchestrate-history-button"
-                                    ui-sref="app.orchestrate.domain.instance.history.option({opt_id : call.id})"
-                                    ui-sref-active="active">View</button></td>
+                        <td>{{call.completion_time | date : 'medium'}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -33,9 +38,5 @@
         <div id="env-loader" ng-hide="previousCalls">
             <img src="assets/images/cube.gif">
         </div>
-
-        <button class="btn qor-btn-primary orchestrate-run-new-button"
-                ui-sref="app.orchestrate.domain.instance.history.option({opt_id : 'new'})"
-        >Run new</button>
     </div>
 </section>
