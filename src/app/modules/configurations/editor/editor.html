@@ -18,7 +18,7 @@
                             <h4>{{instance}}</h4>
                             <span dropdown dropdown-append-to-body class="dropdown">
                                 <button class="btn config-table-header-button" dropdown-toggle>
-                                  {{selectedVersion[instance]}} <span class="fa fa-chevron-down pull-right"></span>
+                                  {{selectedVersion[instance]}} <span class="label label-success" ng-show="isLive(instance, selectedVersion[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="version in editorService.versions">
