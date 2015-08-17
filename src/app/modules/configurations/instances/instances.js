@@ -29,10 +29,14 @@
             });
 
             $scope.service.instances.forEach(function(instance) {
-                $scope.checked[instance] = false;
+                $scope.saveAvailableHelper++;
+                $scope.checked[instance] = true;
             });
 
             if ($state.params.instances) {
+                for (var i in $scope.checked) {
+                    $scope.checked[i] = false;
+                }
                 $state.params.instances.split(',').forEach(function(instance){
                     if ($scope.checked[instance] != 'undefined') {
                         $scope.checked[instance] = true;
