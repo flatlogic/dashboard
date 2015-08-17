@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "0.12"
+
+branches:
+  only:
+    - master
+
+install:
+  - npm install
+  - npm install bower
+  - bower install
+
+script:
+  - bash ./deploy.sh
