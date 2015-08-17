@@ -70,7 +70,7 @@
         <input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode"
                class="config-input-edit">
         <span ng-click="save()" ng-show="editMode && isSaveAvailable()"
-              class="config-table-action-btn fa fa-check"></span>
+              class="config-table-action-btn fa fa-check pull-right"></span>
         <span ng-hide="editMode" ng-click="edit()">{{model}}</span>
         <span  ng-hide="isDeleteUnavailable()" ng-click="delete()"
                class="config-table-action-btn fa fa-remove pull-right"></span>

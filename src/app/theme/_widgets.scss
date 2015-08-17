@@ -618,6 +618,10 @@ $stat-blue-color: #7986CB;
 
 .config-table {
   width: 100%;
+
+  >tbody >tr >th {
+    text-align: center;
+  }
 }
 
 .config-table-action-btn {
@@ -900,4 +904,8 @@ width: 20px;
 
 .copy-version {
   cursor: pointer;
+  position: relative;
+  right: -6px;
+  font-size: 20px;
+  top: 4px;
 }
