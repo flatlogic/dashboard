@@ -262,17 +262,19 @@
                         },
                         data: data
                     };
-                    $http(request)
-                        .success(function (response) {
-                            alert('Saved successfully');
-                            $('#env-save-button').button('reset');
-                            $scope.loadData();
-                        })
-                        .error(function (error) {
-                            alert('Saving error' + error);
-                            console.log(error);
-                            $('#env-save-button').button('reset');
-                        });
+                    if (request.data.delete) {
+                        $http(request)
+                            .success(function (response) {
+                                alert('Saved successfully');
+                                $('#env-save-button').button('reset');
+                                $scope.loadData();
+                            })
+                            .error(function (error) {
+                                alert('Saving error' + error);
+                                console.log(error);
+                                $('#env-save-button').button('reset');
+                            });
+                    }
                 }
             }
 
