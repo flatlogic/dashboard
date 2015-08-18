@@ -236,7 +236,7 @@
                         if (!$scope.newVersionName || !$scope.targetInstance) {
                             return;
                         }
-                        $modalInstance.close([$scope.newVersionName, $scope.targetInstance]);
+                        save($scope.newVersionName, $scope.targetInstance, $modalInstance);
                     };
 
                     $scope.cancel = function () {
@@ -256,10 +256,8 @@
                 }
             });
 
-            modalInstance.result.then(function (resultArray) {
-                var newVersionName = resultArray[0],
-                    targetInstance = resultArray[1];
-
+            var save = function(newVersionName, targetInstance, $modalInstance) {
+                $('#config-modal-ok-button').button('loading');
                 if (!newVersionName || !targetInstance) {
                     return;
                 }
@@ -275,7 +273,6 @@
 
                 $http(getRequest)
                     .success(function(data, status) {
-                        debugger;
                         var patchRequest = {
                             method: 'PATCH',
                             url: API_URL + '/v1/env/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
@@ -287,10 +284,11 @@
                                 'update' : data
                             }
                         };
-
+                        debugger;
                         $http(patchRequest)
                             .success(function(data, status) {
                                 debugger;
+                                $modalInstance.close();
                             })
                             .error(function(error, status) {
                                 debugger;
@@ -299,6 +297,10 @@
                     .error(function(s) {
                         debugger;
                     });
+            };
+
+            modalInstance.result.then(function (resultArray) {
+
             });
         };
 
