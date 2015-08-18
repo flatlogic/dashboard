@@ -7,7 +7,7 @@
         'qorDash.configurations.services',
         'qorDash.configurations.services.instances',
         'qorDash.configurations.services.editor',
-        'qorDash.configurations.services.editor.files'
+        'qorDash.configurations.services.instances.editor.files'
     ]);
 
     module.config(appConfig);
