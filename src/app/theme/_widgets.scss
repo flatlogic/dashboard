@@ -156,6 +156,17 @@ $stat-blue-color: #7986CB;
 }
 
 .event {
+
+  border-top: 5px solid #8D93A1;
+
+  &.fatal {
+    border-top: 5px solid #DF5E59;
+  }
+
+  &.warning {
+    border-top: 5px solid #F8C785;
+  }
+
   .timeline & {
     float: right;
     width: 68%;
