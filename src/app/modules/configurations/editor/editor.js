@@ -223,17 +223,20 @@
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'newVersionModal.html',
-                controller: function($scope, $modalInstance, version, instance) {
+                controller: function($scope, $modalInstance, version, instance, instances) {
                     $scope.newVersionName = '';
 
                     $scope.version = version;
                     $scope.instance = instance;
+                    $scope.instances = instances;
+
+                    $scope.targetInstance = '';
 
                     $scope.ok = function () {
-                        if (!$scope.newVersionName) {
+                        if (!$scope.newVersionName || !$scope.targetInstance) {
                             return;
                         }
-                        $modalInstance.close($scope.newVersionName);
+                        $modalInstance.close([$scope.newVersionName, $scope.targetInstance]);
                     };
 
                     $scope.cancel = function () {
@@ -246,45 +249,56 @@
                     },
                     instance: function() {
                         return instance;
+                    },
+                    instances: function() {
+                        return $scope.service.instances;
                     }
                 }
             });
 
-            modalInstance.result.then(function (newVersionName) {
-                if (!newVersionName) {
+            modalInstance.result.then(function (resultArray) {
+                var newVersionName = resultArray[0],
+                    targetInstance = resultArray[1];
+
+                if (!newVersionName || !targetInstance) {
                     return;
                 }
 
-                $scope.editorService.versions.push(newVersionName);
+                var getRequest = {
+                    method: 'GET',
+                    url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    'version': version
+                };
 
-                for (var i in $scope.deletedVersions) {
-                    if (i != instance) {
-                        $scope.deletedVersions[i].push(newVersionName);
-                    }
-                }
+                $http(getRequest)
+                    .success(function(data, status) {
+                        debugger;
+                        var patchRequest = {
+                            method: 'PATCH',
+                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Dash-Version': $scope.dashVersions[instance][version]
+                            },
+                            data: {
+                                'update' : data
+                            }
+                        };
 
-                if (!$scope.itemsForSave[instance]) {
-                    $scope.itemsForSave[instance] = {};
-                }
-
-                if (!$scope.itemsForSave[instance][newVersionName]) {
-                    $scope.itemsForSave[instance][newVersionName] = {};
-                    $scope.itemsForSave[instance][newVersionName]['update'] = {};
-                    $scope.itemsForSave[instance][newVersionName]['delete'] = [];
-                }
-
-                for (var i in $scope.values) {
-
-                    if (!$scope.values[i][instance]) {
-                        continue;
-                    }
-
-                    $scope.values[i][instance][newVersionName] = {
-                        value: $scope.values[i][instance][version].value
-                    };
-
-                    $scope.itemsForSave[instance][newVersionName]['update'][$scope.values[i].name] = $scope.values[i][instance][version].value;
-                }
+                        $http(patchRequest)
+                            .success(function(data, status) {
+                                debugger;
+                            })
+                            .error(function(error, status) {
+                                debugger;
+                            });
+                    })
+                    .error(function(s) {
+                        debugger;
+                    });
             });
         };
 

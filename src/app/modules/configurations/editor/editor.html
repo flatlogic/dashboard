@@ -78,10 +78,22 @@
 
     <script type="text/ng-template" id="newVersionModal.html">
         <div class="modal-header">
+            <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h3 class="modal-title">Create copy of {{version}} in {{instance}}</h3>
         </div>
         <div class="modal-body">
-            <input type="text" class="form-control" ng-model="newVersionName" placeholder="New version name">
+            <div class="row">
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="newVersionName" placeholder="New version name">
+                </div>
+                <div class="col-md-1 config-modal-devider">to</div>
+                <div class="config-select col-md-4">
+                    <select id="select-type" ng-model="targetInstance">
+                        <option value="">---Target instance---</option>
+                        <option ng-repeat="instance in instances" value="{{instance}}">{{instance}}</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
