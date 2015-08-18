@@ -271,23 +271,42 @@
                     'version': version
                 };
 
+                var newVars = {};
+
                 $http(getRequest)
                     .success(function(data, status) {
+                        newVars = data;
+
                         var patchRequest = {
-                            method: 'PATCH',
+                            method: 'POST',
                             url: API_URL + '/v1/env/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
                             headers: {
-                                'Content-Type': 'application/json',
-                                'X-Dash-Version': $scope.dashVersions[instance][version]
+                                'Content-Type': 'application/json'
                             },
-                            data: {
-                                'update' : data
-                            }
+                            data: data
                         };
-                        debugger;
+
                         $http(patchRequest)
                             .success(function(data, status) {
-                                debugger;
+                                $scope.editorService.versions.push(newVersionName);
+
+                                for (var i in $scope.deletedVersions) {
+                                    if (i != targetInstance) {
+                                        $scope.deletedVersions[i].push(newVersionName);
+                                    }
+                                }
+
+                                for (var i in $scope.values) {
+
+                                    if (!$scope.values[i][targetInstance]) {
+                                        continue;
+                                    }
+
+                                    $scope.values[i][targetInstance][newVersionName] = {
+                                        value: newVars[$scope.values[i].name]
+                                    };
+                                }
+
                                 $modalInstance.close();
                             })
                             .error(function(error, status) {
