@@ -1,10 +1,17 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.configurations');
+    angular.module('qorDash.configurations')
+        .config(function(NotificationProvider) {
+            NotificationProvider.setOptions({
+                delay: 1000,
+                positionX: 'right',
+                positionY: 'bottom'
+            });
+        });
 
-    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal'];
-    function editorController($scope, $stateParams, API_URL, $http, $modal) {
+    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal', 'Notification'];
+    function editorController($scope, $stateParams, API_URL, $http, $modal, Notification) {
 
         $scope.selectedVersion = {};
 
@@ -373,7 +380,7 @@
                     if (request.data.delete) {
                         $http(request)
                             .success(function (response) {
-                                alert('Saved successfully');
+                                Notification.success('Saved successfully');
                                 $('#env-save-button').button('reset');
                                 $scope.loadData();
                             })
