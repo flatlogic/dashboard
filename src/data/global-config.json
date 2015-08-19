@@ -1,5 +1,5 @@
 {
-    "auth-url" : "https://accounts.qor.io",
+    "auth-url" : "https://accounts.qor.io/v1",
     "api-url" : "https://ops-dev.blinker.com",
     "ws-url" : "wss://ops-dev.blinker.com",
     "icon-url" : "assets/images/logo-without-text.png",

@@ -3,7 +3,7 @@
 
     var module = angular.module('qorDash.configurations.services.editor', [
         'ui.router',
-        'ui.codemirror',
+        'ui-notification',
         'ui.bootstrap'
     ]);
 
