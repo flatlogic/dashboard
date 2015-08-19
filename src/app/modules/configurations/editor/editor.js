@@ -4,7 +4,7 @@
     angular.module('qorDash.configurations')
         .config(function(NotificationProvider) {
             NotificationProvider.setOptions({
-                delay: 1000,
+                delay: 3000,
                 positionX: 'right',
                 positionY: 'bottom'
             });
@@ -96,6 +96,7 @@
 
                 $scope.values = [];
                 $scope.val1 = {};
+                $scope.deledVersions = {};
 
                 $scope.editorService.instances.forEach(function (instance) {
                     for (var i in $scope.editorService.versions) {
@@ -314,20 +315,20 @@
                                     };
                                 }
 
+                                Notification.success('Copy created');
+
                                 $modalInstance.close();
                             })
-                            .error(function(error, status) {
-                                debugger;
+                            .error(function(e) {
+                                $('#config-modal-ok-button').button('reset');
+                                Notification.error('Data sending error' + e.error);
                             });
                     })
                     .error(function(s) {
-                        debugger;
+                        $('#config-modal-ok-button').button('reset');
+                        Notification.error('Data loading error' + e.error);
                     });
             };
-
-            modalInstance.result.then(function (resultArray) {
-
-            });
         };
 
         /**
@@ -385,8 +386,7 @@
                                 $scope.loadData();
                             })
                             .error(function (error) {
-                                alert('Saving error' + error);
-                                console.log(error);
+                                Notification.error('Saving error: ' + error.error);
                                 $('#env-save-button').button('reset');
                             });
                     }
