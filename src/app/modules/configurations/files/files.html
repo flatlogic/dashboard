@@ -20,13 +20,19 @@
                         <th>{{file.name}}</th>
                         <th>{{file.path}}</th>
                         <th ng-repeat="instance in service.instances">
-                            <div class="btn-group version-select" role="group" aria-label="...">
-                                <button ng-repeat="version in service.versions" type="button" class="btn btn-default"
-                                        ng-click="showFile(file.path, instance, version); "
-                                        ng-class="{'active': selectedFile['instance'] == instance && selectedFile['version'] == version && selectedFile['file_path'] == file.path}">
-                                    {{version}} <span class="label label-success" ng-show="isLive(instance, version)">Live</span>
+                            <span dropdown dropdown-append-to-body class="dropdown">
+                                <button class="btn config-table-header-button" dropdown-toggle ng-class="{'files-editor-active-button' : selectedFile['instance'] == instance && selectedFile['file_path'] == file.path}">
+                                    {{ (selectedFile['instance'] == instance && selectedFile['file_path'] == file.path) ? selectedFile.version : '- Choose version -'; }} <span class="label label-success" ng-show="isLive(instance, selectedFile[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
                                 </button>
-                            </div>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="version in service.versions">
+                                        <a ng-click="showFile(file.path, instance, version);" ng-class="{'li-active': selectedFile['instance'] == instance && selectedFile['version'] == version && selectedFile['file_path'] == file.path}">
+                                            {{version}}
+                                            <span class="label label-success pull-right" ng-show="isLive(instance, version)">Live</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </span>
                         </th>
                         <th>
                             <div class="config-table-actions"><span ng-click="deleteFile(file.path)"
