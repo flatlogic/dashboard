@@ -6,7 +6,6 @@
         .service('auth', authService)
         .service('user', userService)
         .factory('authInterceptor', authInterceptor)
-        .constant('AUTH_API_URL', 'https://accounts.qor.io/v1')
         .run(runAuth)
         .directive('userSection', userSection)
         .directive('userActions', userActions);
@@ -34,12 +33,14 @@
         }
     }
 
-    loginController.$inject = ['$scope', '$location', 'user'];
-    function loginController($scope, $location, user) {
+    loginController.$inject = ['$scope', '$location', 'user', 'LOGIN_PAGE_ICON_URL'];
+    function loginController($scope, $location, user, LOGIN_PAGE_ICON_URL) {
         if (user.isAuthed()) {
             $location.path('/app/dashboard');
             return;
         }
+
+        $scope.ICON_URL = LOGIN_PAGE_ICON_URL;
 
         $scope.userCredentials = {
             login: '',

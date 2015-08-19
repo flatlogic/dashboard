@@ -63,8 +63,8 @@
         $rootScope.$on('$stateChangeSuccess', resetStates);
     }
 
-    $QorSidebar.$inject = ['$rootScope'];
-    function $QorSidebar($rootScope) {
+    $QorSidebar.$inject = ['$rootScope', 'ICON_URL'];
+    function $QorSidebar($rootScope, ICON_URL) {
         return {
             restrict: 'EA',
             replace: true,
@@ -73,7 +73,7 @@
             template: '<nav class="qor-sidebar" ng-class="{ opened: hasActiveGroup() }">' +
                 '<header class="qor-sidebar-groups">' +
                 '<div class="qor-logo">' +
-                '<a href="/"><img src="assets/images/logo-without-text.png" height="50" width="50"></a>' +
+                '<a href="/"><img src="'+ ICON_URL +'" height="50" width="50"></a>' +
                 '</div>' +
                 '<ul class="qor-sidebar-nav">' +
                 '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'User\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +

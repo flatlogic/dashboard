@@ -1,13 +1,15 @@
 (function () {
     'use strict';
 
-    domainEnvironmentController.$inject = ['$scope', '$stateParams'];
-    function domainEnvironmentController($scope, $stateParams) {
+    domainEnvironmentController.$inject = ['$scope', '$stateParams', 'WS_URL'];
+    function domainEnvironmentController($scope, $stateParams, WS_URL) {
         $scope.environment = {};
         $scope.environment.name = $stateParams.env;
         $scope.setNetworkData = function (networkData) {
             $scope.networkData = networkData;
         }
+
+        $scope.eventsWsUrl = WS_URL + '/v1/events';
     }
 
     function autoScroll() {

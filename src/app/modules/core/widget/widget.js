@@ -10,9 +10,11 @@
     function qlWidget(user, $templateRequest, $compile) {
         return {
             replace: true,
+            scope:  {
+              wsUrl: '='
+            },
             link: function ($scope, $element, $attr) {
 
-                $scope.wsUrl = $attr.wsUrl;
                 $scope.attributes = $attr;
 
                 var loadWidget = function (widgetName, parentElement) {

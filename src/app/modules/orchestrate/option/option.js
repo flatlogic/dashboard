@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile'];
-    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile) {
+    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile', 'WS_URL'];
+    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile, WS_URL) {
 
         $scope.title = $stateParams.opt;
 
@@ -106,11 +106,11 @@
 
                 $http(request)
                     .success(function (response) {
-                        $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="wss://ops-dev.blinker.com' + response.log_ws_url + '"></div>')($scope));
+                        $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="' + WS_URL + response.log_ws_url + '"></div>')($scope));
                         $('#sendMessageButton').button('reset');
                     });
             } else {
-                var wsUrl = 'wss://ops-dev.blinker.com/v1/ws/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId;
+                var wsUrl = WS_URL + '/v1/ws/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId;
                 $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="'+ wsUrl +'"></div>')($scope));
                 $('#sendMessageButton').button('reset');
             }
