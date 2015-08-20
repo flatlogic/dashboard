@@ -2,10 +2,6 @@
     <header horizontal-ui-sheet-header title="{{domain.name}} > {{service.service}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <button ui-sref="app.configurations.services.instances.editor.files" class="btn qor-btn-primary config-switch-btn">
-            Configuration Files
-        </button>
-
         <div class="editor-content">
             <div class="loading" ng-if="!values">Loading...</div>
             <div class="filled-content" ng-if="values">

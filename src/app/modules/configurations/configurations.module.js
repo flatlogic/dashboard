@@ -3,11 +3,12 @@
 
     var module = angular.module('qorDash.configurations', [
         'ui.router',
-        'ui.codemirror',
-        'qorDash.configurations.services',
-        'qorDash.configurations.services.instances',
-        'qorDash.configurations.services.editor',
-        'qorDash.configurations.services.instances.editor.files'
+        'qorDash.configurations.state',
+        'qorDash.configurations.state.files',
+        'qorDash.configurations.state.files.files-editor',
+        'qorDash.configurations.state.services',
+        'qorDash.configurations.state.services.instances',
+        'qorDash.configurations.state.services.editor'
     ]);
 
     module.config(appConfig);

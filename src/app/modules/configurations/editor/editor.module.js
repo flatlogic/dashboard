@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.configurations.services.editor', [
+    var module = angular.module('qorDash.configurations.state.services.editor', [
         'ui.router',
         'ui-notification',
         'ui.bootstrap'
@@ -13,7 +13,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.configurations.services.instances.editor', {
+            .state('app.configurations.state.services.instances.editor', {
                 url: '/:instances',
                 templateUrl: 'app/modules/configurations/editor/editor.html',
                 controller: 'EditorController',

@@ -635,6 +635,12 @@ $stat-blue-color: #7986CB;
   }
 }
 
+.files-table {
+  >thead>tr>th {
+    text-align: center;
+  }
+}
+
 .config-table-action-btn {
   color: #ffffff;
   background-color: #cccccc;
@@ -944,4 +950,32 @@ width: 20px;
 
 .files-editor-active-button {
   box-shadow: 0 0 5px #30C145;
+}
+
+
+.textdiff {
+  background-color: white;
+}
+
+.match, .textdiff span {
+  color: gray;
+}
+
+.ins, ins {
+  color: black;
+  background: #bbffbb;
+}
+
+.del, del {
+  color: black;
+  background: #ffbbbb;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

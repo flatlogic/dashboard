@@ -7,7 +7,7 @@
                 $scope.domains = response;
 
                 if($scope.domains.length === 1 && $state.current.name == 'app.configurations'){
-                    $state.go('app.configurations.services', {domain:$scope.domains[0].id})
+                    $state.go('app.configurations.state', {domain:$scope.domains[0].id})
                 }
 
                 $scope.domain = $scope.domains.filter(function (domain) {

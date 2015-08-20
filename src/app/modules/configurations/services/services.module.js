@@ -1,9 +1,8 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.configurations.services', [
-        'ui.router',
-        'ui.codemirror'
+    var module = angular.module('qorDash.configurations.state.services', [
+        'ui.router'
     ]);
 
     module.config(appConfig);
@@ -12,8 +11,8 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.configurations.services', {
-                url: '/:domain',
+            .state('app.configurations.state.services', {
+                url: '/variables',
                 templateUrl: 'app/modules/configurations/services/services.html',
                 controller: 'ServicesController',
                 authenticate: true

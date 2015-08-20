@@ -64,7 +64,7 @@
                 }
             }
             if (selectedInstances.length > 0) {
-                $state.go('app.configurations.services.instances.editor', {instances: selectedInstances});
+                $state.go('app.configurations.state.services.instances.editor', {instances: selectedInstances});
             }
         }
 

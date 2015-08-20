@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.configurations.services.instances', [
+    var module = angular.module('qorDash.configurations.state.services.instances', [
         'ui.router'
     ]);
 
@@ -11,7 +11,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.configurations.services.instances', {
+            .state('app.configurations.state.services.instances', {
                 url: '/:service',
                 templateUrl: 'app/modules/configurations/instances/instances.html',
                 controller: 'InstancesController',

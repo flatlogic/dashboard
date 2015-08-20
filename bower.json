@@ -21,7 +21,8 @@
     "metrojs": "~0.9.77",
     "angular-ui-codemirror": "~0.3.0",
     "d3": "~3.5.6",
-    "angular-ui-notification": "~0.0.12"
+    "angular-ui-notification": "~0.0.12",
+    "angular-diff-match-patch": "~0.1.11"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"

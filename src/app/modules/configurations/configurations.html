@@ -5,7 +5,7 @@
         <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="domain in domains"
                ui-sref-active="active"
-               ui-sref="app.configurations.services({domain : domain.id})">
+               ui-sref="app.configurations.state({domain : domain.id})">
                 {{domain.name}}
             </a>
         </div>
