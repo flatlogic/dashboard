@@ -11,7 +11,7 @@
         return {
             replace: true,
             scope:  {
-              wsUrl: '@'
+              wsUrl: '='
             },
             link: function ($scope, $element, $attr) {
 
