@@ -10,12 +10,12 @@
     function qlWidget(user, $templateRequest, $compile) {
         return {
             replace: true,
-            scope:  {
-              wsUrl: '='
-            },
             link: function ($scope, $element, $attr) {
 
                 $scope.attributes = $attr;
+                $scope.$watch($attr.wsUrl, function (wsUrl) {
+                   $scope.wsUrl = wsUrl;
+                });
 
                 var loadWidget = function (widgetName, parentElement) {
                     $templateRequest('app/widgets/' + widgetName.toLowerCase() + '/' + widgetName.toLowerCase() + '.html', true).then(function (response) {
