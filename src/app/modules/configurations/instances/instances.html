@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="instance in service.instances">
+                <tr ng-repeat="instance in service.instances | orderBy:''">
                     <td>{{instance}}</td>
                     <td><input ng-click="changeState(checked[instance])" class="new-checkbox" id="input-{{instance}}" name="input-{{instance}}" ng-model="checked[instance]" type="checkbox"><label class="pull-right" for="input-{{instance}}"></label></td>
                 </tr>

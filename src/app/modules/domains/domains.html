@@ -3,7 +3,7 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="domain in domains"
+            <a class="list-group-item" ng-repeat="domain in domains | orderBy:''"
                ui-sref-active="active"
                ui-sref="app.domains.domain({id : domain.id})">
                 {{domain.name}}

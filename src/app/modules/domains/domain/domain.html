@@ -3,7 +3,7 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="environment in domain.instances"
+            <a class="list-group-item" ng-repeat="environment in domain.instances | orderBy:''"
                ui-sref-active="active"
                ui-sref="app.domains.domain.env({env : environment})">
                 {{environment}}
