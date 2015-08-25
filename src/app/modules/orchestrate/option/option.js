@@ -106,7 +106,7 @@
 
                 $http(request)
                     .success(function (response) {
-                        $('#timelineContainer').html($compile('<div ql-widget="Timeline" ws-url="' + WS_URL + response.log_ws_url + '"></div>')($scope));
+                        $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.log_ws_url + "'\"></div>")($scope));
                         $('#sendMessageButton').button('reset');
                     });
             } else {
