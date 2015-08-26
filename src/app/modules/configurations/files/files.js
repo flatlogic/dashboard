@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.configurations');
-
     filesController.$inject = ['$scope', '$stateParams', '$http', 'API_URL'];
     function filesController($scope, $stateParams, $http, API_URL) {
 
@@ -12,15 +10,6 @@
             }
             $scope.domain = $scope.domains.filter(function (domain) {
                 return domain.id == $stateParams.domain;
-            })[0];
-        });
-
-        $scope.$watch('services', function() {
-            if (!$scope.services) {
-                return;
-            }
-            $scope.service = $scope.services.filter(function (service) {
-                return service.id == $stateParams.service;
             })[0];
         });
 
@@ -45,6 +34,6 @@
     }
 
 
-    angular.module('qorDash.configurations')
+    angular.module('qorDash.configurations.services.state.files')
         .controller('FilesController', filesController);
 })();

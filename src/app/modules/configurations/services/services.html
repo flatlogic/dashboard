@@ -1,15 +1,13 @@
 <section horizontal-ui-sheet class="qor-sheet-s">
-    <header horizontal-ui-sheet-header title="{{domain.name}}">
+    <header horizontal-ui-sheet-header title="Services">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="service in services | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.configurations.state.services.instances({service: service.service})"
+               ui-sref="app.configurations.services.state({service: service})"
                     >
-                {{service.service}}
-                <div class="navigation-details"><span>{{service.instances.length}}</span> <span>{{service.versions.length}}</span>
-                </div>
+                {{service}}
             </a>
         </div>
         <div id="env-loader" ng-hide="services">

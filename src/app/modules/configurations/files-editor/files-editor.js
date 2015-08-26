@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.configurations');
-
     filesEditorController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'Notification'];
     function filesEditorController($scope, $stateParams, $http, API_URL, Notification) {
 
@@ -165,6 +163,6 @@
     }
 
 
-    angular.module('qorDash.configurations')
+    angular.module('qorDash.configurations.services.state.files.files-editor')
         .controller('FilesEditorController', filesEditorController);
 })();

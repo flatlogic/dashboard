@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.configurations.state.files.files-editor', [
+    var module = angular.module('qorDash.configurations.services.state.files.files-editor', [
         'ui.router',
         'ui.codemirror',
         'ui-notification',
@@ -14,7 +14,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.configurations.state.files.files-editor', {
+            .state('app.configurations.services.state.files.files-editor', {
                 url: '/:file',
                 templateUrl: 'app/modules/configurations/files-editor/files-editor.html',
                 controller: 'FilesEditorController',

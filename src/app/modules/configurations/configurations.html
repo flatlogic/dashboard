@@ -1,11 +1,11 @@
 <section horizontal-ui-sheet class="qor-sheet-s">
-    <header horizontal-ui-sheet-header title="Configurations">
+    <header horizontal-ui-sheet-header title="Domain Class">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="domain in domains | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.configurations.state({domain : domain.id})">
+               ui-sref="app.configurations.services({domain : domain.id})">
                 {{domain.name}}
             </a>
         </div>

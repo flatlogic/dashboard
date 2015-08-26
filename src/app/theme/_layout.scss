@@ -65,7 +65,8 @@ $qor-select-color: #000000;
 }
 
 .qor-sheet-s {
-  width: 300px;
+  min-width: 300px;
+  width: calc((100vw - #{$qor-sidebar-width}) / 4);
 }
 
 .qor-sheet-xs {

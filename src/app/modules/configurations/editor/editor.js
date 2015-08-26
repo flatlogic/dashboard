@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.configurations')
+    angular.module('qorDash.configurations.services.state.instances.editor')
         .config(function(NotificationProvider) {
             NotificationProvider.setOptions({
                 delay: 3000,
@@ -44,16 +44,12 @@
             }
         };
 
-        $scope.$watch('services', function() {
-            if (!$scope.services) {
+        $scope.$watch('service', function() {
+            if (!$scope.service) {
                 return;
             }
 
-            $scope.editorService = Object.filter($scope.services, function(key) {
-                return $stateParams.service == key;
-            });
-
-            $scope.editorService = JSON.parse(JSON.stringify($scope.editorService));
+            $scope.editorService = $scope.service;
 
             $scope.editorService.instances = $stateParams.instances.split(',');
 
@@ -682,7 +678,7 @@
         }
     }
 
-    angular.module('qorDash.configurations')
+    angular.module('qorDash.configurations.services.state.instances.editor')
         .controller('EditorController', editorController)
         .directive('inlineEdit', inlineEdit)
         .directive('onEnter', onEnter)

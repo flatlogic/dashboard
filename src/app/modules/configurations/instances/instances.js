@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.configurations');
-
     instancesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL'];
     function instancesController($scope, $state, $stateParams, $http, API_URL) {
 
@@ -19,32 +17,31 @@
 
         $scope.checked = {};
 
-        $scope.$watch('services', function() {
-            if (!$scope.services) {
-                return;
-            }
-
-            $scope.service = Object.filter($scope.services, function (key) {
-                return $stateParams.service == key;
-            });
-
-            $scope.service.instances.forEach(function(instance) {
-                $scope.saveAvailableHelper++;
-                $scope.checked[instance] = true;
-            });
-
-            if ($state.params.instances) {
-                for (var i in $scope.checked) {
-                    $scope.checked[i] = false;
-                }
-                $state.params.instances.split(',').forEach(function(instance){
-                    if ($scope.checked[instance] != 'undefined') {
-                        $scope.checked[instance] = true;
-                        $scope.saveAvailableHelper++;
-                    }
+        $http.get(API_URL + '/v1/env/' + $stateParams.domain + '/')
+            .success(function (response) {
+                $scope.service = response[$state.params.service];
+                $scope.instances = $scope.service.instances;
+                $scope.instances.forEach(function(instance) {
+                    $scope.saveAvailableHelper++;
+                    $scope.checked[instance] = true;
                 });
-            }
-        });
+
+                if ($state.params.instances) {
+                    for (var i in $scope.checked) {
+                        $scope.checked[i] = false;
+                    }
+                    $state.params.instances.split(',').forEach(function(instance){
+                        if ($scope.checked[instance] != 'undefined') {
+                            $scope.checked[instance] = true;
+                            $scope.saveAvailableHelper++;
+                        }
+                    });
+                }
+
+            })
+            .error(function (response, status) {
+                // TODO Add error message
+            });
 
         $scope.saveAvailableHelper = 0;
 
@@ -64,12 +61,12 @@
                 }
             }
             if (selectedInstances.length > 0) {
-                $state.go('app.configurations.state.services.instances.editor', {instances: selectedInstances});
+                $state.go('app.configurations.services.state.instances.editor', {instances: selectedInstances});
             }
         }
 
     }
 
-    angular.module('qorDash.configurations')
+    angular.module('qorDash.configurations.services.state.instances')
         .controller('InstancesController', instancesController);
 })();

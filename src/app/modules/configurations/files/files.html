@@ -1,12 +1,11 @@
 <section horizontal-ui-sheet class="qor-sheet-s">
-    <header horizontal-ui-sheet-header title="{{domain.name}}">
+    <header horizontal-ui-sheet-header title="Files">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="file in instance.objects | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.configurations.state.files.files-editor({file: file})"
-                    >
+               ui-sref="app.configurations.services.state.files.files-editor({file: file})">
                 {{file}}
             </a>
         </div>

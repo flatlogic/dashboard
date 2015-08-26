@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.configurations');
-
     Object.size = function(obj) {
         var size = 0, key;
         for (key in obj) {
@@ -25,12 +23,12 @@
             })[0];
         });
 
-        $http.get(API_URL + '/v1/env/' + domainId + '/')
-            .success(function (response, status, headers) {
-                $scope.services = response;
+        $http.get(API_URL + '/v1/domain/' + domainId)
+            .success(function (response) {
+                $scope.services = response.services;
 
                 if(Object.size($scope.services) == 1 && $state.current.name == 'app.configurations.services'){
-                    $state.go('app.configurations.services.instances', {service: $scope.services[Object.keys($scope.services)[0]].service})
+                    $state.go('app.configurations.services.state', {service: $scope.services[0]})
                 }
 
             })
@@ -39,6 +37,6 @@
             });
     }
 
-    angular.module('qorDash.configurations')
+    angular.module('qorDash.configurations.services')
         .controller('ServicesController', servicesController);
 })();
