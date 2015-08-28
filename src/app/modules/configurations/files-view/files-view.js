@@ -39,14 +39,42 @@
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).success (function(response) {
-                    $scope.fileContents = response;
-                }).error (function(e) {
+                }).then(function(response) {
+                        $scope.fileContents = response.data;
+                        $scope.fileVersion = response.headers('X-Dash-Version');
+                    },
+                    function(e) {
+                        var error = e ? e.error : 'unknown server error';
+                        Notification.error('Can\'t load data: ' + error);
+                        $scope.loading = false;
+                    });
+            }
+        };
+
+        $scope.saveFile = function () {
+            if (!$scope.fileContents) {
+                return
+            }
+
+            var domainClass = $stateParams.domain,
+                service = $scope.service,
+                object = $stateParams.file;
+            $http({
+                method: 'PUT',
+                url: API_URL + '/v1/conf/' + domainClass + '/'
+                + $scope.selectedInstance + '/' + service + '/'
+                + $scope.selectedVersion + '/' + object,
+                headers: {
+                    'X-Dash-Version': $scope.fileVersion
+                },
+                data: $scope.fileContents
+            }).then(function() {
+                    Notification.success('Saved successfully');
+                }, function(e) {
                     var error = e ? e.error : 'unknown server error';
                     Notification.error('Can\'t load data: ' + error);
                     $scope.loading = false;
                 });
-            }
         };
 
         $scope.isInstanceActive = function(instance) {

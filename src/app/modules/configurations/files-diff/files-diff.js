@@ -158,12 +158,11 @@
                     $scope.firstFileData = response;
 
                     $http(getSecondFileRequest)
-                        .success(function(response) {
-                            $scope.secondFileData = response;
+                        .then(function(response) {
+                            $scope.secondFileData = response.data;
 
                             $scope.loading = false;
-                        })
-                        .error(function(e) {
+                        }, function(e) {
                             var error = e ? e.error : 'unknown server error';
                             Notification.error('Can\'t load data: ' + error);
                             $scope.loading = false;

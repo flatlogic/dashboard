@@ -4,7 +4,7 @@
     angular.module('qorDash.configurations.services.state.instances.editor')
         .config(function(NotificationProvider) {
             NotificationProvider.setOptions({
-                delay: 3000,
+                delay: 5000,
                 positionX: 'right',
                 positionY: 'bottom'
             });
