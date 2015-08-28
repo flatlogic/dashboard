@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesController.$inject = ['$scope', '$stateParams', '$http', 'API_URL'];
-    function filesController($scope, $stateParams, $http, API_URL) {
+    filesController.$inject = ['$scope', '$stateParams', '$q', '$http', 'API_URL'];
+    function filesController($scope, $stateParams, $q, $http, API_URL) {
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -13,24 +13,28 @@
             })[0];
         });
 
-        var instanceRequest = {
-            method: 'GET',
-            url: API_URL + '/v1/conf/' + $stateParams.domain + '/',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        $scope.loadInstance = function () {
+            var instanceRequest = {
+                method: 'GET',
+                url: API_URL + '/v1/conf/' + $stateParams.domain + '/',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            var deferred = $q.defer();
+            $http(instanceRequest)
+                .success(function(response) {
+                    $scope.instance = response[$stateParams.service];
+                    $scope.service = $stateParams.service;
+                    deferred.resolve();
+                })
+                .error(function(e) {});
+
+            return deferred.promise;
         };
 
-        $http(instanceRequest)
-            .success(function(response) {
-                for (var i in response) {
-                    if (response[i].domain == $stateParams.domain) {
-                        $scope.instance = response[i];
-                        $scope.service = i;
-                    }
-                }
-            })
-            .error(function(e) {});
+        $scope.loadInstance();
     }
 
 
