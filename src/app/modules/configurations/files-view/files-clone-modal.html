@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title">
+    Clone <span class="fw-semi-bold">{{instance}}</span>-<span class="fw-semi-bold">{{version}}</span> to</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-7">
+      <input type="text" class="form-control" ng-model="newVersionName" placeholder="New version name">
+    </div>
+    <div class="col-md-1 config-modal-devider">in</div>
+    <div class="col-md-4">
+      <select id="select-type" ng-model="targetInstance" class="form-control">
+        <option value="">---Target instance---</option>
+        <option ng-repeat="instance in instances" value="{{instance}}">{{instance}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-primary" id="config-modal-ok-button" type="button" ng-click="ok()">OK</button>
+</div>

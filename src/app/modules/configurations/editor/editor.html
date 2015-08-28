@@ -24,7 +24,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
+                                <span class="fa fa-clone copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
                             </span>
                         </th>
                         <th></th>
@@ -75,7 +75,7 @@
     <script type="text/ng-template" id="newVersionModal.html">
         <div class="modal-header">
             <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h3 class="modal-title">Create copy of {{version}} in {{instance}}</h3>
+            <h4 class="modal-title">Create copy of {{version}} in {{instance}}</h4>
         </div>
         <div class="modal-body">
             <div class="row">
@@ -83,8 +83,8 @@
                     <input type="text" class="form-control" ng-model="newVersionName" placeholder="New version name">
                 </div>
                 <div class="col-md-1 config-modal-devider">to</div>
-                <div class="config-select col-md-4">
-                    <select id="select-type" ng-model="targetInstance">
+                <div class="col-md-4">
+                    <select id="select-type" ng-model="targetInstance" class="form-control">
                         <option value="">---Target instance---</option>
                         <option ng-repeat="instance in instances" value="{{instance}}">{{instance}}</option>
                     </select>
@@ -92,8 +92,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" id="config-modal-ok-button" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+          <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+          <button class="btn btn-primary" id="config-modal-ok-button" type="button" ng-click="ok()">OK</button>
         </div>
     </script>
 

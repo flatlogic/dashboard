@@ -36,7 +36,8 @@
     <form ng-submit="saveFile()" class="file-content" ng-init="contentsChanged = false">
       <div class="btn-toolbar pull-right">
         <button class="btn btn-danger mr-xs" ng-disabled="!(fileContents && contentsChanged)" type="submit">Save</button>
-        <button class="btn btn-default mr-n-xs" ng-disabled="!fileContents" type="button">Clone <i class="fa fa-clone ml-xs"></i></button>
+        <button class="btn btn-default mr-n-xs" ng-disabled="!fileContents"
+                type="button" ng-click="cloneFile()">Clone <i class="fa fa-clone ml-xs"></i></button>
         <a class="btn btn-default" ng-disabled="!fileContents"
            ui-sref=".diff">
           Diff <i class="fa fa-exchange ml-xs"></i>

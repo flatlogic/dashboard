@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesViewController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'Notification'];
-    function filesViewController($scope, $state, $stateParams, $http, API_URL, Notification) {
+    filesViewController.$inject = ['$scope', '$state', '$stateParams', '$http', '$modal', '$q', 'API_URL', 'Notification'];
+    function filesViewController($scope, $state, $stateParams, $http, $modal, $q, API_URL, Notification) {
         $scope.selectInstance = function (instance) {
             $scope.selectedInstance = instance;
 
@@ -77,6 +77,61 @@
                 });
         };
 
+        $scope.cloneFile = function () {
+            $modal.open({
+                animation: true,
+                templateUrl: 'app/modules/configurations/files-view/files-clone-modal.html',
+                controller: 'FilesCloneController',
+                resolve: {
+                    instance: function () {
+                        return $scope.selectedInstance;
+                    },
+                    version: function () {
+                        return $scope.selectedVersion;
+                    },
+                    instances: function() {
+                        return $scope.instance.instances;
+                    },
+                    clone: function () {
+                        return $scope._cloneFile;
+                    }
+                }
+            });
+        };
+
+        $scope._cloneFile = function (version, instance) {
+            var domainClass = $stateParams.domain,
+                service = $scope.service,
+                object = $stateParams.file,
+                deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: API_URL + '/v1/conf/' + domainClass + '/'
+                    + instance + '/' + service + '/'
+                    + version + '/' + object,
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                data: $scope.fileContents
+            }).then(function() {
+                deferred.resolve();
+                Notification.success('Cloned successfully');
+                $scope.loadInstance().then(function() {
+                    $state.go('.', {
+                        instance: instance,
+                        version: version
+                    });
+                });
+            }, function(e) {
+                deferred.reject();
+                var error = e ? e.error : 'unknown server error';
+                Notification.error('Can\'t load data: ' + error);
+                $scope.loading = false;
+            });
+
+            return deferred.promise;
+        };
+
         $scope.isInstanceActive = function(instance) {
             return instance == $scope.selectedInstance;
         };
@@ -105,7 +160,33 @@
         })
     }
 
+    filesCloneController.$inject = ['$scope', '$modalInstance', 'instance', 'version', 'instances', 'clone'];
+    function filesCloneController($scope, $modalInstance, instance, version, instances, clone) {
+        $scope.newVersionName = '';
+
+        $scope.version = version;
+        $scope.instance = instance;
+        $scope.instances = instances;
+
+        $scope.targetInstance = '';
+
+        $scope.ok = function () {
+            if (!$scope.newVersionName || !$scope.targetInstance) {
+                return;
+            }
+            clone($scope.newVersionName, $scope.targetInstance).finally(function () {
+                $modalInstance.close();
+            });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        }
+    }
+
 
     angular.module('qorDash.configurations.services.state.files.files-view')
-        .controller('FilesViewController', filesViewController);
+        .controller('FilesViewController', filesViewController)
+        .controller('FilesCloneController', filesCloneController)
+    ;
 })();

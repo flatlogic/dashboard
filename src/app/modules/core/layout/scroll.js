@@ -15,6 +15,15 @@
                 var hasScrollBar = function ($el) {
                         return $el.length && $el.get(0).scrollHeight > $el.get(0).clientHeight;
                     },
+                    hasScrollBarUpwards = function ($el, $till) {
+                        if ($el == $till || !$till.has($el).length) {
+                            return false
+                        }
+                        if (hasScrollBar($el)) {
+                            return true;
+                        }
+                        return hasScrollBarUpwards($el.parent(), $till);
+                    },
                     isHorizontal = function ($el) {
                         return !hasScrollBar($el.closest('.qor-sheet-content'));
                     },
@@ -24,7 +33,7 @@
                 $element[0].addEventListener('mousewheel', function (event) {
                     var $target = $(event.target),
                         continuePropagation;
-                    if (hasScrollBar($target)) {
+                    if (hasScrollBarUpwards($target, $target.closest('.qor-sheet-content'))) {
                         return
                     }
                     if (isHorizontal($target) || isScrolling && previousHorizontal) {

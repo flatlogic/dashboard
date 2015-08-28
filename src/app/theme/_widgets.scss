@@ -931,22 +931,6 @@ width: 20px;
   top: 4px;
 }
 
-.config-select {
-  display: inline;
-
-  > select {
-    border: 1px solid #CCCCCC;
-    padding: 5px;
-    color: $qor-select-color;
-    appearance: none;
-    -webkit-apperance: none;
-    -moz-apperance: none;
-    background: url(../assets/images/select-arrow.png) 96% / 15% no-repeat #ffffff;
-    min-width: 120px;
-    width: 100%;
-  }
-}
-
 .config-modal-devider {
   heigth: 33px;
   padding-top: 7px;
@@ -992,4 +976,9 @@ width: 20px;
   .btn-toolbar {
     margin-top: -33px;
   }
+}
+
+.qor-sheet-content .dropdown-menu {
+  max-height: calc(100vh - #{$navbar-height} - 100px);
+  overflow: auto;
 }
