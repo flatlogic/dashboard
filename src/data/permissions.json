@@ -17,6 +17,7 @@
     "InstancesController": "my_account",
     "domain_details": "my_account",
     "FilesEditorController": "my_account",
+    "FilesViewController": "my_account",
     "DomainDetailsController": "my_account",
     "DomainEnvironmentController": "my_account",
     "DomainNodeController": "my_account",

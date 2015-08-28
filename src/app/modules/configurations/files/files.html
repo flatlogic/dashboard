@@ -5,7 +5,7 @@
         <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="file in instance.objects | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.configurations.services.state.files.files-editor({file: file})">
+               ui-sref=".files-view({file: file})">
                 {{file}}
             </a>
         </div>

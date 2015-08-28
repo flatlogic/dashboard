@@ -698,11 +698,6 @@ $stat-blue-color: #7986CB;
   }
 }
 
-.qor-btn-primary {
-  background-color: #eea22d;
-  color: #FFFFFF;
-}
-
 .config-switch-btn {
   position: absolute;
   top: $qor-header-height + 10;
@@ -881,6 +876,15 @@ width: 20px;
   width: 200px;
   background-color: white;
   color: #555;
+
+  .label {
+    margin-top: 2px;
+  }
+
+  .fa-angle-down {
+    margin-top: 1px;
+    font-size: $font-size-large;
+  }
 }
 
 .dropdown-menu {
@@ -978,4 +982,14 @@ width: 20px;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.file-content {
+  textarea.form-control {
+    height: calc(100vh - #{$navbar-height} - 100px);
+  }
+
+  .btn-toolbar {
+    margin-top: -33px;
+  }
 }

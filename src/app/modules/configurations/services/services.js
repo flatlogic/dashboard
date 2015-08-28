@@ -28,7 +28,7 @@
                 $scope.services = response.services;
 
                 if(Object.size($scope.services) == 1 && $state.current.name == 'app.configurations.services'){
-                    $state.go('app.configurations.services.state', {service: $scope.services[0]})
+                    $state.go('.state', {service: $scope.services[0]})
                 }
 
             })

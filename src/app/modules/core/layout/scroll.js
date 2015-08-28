@@ -24,6 +24,9 @@
                 $element[0].addEventListener('mousewheel', function (event) {
                     var $target = $(event.target),
                         continuePropagation;
+                    if (hasScrollBar($target)) {
+                        return
+                    }
                     if (isHorizontal($target) || isScrolling && previousHorizontal) {
                         if ($(window).width() >= 768) { // no horizontal scrolling for mobile. only for tablet+
                             if ($element[0].doScroll) {

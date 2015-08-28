@@ -1,0 +1,79 @@
+<section horizontal-ui-sheet class="qor-sheet-full">
+  <header horizontal-ui-sheet-header
+          title="{{fileName}} - {{selectedInstance}} - {{selectedVersion}}
+          vs {{fileName}} - {{selectedSecondInstance}} - {{selectedSecondVersion}}">
+  </header>
+  <div horizontal-ui-sheet-content>
+    <div class="editor-content">
+      <div class="btn-toolbar pull-right mt-0">
+        <div class="btn-group">
+          <div dropdown dropdown-append-to-body class="dropdown">
+            <button class="btn btn-default config-table-header-button" dropdown-toggle >
+              {{selectedSecondInstance ? selectedSecondInstance : '- Choose instance -'}}<span class="fa fa-chevron-down pull-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="instance in instance.instances" ng-class="{'li-active' : isSecondInstanceActive(instance)}">
+                <a ng-click="selectSecondInstance(instance)">
+                  {{instance}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="btn-group">
+          <div dropdown dropdown-append-to-body class="dropdown">
+            <button class="btn btn-default config-table-header-button" dropdown-toggle >
+              {{selectedSecondVersion ? selectedSecondVersion : '- Choose version -'}} <span class="label label-success" ng-show="isSecondVersionLive(selectedSecondVersion)">Live</span><span class="fa fa-chevron-down pull-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="version in instance.versions" ng-class="{'li-active' : isSecondVersionActive(version)}">
+                <a ng-click="selectSecondVersion(version)">
+                  {{version}}
+                  <span class="label label-success pull-right" ng-show="isSecondVersionLive(version)">Live</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="btn-toolbar mt-0 mb-0">
+        <div class="btn-group">
+          <div dropdown dropdown-append-to-body class="dropdown">
+            <button class="btn btn-default config-table-header-button" dropdown-toggle >
+              {{selectedFirstInstance ? selectedFirstInstance : '- Choose instance -'}}<span class="fa fa-chevron-down pull-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="instance in instance.instances" ng-class="{'li-active' : isFirstInstanceActive(instance)}">
+                <a ng-click="selectFirstInstance(instance)">
+                  {{instance}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="btn-group">
+          <div dropdown dropdown-append-to-body class="dropdown">
+            <button class="btn btn-default config-table-header-button" dropdown-toggle >
+              {{selectedFirstVersion ? selectedFirstVersion : '- Choose version -'}} <span class="label label-success" ng-show="isFirstVersionLive(selectedFirstVersion)">Live</span><span class="fa fa-chevron-down pull-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="version in instance.versions" ng-class="{'li-active' : isFirstVersionActive(version)}">
+                <a ng-click="selectFirstVersion(version)">
+                  {{version}}
+                  <span class="label label-success pull-right" ng-show="isFirstVersionLive(version)">Live</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="filled-content">
+        <div id="env-loader" ng-show="loading">
+          <img src="assets/images/cube.gif">
+        </div>
+        <pre ng-show="firstFileData && secondFileData" class="textdiff" line-diff left-obj="firstFileData" right-obj="secondFileData">
+        </pre>
+      </div>
+    </div>
+  </div>
+</section>

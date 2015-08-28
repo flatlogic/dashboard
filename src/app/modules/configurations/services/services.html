@@ -5,7 +5,7 @@
         <div class="list-group text-left ng-scope">
             <a class="list-group-item" ng-repeat="service in services | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.configurations.services.state({service: service})"
+               ui-sref=".state({service: service})"
                     >
                 {{service}}
             </a>

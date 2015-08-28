@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesEditorController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'Notification'];
-    function filesEditorController($scope, $stateParams, $http, API_URL, Notification) {
+    filesEditorController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'Notification'];
+    function filesEditorController($scope, $state, $stateParams, $http, API_URL, Notification) {
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -11,12 +11,14 @@
             $scope.domain = $scope.domains.filter(function (domain) {
                 return domain.id == $stateParams.domain;
             })[0];
+        });
 
-            $scope.$watch('service', function() {
-                if (!$scope.service) {
-                    return;
-                }
-            });
+        $scope.$watch('service', function() {
+            if (!$scope.service) {
+                return;
+            }
+
+            $scope.showDiff();
         });
 
         $scope.left = ["I am the very model of a modern Major-General,",
@@ -48,32 +50,45 @@
 
         $scope.fileName = $stateParams.file;
 
-        $scope.selectedFirstInstance = '';
-        $scope.selectedSecondInstance = '';
-        $scope.selectedFirstVersion = '';
-        $scope.selectedSecondVersion = '';
+        $scope.selectedFirstInstance = $stateParams.instance;
+        $scope.selectedSecondInstance = $stateParams.diffToInstance;
+        $scope.selectedFirstVersion = $stateParams.version;
+        $scope.selectedSecondVersion = $stateParams.diffToVersion;
+
+        $scope.syncState = function () {
+            $state.go('.', {
+                instance: $scope.selectedFirstInstance,
+                version: $scope.selectedFirstVersion,
+                diffToInstance: $scope.selectedSecondInstance,
+                diffToVersion: $scope.selectedSecondVersion
+            });
+        };
 
         $scope.selectFirstInstance = function(instance) {
             $scope.selectedFirstInstance = instance;
 
+            $scope.syncState();
             $scope.showDiff();
         };
 
         $scope.selectSecondInstance = function(instance) {
             $scope.selectedSecondInstance = instance;
 
+            $scope.syncState();
             $scope.showDiff();
         };
 
         $scope.selectFirstVersion = function(version) {
             $scope.selectedFirstVersion = version;
 
+            $scope.syncState();
             $scope.showDiff();
         };
 
         $scope.selectSecondVersion = function(version) {
             $scope.selectedSecondVersion = version;
 
+            $scope.syncState();
             $scope.showDiff();
         };
 
@@ -94,14 +109,14 @@
         };
 
         $scope.isFirstVersionLive = function(version) {
-            if (!$scope.selectedFirstInstance) {
+            if (!$scope.selectedFirstInstance || !$scope.instance) {
                 return false;
             }
             return version == $scope.instance.live[$scope.selectedFirstInstance][$scope.fileName];
         };
 
         $scope.isSecondVersionLive = function(version) {
-            if (!$scope.selectedSecondInstance) {
+            if (!$scope.selectedSecondInstance || !$scope.instance) {
                 return false;
             }
             return version == $scope.instance.live[$scope.selectedSecondInstance][$scope.fileName];
@@ -163,6 +178,6 @@
     }
 
 
-    angular.module('qorDash.configurations.services.state.files.files-editor')
+    angular.module('qorDash.configurations.services.state.files.files-view.diff')
         .controller('FilesEditorController', filesEditorController);
 })();
