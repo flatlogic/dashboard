@@ -9,7 +9,7 @@
         <div class="btn-group">
           <div dropdown dropdown-append-to-body class="dropdown">
             <button class="btn btn-default config-table-header-button" dropdown-toggle >
-              {{selectedSecondInstance ? selectedSecondInstance : '- Choose instance -'}}<span class="fa fa-chevron-down pull-right"></span>
+              {{selectedSecondInstance ? selectedSecondInstance : '- Choose instance -'}}<span class="fa fa-angle-down pull-right"></span>
             </button>
             <ul class="dropdown-menu">
               <li ng-repeat="instance in instance.instances" ng-class="{'li-active' : isSecondInstanceActive(instance)}">
@@ -23,7 +23,7 @@
         <div class="btn-group">
           <div dropdown dropdown-append-to-body class="dropdown">
             <button class="btn btn-default config-table-header-button" dropdown-toggle >
-              {{selectedSecondVersion ? selectedSecondVersion : '- Choose version -'}} <span class="label label-success" ng-show="isSecondVersionLive(selectedSecondVersion)">Live</span><span class="fa fa-chevron-down pull-right"></span>
+              {{selectedSecondVersion ? selectedSecondVersion : '- Choose version -'}} <span class="label label-success" ng-show="isSecondVersionLive(selectedSecondVersion)">Live</span><span class="fa fa-angle-down pull-right"></span>
             </button>
             <ul class="dropdown-menu">
               <li ng-repeat="version in instance.versions" ng-class="{'li-active' : isSecondVersionActive(version)}">
@@ -40,7 +40,7 @@
         <div class="btn-group">
           <div dropdown dropdown-append-to-body class="dropdown">
             <button class="btn btn-default config-table-header-button" dropdown-toggle >
-              {{selectedFirstInstance ? selectedFirstInstance : '- Choose instance -'}}<span class="fa fa-chevron-down pull-right"></span>
+              {{selectedFirstInstance ? selectedFirstInstance : '- Choose instance -'}}<span class="fa fa-angle-down pull-right"></span>
             </button>
             <ul class="dropdown-menu">
               <li ng-repeat="instance in instance.instances" ng-class="{'li-active' : isFirstInstanceActive(instance)}">
@@ -54,7 +54,7 @@
         <div class="btn-group">
           <div dropdown dropdown-append-to-body class="dropdown">
             <button class="btn btn-default config-table-header-button" dropdown-toggle >
-              {{selectedFirstVersion ? selectedFirstVersion : '- Choose version -'}} <span class="label label-success" ng-show="isFirstVersionLive(selectedFirstVersion)">Live</span><span class="fa fa-chevron-down pull-right"></span>
+              {{selectedFirstVersion ? selectedFirstVersion : '- Choose version -'}} <span class="label label-success" ng-show="isFirstVersionLive(selectedFirstVersion)">Live</span><span class="fa fa-angle-down pull-right"></span>
             </button>
             <ul class="dropdown-menu">
               <li ng-repeat="version in instance.versions" ng-class="{'li-active' : isFirstVersionActive(version)}">
