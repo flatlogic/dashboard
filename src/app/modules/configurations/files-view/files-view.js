@@ -132,6 +132,57 @@
             return deferred.promise;
         };
 
+        $scope.deleteFile = function () {
+            $modal.open({
+                animation: true,
+                templateUrl: 'app/modules/configurations/files-view/files-delete-modal.html',
+                controller: 'FilesDeleteController',
+                resolve: {
+                    instance: function () {
+                        return $scope.selectedInstance;
+                    },
+                    version: function () {
+                        return $scope.selectedVersion;
+                    },
+                    fileName: function () {
+                        return $scope.fileName;
+                    },
+                    _delete: function () {
+                        return $scope._deleteFile;
+                    }
+                }
+            });
+        };
+
+        $scope._deleteFile = function () {
+            var domainClass = $stateParams.domain,
+                service = $scope.service,
+                object = $stateParams.file,
+                deferred = $q.defer();
+            $http({
+                method: 'DELETE',
+                url: API_URL + '/v1/conf/' + domainClass + '/'
+                + $scope.selectedInstance + '/' + service + '/'
+                + $scope.selectedVersion + '/' + object,
+                headers: {
+                    'X-Dash-Version': $scope.fileVersion
+                }
+            }).then(function() {
+                deferred.resolve();
+                Notification.success('Deleted successfully');
+                $scope.loadInstance().then(function() {
+                    $state.go('.');
+                });
+            }, function(e) {
+                deferred.reject();
+                var error = e ? e.error : 'unknown server error';
+                Notification.error('Can\'t load data: ' + error);
+                $scope.loading = false;
+            });
+
+            return deferred.promise;
+        };
+
         $scope.isInstanceActive = function(instance) {
             return instance == $scope.selectedInstance;
         };
@@ -184,9 +235,28 @@
         }
     }
 
+    filesDeleteController.$inject = ['$scope', '$modalInstance', 'instance', 'version', 'fileName', '_delete'];
+    function filesDeleteController($scope, $modalInstance, instance, version, fileName, _delete) {
+
+        $scope.version = version;
+        $scope.instance = instance;
+        $scope.fileName = fileName;
+
+        $scope.ok = function () {
+            _delete().finally(function () {
+                $modalInstance.close();
+            });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        }
+    }
+
 
     angular.module('qorDash.configurations.services.state.files.files-view')
         .controller('FilesViewController', filesViewController)
         .controller('FilesCloneController', filesCloneController)
+        .controller('FilesDeleteController', filesDeleteController)
     ;
 })();
