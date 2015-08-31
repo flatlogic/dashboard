@@ -533,7 +533,9 @@
                     scope.previousValue = scope.model;
 
                     $timeout(function () {
-                        elm.find('input')[0].focus();
+                        var textarea = elm.find('textarea')[0];
+                        textarea.style.height = textarea.scrollHeight + "px";
+                        textarea.focus();
                     }, 0, false);
                 };
                 scope.save = function () {

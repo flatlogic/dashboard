@@ -673,6 +673,10 @@ $stat-blue-color: #7986CB;
   border: solid 1px #eea22d;
   padding: 3px;
   border-radius: 5px;
+  resize: none;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-align: center;
 
   width: 90%;
 
@@ -680,6 +684,16 @@ $stat-blue-color: #7986CB;
     box-shadow: none;
     outline: none;
   }
+}
+
+.config-input-span{
+  display: inline-block;
+  word-break: break-all;
+  width: 90%;
+}
+
+.config-input-th{
+  max-width: 100px;
 }
 
 .no-value {
