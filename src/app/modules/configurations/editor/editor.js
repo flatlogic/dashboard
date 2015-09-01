@@ -568,7 +568,7 @@
                 };
 
                 scope.isDeleteUnavailable = function() {
-                    return scope.showEdit || scope.isName || scope.editMode || !scope.model;
+                    return scope.isName || scope.editMode || !scope.model;
                 };
 
                 scope.isLeftVersionAvailable = function() {

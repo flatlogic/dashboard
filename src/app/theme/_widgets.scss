@@ -677,6 +677,7 @@ $stat-blue-color: #7986CB;
   overflow: hidden;
   word-wrap: break-word;
   text-align: center;
+  min-height: 25px;
 
   width: 90%;
 
@@ -688,12 +689,22 @@ $stat-blue-color: #7986CB;
 
 .config-input-span{
   display: inline-block;
-  word-break: break-all;
   width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.config-input-th{
-  max-width: 100px;
+.config-table {
+  .ng-scope {
+    th {
+      text-align: left;
+    }
+  }
+
+  .config-input-th {
+    max-width: 100px;
+  }
 }
 
 .no-value {
