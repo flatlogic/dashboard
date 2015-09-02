@@ -24,13 +24,17 @@
                 apiUrl = response.data['api-url'],
                 wsUrl = response.data['ws-url'],
                 iconUrl = response.data['icon-url'],
-                loginPageIconUrl = response.data['login-page-icon-url'];
+                loginPageIconUrl = response.data['login-page-icon-url'],
+                authApiUser = response.data['auth_api_user'],
+                authApiSecret = response.data['auth_api_secret'];
 
             coreApplication.constant("AUTH_API_URL", authApiUrl);
             coreApplication.constant("API_URL", apiUrl);
             coreApplication.constant("WS_URL", wsUrl);
             coreApplication.constant("ICON_URL", iconUrl);
             coreApplication.constant("LOGIN_PAGE_ICON_URL", loginPageIconUrl);
+            coreApplication.constant("AUTH_API_USER", authApiUser);
+            coreApplication.constant("AUTH_API_SECRET", authApiSecret);
         }, function(errorResponse) {
             debugger;
             // Handle error case
