@@ -21,8 +21,8 @@
 
                     $element.addClass('qor-container');
 
-                    scope.$on('$stateChangeSuccess', function () {
-                        updateHorizontalView(false);
+                    scope.$on('$stateChangeSuccess', function (event, toState, toParams) {
+                        updateHorizontalView(false, toParams._preventAnimation);
                     });
                     scope.$on('$viewContentLoading', function () {
                         updateHorizontalView(false);
@@ -63,7 +63,7 @@
                         this._locals = _getState(name);
                     }
 
-                    StateView.prototype.renderView = function (parentScope) {
+                    StateView.prototype.renderView = function (parentScope, preventAnimation) {
                         var locals = this._locals;
                         if (locals) {
                             var currentScope = this._scope = parentScope.$new();
@@ -83,7 +83,7 @@
                                 newElement.children().data('$ngControllerController', controller);
                             }
                             link(currentScope);
-                            scrollToNewSheetIfLackSpace($);
+                            scrollToNewSheetIfLackSpace($, preventAnimation);
                         }
                         this._scope.$emit('$viewContentLoaded');
                         this._scope.$eval(onloadExp);
@@ -93,12 +93,12 @@
                         return this._locals === _getState(currentName);
                     };
 
-                    StateView.prototype.tryCreateChildViews = function () {
+                    StateView.prototype.tryCreateChildViews = function (preventAnimation) {
                         var newName = getHorizontalUiViewName({ name: this._viewName, state: this._locals.$$state });
                         if (newName && _getState(newName)) {
                             var childStateView = this._childStateView = new StateView(newName);
-                            childStateView.renderView(this._scope);
-                            childStateView.tryCreateChildViews();
+                            childStateView.renderView(this._scope, preventAnimation);
+                            childStateView.tryCreateChildViews(preventAnimation);
                         }
                     };
 
@@ -110,21 +110,21 @@
                         this._scope.$destroy();
                     };
 
-                    StateView.prototype.invalidateStates = function () {
+                    StateView.prototype.invalidateStates = function (preventAnimation) {
                         var newName = getHorizontalUiViewName({ name: this._viewName, state: this._locals.$$state });
 
                         // TODO: simplify if
                         if (newName) {
                             if (this._childStateView) {
                                 if (this._childStateView.matchState(newName)) {
-                                    this._childStateView.invalidateStates();
+                                    this._childStateView.invalidateStates(preventAnimation);
                                 } else {
                                     this._childStateView.destroy();
                                     this._childStateView = null;
-                                    this.tryCreateChildViews();
+                                    this.tryCreateChildViews(preventAnimation);
                                 }
                             } else {
-                                this.tryCreateChildViews();
+                                this.tryCreateChildViews(preventAnimation);
                             }
                         } else {
                             if (this._childStateView) {
@@ -138,9 +138,9 @@
                     var rootStateView = new StateView('');
                     rootStateView._scope = scope;
 
-                    function updateHorizontalView(firstTime) {
+                    function updateHorizontalView(firstTime, preventAnimation) {
                         if (!firstTime) {
-                            rootStateView.invalidateStates();
+                            rootStateView.invalidateStates(preventAnimation);
                         }
                     }
 
@@ -152,7 +152,7 @@
         return directive;
     }
 
-    function scrollToNewSheetIfLackSpace($) {
+    function scrollToNewSheetIfLackSpace($, preventAnimation) {
         var $container = $('.qor-container'),
             allSheetsLength = $container.find('> .qor-sheet').map(function () {
                 return $(this).width();
@@ -165,7 +165,7 @@
         if (availableWidth < 0) {
             $container.animate({
                 scrollLeft: scrollLeftNew
-            });
+            }, preventAnimation ? 0 : 400);
         }
     }
 

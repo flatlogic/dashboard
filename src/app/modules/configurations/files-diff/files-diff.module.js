@@ -21,7 +21,8 @@
                     instance: {},
                     version: {},
                     diffToInstance: { value: null, squash: true }, // optional param
-                    diffToVersion: { value: null, squash: true } // optional param
+                    diffToVersion: { value: null, squash: true }, // optional param
+                    _preventAnimation: { value: null, squash: true }
                 },
                 templateUrl: 'app/modules/configurations/files-diff/files-diff.html',
                 controller: 'FilesEditorController',

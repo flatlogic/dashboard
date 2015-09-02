@@ -60,7 +60,8 @@
                 instance: $scope.selectedFirstInstance,
                 version: $scope.selectedFirstVersion,
                 diffToInstance: $scope.selectedSecondInstance,
-                diffToVersion: $scope.selectedSecondVersion
+                diffToVersion: $scope.selectedSecondVersion,
+                _preventAnimation: true
             });
         };
 
