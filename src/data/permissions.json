@@ -34,5 +34,7 @@
     "traffic": "my_account",
     "DeploymentController": "my_account",
     "OrchestrateController": "my_account",
-    "ManageController": "my_account"
+    "ManageController": "my_account",
+    "AccountsController": "my_account",
+    "SettingsController": "my_account"
 }

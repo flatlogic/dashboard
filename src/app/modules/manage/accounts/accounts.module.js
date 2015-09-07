@@ -13,11 +13,8 @@
         $stateProvider
             .state('app.manage.accounts', {
                 url: '/accounts',
-                views: {
-                    'main@': {
-                        templateUrl: 'app/modules/manage/accounts/accounts.html'
-                    }
-                },
+                templateUrl: 'app/modules/manage/accounts/accounts.html',
+                controller: 'AccountsController',
                 authenticate: true
             });
     }

@@ -238,6 +238,7 @@
             request: function (config) {
                 var token = auth.getToken();
                 if (token) {
+                    //TODO: Fix conflict with token in manage.js currentUser factory
                     config.headers.Authorization = 'Bearer ' + token;
                 }
 

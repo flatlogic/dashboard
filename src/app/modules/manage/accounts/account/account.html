@@ -1,0 +1,30 @@
+<section horizontal-ui-sheet class="qor-sheet-half">
+  <header horizontal-ui-sheet-header title="{{ account.primary.username }}">
+  </header>
+  <div horizontal-ui-sheet-content>
+    <div class="list-group text-left ng-scope" ng-show="account">
+
+      <p>ID: {{ account.id }}</p>
+      <p>Username: {{ account.primary.username }}</p>
+      <p ng-show="account.primary.email">Email: {{ account.primary.email }}</p>
+      <p ng-show="account.primary.phone">Phone: {{ account.primary.phone }}</p>
+      <ul>
+        <li ng-repeat="service in account.services">
+          ID: {{ service.id }} </br>
+          Scopes:
+          <ul>
+            <li ng-repeat="scope in service.scopes">
+              {{ scope }}
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+
+    </div>
+    <div id="env-loader" ng-hide="account">
+      <img src="assets/images/cube.gif">
+    </div>
+  </div>
+
+</section>

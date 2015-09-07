@@ -13,11 +13,8 @@
         $stateProvider
             .state('app.manage.settings', {
                 url: '/settings',
-                views: {
-                    'main@': {
-                        templateUrl: 'app/modules/manage/settings/settings.html'
-                    }
-                },
+                templateUrl: 'app/modules/manage/settings/settings.html',
+                controller: 'SettingsController',
                 authenticate: true
             });
     }
