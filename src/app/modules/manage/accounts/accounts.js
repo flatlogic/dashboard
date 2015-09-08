@@ -47,6 +47,7 @@
                         "custom_object": custom_object
                     }
                 }).then(function(e) {
+                    $scope.accounts.push({id: e.data.id, primary: e.data});
                     Notification.success('Yo, you have done it');
                 }, function(e) {
                     var error = e ? e.error : 'unknown server error';
