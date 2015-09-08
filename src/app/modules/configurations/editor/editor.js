@@ -199,6 +199,29 @@
             return $scope.editorService.live[instance] == version;
         };
 
+        $scope.makeLive = function(instance, version, $event) {
+            $(event.currentTarget).addClass('loading').text('Loading...');
+
+            var postRequest = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            $http(postRequest)
+                .success(function(response, code) {
+                    Notification.success('Live version for ' + instance + ' has been changed.');
+                    $(event.currentTarget).removeClass('loading').text('Set live');
+                    $scope.editorService.live[instance] = version;
+                })
+                .error(function(e) {
+                    var error = e ? e.error : 'unknown server error';
+                    Notification.error('Can\'t load data: ' + error);
+                });
+        };
+
         var hasOwnProperty = Object.prototype.hasOwnProperty;
 
         function isEmpty(obj) {

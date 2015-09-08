@@ -11,9 +11,6 @@
                     $state.go('app.domains.domain', {id:$scope.domains[0].id})
                 }
 
-                $scope.domain = $scope.domains.filter(function (domain) {
-                    return domain.id == $stateParams.id;
-                })[0];
             })
             .error(function (response, code) {
                 // TODO Add error message

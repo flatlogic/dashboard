@@ -24,7 +24,8 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <span class="fa fa-clone copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
+                                <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
+                                <span class="label label-success set-live-button" ng-click="makeLive(instance, selectedVersion[instance], $event)" ng-hide="isLive(instance, selectedVersion[instance])">Set live</span>
                             </span>
                         </th>
                         <th></th>
