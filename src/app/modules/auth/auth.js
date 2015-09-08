@@ -237,8 +237,7 @@
             // automatically attach Authorization header
             request: function (config) {
                 var token = auth.getToken();
-                if (token) {
-                    //TODO: Fix conflict with token in manage.js currentUser factory
+                if (token && !config.headers.Authorization) {
                     config.headers.Authorization = 'Bearer ' + token;
                 }
 

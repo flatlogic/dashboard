@@ -15,6 +15,8 @@
         $scope.$watch('token', function (token) {
             if (!token) return;
 
+            console.log('Ac token: ' + token);
+
             $http({
                 method: 'GET',
                 url: AUTH_API_URL + '/account/',
