@@ -198,6 +198,37 @@
             return version == $scope.instance.live[$scope.selectedInstance][$scope.fileName];
         };
 
+        $scope.isLive = function(instance, version) {
+            if ($scope.instance) {
+                return version == $scope.instance.live[instance][$scope.fileName];
+            } else {
+                return false;
+            }
+        };
+
+        $scope.makeLive = function(instance, version) {
+            $(event.currentTarget).button('loading');
+
+            var postRequest = {
+                method: 'POST',
+                url: API_URL + '/v1/conf/' + $stateParams.domain + '/' + instance + '/' + $scope.service + '/' + version + '/' + $scope.fileName +  '/live',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            $http(postRequest)
+                .success(function(response, code) {
+                    Notification.success('Live version for ' + instance + ' has been changed.');
+                    $(event.currentTarget).button('reset');
+                    $scope.instance.live[instance][$scope.fileName] = version;
+                })
+                .error(function(e) {
+                    var error = e ? e.error : 'unknown server error';
+                    Notification.error('Can\'t load data: ' + error);
+                });
+        };
+
         $scope.fileName = $stateParams.file;
 
         $scope.selectedInstance = $stateParams.instance;

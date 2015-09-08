@@ -35,6 +35,8 @@
     "DeploymentController": "my_account",
     "OrchestrateController": "my_account",
     "ManageController": "my_account",
+    "NewUserController": "my_account",
     "AccountsController": "my_account",
+    "AccountController": "my_account",
     "SettingsController": "my_account"
 }
