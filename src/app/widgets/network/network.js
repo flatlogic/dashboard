@@ -302,7 +302,8 @@
                                     })
                                     .enter().append("rect")
                                     .attr("class", "child-header")
-                                    .call(header);
+                                    .call(header)
+                                    .on("click", transition);
 
 
 
