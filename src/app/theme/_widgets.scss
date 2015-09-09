@@ -633,6 +633,12 @@ $stat-blue-color: #7986CB;
   >tbody >tr >th {
     text-align: center;
   }
+  
+  table-layout: fixed;
+}
+
+.rox-40px {
+  width: 40px;
 }
 
 .files-table {
@@ -898,7 +904,7 @@ width: 20px;
 }
 
 .config-table-header-button {
-  width: 200px;
+  width: auto;
   background-color: white;
   color: #555;
 
