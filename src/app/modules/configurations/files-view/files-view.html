@@ -37,7 +37,15 @@
     </div>
     <form ng-submit="saveFile()" class="file-content" ng-init="contentsChanged = false">
       <div class="btn-toolbar pull-right">
-          <button class="btn btn-success mr-xs" ng-hide="isLive(selectedInstance, selectedVersion)" ng-click="makeLive(selectedInstance, selectedVersion)" type="button">Set live</button>
+          <button class="btn btn-success mr-xs" ng-hide="isLive(selectedInstance, selectedVersion)"
+                  mwl-confirm
+                  title="Are you sure?"
+                  message="Make {{selectedVersion}} live for {{selectedInstance}}"
+                  confirm-text="Yes"
+                  cancel-text="No"
+                  placement="bottom"
+                  on-confirm="makeLive(selectedInstance, selectedVersion)"
+                  type="button">Set live</button>
         <button class="btn btn-danger mr-xs" ng-disabled="!(fileContents && contentsChanged)" type="submit">Save</button>
         <button class="btn btn-default mr-n-xs" ng-disabled="!fileContents"
                 type="button" ng-click="cloneFile()">Clone <i class="fa fa-clone ml-xs"></i></button>
