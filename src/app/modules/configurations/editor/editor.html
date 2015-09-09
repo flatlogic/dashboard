@@ -25,7 +25,16 @@
                                     </li>
                                 </ul>
                                 <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
-                                <span class="label label-success set-live-button" ng-click="makeLive(instance, selectedVersion[instance], $event)" ng-hide="isLive(instance, selectedVersion[instance])">Set live</span>
+                                <span class="label label-success set-live-button"
+                                      ng-hide="isLive(instance, selectedVersion[instance])"
+                                      mwl-confirm
+                                      instance="{{instance}}"
+                                      title="Are you sure?"
+                                      message="Make {{selectedVersion[instance]}} live for {{instance}}"
+                                      confirm-text="Yes"
+                                      cancel-text="No"
+                                      placement="bottom"
+                                      on-confirm="makeLive(instance, selectedVersion[instance], $event)">Set live</span>
                             </span>
                         </th>
                         <th></th>

@@ -4,7 +4,8 @@
     var module = angular.module('qorDash.configurations.services.state.instances.editor', [
         'ui.router',
         'ui-notification',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'mwl.confirm'
     ]);
 
     module.config(appConfig);

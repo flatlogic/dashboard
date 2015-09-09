@@ -199,8 +199,8 @@
             return $scope.editorService.live[instance] == version;
         };
 
-        $scope.makeLive = function(instance, version, $event) {
-            $(event.currentTarget).addClass('loading').text('Loading...');
+        $scope.makeLive = function(instance, version) {
+            $('span[instance='+instance+'].set-live-button').addClass('loading').text('Loading...');
 
             var postRequest = {
                 method: 'POST',
@@ -213,12 +213,13 @@
             $http(postRequest)
                 .success(function(response, code) {
                     Notification.success('Live version for ' + instance + ' has been changed.');
-                    $(event.currentTarget).removeClass('loading').text('Set live');
+                    $('span[instance='+instance+'].set-live-button').removeClass('loading').text('Set live');
                     $scope.editorService.live[instance] = version;
                 })
                 .error(function(e) {
                     var error = e ? e.error : 'unknown server error';
                     Notification.error('Can\'t load data: ' + error);
+                    $('span[instance='+instance+'].set-live-button').removeClass('loading').text('Set live');
                 });
         };
 

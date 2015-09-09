@@ -22,7 +22,8 @@
     "angular-ui-codemirror": "~0.3.0",
     "d3": "~3.5.6",
     "angular-ui-notification": "~0.0.12",
-    "angular-diff-match-patch": "~0.1.11"
+    "angular-diff-match-patch": "~0.1.11",
+    "angular-bootstrap-confirm": "~0.3.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"
@@ -41,11 +42,11 @@
       ]
     },
     "font-awesome": {
-        "main": [
-            "less/font-awesome.less",
-            "scss/font-awesome.scss",
-            "./fonts/*"
-        ]
+      "main": [
+        "less/font-awesome.less",
+        "scss/font-awesome.scss",
+        "./fonts/*"
+      ]
     }
   }
 }
