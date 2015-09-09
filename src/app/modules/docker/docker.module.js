@@ -23,7 +23,7 @@
                 authenticate: true
             });
 
-        $qorSidebarProvider.config('domains', {
+        $qorSidebarProvider.config('docker', {
             title: 'Docker',
             nav: 40,
             content: '<span ui-sref="app.docker" qor-sidebar-group-heading="Docker" data-icon-class="fa fa-docker"></span>'

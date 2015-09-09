@@ -1047,3 +1047,13 @@ width: 20px;
 .add-new-account-button {
   margin-bottom: 10px;
 }
+
+.popover {
+  background-color: #ffffff;
+  color: #ffffff;
+
+  >.arrow {
+    border-bottom-color: #FFFFFF !important;
+    color: #FFFFFF !important;
+  }
+}
