@@ -26,7 +26,7 @@
         $qorSidebarProvider.config('domains', {
             title: 'Docker',
             nav: 40,
-            content: '<span ui-sref="app.docker" qor-sidebar-group-heading="Docker" data-icon-class="fa fa-cloud"></span>'
+            content: '<span ui-sref="app.docker" qor-sidebar-group-heading="Docker" data-icon-class="fa fa-docker"></span>'
         });
     }
 })();
