@@ -10,7 +10,8 @@
         'qorDash.compose',
         'qorDash.configurations',
         'qorDash.orchestrate',
-        'qorDash.manage'
+        'qorDash.manage',
+        'qorDash.docker'
     ]);
 
     fetchCoreData().then(bootstrapApplication);
