@@ -2,12 +2,24 @@
 
 </div>
 <div class="modal-body text-center">
-  <label for="username">Username</label>
-  <input id="username" type='text' ng-model='username'></br>
-  <label for="password">Password</label>
-  <input id="password" type='text' ng-model='password'></br>
-  <label for="custom_object">Custom_object</label>
-  <textarea id="custom_object" type='text' ng-model='custom_object'></textarea>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="email" class="form-control" ng-model='username' placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="password" class="form-control" ng-model='password' placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="custom-json" class="col-sm-2 control-label">Custom JSON</label>
+            <div class="col-sm-10">
+                <textarea id="custom_object" class="form-control" type='text' id="custom-json" ng-model='custom_object'></textarea>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" type="button" ng-click="ok()">Yes</button>
