@@ -1050,10 +1050,29 @@ width: 20px;
 
 .popover {
   background-color: #ffffff;
-  color: #ffffff;
+  box-shadow: 0 0 20px #dedede;
 
   >.arrow {
     border-bottom-color: #FFFFFF !important;
     color: #FFFFFF !important;
+
+    &:after {
+      border-bottom-color: #FFFFFF !important;
+      color: #FFFFFF !important;
+    }
+  }
+
+  >.popover-title {
+    background-color: #ffffff;
+
+    font-weight: 600;
+    color: #C1C1C1;
+  }
+
+  >.popover-content>.row {
+      margin-top: 15px;
+      >div>button {
+        padding: 5px;
+      }
   }
 }
