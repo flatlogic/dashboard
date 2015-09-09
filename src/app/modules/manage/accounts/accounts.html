@@ -1,27 +1,21 @@
-<section horizontal-ui-sheet class="qor-sheet-half">
+<section horizontal-ui-sheet class="qor-sheet-xs">
     <header horizontal-ui-sheet-header title="Accounts">
     </header>
     <div horizontal-ui-sheet-content>
       <div class="list-group text-left ng-scope" ng-show="accounts">
-
-        <ul>
-          <li ng-repeat="account in accounts">
-            <a class="list-group-item"
-               ui-sref-active="active"
-               ui-sref="app.manage.accounts.account({id : account.id})">
-              Username: {{ account.primary.username }}
-            </a>
-            <p ng-show="account.primary.email">
-              Email: {{ account.primary.email }}
-            </p>
-            <p ng-show="account.primary.phone">
-              Phone: {{ account.primary.phone }}
-            </p>
-          </li>
-        </ul>
-        <button class="btn btn-warning" type="button" ng-click="newUser()">
-          New User
-        </button>
+          <div class="align-text-right">
+              <button class="btn btn-warning add-new-account-button" ng-click="newUser()">
+                  Create new
+              </button>
+          </div>
+          <div class="list-group">
+              <a class="list-group-item"
+                 ng-repeat="account in accounts"
+                 ui-sref-active="active"
+                 ui-sref="app.manage.accounts.account({id : account.id})">
+                  <i class="fa fa-user accounts-list-user-icon"></i> {{ account.primary.username || account.primary.email || account.primary.phone }}
+              </a>
+          </div>
       </div>
       <div id="env-loader" ng-hide="accounts">
         <img src="assets/images/cube.gif">

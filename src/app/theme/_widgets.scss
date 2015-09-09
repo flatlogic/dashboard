@@ -899,6 +899,10 @@ width: 20px;
   margin-bottom: 10px;
 }
 
+.align-text-right {
+  text-align: right;
+}
+
 .li-active {
   background-color: #e3e3e3;
 }
@@ -947,6 +951,12 @@ width: 20px;
   >tbody >tr {
     border-bottom: 1px solid #e3e3e3;
   }
+}
+
+.accounts-list-user-icon {
+  padding-right: 7px;
+  color: #9B9EAA;
+  font-size: 15px;
 }
 
 .config-instances-button {
@@ -1025,4 +1035,15 @@ width: 20px;
     opacity: 0.5;
     cursor: default;
   }
+}
+
+.user-info-titles {
+  >p {
+    color: #464C64;
+    font-weight: 600;
+  }
+}
+
+.add-new-account-button {
+  margin-bottom: 10px;
 }

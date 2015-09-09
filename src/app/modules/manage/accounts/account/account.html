@@ -1,24 +1,40 @@
-<section horizontal-ui-sheet class="qor-sheet-half">
+<section horizontal-ui-sheet class="qor-sheet-xs">
   <header horizontal-ui-sheet-header title="{{ account.primary.username }}">
   </header>
   <div horizontal-ui-sheet-content>
     <div class="list-group text-left ng-scope" ng-show="account">
-
-      <p>ID: {{ account.id }}</p>
-      <p>Username: {{ account.primary.username }}</p>
-      <p ng-show="account.primary.email">Email: {{ account.primary.email }}</p>
-      <p ng-show="account.primary.phone">Phone: {{ account.primary.phone }}</p>
-      <ul>
-        <li ng-repeat="service in account.services">
-          ID: {{ service.id }} </br>
-          Scopes:
-          <ul>
-            <li ng-repeat="scope in service.scopes">
-              {{ scope }}
-            </li>
-          </ul>
-        </li>
-      </ul>
+        <div class="row">
+            <div class="col-md-2 user-info-titles">
+                <p>ID: </p>
+                <p>Username: </p>
+                <p ng-show="account.primary.email">Email: </p>
+                <p ng-show="account.primary.phone">Phone: </p>
+            </div>
+            <div class="col-md-10">
+                <p>{{ account.id}}</p>
+                <p>Username: {{ account.primary.username }}</p>
+                <p ng-show="account.primary.email">{{ account.primary.email }}</p>
+                <p ng-show="account.primary.phone">{{ account.primary.phone }}</p>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Scopes</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="service in account.services">
+                    <td>{{service.id}}</td>
+                    <td>
+                        <li ng-repeat="scope in service.scopes">
+                            {{ scope }}
+                        </li>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
 
     </div>
