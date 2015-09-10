@@ -28,6 +28,7 @@
             }, function(e) {
                 var error = e ? e.error : 'unknown server error';
                 Notification.error('Can\'t load data: ' + error);
+                $scope.error = error;
             });
     })
 

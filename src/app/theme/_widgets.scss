@@ -602,7 +602,7 @@ $stat-blue-color: #7986CB;
   display: inline;
 
   > select {
-    box-shadow: 0 0 1px;
+    box-shadow: 0 0 3px;
     border: none;
     padding: 5px;
     color: $qor-select-color;
@@ -633,7 +633,7 @@ $stat-blue-color: #7986CB;
   >tbody >tr >th {
     text-align: center;
   }
-  
+
   table-layout: fixed;
 }
 

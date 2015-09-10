@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    var configurationsController = angular.createAuthorizedController('ConfigurationsController', ['$scope','$state', '$http', '$stateParams', 'API_URL', '$timeout', function ($scope, $state, $http, $stateParams, API_URL, $timeout) {
+    var configurationsController = angular.createAuthorizedController('ConfigurationsController', ['$scope','$state', '$http', '$stateParams', 'API_URL', '$timeout', 'Notification',
+                                                                                function ($scope, $state, $http, $stateParams, API_URL, $timeout, Notification) {
         $scope.domainsPromise = $http.get(API_URL + '/v1/domain/')
             .success(function (response) {
                 $scope.domains = response;
@@ -15,7 +16,9 @@
                 })[0];
             })
             .error(function (response, code) {
-                // TODO Add error message
+                var error = response ? response.error : 'unknown server error';
+                Notification.error('Can\'t load data: ' + error);
+                $scope.error = error;
             });
     }]);
 

@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile', 'WS_URL'];
-    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile, WS_URL) {
+    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile', 'WS_URL', 'Notification'];
+    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile, WS_URL, Notification) {
 
         $scope.title = $stateParams.opt;
 
@@ -79,7 +79,10 @@
                     }
                 })
                 .error(function (response, status) {
-                // TODO Error handler
+                    var error = response ? response.error : 'unknown server error';
+                    Notification.error('Can\'t load data: ' + error);
+                    $scope.error = error;
+
             });
         }
 

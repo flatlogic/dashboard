@@ -9,8 +9,8 @@
         return size;
     };
 
-    servicesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL'];
-    function servicesController($scope, $state, $stateParams, $http, API_URL) {
+    servicesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'Notification'];
+    function servicesController($scope, $state, $stateParams, $http, API_URL, Notification) {
         var domainId = $stateParams.domain;
 
         $scope.$watch('domains', function() {
@@ -33,7 +33,9 @@
 
             })
             .error(function (response, status) {
-                // TODO Add error message
+                var error = response ? response.error : 'unknown server error';
+                Notification.error('Can\'t load data: ' + error);
+                $scope.error = error;
             });
     }
 

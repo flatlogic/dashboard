@@ -38,8 +38,13 @@
 
 
     </div>
-    <div id="env-loader" ng-hide="account">
+    <div id="env-loader" ng-hide="account || error">
       <img src="assets/images/cube.gif">
+    </div>
+    <div id="reload" ng-hide="!error">
+      <a ui-sref="app.manage.accounts.account'" data-ui-sref-opts="{reload: true}">
+        <i class="fa fa-refresh reload-button"></i>
+      </a>
     </div>
   </div>
 

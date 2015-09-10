@@ -26,11 +26,10 @@
         }, function(e) {
             deferred.reject();
             var error = e ? e.error : 'unknown server error';
-            Notification.error('Can\'t load data: ' + error);
+            Notification.error('Can\'t authorize: ' + error);
         });
 
             return deferred.promise;
-
     }
 
     angular.module('qorDash.manage')
