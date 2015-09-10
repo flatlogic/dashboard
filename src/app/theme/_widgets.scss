@@ -602,7 +602,7 @@ $stat-blue-color: #7986CB;
   display: inline;
 
   > select {
-    box-shadow: 0 0 3px;
+    box-shadow: 0 0 1px;
     border: none;
     padding: 5px;
     color: $qor-select-color;
@@ -940,6 +940,12 @@ width: 20px;
     cursor: pointer;
   }
 
+  &.bordered + label {
+    border: 1px solid #D9D9D9;
+    border-radius: 2px;
+    margin: 0 10px 0 0;
+  }
+
   &:checked + label {
     background: url(../assets/images/checkboxes.png) -19px top no-repeat;
   }
@@ -1074,5 +1080,47 @@ width: 20px;
       >div>button {
         padding: 5px;
       }
+  }
+}
+
+.containers-table {
+  background-color: #FFFFFF;
+
+  margin-top: 15px;
+
+  >thead>tr>th {
+    color: #939598;
+    font-weight: 400;
+  }
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.containers-form {
+  >p {
+    display: inline;
+    padding-top: 5px;
+    margin-left: -5px;
+    margin-right: 20px;
+    font-weight: 400;
+    color: #757679;
+  }
+  >.form-control {
+    width: 150px;
+    display: inline-block;
+    margin-left: 5px;
+    background-color: #EDEDED;
+
+    &:focus {
+      background-color: #FFFFFF;
+    }
+  }
+}
+
+.container-label {
+  &.label-success {
+    background-color: #77BB42;
   }
 }

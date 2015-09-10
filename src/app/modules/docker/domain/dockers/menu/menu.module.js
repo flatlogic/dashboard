@@ -2,7 +2,8 @@
     'use strict';
 
     var module = angular.module('qorDash.docker.domain.dockers.menu', [
-        'ui.router'
+        'ui.router',
+        'qorDash.docker.domain.dockers.menu.containers'
     ]);
 
     module.config(appConfig);

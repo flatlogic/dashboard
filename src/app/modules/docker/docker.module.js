@@ -3,7 +3,8 @@
 
     var module = angular.module('qorDash.docker', [
         'ui.router',
-        'qorDash.docker.domain'
+        'qorDash.docker.domain',
+        'dockerui'
     ]);
 
     module.config(appConfig);
