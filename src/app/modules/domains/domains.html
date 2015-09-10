@@ -9,8 +9,13 @@
                 {{domain.name}}
             </a>
         </div>
-        <div id="env-loader" ng-hide="domains">
+        <div id="env-loader" ng-hide="domains || error">
             <img src="assets/images/cube.gif">
+        </div>
+        <div id="reload" ng-hide="!error">
+          <a ui-sref="app.domains" data-ui-sref-opts="{reload: true}">
+            <i class="fa fa-refresh reload-button"></i>
+          </a>
         </div>
     </div>
 </section>

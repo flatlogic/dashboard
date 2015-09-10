@@ -633,7 +633,7 @@ $stat-blue-color: #7986CB;
   >tbody >tr >th {
     text-align: center;
   }
-  
+
   table-layout: fixed;
 }
 
@@ -1047,6 +1047,14 @@ width: 20px;
 .add-new-account-button {
   margin-bottom: 10px;
 }
+
+.reload-button {
+  font-size: 60px;
+  position:absolute;
+  left:47%;
+  color: #013461;
+}
+
 
 .popover {
   background-color: #ffffff;

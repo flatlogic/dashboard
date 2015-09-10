@@ -162,17 +162,16 @@
                         .then(function(response) {
                             $scope.secondFileData = response.data;
 
-                            $scope.loading = false;
                         }, function(e) {
                             var error = e ? e.error : 'unknown server error';
                             Notification.error('Can\'t load data: ' + error);
-                            $scope.loading = false;
+                            $scope.error = false;
                         });
                 })
                 .error (function(e) {
                     var error = e ? e.error : 'unknown server error';
                     Notification.error('Can\'t load data: ' + error);
-                    $scope.loading = false;
+                    $scope.error = false;
                 });
         }
     }

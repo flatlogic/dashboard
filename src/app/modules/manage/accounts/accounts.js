@@ -13,6 +13,7 @@
         });
 
         $scope.$watch('token', function (token) {
+            debager;
             if (!token) return;
             $http({
                 method: 'GET',
@@ -26,6 +27,7 @@
             }, function(e) {
                 var error = e ? e.error : 'unknown server error';
                 Notification.error('Can\'t load data: ' + error);
+                $scope.error = error;
             });
 
             $scope.addUser = function(username, password, custom_object){
