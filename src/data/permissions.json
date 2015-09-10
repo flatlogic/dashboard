@@ -36,6 +36,7 @@
     "container": "my_account",
     "traffic": "my_account",
     "DeploymentController": "my_account",
+    "DockerMenuController": "my_account",
     "OrchestrateController": "my_account",
     "ManageController": "my_account",
     "NewUserController": "my_account",

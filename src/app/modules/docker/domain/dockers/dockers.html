@@ -3,10 +3,10 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="docker in dockers | orderBy:''"
+            <a class="list-group-item" ng-repeat="(host, docker) in dockers | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.docker.domain.env({env : environment})">
-                {{docker.api}}
+               ui-sref="app.docker.domain.dockers.menu({dockerId: host})">
+                {{host}}
             </a>
         </div>
         <div id="env-loader" ng-hide="domain">
