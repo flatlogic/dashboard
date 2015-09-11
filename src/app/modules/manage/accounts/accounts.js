@@ -13,7 +13,6 @@
         });
 
         $scope.$watch('token', function (token) {
-            debager;
             if (!token) return;
             $http({
                 method: 'GET',

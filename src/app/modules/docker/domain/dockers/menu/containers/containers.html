@@ -39,7 +39,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="container in containers | filter:filter | orderBy:predicate">
-                <td><input class="new-checkbox bordered" id="check-{{container.Id}}" ng-model="container.Checked" type="checkbox"><label for="check-{{container.Id}}"></label></td>
+                <td class="center-text"><input class="new-checkbox bordered" id="check-{{container.Id}}" ng-model="container.Checked" type="checkbox"><label for="check-{{container.Id}}"></label></td>
                 <td><a ui-sref="app.docker.domain.dockers.menu.containers.container({containerId: container.Id})">{{ container|containername}}</a></td>
                 <td><a href="#/images/{{ container.Image }}/">{{ container.Image }}</a></td>
                 <td>{{ container.Command|truncate:40 }}</td>
