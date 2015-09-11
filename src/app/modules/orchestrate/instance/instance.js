@@ -3,18 +3,16 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'Notification'];
-    function orchestrateInstanceController($scope, $stateParams, $http, API_URL, Notification) {
+    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler'];
+    function orchestrateInstanceController($scope, $stateParams, $http, API_URL, errorHandler) {
 
         $scope.title = $stateParams.inst;
         $scope.workflows = [];
 
         $http.get(API_URL + '/v1/orchestrate/'+ $stateParams.id +'/'+ $stateParams.inst +'/').success(function (data) {
             $scope.workflows = data;
-        }).error(function (e) {
-                var error = e ? e.error : 'unknown server error';
-                Notification.error('Can\'t load data: ' + error);
-                $scope.error = error;
+        }).error(function (e, code) {
+            $scope.error = errorHandler.showError(e, code);
         });
     }
 

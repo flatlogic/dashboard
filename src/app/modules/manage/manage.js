@@ -8,8 +8,8 @@
         }]);
 
 
-    currentUser.$inject = ['$http', '$q', 'AUTH_API_URL', 'AUTH_API_USER', 'AUTH_API_SECRET', 'Notification'];
-    function currentUser ($http, $q, AUTH_API_URL, AUTH_API_USER, AUTH_API_SECRET, Notification) {
+    currentUser.$inject = ['$http', '$q', 'AUTH_API_URL', 'AUTH_API_USER', 'AUTH_API_SECRET', 'errorHandler'];
+    function currentUser ($http, $q, AUTH_API_URL, AUTH_API_USER, AUTH_API_SECRET, errorHandler) {
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -23,10 +23,9 @@
             }
         }).then(function(response) {
             deferred.resolve(response.data.token)
-        }, function(e) {
+        }, function(e, code) {
             deferred.reject();
-            var error = e ? e.error : 'unknown server error';
-            Notification.error('Can\'t authorize: ' + error);
+            $scope.error = errorHandler.showError(e, code);
         });
 
             return deferred.promise;

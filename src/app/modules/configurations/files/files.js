@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesController.$inject = ['$scope', '$stateParams', '$q', '$http', 'API_URL', 'Notification'];
-    function filesController($scope, $stateParams, $q, $http, API_URL, Notification) {
+    filesController.$inject = ['$scope', '$stateParams', '$q', '$http', 'API_URL', 'errorHandler'];
+    function filesController($scope, $stateParams, $q, $http, API_URL, errorHandler) {
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -29,10 +29,8 @@
                     $scope.service = $stateParams.service;
                     deferred.resolve();
                 })
-                .error(function(e) {
-                    var error = e ? e.error : 'unknown server error';
-                    Notification.error('Can\'t load data: ' + error);
-                    $scope.error = error;
+                .error(function(e, code) {
+                    $scope.error = errorHandler.showError(e, code);
                 });
 
             return deferred.promise;

@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesViewController.$inject = ['$scope', '$state', '$stateParams', '$http', '$modal', '$q', 'API_URL', 'Notification'];
-    function filesViewController($scope, $state, $stateParams, $http, $modal, $q, API_URL, Notification) {
+    filesViewController.$inject = ['$scope', '$state', '$stateParams', '$http', '$modal', '$q', 'API_URL', 'errorHandler'];
+    function filesViewController($scope, $state, $stateParams, $http, $modal, $q, API_URL, errorHandler) {
         $scope.selectInstance = function (instance) {
             $scope.selectedInstance = instance;
 
@@ -43,10 +43,8 @@
                         $scope.fileContents = response.data;
                         $scope.fileVersion = response.headers('X-Dash-Version');
                     },
-                    function(e) {
-                        var error = e ? e.error : 'unknown server error';
-                        Notification.error('Can\'t load data: ' + error);
-                        $scope.loading = false;
+                    function(e, code) {
+                        $scope.error = errorHandler.showError(e, code);
                     });
             }
         };

@@ -8,7 +8,8 @@
         .run(runCore)
         .factory('d3', d3Service)
         .factory('jQuery', jQueryService)
-        .factory('pubSub', pubSubService);
+        .factory('pubSub', pubSubService)
+        .factory('errorHandler', errorService);
 
     AppController.$inject = ['config', '$scope', '$qorSidebar'];
     function AppController(config, $scope, $qorSidebar) {
@@ -178,5 +179,20 @@
     function jQueryService($window) {
         return $window.jQuery; // assumes jQuery has already been loaded on the page
     }
+
+    /**
+     * Error servise
+     */
+    errorService.$inject = ['Notification'];
+    function errorService(Notification){
+        return {
+            showError: function(response, code){
+                var error = response ? response.error : 'unknown server error';
+                Notification.error('Can\'t load data: ' + error);
+                return error;
+            }
+        };
+    }
+
 
 })();
