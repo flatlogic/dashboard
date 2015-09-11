@@ -923,7 +923,7 @@ width: 20px;
 }
 
 .dropdown-menu {
-  margin-top: 10px;
+  margin-top: 3pxpx;
   width: 200px;
 }
 
@@ -1134,4 +1134,8 @@ width: 20px;
   position:absolute;
   left:47%;
   color: #ECAA57;
+}
+
+.dropdown-menu {
+  margin-top: 3px;
 }
