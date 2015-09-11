@@ -23,6 +23,7 @@
     "DomainEnvironmentController": "my_account",
     "DockersController": "my_account",
     "DockerDomainController": "my_account",
+    "DockerInfoController": "my_account",
     "DomainNodeController": "my_account",
     "DomainController": "my_account",
     "OrchestrateDomainController": "my_account",

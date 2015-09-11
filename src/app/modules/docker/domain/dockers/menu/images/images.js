@@ -4,8 +4,8 @@
     angular.module('qorDash.docker.domain.dockers.menu.containers')
         .controller('DockerImagesController', dockerImagesController);
 
-    dockerImagesController.$inject = ['$scope', 'Image', 'ViewSpinner', 'Messages'];
-    function dockerImagesController($scope, Image, ViewSpinner, Messages) {
+    dockerImagesController.$inject = ['$scope', 'Image', 'Messages'];
+    function dockerImagesController($scope, Image, Messages) {
         $scope.toggle = false;
         $scope.predicate = '-Created';
 
@@ -14,12 +14,10 @@
         };
 
         $scope.removeAction = function () {
-            ViewSpinner.spin();
             var counter = 0;
             var complete = function () {
                 counter = counter - 1;
                 if (counter === 0) {
-                    ViewSpinner.stop();
                 }
             };
             angular.forEach($scope.images, function (i) {
@@ -46,16 +44,13 @@
             });
         };
 
-        ViewSpinner.spin();
         Image.query({}, function (d) {
             $scope.images = d.map(function (item) {
                 return new ImageViewModel(item);
             });
-            ViewSpinner.stop();
         }, function (e) {
             Messages.error("Failure", e.data);
-            ViewSpinner.stop();
         });
-    };
+    }
 
 })();

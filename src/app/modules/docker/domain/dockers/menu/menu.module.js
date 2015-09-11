@@ -4,7 +4,9 @@
     var module = angular.module('qorDash.docker.domain.dockers.menu', [
         'ui.router',
         'qorDash.docker.domain.dockers.menu.containers',
-        'qorDash.docker.domain.dockers.menu.summary'
+        'qorDash.docker.domain.dockers.menu.summary',
+        'qorDash.docker.domain.dockers.menu.images',
+        'qorDash.docker.domain.dockers.menu.info'
     ]);
 
     module.config(appConfig);
