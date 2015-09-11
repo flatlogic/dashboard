@@ -4,8 +4,8 @@
     angular.module('qorDash.docker')
         .controller('DockersController', dockersController);
 
-    dockersController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'Notification'];
-    function dockersController($scope, $stateParams, $http, API_URL, Notification) {
+    dockersController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler'];
+    function dockersController($scope, $stateParams, $http, API_URL, errorHandler) {
         var domainId = $stateParams.id,
             instance = $stateParams.instance;
 
@@ -18,10 +18,8 @@
             .success(function (response, status, headers) {
                 $scope.dockers = response;
             })
-            .error(function (response, status) {
-                var error = response ? response.error : 'unknown server error';
-                Notification.error('Can\'t load data: ' + error);
-                $scope.error = error;
+            .error(function (e, code) {
+                $scope.error = errorHandler.showError(e, code);
             });
     }
 

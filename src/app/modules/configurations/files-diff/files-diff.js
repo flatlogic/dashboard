@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesEditorController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'Notification'];
-    function filesEditorController($scope, $state, $stateParams, $http, API_URL, Notification) {
+    filesEditorController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
+    function filesEditorController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -163,15 +163,11 @@
                             $scope.secondFileData = response.data;
 
                         }, function(e) {
-                            var error = e ? e.error : 'unknown server error';
-                            Notification.error('Can\'t load data: ' + error);
-                            $scope.error = false;
+                            $scope.error = errorHandler.showError(response, code);
                         });
                 })
-                .error (function(e) {
-                    var error = e ? e.error : 'unknown server error';
-                    Notification.error('Can\'t load data: ' + error);
-                    $scope.error = false;
+                .error (function(e, code) {
+                    $scope.error = errorHandler.showError(e, code);
                 });
         }
     }

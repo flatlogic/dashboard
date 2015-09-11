@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateHistoryController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'Notification'];
-    function orchestrateHistoryController($scope, $stateParams, $http, API_URL, Notification) {
+    orchestrateHistoryController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler'];
+    function orchestrateHistoryController($scope, $stateParams, $http, API_URL, errorHandler) {
 
         var domain = $stateParams.id;
         var instance = $stateParams.inst;
@@ -12,10 +12,8 @@
 
         $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/').success(function (data) {
             $scope.previousCalls = data;
-        }).error(function(e){
-            var error = e ? e.error : 'unknown server error';
-            Notification.error('Can\'t load data: ' + error);
-            $scope.error = error;
+        }).error(function(e, code){
+            $scope.error = errorHandler.showError(e, code);
         });
 
     }

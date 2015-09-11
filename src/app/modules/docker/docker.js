@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    var dockerController = angular.createAuthorizedController('DockerController', ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'Notification',
-                                                                            function ($scope, $state, $stateParams, $http, API_URL, Notification) {
+    var dockerController = angular.createAuthorizedController('DockerController', ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler',
+                                                                            function ($scope, $state, $stateParams, $http, API_URL, errorHandler) {
 
         $http.get(API_URL + '/v1/domain/')
             .success(function (response, status, headers) {
@@ -12,10 +12,8 @@
                     $state.go('app.docker.domain', {id:$scope.domains[0].id})
                 }
             })
-            .error(function (response, code) {
-                var error = response ? response.error : 'unknown server error';
-                Notification.error('Can\'t load data: ' + error);
-                $scope.error = error;
+            .error(function (e, code) {
+                $scope.error = errorHandler.showError(e, code);
             });
     }]);
 

@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile', 'WS_URL', 'Notification'];
-    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile, WS_URL, Notification) {
+    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile', 'WS_URL', 'errorHandler'];
+    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile, WS_URL, errorHandler) {
 
         $scope.title = $stateParams.opt;
 
@@ -78,10 +78,8 @@
                         $('#dynamic-form').append(getElement(value, index));
                     }
                 })
-                .error(function (response, status) {
-                    var error = response ? response.error : 'unknown server error';
-                    Notification.error('Can\'t load data: ' + error);
-                    $scope.error = error;
+                .error(function (e, code) {
+                    $scope.error = errorHandler.showError(e, code);
 
             });
         }

@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    instancesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'Notification'];
-    function instancesController($scope, $state, $stateParams, $http, API_URL, Notification) {
+    instancesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
+    function instancesController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
 
         // TODO Make global
         Object.filter = function( obj, predicate) {
@@ -39,10 +39,8 @@
                 }
 
             })
-            .error(function (response, status) {
-                var error = response ? response.error : 'unknown server error';
-                Notification.error('Can\'t load data: ' + error);
-                $scope.error = error;
+            .error(function (e, code) {
+                $scope.error = errorHandler.showError(e, code);
             });
 
         $scope.saveAvailableHelper = 0;

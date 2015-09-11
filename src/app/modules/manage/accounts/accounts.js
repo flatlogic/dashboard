@@ -6,8 +6,8 @@
         .controller('NewUserController', newUserController);
 
 
-    accountsController.$inject = ['$scope', '$http', 'AUTH_API_URL', 'Notification', '$modal', 'currentUser'];
-    function accountsController ($scope, $http, AUTH_API_URL, Notification, $modal, currentUser) {
+    accountsController.$inject = ['$scope', '$http', 'AUTH_API_URL', 'errorHandler', 'Notification', '$modal', 'currentUser'];
+    function accountsController ($scope, $http, AUTH_API_URL, errorHandler, Notification, $modal, currentUser) {
         currentUser.then(function () {
             $scope.token = currentUser.$$state.value;
         });
@@ -23,10 +23,8 @@
                 }
             }).then(function(data) {
                 $scope.accounts = data.data;
-            }, function(e) {
-                var error = e ? e.error : 'unknown server error';
-                Notification.error('Can\'t load data: ' + error);
-                $scope.error = error;
+            }, function(e, code) {
+                $scope.error = errorHandler.showError(e, code);
             });
 
             $scope.addUser = function(username, password, custom_object){
