@@ -20,6 +20,7 @@
     "FilesViewController": "my_account",
     "DomainDetailsController": "my_account",
     "ContainerController": "my_account",
+    "DockerImageController": "my_account",
     "DomainEnvironmentController": "my_account",
     "DockersController": "my_account",
     "DockerDomainController": "my_account",

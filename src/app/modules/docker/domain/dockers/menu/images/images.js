@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.containers')
+    angular.module('qorDash.docker.domain.dockers.menu.images')
         .controller('DockerImagesController', dockerImagesController);
 
     dockerImagesController.$inject = ['$scope', 'Image', 'Messages'];
