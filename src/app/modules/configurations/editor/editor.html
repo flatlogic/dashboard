@@ -4,9 +4,9 @@
     <div horizontal-ui-sheet-content>
         <div class="editor-content">
             <div class="loading" ng-if="!values">Loading...</div>
-            <div class="filled-content" ng-if="values">
+            <div class="filled-content">
                 <h3 class="config-table-header">Environment Variables</h3>
-                <table class="table table-bordered config-table" ng-hide="values.length == 0">
+                <table class="table table-bordered config-table">
                     <thead>
                     <tr>
                         <th></th>
@@ -65,7 +65,7 @@
             <button class="btn btn-warning save-config-button" id="env-save-button" ng-click="save()"
                     ng-show="isSavable()">Save
             </button>
-            <button class="btn btn-warning add-config-button" ng-click="addValue()" ng-hide="values.length == 0">Add
+            <button class="btn btn-warning add-config-button" ng-click="addValue()">Add
                 new
             </button>
         </div>

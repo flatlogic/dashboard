@@ -110,6 +110,8 @@
                         $http(request)
                             .success(function (data, status, headers, config) {
                                 $scope.requestsCounter--;
+                                $scope.loaded = true;
+
                                 var version = config.version;
                                 for (var varName in data) {
                                     if (!$scope.val1[varName]) {
@@ -141,6 +143,8 @@
                             })
                             .error(function (error, status, headers, request) {
                                 $scope.requestsCounter--;
+
+                                $scope.loaded = true;
 
                                 if (status == 404) {
                                     var splitedUrl = request.url.split('/');
