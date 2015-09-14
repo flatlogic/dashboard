@@ -360,7 +360,7 @@
          */
         $scope.save = function () {
             $('#env-save-button').button('loading');
-
+            debugger;
             // Add new items to array for saving
             if ($scope.newItemsCount != 0) {
                 for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
@@ -500,9 +500,9 @@
             }
 
             for (var i in $scope.editorService.instances) {
-                for (var j in $scope.editorService.versions) {
-                    if (!$scope.isVersionDeleted($scope.editorService.instances[i], $scope.editorService.versions[j])) {
-                        $scope.deleteValue(name, $scope.editorService.instances[i], $scope.editorService.versions[j]);
+                if ($scope.values[i][$scope.editorService.instances[i]][$scope.selectedVersion[$scope.editorService.instances[i]]]) {
+                    if ($scope.values[i][$scope.editorService.instances[i]][$scope.selectedVersion[$scope.editorService.instances[i]]].value.length != 0) {
+                        $scope.deleteValue(name, $scope.editorService.instances[i], $scope.selectedVersion[$scope.editorService.instances[i]]);
                     }
                 }
             }
