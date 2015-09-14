@@ -68,7 +68,6 @@
                         addUser: function () {
                             return $scope.addUser;
                         }
-
                     }
                 });
             }

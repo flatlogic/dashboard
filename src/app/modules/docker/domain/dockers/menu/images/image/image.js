@@ -4,9 +4,8 @@
     angular.module('qorDash.docker.domain.dockers.menu.images.image')
         .controller('DockerImageController', dockerImageController);
 
-
-    dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'Messages', 'LineChart'];
-    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, Messages, LineChart) {
+    dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'Messages', 'LineChart', '$modal'];
+    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, Messages, LineChart, $modal) {
         $scope.history = [];
         $scope.tag = {repo: '', force: false};
 
@@ -78,5 +77,4 @@
 
         $scope.getHistory();
     }
-
 })();

@@ -2,16 +2,15 @@
     <header horizontal-ui-sheet-header title="{{container.Name}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div class="detail">
-
-            <div ng-if="!container.edit">
+        <div class="detail container-details">
+            <div ng-if="!container.edit" class="name">
                 <h4>Container: {{ container.Name }}
                     <button class="btn btn-primary"
                             ng-click="container.edit = true;">Rename
                     </button>
                 </h4>
             </div>
-            <div ng-if="container.edit">
+            <div ng-if="container.edit" id="name-edit">
                 <h4>
                     Container:
                     <input type="text" ng-model="container.newContainerName">
@@ -23,7 +22,7 @@
                 </h4>
             </div>
 
-            <div class="btn-group detail">
+            <div class="btn-group detail" id="actions">
                 <button class="btn btn-success"
                         ng-click="start()"
                         ng-show="!container.State.Running">Start
@@ -54,7 +53,7 @@
                 </button>
             </div>
 
-            <table class="table table-striped">
+            <table class="table">
                 <tbody>
                 <tr>
                     <td>Created:</td>
@@ -71,7 +70,7 @@
                 <tr>
                     <td>Exposed Ports:</td>
                     <td>
-                        <ul>
+                        <ul style="display: inline-table">
                             <li ng-repeat="(k, v) in container.Config.ExposedPorts">{{ k }}</li>
                         </ul>
                     </td>
@@ -79,7 +78,7 @@
                 <tr>
                     <td>Environment:</td>
                     <td>
-                        <ul>
+                        <ul style="display: inline-table">
                             <li ng-repeat="k in container.Config.Env">{{ k }}</li>
                         </ul>
                     </td>
@@ -127,7 +126,7 @@
                 </tr>
                 <tr>
                     <td>Image:</td>
-                    <td><a href="#/images/{{ container.Image }}/">{{ container.Image }}</a></td>
+                    <td><a ui-sref="app.docker.domain.dockers.menu.images.image({imageId: container.Image})">{{ container.Image }}</a></td>
                 </tr>
                 <tr>
                     <td>State:</td>

@@ -2,36 +2,39 @@
     <header horizontal-ui-sheet-header title="{{dockerId}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <h2>Images:</h2>
+        <h3 class="config-table-header">Images</h3>
 
         <div>
-            <ul class="nav nav-pills pull-left">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" data-target="#">Actions <b class="caret"></b></a>
-                    <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-                        <li><a tabindex="-1" href="" ng-click="removeAction()">Remove</a></li>
+            <div class="btn-group pull-left">
+                <div dropdown="" dropdown-append-to-body="" class="dropdown">
+                    <button class="btn btn-default config-table-header-button" dropdown-toggle=""
+                            aria-haspopup="true" aria-expanded="false">Action<span
+                            class="fa fa-angle-down pull-right"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="removeAction()">Remove</a></li>
                     </ul>
-                </li>
-                <li><a data-toggle="modal" data-target="#pull-modal" href="">Pull</a></li>
-            </ul>
+                </div>
+            </div>
+            <button class="btn btn-default config-table-header-button" id="pull-image"
+                    ng-click="pullImage()">Pull</button>
 
-            <div class="pull-right form-inline">
+            <div class="pull-right form-inline containers-form">
                 <input type="text" class="form-control" id="filter" placeholder="Filter" ng-model="filter"/> <label class="sr-only" for="filter">Filter</label>
             </div>
         </div>
-        <table class="table table-striped">
+        <table class="table images-table">
             <thead>
             <tr>
-                <th><input type="checkbox" ng-model="toggle" ng-change="toggleSelectAll()" /> Action</th>
-                <th>Id</th>
-                <th>Repository</th>
-                <th>VirtualSize</th>
-                <th>Created</th>
+                <th><input class="new-checkbox bordered" id="header-checkbox" ng-model="toggle" ng-change="toggleSelectAll()" type="checkbox"><label for="header-checkbox"></label> ACTION</th>
+                <th>ID</th>
+                <th>REPOSITORY</th>
+                <th>VIRTUALSIZE</th>
+                <th>CREATED</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="image in images | filter:filter | orderBy:predicate">
-                <td><input type="checkbox" ng-model="image.Checked" /></td>
+                <td class="center-text"><input class="new-checkbox bordered" id="check-{{image.Id}}" ng-model="image.Checked" type="checkbox"><label for="check-{{image.Id}}"></label></td>
                 <td><a ui-sref="app.docker.domain.dockers.menu.images.image({imageId: image.Id, imageTag: (image|repotag)})">{{ image.Id|truncate:20}}</a></td>
                 <td>{{ image|repotag }}</td>
                 <td>{{ image.VirtualSize|humansize }}</td>
@@ -39,6 +42,5 @@
             </tr>
             </tbody>
         </table>
-
     </div>
 </section>
