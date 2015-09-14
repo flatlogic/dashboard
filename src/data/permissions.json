@@ -23,6 +23,7 @@
     "DockerImageController": "my_account",
     "DomainEnvironmentController": "my_account",
     "DockersController": "my_account",
+    "DockerContainerLogsController": "my_account",
     "DockerDomainController": "my_account",
     "DockerInfoController": "my_account",
     "DomainNodeController": "my_account",

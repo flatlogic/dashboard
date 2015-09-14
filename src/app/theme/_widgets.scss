@@ -1096,6 +1096,10 @@ width: 20px;
   >tbody>tr>.center-text {
     text-align: center;
   }
+
+  >tbody>tr>td {
+    border-top: 1px solid #f0f0f0;
+  }
 }
 
 .images-table {
@@ -1110,6 +1114,10 @@ width: 20px;
 
   >tbody>tr>.center-text {
     text-align: center;
+  }
+
+  >tbody>tr>td {
+    border-top: 1px solid #f0f0f0;
   }
 }
 
@@ -1157,8 +1165,8 @@ width: 20px;
 
 .container-details {
   >.name>h4>button {
-    background-color: #AEAEAE;
-    border-color: #AEAEAE;
+    background-color: #8D93A1;
+    border-color: #8D93A1;
     margin-left: 10px;
     height: 30px;
     line-height: 15px;
@@ -1169,48 +1177,99 @@ width: 20px;
     line-height: 15px;
     margin-top: -5px;
     &.btn-success {
-      background-color: #25802d;
-      border-color: #25802d;
+      background-color: #7CB342;
+      border-color: #7CB342;
     }
     &.btn-danger {
-      background-color: red;
-      border-color: red;
+      background-color: #D9534F;
+      border-color: #D9534F;
     }
   }
 
   >#actions>button {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    height: 30px;
+    line-height: 15px;
     &.btn-success {
-
+      background-color: #7CB342;
+      border-color: #7CB342;
     }
     &.btn-warning {
-
+      background-color: #ECAA57;
+      border-color: #ECAA57;
     }
     &.btn-danger {
-
+      background-color: #D9534F;
+      border-color: #D9534F;
     }
     &.btn-info {
-
+      background-color: #6A78B1;
+      border-color: #6A78B1;
     }
     &.btn-primary {
-
+      background-color: #464C64;
+      border-color: #464C64;
     }
   }
 
   >table {
+    background-color: #FFFFFF;
     width: calc((100vw - #{$qor-sidebar-width}) / 2) - 1px;
     table-layout: fixed;
     >tbody>tr>td {
       &:nth-child(1) {
         width: 20%;
+        font-weight: 400;
       }
       &:nth-child(2) {
         word-wrap: break-word;
       }
+
+      border-top: 1px solid #f0f0f0;
     }
   }
 }
 
+.btn-remove-container {
+  background-color: #D9534F;
+  border-color: #D9534F;
+  color: #FFFFFF;
+  float: right;
+}
+
 #pull-image {
   margin-left: 10px;
+}
+
+.docker-info-small {
+  font-size: 20px;
+
+  >tbody>tr>td:first-child {
+    font-weight: 600;
+  }
+}
+
+.docker-info-table {
+  margin-top: 20px;
+}
+
+.changes-container {
+  display: flex;
+  >div {
+    &:first-child {
+      width: 20%;
+      float: left;
+      padding-left: 5px;
+      font-weight: 400;
+    }
+
+    &:nth-child(2) {
+      width: 80%;
+      float: right;
+      background-color: #FFFFFF;
+      padding-top: 10px;
+    }
+
+    margin-bottom: 10px;
+  }
 }

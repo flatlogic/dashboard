@@ -1,21 +1,36 @@
 <section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{dockerId}}">
+    <header horizontal-ui-sheet-header title="Information">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="detail">
-            <h2>Docker Information</h2>
+            <h3 class="config-table-header">Docker Information</h3>
 
-            <div>
-                <p class="lead">
-                    <strong>API Endpoint: </strong>{{ endpoint }}<br/>
-                    <strong>API Version: </strong>{{ docker.ApiVersion }}<br/>
-                    <strong>Docker version: </strong>{{ docker.Version }}<br/>
-                    <strong>Git Commit: </strong>{{ docker.GitCommit }}<br/>
-                    <strong>Go Version: </strong>{{ docker.GoVersion }}<br/>
-                </p>
-            </div>
+            <table class="docker-info-small">
+                <tbody>
+                    <tr>
+                        <td>API Endpoint:</td>
+                        <td>{{ endpoint }}</td>
+                    </tr>
+                    <tr>
+                        <td>API Version:</td>
+                        <td>{{ docker.ApiVersion }}</td>
+                    </tr>
+                    <tr>
+                        <td>Docker version:</td>
+                        <td>{{ docker.Version }}</td>
+                    </tr>
+                    <tr>
+                        <td>Git Commit:</td>
+                        <td>{{ docker.GitCommit }}</td>
+                    </tr>
+                    <tr>
+                        <td>Go Version:</td>
+                        <td>{{ docker.GoVersion }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <table class="table table-striped">
+            <table class="table docker-info-table">
                 <tbody>
                 <tr>
                     <td>Containers:</td>
