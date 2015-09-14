@@ -28,7 +28,7 @@
             });
 
             $scope.addUser = function(username, password, custom_object){
-                return $http({
+                var request = {
                     method: 'POST',
                     url: AUTH_API_URL + '/register',
                     headers: {
@@ -42,9 +42,10 @@
                         },
                         "custom_object": custom_object
                     }
-                }).then(function(e) {
+                };
+                return $http(request).then(function(e) {
                     $scope.accounts.push({id: e.data.id, primary: e.data});
-                    Notification.success('Yo, you have done it');
+                    Notification.success('Successfully created');
                 }, function(e) {
                     var error = e ? e.error : 'unknown server error';
                     Notification.error('Can\'t load data: ' + error);
