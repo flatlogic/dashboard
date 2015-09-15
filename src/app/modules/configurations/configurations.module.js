@@ -31,7 +31,7 @@
 
         $qorSidebarProvider.config('configurations', {
             title: 'Config',
-            nav: 30,
+            nav: 5,
             content: '<span ui-sref="app.configurations" qor-sidebar-group-heading="Config" data-icon-class="fa fa-cogs"></span>'
         });
     }

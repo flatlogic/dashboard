@@ -29,7 +29,7 @@
 
         $qorSidebarProvider.config('dashboard', {
             title: 'Dashboard',
-            nav: 10,
+            nav: 1,
             content: '<span ui-sref="app.dashboard" qor-sidebar-group-heading="Events" data-icon-class="fa fa-newspaper-o"></span>'
         });
     }

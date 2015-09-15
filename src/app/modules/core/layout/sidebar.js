@@ -157,7 +157,7 @@
             var expanded = true;
             return {
                 sortedGroups: function () {
-                    return _groups();
+                    //return _groups();
                     // TODO ??
                     return _groups().sort(function (g1, g2) {
                         return (g1.nav || 0) - (g2.nav || 0);

@@ -27,7 +27,7 @@
 
         $qorSidebarProvider.config('manage', {
             title: 'Manage',
-            nav: 30,
+            nav: 7,
             content: '<span ui-sref="app.manage" qor-sidebar-group-heading="Manage" data-icon-class="fa fa-edit"></span>'
         });
     }

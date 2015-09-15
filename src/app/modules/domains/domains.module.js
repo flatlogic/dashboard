@@ -38,7 +38,7 @@
 
         $qorSidebarProvider.config('domains', {
             title: 'Environments',
-            nav: 40,
+            nav: 2,
             content: '<span ui-sref="app.domains" qor-sidebar-group-heading="Domains" data-icon-class="fa fa-cloud"></span>',
             controller: 'DomainsSidebarController'
         });

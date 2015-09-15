@@ -28,7 +28,7 @@
 
         $qorSidebarProvider.config('orchestrate', {
             title: 'Config',
-            nav: 30,
+            nav: 6,
             content: '<span ui-sref="app.orchestrate" qor-sidebar-group-heading="Orchestrate" data-icon-class="fa fa-building"></span>'
         });
     }
