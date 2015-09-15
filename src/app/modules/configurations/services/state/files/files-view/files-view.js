@@ -190,7 +190,7 @@
         };
 
         $scope.isVersionLive = function(version) {
-            if (!$scope.selectedInstance || !$scope.instance) {
+            if (!$scope.selectedInstance || !$scope.instance || !$scope.instance.live[$scope.selectedInstance][$scope.fileName] || !version) {
                 return false;
             }
             return version == $scope.instance.live[$scope.selectedInstance][$scope.fileName];

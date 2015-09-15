@@ -16,7 +16,7 @@
         $stateProvider
             .state('app.configurations.services.state.instances.editor', {
                 url: '/:instances',
-                templateUrl: 'app/modules/configurations/editor/editor.html',
+                templateUrl: 'app/modules/configurations/services/state/instances/editor/editor.html',
                 controller: 'EditorController',
                 authenticate: true
             })

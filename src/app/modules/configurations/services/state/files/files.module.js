@@ -13,7 +13,7 @@
         $stateProvider
             .state('app.configurations.services.state.files', {
                 url: '/files',
-                templateUrl: 'app/modules/configurations/files/files.html',
+                templateUrl: 'app/modules/configurations/services/state/files/files.html',
                 controller: 'FilesController',
                 authenticate: true
             })

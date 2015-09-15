@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesController.$inject = ['$scope', '$stateParams', '$q', '$http', 'API_URL', 'errorHandler', '$modal'];
-    function filesController($scope, $stateParams, $q, $http, API_URL, errorHandler, $modal) {
+    filesController.$inject = ['$scope', '$stateParams', '$q', '$http', 'API_URL', 'errorHandler', '$modal', 'Notification'];
+    function filesController($scope, $stateParams, $q, $http, API_URL, errorHandler, $modal, Notification) {
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -16,7 +16,7 @@
         $scope.openNewFileModal = function() {
             $modal.open({
                 animation: true,
-                templateUrl: 'app/modules/configurations/files/new-file-modal.html',
+                templateUrl: 'app/modules/configurations/services/state/files/new-file-modal.html',
                 controller: 'NewFileController',
                 size: 'lg',
                 resolve: {

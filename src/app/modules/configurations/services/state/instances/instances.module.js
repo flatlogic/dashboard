@@ -13,7 +13,7 @@
         $stateProvider
             .state('app.configurations.services.state.instances', {
                 url: '/instances',
-                templateUrl: 'app/modules/configurations/instances/instances.html',
+                templateUrl: 'app/modules/configurations/services/state/instances/instances.html',
                 controller: 'InstancesController',
                 authenticate: true
             })

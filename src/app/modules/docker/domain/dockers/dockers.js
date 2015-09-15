@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker')
+    var module = angular.module('qorDash.docker')
         .controller('DockersController', dockersController);
 
     dockersController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler'];

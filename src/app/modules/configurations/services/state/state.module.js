@@ -13,7 +13,7 @@
         $stateProvider
             .state('app.configurations.services.state', {
                 url: '/:service',
-                templateUrl: 'app/modules/configurations/state/state.html'
+                templateUrl: 'app/modules/configurations/services/state/state.html'
             })
     }
 })();
