@@ -1273,3 +1273,87 @@ width: 20px;
     margin-bottom: 10px;
   }
 }
+
+.log-btns {
+  margin-left: 20px;
+
+  >button {
+    height: 30px;
+    line-height: 15px;
+  }
+}
+
+.btn-success {
+  background-color: #7CB342;
+  border-color: #7CB342;
+}
+.btn-warning {
+  background-color: #ECAA57;
+  border-color: #ECAA57;
+}
+.btn-danger {
+  background-color: #D9534F;
+  border-color: #D9534F;
+}
+.btn-info {
+  background-color: #6A78B1;
+  border-color: #6A78B1;
+}
+.btn-primary {
+  background-color: #464C64;
+  border-color: #464C64;
+
+  &:hover {
+    background-color: #262D4B;
+    border-color: #262D4B;
+  }
+
+  &:active {
+    background-color: #1C2238;
+    border-color: #1C2238;
+  }
+
+  &:focus {
+    background-color: #1C2238;
+    border-color: #1C2238;
+  }
+}
+
+.reload-logs {
+  margin: 20px 30px 0 0;
+  >div {
+    &:first-child {
+      >a {
+        height: 30px;
+        border-radius: 1px;
+        line-height: 15px;
+      }
+      >#tailLines {
+        background-color: #EDEDED;
+        border: 1px solid #AEAEAE;
+        width: 60px;
+        height: 28px;
+        &:focus {
+          background-color: #FFFFFF;
+        }
+      }
+
+      >label:last-child {
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.logs-panel {
+  margin-top: 20px;
+  >.panel-heading {
+    background-color: #F0F0F0;
+    margin-bottom: -10px;
+  }
+}
+
+.docker-logs-left {
+  margin: 20px 0 0 30px;
+  float: left;
+}

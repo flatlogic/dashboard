@@ -2,30 +2,30 @@
     <header horizontal-ui-sheet-header title="Logs">
     </header>
     <div horizontal-ui-sheet-content>
-        <div class="row logs">
-            <div class="col-xs-12">
-                <h4>Logs for container: <a ui-sref="app.docker.domain.dockers.menu.containers.container({containerId: container.Id})">{{ container.Name }}</a></td></h4>
+        <div class="logs">
+            <div class="docker-logs-left">
+                <h4 class="display-inline">Logs for container: <a ui-sref="app.docker.domain.dockers.menu.containers.container({containerId: container.Id})">{{ container.Name }}</a></td></h4>
 
-                <div class="btn-group detail">
+                <div class="btn-group detail log-btns">
                     <button class="btn btn-info" ng-click="scrollTo('stdout')">stdout</button>
-                    <button class="btn btn-warning" ng-click="scrollTo('stderr')">stderr</button>
+                    <button class="btn btn-primary" ng-click="scrollTo('stderr')">stderr</button>
                 </div>
-                <div class="pull-right col-xs-">
-                    <div class="col-xs-6">
-                        <a class="btn btn-primary" ng-click="toggleTail()" role="button">Reload logs</a>
-                        <input id="tailLines" type="number" ng-style="{width: '45px'}"
-                               ng-model="tailLines" ng-keypress="($event.which === 13)? toggleTail() : 0"/>
-                        <label for="tailLines">lines</label>
-                    </div>
-                    <div class="col-xs-4">
-                        <input id="timestampToggle" type="checkbox" ng-model="showTimestamps"
-                               ng-change="toggleTimestamps()"/> <label for="timestampToggle">Timestamps</label>
-                    </div>
+
+            </div>
+
+            <div class="reload-logs pull-right">
+                <div>
+                    <a class="btn btn-warning" ng-click="toggleTail()" role="button">Reload logs</a>
+                    <input id="tailLines" type="number"
+                           ng-model="tailLines" ng-keypress="($event.which === 13)? toggleTail() : 0"/>
+                    <label for="tailLines">lines</label>
+                    <input class="new-checkbox bordered" id="timestampToggle" ng-model="showTimestamps"
+                           ng-change="toggleTimestamps()" type="checkbox"><label for="timestampToggle"></label>Timestamp
                 </div>
             </div>
 
             <div class="col-xs-12">
-                <div class="panel panel-default">
+                <div class="panel panel-default logs-panel">
                     <div class="panel-heading">
                         <h3 id="stdout" class="panel-title">STDOUT</h3>
                     </div>
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="col-xs-12">
-                <div class="panel panel-default">
+                <div class="panel panel-default logs-panel">
                     <div class="panel-heading">
                         <h3 id="stderr" class="panel-title">STDERR</h3>
                     </div>
