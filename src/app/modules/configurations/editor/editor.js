@@ -54,7 +54,7 @@
             $scope.editorService.instances = $stateParams.instances.split(',');
 
             $scope.editorService.instances.forEach(function (instance) {
-                $scope.selectedVersion[instance] = $scope.editorService.versions[0];
+                $scope.selectedVersion[instance] = $scope.editorService.live[instance] || $scope.editorService.versions[0];
             });
 
             // Versions that doesn't exist
@@ -425,6 +425,7 @@
          * Add value listener. Add empty value to items array and increment new items count.
          */
         $scope.addValue = function () {
+            $('.editor-content').parent().scrollTop($('.editor-content').height() + 80);
             var obj = {};
             obj.name = "";
             $scope.editorService.instances.forEach(function (instance) {
@@ -497,6 +498,10 @@
                 if ($scope.values[i].name == name) {
                     $scope.values.splice(i, 1);
                 }
+            }
+
+            if (!name) {
+                return;
             }
 
             for (var i in $scope.editorService.instances) {
