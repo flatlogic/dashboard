@@ -9,7 +9,9 @@
         'qorDash.configurations.services.state.files.files-view',
         'qorDash.configurations.services.state.files.files-view.diff',
         'qorDash.configurations.services.state.instances',
-        'qorDash.configurations.services.state.instances.editor'
+        'qorDash.configurations.services.state.instances.editor',
+        'qorDash.configurations.services.state.packages',
+        'qorDash.configurations.services.state.packages.editor',
     ]);
 
     module.config(appConfig);

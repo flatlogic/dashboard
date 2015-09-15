@@ -1,9 +1,8 @@
 (function () {
     'use strict';
 
-    instancesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
-    function instancesController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
-
+    packagesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
+    function packagesController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
         // TODO Make global
         Object.filter = function( obj, predicate) {
             var key;
@@ -17,7 +16,7 @@
 
         $scope.checked = {};
 
-        $http.get(API_URL + '/v1/env/' + $stateParams.domain + '/')
+        $http.get(API_URL + '/v1/pkg/' + $stateParams.domain + '/')
             .success(function (response) {
                 $scope.service = response[$state.params.service];
                 $scope.instances = $scope.service.instances;
@@ -61,11 +60,11 @@
                 }
             }
             if (selectedInstances.length > 0) {
-                $state.go('app.configurations.services.state.instances.editor', {instances: selectedInstances});
+                $state.go('app.configurations.services.state.packages.editor', {instances: selectedInstances});
             }
         }
     }
 
-    angular.module('qorDash.configurations.services.state.instances')
-        .controller('InstancesController', instancesController);
+    angular.module('qorDash.configurations.services.state.packages')
+        .controller('PackagesController', packagesController);
 })();
