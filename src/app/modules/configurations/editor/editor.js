@@ -398,7 +398,7 @@
                         url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-Dash-Version': $scope.dashVersions[instance][version]
+                            'X-Dash-Version': $scope.dashVersions[instance] ? $scope.dashVersions[instance][version] || '' : ''
                         },
                         data: data
                     };
