@@ -360,7 +360,6 @@
          */
         $scope.save = function () {
             $('#env-save-button').button('loading');
-            debugger;
             // Add new items to array for saving
             if ($scope.newItemsCount != 0) {
                 for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {

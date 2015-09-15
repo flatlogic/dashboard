@@ -1287,23 +1287,23 @@ width: 20px;
   }
 }
 
-.btn-success {
+.qor-btn-success {
   background-color: #7CB342;
   border-color: #7CB342;
 }
-.btn-warning {
+.qor-btn-warning {
   background-color: #ECAA57;
   border-color: #ECAA57;
 }
-.btn-danger {
+.qor-btn-danger {
   background-color: #D9534F;
   border-color: #D9534F;
 }
-.btn-info {
+.qor-btn-info {
   background-color: #6A78B1;
   border-color: #6A78B1;
 }
-.btn-primary {
+.qor-btn-primary {
   background-color: #464C64;
   border-color: #464C64;
 
@@ -1360,4 +1360,16 @@ width: 20px;
 .docker-logs-left {
   margin: 20px 0 0 30px;
   float: left;
+}
+
+.new-file-button {
+  position: absolute;
+  bottom: 10px;
+  >button {
+    width: 427px;
+  }
+}
+
+#new_file_content {
+  height: 400px;
 }
