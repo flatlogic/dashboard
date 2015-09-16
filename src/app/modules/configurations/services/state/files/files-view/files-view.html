@@ -40,7 +40,7 @@
     </div>
     <form ng-submit="saveFile()" class="file-content" ng-init="contentsChanged = false">
       <div class="btn-toolbar pull-right">
-          <button class="btn btn-success mr-xs" ng-show="isLive(selectedInstance, selectedVersion) && selectedInstance && selectedVersion"
+          <button class="btn btn-success mr-xs" ng-show="isLive(selectedInstance, selectedVersion) && selectedInstance && selectedVersion && !addNewVersionClicked"
                   mwl-confirm
                   title="Are you sure?"
                   message="Make {{selectedVersion}} live for {{selectedInstance}}"

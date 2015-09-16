@@ -96,16 +96,19 @@
                 }
             };
 
+            if ($scope.contentsChanged) {
+                request.data = $scope.fileContents;
+            }
+
             return $http(request)
                 .success(function(response) {
                     $scope.instance.versions.push(newVersionName);
                     $scope.selectVersion(newVersionName);
+                    $scope.contentsChanged = false;
                     Notification.success('Successfully created');
-                    debugger;
                 })
                 .error(function(e, code) {
                     errorHandler.showError(e, code);
-                    debugger;
                 });
         };
 
@@ -157,7 +160,7 @@
         $scope.cloneFile = function () {
             $modal.open({
                 animation: true,
-                templateUrl: 'app/modules/configurations/files-view/files-clone-modal.html',
+                templateUrl: 'app/modules/configurations/services/state/files/files-view/files-clone-modal.html',
                 controller: 'FilesCloneController',
                 resolve: {
                     instance: function () {
@@ -212,7 +215,7 @@
         $scope.deleteFile = function () {
             $modal.open({
                 animation: true,
-                templateUrl: 'app/modules/configurations/files-view/files-delete-modal.html',
+                templateUrl: 'app/modules/configurations/services/state/files/files-view/files-delete-modal.html',
                 controller: 'FilesDeleteController',
                 resolve: {
                     instance: function () {
@@ -273,7 +276,8 @@
         };
 
         $scope.isVersionLive = function(version) {
-            if (!$scope.selectedInstance || !$scope.selectedVersion || !$scope.instance || !$scope.instance.live[$scope.selectedInstance] || !$scope.instance.live[$scope.selectedInstance][$scope.fileName] || !version) {
+            if (!$scope.selectedInstance || !$scope.selectedVersion || !$scope.instance || !$scope.instance.live[$scope.selectedInstance] ||
+                !$scope.instance.live[$scope.selectedInstance][$scope.fileName] || !version) {
                 return false;
             }
             return version == $scope.instance.live[$scope.selectedInstance][$scope.fileName];
