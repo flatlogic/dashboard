@@ -111,6 +111,11 @@
                                 $scope.requestsCounter--;
                                 $scope.loaded = true;
 
+                                var splitedUrl = config.url.split('/');
+
+                                var version = splitedUrl[splitedUrl.length - 1],
+                                    instance = splitedUrl[splitedUrl.length - 3];
+
                                 $scope.selectedVersion[instance] = version;
 
                                 for (var varName in data) {
@@ -127,6 +132,19 @@
                             })
                             .error(function (error, status, headers, request) {
                                 $scope.requestsCounter--;
+
+                                if (status == 404) {
+                                    var splitedUrl = request.url.split('/');
+
+                                    var version = splitedUrl[splitedUrl.length - 1],
+                                        instance = splitedUrl[splitedUrl.length - 3];
+
+                                    if (!$scope.deletedVersions[instance]) {
+                                        $scope.deletedVersions[instance] = [];
+                                    }
+
+                                    $scope.deletedVersions[instance].push(version);
+                                }
 
                                 $scope.loaded = true;
                             });
