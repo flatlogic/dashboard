@@ -1,8 +1,11 @@
 (function () {
     'use strict';
 
-    filesViewController.$inject = ['$scope', '$state', '$stateParams', '$http', '$modal', '$q', 'API_URL', 'errorHandler'];
-    function filesViewController($scope, $state, $stateParams, $http, $modal, $q, API_URL, errorHandler) {
+    filesViewController.$inject = ['$scope', '$state', '$stateParams', '$http', '$modal', '$q', 'API_URL', 'errorHandler', 'Notification'];
+    function filesViewController($scope, $state, $stateParams, $http, $modal, $q, API_URL, errorHandler, Notification) {
+
+        $scope.addNewVersionClicked = false;
+
         $scope.selectInstance = function (instance) {
             $scope.selectedInstance = instance;
 
@@ -17,12 +20,23 @@
         $scope.selectVersion = function(version) {
             $scope.selectedVersion = version;
 
+            if ($scope.addNewVersionClicked) {
+                $scope.addNewVersionClicked = false;
+            }
+
             $state.go('.', {
                 instance: $scope.selectedInstance,
                 version: $scope.selectedVersion
             });
 
+
             $scope.showFile();
+        };
+
+        $scope.clickAddNewVersion = function() {
+            $scope.addNewVersionClicked = true;
+
+            $scope.showBaseFile();
         };
 
         $scope.showFile = function () {
@@ -49,14 +63,76 @@
             }
         };
 
+        $scope.showBaseFile = function() {
+            if ($scope.selectedInstance) {
+                var domainClass = $stateParams.domain,
+                    service = $scope.service,
+                    object = $stateParams.file;
+
+                $http({
+                    method: 'GET',
+                    url: API_URL + '/v1/conf/' + domainClass +
+                        '/' + service + '/' + object,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function(response) {
+                        $scope.fileContents = response.data;
+                        $scope.fileVersion = response.headers('X-Dash-Version');
+                    },
+                    function(e, code) {
+                        $scope.error = errorHandler.showError(e, code);
+                    });
+            }
+        };
+
+        $scope.createVersion = function(newVersionName) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/conf/' + $stateParams.domain + '/'
+                    + $scope.selectedInstance + '/' + $scope.service + '/' + newVersionName + '/' + $stateParams.file,
+                headers: {
+                    'X-Dash-Version': $scope.fileVersion
+                }
+            };
+
+            return $http(request)
+                .success(function(response) {
+                    $scope.instance.versions.push(newVersionName);
+                    $scope.selectVersion(newVersionName);
+                    Notification.success('Successfully created');
+                    debugger;
+                })
+                .error(function(e, code) {
+                    errorHandler.showError(e, code);
+                    debugger;
+                });
+        };
+
         $scope.saveFile = function () {
             if (!$scope.fileContents) {
                 return
             }
 
+            if ($scope.addNewVersionClicked) {
+                $modal.open({
+                    animation: true,
+                    templateUrl: 'app/modules/configurations/services/state/files/new-version-modal.html',
+                    controller: 'NewVersionController',
+                    size: 'sm',
+                    resolve: {
+                        createVersion: function () {
+                            return $scope.createVersion;
+                        }
+                    }
+                });
+                return;
+            }
+
             var domainClass = $stateParams.domain,
                 service = $scope.service,
                 object = $stateParams.file;
+
             $http({
                 method: 'PUT',
                 url: API_URL + '/v1/conf/' + domainClass + '/'
@@ -66,13 +142,16 @@
                     'X-Dash-Version': $scope.fileVersion
                 },
                 data: $scope.fileContents
-            }).then(function() {
-                    Notification.success('Saved successfully');
-                }, function(e) {
-                    var error = e ? e.error : 'unknown server error';
-                    Notification.error('Can\'t load data: ' + error);
-                    $scope.loading = false;
-                });
+            }).success(function(response, code, headers, config) {
+                $scope.fileVersion = headers('X-Dash-Version');
+                $scope.contentsChanged = false;
+                Notification.success('Saved successfully');
+            })
+            .error(function(e) {
+                var error = e ? e.error : 'unknown server error';
+                Notification.error('Can\'t load data: ' + error);
+                $scope.loading = false;
+            });
         };
 
         $scope.cloneFile = function () {
@@ -181,29 +260,33 @@
             return deferred.promise;
         };
 
+
         $scope.isInstanceActive = function(instance) {
             return instance == $scope.selectedInstance;
         };
 
         $scope.isVersionActive = function(version) {
+            if ($scope.addNewVersionClicked) {
+                return false;
+            }
             return version == $scope.selectedVersion;
         };
 
         $scope.isVersionLive = function(version) {
-            if (!$scope.selectedInstance || !$scope.instance || !$scope.instance.live[$scope.selectedInstance][$scope.fileName] || !version) {
+            if (!$scope.selectedInstance || !$scope.selectedVersion || !$scope.instance || !$scope.instance.live[$scope.selectedInstance] || !$scope.instance.live[$scope.selectedInstance][$scope.fileName] || !version) {
                 return false;
             }
             return version == $scope.instance.live[$scope.selectedInstance][$scope.fileName];
         };
 
         $scope.isLive = function(instance, version) {
-            if ($scope.instance) {
-                if (!$scope.instance.live[instance] || !$scope.instance.live[instance][$scope.fileName] || !version) {
-                    return true;
-                }
-                return version == $scope.instance.live[instance][$scope.fileName];
-            } else {
+            if (!$scope.instance || !version || !instance) {
                 return false;
+            } else {
+                if (!$scope.instance.live[instance] || !$scope.instance.live[instance][$scope.fileName]) {
+                    return false;
+                }
+                return version != $scope.instance.live[instance][$scope.fileName];
             }
         };
 
@@ -282,10 +365,36 @@
         }
     }
 
+    newVersionController.$inject = ['$scope', 'createVersion', '$modalInstance'];
+    function newVersionController($scope, createVersion, $modalInstance) {
+        $scope.ok = function ($event) {
+            if (!$scope.versionName) {
+                return;
+            }
+
+            $scope.event = $event;
+
+            $($event.target).button('loading');
+
+            createVersion($scope.versionName)
+                .success(function() {
+                    $modalInstance.close();
+                })
+                .error(function() {
+                    $($scope.event.target).button('reset');
+                });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        }
+    }
+
 
     angular.module('qorDash.configurations.services.state.files.files-view')
         .controller('FilesViewController', filesViewController)
         .controller('FilesCloneController', filesCloneController)
         .controller('FilesDeleteController', filesDeleteController)
+        .controller('NewVersionController', newVersionController)
     ;
 })();

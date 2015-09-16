@@ -1,5 +1,5 @@
 <section horizontal-ui-sheet class="qor-sheet-full">
-  <header horizontal-ui-sheet-header title="{{domain.name}} > Files > {{fileName}}">
+  <header horizontal-ui-sheet-header title="{{domain.name}} > {{service}} > Configuraion Files > {{fileName}}">
   </header>
   <div horizontal-ui-sheet-content>
     <div class="btn-toolbar no-margin ml-n-xs">
@@ -20,11 +20,14 @@
       <div class="btn-group">
         <div dropdown dropdown-append-to-body class="dropdown">
           <button class="btn btn-default config-table-header-button" dropdown-toggle >
-            {{selectedVersion ? selectedVersion : '- Choose version -'}}
+            {{addNewVersionClicked ? '-Create new version-' : (selectedVersion ? selectedVersion : '- Choose version -')}}
             <span class="fa fa-angle-down pull-right"></span>
             <span class="label label-success pull-right mr-xs" ng-show="isVersionLive(selectedVersion)">Live</span>
           </button>
           <ul class="dropdown-menu">
+              <li ng-click="clickAddNewVersion" ng-class="{'active' : addNewVersionClicked}">
+                  <a ng-click="clickAddNewVersion()">-Create new version-</a>
+              </li>
             <li ng-repeat="version in instance.versions" ng-class="{'active' : isVersionActive(version)}">
               <a ng-click="selectVersion(version)">
                 {{version}}
@@ -37,7 +40,7 @@
     </div>
     <form ng-submit="saveFile()" class="file-content" ng-init="contentsChanged = false">
       <div class="btn-toolbar pull-right">
-          <button class="btn btn-success mr-xs" ng-hide="isLive(selectedInstance, selectedVersion)"
+          <button class="btn btn-success mr-xs" ng-show="isLive(selectedInstance, selectedVersion) && selectedInstance && selectedVersion"
                   mwl-confirm
                   title="Are you sure?"
                   message="Make {{selectedVersion}} live for {{selectedInstance}}"
@@ -46,7 +49,7 @@
                   placement="bottom"
                   on-confirm="makeLive(selectedInstance, selectedVersion)"
                   type="button">Set live</button>
-        <button class="btn btn-danger mr-xs" ng-disabled="!(fileContents && contentsChanged)" type="submit">Save</button>
+        <button class="btn btn-danger mr-xs" ng-disabled="!(fileContents && contentsChanged || addNewVersionClicked)" type="submit">Save</button>
         <button class="btn btn-default mr-n-xs" ng-disabled="!fileContents"
                 type="button" ng-click="cloneFile()">Clone <i class="fa fa-clone ml-xs"></i></button>
         <a class="btn btn-default mr-xs" ng-disabled="!fileContents"
