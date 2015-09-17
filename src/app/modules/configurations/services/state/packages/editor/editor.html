@@ -27,8 +27,7 @@
                                 </ul>
                                 <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])" ng-hide="requestsCounter != 0"></span>
                                 <span class="label label-success set-live-button"
-                                      ng-hide="requestsCounter != 0"
-                                      ng-hide="isLive(instance, selectedVersion[instance])"
+                                      ng-hide="isLive(instance, selectedVersion[instance]) || requestsCounter != 0"
                                       mwl-confirm
                                       instance="{{instance}}"
                                       title="Are you sure?"

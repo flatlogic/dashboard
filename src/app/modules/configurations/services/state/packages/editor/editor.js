@@ -18,16 +18,9 @@
         $scope.itemsForSave = {};
         $scope.newItemsCount = 0;
 
-        $scope.dashVersions = {};
-
         $scope.values = {};
-        $scope.val1 = {};
 
         $scope.requestsCounter = 0;
-
-        $scope.loaded = function() {
-            return $scope.requestsCounter == 0;
-        };
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -97,6 +90,28 @@
                 $scope.values = {};
                 $scope.val1 = {};
                 $scope.deledVersions = {};
+
+                var _loadLiveVersion = function() {
+                    var request = {
+                        method: 'GET',
+                        url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' +  $scope.editorService.service,
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    };
+
+                    console.log(request);
+
+                    $http(request)
+                        .success(function (data) {
+                            debugger;
+                        })
+                        .error(function (e,code) {
+                            debugger;
+                        });
+                };
+
+                //_loadLiveVersion();
 
                 $scope.editorService.instances.forEach(function (instance) {
                     for (var i in $scope.editorService.versions) {
@@ -197,7 +212,7 @@
 
             var postRequest = {
                 method: 'POST',
-                url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
+                url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
                 headers: {
                     'Content-Type': 'application/json'
                 }
