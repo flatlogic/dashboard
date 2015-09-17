@@ -630,8 +630,19 @@ $stat-blue-color: #7986CB;
 .config-table {
   width: 100%;
 
+  >thead>th {
+    text-align: left;
+  }
+
   >tbody >tr >th {
     text-align: center;
+    background-color: #FFFFFF;
+    border: 2px solid #F0F0F0;
+    font-weight: 400;
+
+    &:first-child {
+      font-weight: 600;
+    }
   }
 
   table-layout: fixed;
@@ -676,16 +687,18 @@ $stat-blue-color: #7986CB;
 }
 
 .config-input-edit {
-  border: solid 1px #eea22d;
+  border-bottom: solid 1px #eea22d;
+  border-top: none;
+  border-right: none;
+  border-left: none;
   padding: 3px;
-  border-radius: 5px;
   resize: none;
   overflow: hidden;
   word-wrap: break-word;
   text-align: center;
   min-height: 25px;
 
-  width: 90%;
+  width: 85%;
 
   &:focus, &.focus {
     box-shadow: none;
@@ -717,8 +730,7 @@ $stat-blue-color: #7986CB;
 }
 
 .no-value {
-  background-color: #de5e5d !important;
-  opacity: .6;
+  background-color: rgba(222,94,93, 0.2) !important;
 }
 
 .navigation-details {
@@ -915,6 +927,11 @@ width: 20px;
   width: auto;
   background-color: white;
   color: #555;
+  min-width: 150px;
+
+  >.fa{
+    color: #CDCDCD;
+  }
 
   .label {
     margin-top: 2px;
