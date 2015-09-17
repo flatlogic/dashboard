@@ -12,7 +12,7 @@
         $scope.showTimestamps = false;
         $scope.tailLines = 2000;
 
-        Container.get({id: $stateParams.containerId}, function (d) {
+        Container.get({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
             $scope.container = d;
         }, function (e) {
             if (e.status === 404) {

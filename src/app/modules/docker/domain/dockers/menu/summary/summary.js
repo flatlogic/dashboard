@@ -4,8 +4,8 @@
     angular.module('qorDash.docker.domain.dockers.menu.summary')
         .controller('DockerSummaryController', dockerSummaryController);
 
-    dockerSummaryController.$inject = ['$scope', 'Container', 'Image', 'Settings', 'LineChart'];
-    function dockerSummaryController($scope, Container, Image, Settings, LineChart) {
+    dockerSummaryController.$inject = ['$scope', '$stateParams', 'Container', 'Image', 'Settings', 'LineChart'];
+    function dockerSummaryController($scope, $stateParams, Container, Image, Settings, LineChart) {
         $scope.predicate = '-Created';
         $scope.containers = [];
 
@@ -15,7 +15,7 @@
                 return new Date(c.Created * 1000).toLocaleDateString();
             });
             var s = $scope;
-            Image.query({}, function (d) {
+            Image.query({dockerId: $stateParams.dockerId}, function (d) {
                 s.totalImages = d.length;
                 LineChart.build('#images-created-chart', d, function (c) {
                     return new Date(c.Created * 1000).toLocaleDateString();
@@ -34,7 +34,7 @@
             }, 5000);
         }
 
-        Container.query({all: 1}, function (d) {
+        Container.query({all: 1, dockerId: $stateParams.dockerId}, function (d) {
             var running = 0;
             var ghost = 0;
             var stopped = 0;

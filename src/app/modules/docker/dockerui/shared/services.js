@@ -77,7 +77,7 @@ angular.module('dockerui.services', ['ngResource'])
     .factory('Image', function ($resource, Settings) {
         'use strict';
         // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#2-2-images
-        return $resource(Settings.url + '/images/:id/:action', {}, {
+        return $resource(Settings.url + '/:dockerId/images/:id/:action', {}, {
             query: {method: 'GET', params: {all: 0, action: 'json'}, isArray: true},
             get: {method: 'GET', params: {action: 'json'}},
             search: {method: 'GET', params: {action: 'search'}},
@@ -87,12 +87,12 @@ angular.module('dockerui.services', ['ngResource'])
                     var str = data.replace(/\n/g, " ").replace(/\}\W*\{/g, "}, {");
                     return angular.fromJson("[" + str + "]");
                 }],
-                params: {action: 'create', fromImage: '@fromImage', repo: '@repo', tag: '@tag', registry: '@registry'}
+                params: {action: 'create', fromImage: '@fromImage', repo: '@repo', tag: '@tag', registry: '@registry', dockerId: '@dockerId'}
             },
-            insert: {method: 'POST', params: {id: '@id', action: 'insert'}},
-            push: {method: 'POST', params: {id: '@id', action: 'push'}},
-            tag: {method: 'POST', params: {id: '@id', action: 'tag', force: 0, repo: '@repo'}},
-            remove: {method: 'DELETE', params: {id: '@id'}, isArray: true}
+            insert: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'insert'}},
+            push: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'push'}},
+            tag: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'tag', force: 0, repo: '@repo'}},
+            remove: {method: 'DELETE', params: {id: '@id', dockerId: '@dockerId'}, isArray: true}
         });
     })
     .factory('Docker', function ($resource, Settings) {
