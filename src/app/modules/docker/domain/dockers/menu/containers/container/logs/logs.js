@@ -27,7 +27,8 @@
                 stdout: 1,
                 stderr: 0,
                 timestamps: $scope.showTimestamps,
-                tail: $scope.tailLines
+                tail: $scope.tailLines,
+                dockerId: $stateParams.dockerId
             }, function (data, status, headers, config) {
                 // Replace carriage returns with newlines to clean up output
                 data = data.replace(/[\r]/g, '\n');
@@ -41,7 +42,8 @@
                 stdout: 0,
                 stderr: 1,
                 timestamps: $scope.showTimestamps,
-                tail: $scope.tailLines
+                tail: $scope.tailLines,
+                dockerId: $stateParams.dockerId
             }, function (data, status, headers, config) {
                 // Replace carriage returns with newlines to clean up output
                 data = data.replace(/[\r]/g, '\n');
