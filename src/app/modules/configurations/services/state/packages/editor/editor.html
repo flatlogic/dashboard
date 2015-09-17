@@ -13,8 +13,8 @@
                         <th ng-repeat="instance in editorService.instances | orderBy:''" class="config-table-th">
                             <h4>{{instance}}</h4>
                             <span dropdown dropdown-append-to-body class="dropdown">
-                                <button class="btn config-table-header-button" dropdown-toggle>
-                                  {{requestsCounter == 0 ? selectedVersion[instance] : '...'}} <span class="label label-success" ng-show="isLive(instance, selectedVersion[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
+                                <button class="btn config-table-header-button" dropdown-toggle ng-hide="requestsCounter != 0">
+                                  {{selectedVersion[instance]}} <span class="label label-success" ng-show="isLive(instance, selectedVersion[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="version in editorService.versions track by $index">
@@ -25,8 +25,9 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
+                                <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])" ng-hide="requestsCounter != 0"></span>
                                 <span class="label label-success set-live-button"
+                                      ng-hide="requestsCounter != 0"
                                       ng-hide="isLive(instance, selectedVersion[instance])"
                                       mwl-confirm
                                       instance="{{instance}}"

@@ -25,6 +25,10 @@
 
         $scope.requestsCounter = 0;
 
+        $scope.loaded = function() {
+            return $scope.requestsCounter == 0;
+        };
+
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
                 return;
