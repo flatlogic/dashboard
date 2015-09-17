@@ -237,7 +237,6 @@
         };
 
         $scope.makeCopy = function(instance, version) {
-            debugger;
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'newVersionModal.html',
@@ -275,69 +274,53 @@
             });
 
             var save = function(newVersionName, targetInstance, $modalInstance) {
-                $('#config-modal-ok-button').button('loading');
                 if (!newVersionName || !targetInstance) {
                     return;
                 }
 
-                var getRequest = {
-                    method: 'GET',
-                    url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                var data = {};
+
+                for (var i in $scope.values) {
+                    if (!$scope.values[i][instance] || !$scope.values[i][instance][version]) {
+                        continue;
+                    }
+                    data[i] = $scope.values[i][instance][version];
+                }
+
+                $('#config-modal-ok-button').button('loading');
+
+                var postRequest = {
+                    method: 'POST',
+                    url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    'version': version
+                    data: data
                 };
 
-                var newVars = {};
+                $http(postRequest)
+                    .success(function(d, status) {
+                        $scope.editorService.versions.push(newVersionName);
+                        for (var i in $scope.deletedVersions) {
+                            if (i != targetInstance) {
+                                $scope.deletedVersions[i].push(newVersionName);
+                            }
+                        }
 
-                $http(getRequest)
-                    .success(function(data, status) {
-                        newVars = data;
+                        for (i in data) {
+                            $scope.values[i][targetInstance][newVersionName] = $scope.values[i][instance][version];
+                        }
 
-                        var patchRequest = {
-                            method: 'POST',
-                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            data: data
-                        };
+                        $scope.changeSelectedVersion(targetInstance, newVersionName);
 
-                        $http(patchRequest)
-                            .success(function(data, status) {
-                                $scope.editorService.versions.push(newVersionName);
+                        Notification.success('Copy created');
 
-                                for (var i in $scope.deletedVersions) {
-                                    if (i != targetInstance) {
-                                        $scope.deletedVersions[i].push(newVersionName);
-                                    }
-                                }
-
-                                for (var i in $scope.values) {
-
-                                    if (!$scope.values[i][targetInstance]) {
-                                        continue;
-                                    }
-
-                                    $scope.values[i][targetInstance][newVersionName] = {
-                                        value: newVars[$scope.values[i].name]
-                                    };
-                                }
-
-                                Notification.success('Copy created');
-
-                                $modalInstance.close();
-                            })
-                            .error(function(e) {
-                                $('#config-modal-ok-button').button('reset');
-                                Notification.error('Data sending error' + e.error);
-                            });
+                        $modalInstance.close();
                     })
-                    .error(function(s) {
+                    .error(function(e) {
                         $('#config-modal-ok-button').button('reset');
-                        Notification.error('Data loading error' + e.error);
-                    });
+                        Notification.error('Data sending error: ' + e.error);
+                    })
             };
         };
 
@@ -346,34 +329,6 @@
          */
         $scope.save = function () {
             $('#env-save-button').button('loading');
-            // Add new items to array for saving
-//            if ($scope.newItemsCount != 0) {
-//                for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
-//                    var objToAdd = $scope.values[i];
-//                    for (var index in objToAdd) {
-//                        if (isInstance(index)) {
-//                            var versionToAdd = objToAdd[index];
-//                            for (var versionIndex in versionToAdd) {
-//
-//                                if (!$scope.itemsForSave[index]) {
-//                                    $scope.itemsForSave[index] = {};
-//                                }
-//
-//                                if (!$scope.itemsForSave[index][versionIndex]) {
-//                                    $scope.itemsForSave[index][versionIndex] = {};
-//                                }
-//
-//                                if (!$scope.itemsForSave[index][versionIndex]['update']) {
-//                                    $scope.itemsForSave[index][versionIndex]['update'] = {};
-//                                }
-//
-//                                $scope.itemsForSave[index][versionIndex]['update'][objToAdd.name] = versionToAdd[versionIndex].value;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-
             for (var instance in $scope.itemsForSave) {
                 var versions = $scope.itemsForSave[instance];
                 for (var version in versions) {
@@ -402,22 +357,6 @@
             $scope.itemsForSave = {};
         };
 
-        /**
-         * Add value listener. Add empty value to items array and increment new items count.
-         */
-        $scope.addValue = function () {
-            $('.editor-content').parent().scrollTop($('.editor-content').height() + 80);
-            var obj = {};
-            obj.name = "";
-            $scope.editorService.instances.forEach(function (instance) {
-                obj[instance] = {};
-                $scope.editorService.versions.forEach(function (version) {
-                    obj[instance][version] = "";
-                });
-            });
-            $scope.values.push(obj);
-            $scope.newItemsCount++;
-        };
 
         /**
          * Calling after editing of some variable
