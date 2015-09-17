@@ -347,63 +347,59 @@
         $scope.save = function () {
             $('#env-save-button').button('loading');
             // Add new items to array for saving
-            if ($scope.newItemsCount != 0) {
-                for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
-                    var objToAdd = $scope.values[i];
-                    for (var index in objToAdd) {
-                        if (isInstance(index)) {
-                            var versionToAdd = objToAdd[index];
-                            for (var versionIndex in versionToAdd) {
-
-                                if (!$scope.itemsForSave[index]) {
-                                    $scope.itemsForSave[index] = {};
-                                }
-
-                                if (!$scope.itemsForSave[index][versionIndex]) {
-                                    $scope.itemsForSave[index][versionIndex] = {};
-                                }
-
-                                if (!$scope.itemsForSave[index][versionIndex]['update']) {
-                                    $scope.itemsForSave[index][versionIndex]['update'] = {};
-                                }
-
-                                $scope.itemsForSave[index][versionIndex]['update'][objToAdd.name] = versionToAdd[versionIndex].value;
-                            }
-                        }
-                    }
-                }
-            }
+//            if ($scope.newItemsCount != 0) {
+//                for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
+//                    var objToAdd = $scope.values[i];
+//                    for (var index in objToAdd) {
+//                        if (isInstance(index)) {
+//                            var versionToAdd = objToAdd[index];
+//                            for (var versionIndex in versionToAdd) {
+//
+//                                if (!$scope.itemsForSave[index]) {
+//                                    $scope.itemsForSave[index] = {};
+//                                }
+//
+//                                if (!$scope.itemsForSave[index][versionIndex]) {
+//                                    $scope.itemsForSave[index][versionIndex] = {};
+//                                }
+//
+//                                if (!$scope.itemsForSave[index][versionIndex]['update']) {
+//                                    $scope.itemsForSave[index][versionIndex]['update'] = {};
+//                                }
+//
+//                                $scope.itemsForSave[index][versionIndex]['update'][objToAdd.name] = versionToAdd[versionIndex].value;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 
             for (var instance in $scope.itemsForSave) {
                 var versions = $scope.itemsForSave[instance];
                 for (var version in versions) {
                     var data = $scope.itemsForSave[instance][version];
                     var request = {
-                        method: 'PATCH',
-                        url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                        method: 'PUT',
+                        url: API_URL + '/v1/pkg/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                         headers: {
-                            'Content-Type': 'application/json',
-                            'X-Dash-Version': $scope.dashVersions[instance] ? $scope.dashVersions[instance][version] || '' : ''
+                            'Content-Type': 'application/json'
                         },
                         data: data
                     };
-                    if (request.data.delete) {
-                        $http(request)
-                            .success(function (response) {
-                                Notification.success('Saved successfully');
-                                $('#env-save-button').button('reset');
-                                $scope.loadData();
-                            })
-                            .error(function (error) {
-                                Notification.error('Saving error: ' + error.error);
-                                $('#env-save-button').button('reset');
-                            });
-                    }
+
+                    $http(request)
+                        .success(function (response) {
+                            Notification.success('Saved successfully');
+                            $('#env-save-button').button('reset');
+                        })
+                        .error(function (error) {
+                            Notification.error('Saving error: ' + error.error);
+                            $('#env-save-button').button('reset');
+                        });
                 }
             }
 
             $scope.itemsForSave = {};
-            $scope.itemsForDelete = [];
         };
 
         /**
@@ -436,19 +432,10 @@
             }
 
             if (!$scope.itemsForSave[instance][version]) {
-                $scope.itemsForSave[instance][version] = {
-                    'update': {},
-                    'delete': []
-                };
+                $scope.itemsForSave[instance][version] = {};
             }
-            $scope.itemsForSave[instance][version].update[name] = newValue;
 
-            for (var valueIndex in $scope.values) {
-                if ($scope.values[valueIndex].name == name) {
-                    $scope.values[valueIndex].value = newValue;
-                    return;
-                }
-            }
+            $scope.itemsForSave[instance][version][name] = newValue;
         };
     }
 

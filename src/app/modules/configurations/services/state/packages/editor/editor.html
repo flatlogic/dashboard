@@ -44,7 +44,7 @@
                         <th>
                             {{valueName}}
                         </th>
-                        <th ng-repeat="instance in editorService.instances | orderBy:''" parent="value[instance]" key="value.name"
+                        <th ng-repeat="instance in editorService.instances | orderBy:''" parent="value[instance]" key="valueName"
                             versions="editorService.versions"
                             ng-class="{'no-value': !values[valueName][instance][selectedVersion[instance]]}"
                             instance="instance" version="selectedVersion[instance]"

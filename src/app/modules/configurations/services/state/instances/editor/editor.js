@@ -360,6 +360,9 @@
          */
         $scope.save = function () {
             $('#env-save-button').button('loading');
+
+            var newItemsForSave = {};
+
             // Add new items to array for saving
             if ($scope.newItemsCount != 0) {
                 for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
@@ -381,12 +384,48 @@
                                     $scope.itemsForSave[index][versionIndex]['update'] = {};
                                 }
 
-                                $scope.itemsForSave[index][versionIndex]['update'][objToAdd.name] = versionToAdd[versionIndex].value;
+                                if (versionToAdd[versionIndex].value) {
+
+                                    if (!newItemsForSave[index]) {
+                                        newItemsForSave[index] = {};
+                                    }
+
+                                    if (!newItemsForSave[index][versionIndex]) {
+                                        newItemsForSave[index][versionIndex] = {};
+                                    }
+
+                                    newItemsForSave[index][versionIndex][objToAdd.name] = versionToAdd[versionIndex].value ? versionToAdd[versionIndex].value : '';
+                                }
+
+                                $scope.itemsForSave[index][versionIndex]['update'][objToAdd.name] = versionToAdd[versionIndex].value ? versionToAdd[versionIndex].value : '';
                             }
                         }
                     }
                 }
+
+                for (var instance in newItemsForSave) {
+                    for (var version in newItemsForSave[instance]) {
+                        var request = {
+                            method: 'POST',
+                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            'data': newItemsForSave[instance][version]
+                        };
+
+                        $http(request)
+                            .success(function(responce, code, headers, request) {
+                                debugger;
+                            })
+                            .error(function(e, code){
+                                debugger;
+                            });
+                    }
+                }
             }
+
+            debugger; return;
 
             for (var instance in $scope.itemsForSave) {
                 var versions = $scope.itemsForSave[instance];
