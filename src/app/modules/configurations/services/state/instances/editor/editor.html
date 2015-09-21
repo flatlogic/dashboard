@@ -12,16 +12,20 @@
                         <th></th>
                         <th ng-repeat="instance in editorService.instances | orderBy:''" class="config-table-th">
                             <h4>{{instance}}</h4>
-                            <span dropdown dropdown-append-to-body class="dropdown">
+                            <span dropdown dropdown-append-to-body class="dropdown" ng-hide="requestsCounter != 0">
                                 <button class="btn config-table-header-button" dropdown-toggle>
                                   {{selectedVersion[instance]}} <span class="label label-success" ng-show="isLive(instance, selectedVersion[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li ng-repeat="version in editorService.versions">
-                                        <a ng-if="changeSelected(instance, version)" ng-hide="isVersionDeleted(instance, version)" ng-click="changeSelectedVersion(instance, version);" ng-class="{'li-active': selectedVersion[instance] == version}">
+                                    <li ng-repeat="version in versions[instance] track by $index">
+                                        <a ng-click="changeSelectedVersion(instance, version);"
+                                           ng-class="{'li-active': selectedVersion[instance] == version}">
                                             {{version}}
                                             <span class="label label-success pull-right" ng-show="isLive(instance, version)">Live</span>
                                         </a>
+                                    </li>
+                                    <li ng-click="clickAddNewVersion" ng-class="{'li-active' : addNewVersionClicked[instance]}">
+                                        <a ng-click="clickAddNewVersion(instance)">-Create new version-</a>
                                     </li>
                                 </ul>
                                 <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
@@ -65,7 +69,7 @@
             <button class="btn btn-warning save-config-button" id="env-save-button" ng-click="save()"
                     ng-show="isSavable()">Save
             </button>
-            <button class="btn btn-warning add-config-button" ng-click="addValue()">Add
+            <button class="btn btn-warning add-config-button" ng-click="addValue()" ng-hide="requestsCounter != 0">Add
                 new
             </button>
         </div>

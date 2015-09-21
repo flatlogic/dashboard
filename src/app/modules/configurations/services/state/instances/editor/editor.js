@@ -10,8 +10,8 @@
             });
         });
 
-    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal', 'Notification'];
-    function editorController($scope, $stateParams, API_URL, $http, $modal, Notification) {
+    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal', 'Notification', '$timeout', 'errorHandler'];
+    function editorController($scope, $stateParams, API_URL, $http, $modal, Notification, $timeout, errorHandler) {
 
         $scope.selectedVersion = {};
 
@@ -24,6 +24,42 @@
         $scope.val1 = {};
 
         $scope.requestsCounter = 0;
+
+        $scope.versions = {};
+        $scope.liveVersion = {};
+
+        $scope.createVersion = function(instance, newVersionName) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + $stateParams.domain + '/'
+                    + instance + '/' + $scope.service.service + '/' + newVersionName
+            };
+
+            return $http(request)
+                .success(function(response) {
+                    Notification.success('Successfully created');
+                })
+                .error(function(e, code) {
+                    errorHandler.showError(e, code);
+                });
+        };
+
+        $scope.clickAddNewVersion = function(instance) {
+            $modal.open({
+                animation: true,
+                templateUrl: 'app/modules/configurations/services/state/instances/editor/new-version-modal.html',
+                controller: 'EditorNewVersionController',
+                size: 'sm',
+                resolve: {
+                    createVersion: function () {
+                        return $scope.createVersion;
+                    },
+                    instance: function () {
+                        return instance;
+                    }
+                }
+            });
+        };
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -53,38 +89,6 @@
 
             $scope.editorService.instances = $stateParams.instances.split(',');
 
-            $scope.editorService.instances.forEach(function (instance) {
-                $scope.selectedVersion[instance] = $scope.editorService.live[instance] || $scope.editorService.versions[0];
-            });
-
-            // Versions that doesn't exist
-            $scope.deletedVersions = {};
-
-            $scope.isVersionDeleted = function(instance, version) {
-                if (!$scope.deletedVersions[instance]) {
-                    return false;
-                } else {
-                    for (var i in $scope.deletedVersions[instance]) {
-                        if ($scope.deletedVersions[instance][i] == version) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            };
-
-            $scope.changeSelected = function (instance, version) {
-                if ($scope.isVersionDeleted(instance, $scope.selectedVersion[instance])) {
-                    for (var i in $scope.editorService.versions) {
-                        if (!$scope.isVersionDeleted(instance, $scope.editorService.versions[i])) {
-                            $scope.selectedVersion[instance] = $scope.editorService.versions[i];
-                        }
-                    }
-                }
-                return true;
-            };
-
-
             /**
              * Download and write all version variables
              */
@@ -93,10 +97,12 @@
                 $scope.values = [];
                 $scope.val1 = {};
                 $scope.deledVersions = {};
+                $scope.versions = {};
+                $scope.liveVersion = {};
 
-                $scope.editorService.instances.forEach(function (instance) {
-                    for (var i in $scope.editorService.versions) {
-                        var version = $scope.editorService.versions[i];
+                var _loadVariables = function(instance) {
+                    for (var i in $scope.versions[instance]) {
+                        var version = $scope.versions[instance][i];
                         var request = {
                             method: 'GET',
                             url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
@@ -146,24 +152,40 @@
 
                                 $scope.loaded = true;
 
-                                if (status == 404) {
-                                    var splitedUrl = request.url.split('/');
-
-                                    var version = splitedUrl[splitedUrl.length - 1],
-                                        instance = splitedUrl[splitedUrl.length - 3];
-
-                                    if (!$scope.deletedVersions[instance]) {
-                                        $scope.deletedVersions[instance] = [];
-                                    }
-
-                                    $scope.deletedVersions[instance].push(version);
-                                }
-
                                 if ($scope.requestsCounter <= 0) {
                                     formatValues();
                                 }
                             });
                     }
+                };
+
+                $scope.editorService.instances.forEach(function (instance) {
+
+                    var loadVersionsRequest = {
+                        method: 'GET',
+                        url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    };
+                    $scope.requestsCounter++;
+                    $http(loadVersionsRequest)
+                        .success(function(response, code, headers, config) {
+                            $scope.requestsCounter--;
+                            for (var i in response) {
+                                if (!$scope.versions[instance]) {
+                                    $scope.versions[instance] = [];
+                                }
+
+                                $scope.versions[instance].push(i);
+                                if (response[i]) {
+                                    $scope.liveVersion[instance] = i;
+                                    $scope.selectedVersion[instance] = i;
+                                }
+                            }
+
+                            _loadVariables(instance);
+                        });
                 });
             };
 
@@ -320,13 +342,7 @@
 
                         $http(patchRequest)
                             .success(function(data, status) {
-                                $scope.editorService.versions.push(newVersionName);
-
-                                for (var i in $scope.deletedVersions) {
-                                    if (i != targetInstance) {
-                                        $scope.deletedVersions[i].push(newVersionName);
-                                    }
-                                }
+                                $scope.versions[targetInstance].push(newVersionName);
 
                                 for (var i in $scope.values) {
 
@@ -360,6 +376,7 @@
          */
         $scope.save = function () {
             $('#env-save-button').button('loading');
+
             // Add new items to array for saving
             if ($scope.newItemsCount != 0) {
                 for (var i = $scope.values.length - 1; $scope.newItemsCount; $scope.newItemsCount--) {
@@ -429,7 +446,7 @@
             obj.name = "";
             $scope.editorService.instances.forEach(function (instance) {
                 obj[instance] = {};
-                $scope.editorService.versions.forEach(function (version) {
+                $scope.versions[instance].forEach(function (version) {
                     obj[instance][version] = "";
                 });
             });
@@ -571,14 +588,6 @@
                     }, 0, false);
                 };
                 scope.save = function () {
-//                    for (var versionIndex in scope.parent) {
-//                        if (!scope.parent[versionIndex]) {
-//                            return;
-//                        }
-//                    }
-//                    if (!scope.model) {
-//                        return;
-//                    }
                     scope.editMode = false;
 
                     if (!scope.model) {
@@ -591,11 +600,6 @@
                 };
 
                 scope.isSaveAvailable = function () {
-//                    for (var versionIndex in scope.parent) {
-//                        if (!scope.parent[versionIndex]) {
-//                            return false;
-//                        }
-//                    }
                     return true;
                 };
 
@@ -712,11 +716,38 @@
         }
     }
 
+    newVersionController.$inject = ['$scope', 'createVersion', '$modalInstance', 'instance'];
+    function newVersionController($scope, createVersion, $modalInstance, instance) {
+        $scope.instance = instance;
+        $scope.ok = function ($event) {
+            if (!$scope.versionName) {
+                return;
+            }
+
+            $scope.event = $event;
+
+            $($event.target).button('loading');
+
+            createVersion(instance, $scope.versionName)
+                .success(function() {
+                    $modalInstance.close();
+                })
+                .error(function() {
+                    $($scope.event.target).button('reset');
+                });
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        }
+    }
+
     angular.module('qorDash.configurations.services.state.instances.editor')
         .controller('EditorController', editorController)
         .directive('inlineEdit', inlineEdit)
         .directive('onEnter', onEnter)
         .directive('onEsc', onEsc)
         .directive('addValue', addValue)
-        .directive('customSelect', customSelect);
+        .directive('customSelect', customSelect)
+        .controller('EditorNewVersionController', newVersionController);
 })();
