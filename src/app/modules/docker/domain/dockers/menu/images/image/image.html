@@ -30,7 +30,7 @@
                 </tr>
                 <tr>
                     <td>Parent:</td>
-                    <td><a href="#/images/{{ image.Parent }}/">{{ image.Parent }}</a></td>
+                    <td><a ui-sref=".({imageId: image.Parent})">{{ image.Parent }}</a></td>
                 </tr>
                 <tr>
                     <td>Size (Virtual Size):</td>
@@ -91,12 +91,10 @@
                         <legend>Tag image</legend>
                         <div class="form-group">
                             <label>Tag:</label>
-                            <input type="text" placeholder="repo..." ng-model="tag.repo" class="form-control">
+                            <input type="text" placeholder="repo..." ng-model="tag1.repo" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label class="checkbox">
-                                <input type="checkbox" ng-model="tag.force" class="form-control"/> Force?
-                            </label>
+                            <input class="new-checkbox bordered" id="check-tag" ng-model="tag1.force" type="checkbox"><label for="check-tag"></label> Force?
                         </div>
                         <input type="button" ng-click="updateTag()" value="Tag" class="btn btn-primary"/>
                     </fieldset>

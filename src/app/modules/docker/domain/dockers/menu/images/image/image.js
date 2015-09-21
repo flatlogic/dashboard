@@ -7,7 +7,7 @@
     dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'Messages', 'LineChart', '$modal'];
     function dockerImageController($scope, $q, $stateParams, $location, Image, Container, Messages, LineChart, $modal) {
         $scope.history = [];
-        $scope.tag = {repo: '', force: false};
+        $scope.tag1 = {repo: '', force: false};
 
         $scope.remove = function () {
             Image.remove({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
@@ -25,7 +25,7 @@
         };
 
         $scope.updateTag = function () {
-            var tag = $scope.tag;
+            var tag = $scope.tag1;
             Image.tag({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, repo: tag.repo, force: tag.force ? 1 : 0, dockerId: $stateParams.dockerId}, function (d) {
                 Messages.send("Tag Added", $stateParams.imageId);
             }, function (e) {
