@@ -37,14 +37,13 @@
             sheetContent.scrollTop = sheetContent.scrollHeight
         };
 
-        // Get WebSocket url from attribute
-        var ws = new WebSocket($scope.wsUrl);
+        // Get EventSource url from attribute
+        var es = new EventSource($scope.wsUrl);
 
-        // Handle messages from WebSocket
-        ws.onmessage = socketMessage;
+        es.addEventListener('Event', socketMessage);
 
         $rootScope.$on('events:newWsUrl', function (event, newUrl) {
-            ws.close();
+            es.close();
             $timeout(function () {
                 $scope.$apply(function () {
                     $scope.events = [];
@@ -52,15 +51,15 @@
                 });
             });
             try {
-                ws = new WebSocket(newUrl);
-                ws.onmessage = socketMessage;
+                es = new EventSource(newUrl);
+                es.addEventListener('Event', socketMessage);
             } catch (e) {
                 alert('Wrong WebSocket url' + e);
             }
         });
 
         $scope.$on("$destroy", function () {
-            ws.close();
+            es.close();
         });
 
         function parseInput(input) {
