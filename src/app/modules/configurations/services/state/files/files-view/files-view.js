@@ -53,7 +53,6 @@
 
                         for (var i in response) {
                             $scope.versions[instance].push(i);
-
                             if (response[i]) {
                                 $scope.liveVersion[instance] = i;
                             }
@@ -321,11 +320,10 @@
         };
 
         $scope.isVersionLive = function(version) {
-            if (!$scope.selectedInstance || !$scope.selectedVersion || !$scope.instance || !$scope.instance.live[$scope.selectedInstance] ||
-                !$scope.instance.live[$scope.selectedInstance][$scope.fileName] || !version) {
+            if (!version) {
                 return false;
             }
-            return version == $scope.instance.live[$scope.selectedInstance][$scope.fileName];
+            return version == $scope.liveVersion[$scope.selectedInstance];
         };
 
         $scope.isLive = function(instance, version) {
@@ -351,7 +349,7 @@
             $http(postRequest)
                 .success(function(response, code) {
                     Notification.success('Live version for ' + instance + ' has been changed.');
-                    $scope.instance.live[$scope.selectedInstance][$scope.fileName] = version;
+                    $scope.liveVersion[$scope.selectedInstance] = version;
                 })
                 .error(function(e) {
                     var error = e ? e.error : 'unknown server error';
