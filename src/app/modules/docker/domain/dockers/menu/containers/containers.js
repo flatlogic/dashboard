@@ -4,13 +4,14 @@
     angular.module('qorDash.docker.domain.dockers.menu.containers')
         .controller('ContainersController', containersController);
 
-    containersController.$inject = ['$scope', 'Container', 'Settings', 'Messages'];
-    function containersController($scope, Container, Settings, Messages) {
+    containersController.$inject = ['$scope', '$stateParams', 'Container', 'Settings', 'Messages'];
+    function containersController($scope, $stateParams, Container, Settings, Messages) {
         $scope.predicate = '-Created';
         $scope.toggle = false;
         $scope.displayAll = Settings.displayAll;
 
         var update = function (data) {
+            data.dockerId = $stateParams.dockerId;
             Container.query(data, function (d) {
                 $scope.containers = d.map(function (item) {
                     return new ContainerViewModel(item);

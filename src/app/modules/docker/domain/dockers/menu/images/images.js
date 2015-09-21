@@ -5,8 +5,8 @@
         .controller('DockerImagesController', dockerImagesController)
         .controller('DockerPullImageController', dockerPullImageController);
 
-    dockerImagesController.$inject = ['$scope', 'Image', 'Messages', '$modal'];
-    function dockerImagesController($scope, Image, Messages, $modal) {
+    dockerImagesController.$inject = ['$scope', '$stateParams', 'Image', 'Messages', '$modal'];
+    function dockerImagesController($scope, $stateParams, Image, Messages, $modal) {
         $scope.toggle = false;
         $scope.predicate = '-Created';
 
@@ -32,7 +32,7 @@
             angular.forEach($scope.images, function (i) {
                 if (i.Checked) {
                     counter = counter + 1;
-                    Image.remove({id: i.Id}, function (d) {
+                    Image.remove({id: i.Id, dockerId: $stateParams.dockerId}, function (d) {
                         angular.forEach(d, function (resource) {
                             Messages.send("Image deleted", resource.Deleted);
                         });
@@ -53,7 +53,7 @@
             });
         };
 
-        Image.query({}, function (d) {
+        Image.query({dockerId: $stateParams.dockerId}, function (d) {
             $scope.images = d.map(function (item) {
                 return new ImageViewModel(item);
             });
@@ -62,8 +62,8 @@
         });
     }
 
-    dockerPullImageController.$inject = ['$scope', 'Messages', 'Image', '$modalInstance'];
-    function dockerPullImageController ($scope, Messages, Image, $modalInstance) {
+    dockerPullImageController.$inject = ['$scope', '$stateParams', 'Messages', 'Image', '$modalInstance'];
+    function dockerPullImageController ($scope, $stateParams, Messages, Image, $modalInstance) {
         $scope.template = 'app/components/pullImage/pullImage.html';
 
         $scope.init = function () {
@@ -95,6 +95,7 @@
 
             $('#pull-modal').modal('hide');
             $modalInstance.close();
+            config.dockerId = $stateParams.dockerId;
             Image.create(config, function (data) {
                 if (data.constructor === Array) {
                     var f = data.length > 0 && data[data.length - 1].hasOwnProperty('error');

@@ -10,7 +10,7 @@
             $scope.edit = false;
 
             var update = function () {
-                Container.get({id: $stateParams.containerId}, function (d) {
+                Container.get({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     $scope.container = d;
                     $scope.container.edit = false;
                     $scope.container.newContainerName = d.Name;
@@ -27,7 +27,8 @@
             $scope.start = function () {
                 Container.start({
                     id: $scope.container.Id,
-                    HostConfig: $scope.container.HostConfig
+                    HostConfig: $scope.container.HostConfig,
+                    dockerId: $stateParams.dockerId
                 }, function (d) {
                     update();
                     Messages.send("Container started", $stateParams.containerId);
@@ -38,7 +39,7 @@
             };
 
             $scope.stop = function () {
-                Container.stop({id: $stateParams.containerId}, function (d) {
+                Container.stop({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     update();
                     Messages.send("Container stopped", $stateParams.containerId);
                 }, function (e) {
@@ -48,7 +49,7 @@
             };
 
             $scope.kill = function () {
-                Container.kill({id: $stateParams.containerId}, function (d) {
+                Container.kill({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     update();
                     Messages.send("Container killed", $stateParams.containerId);
                 }, function (e) {
@@ -58,7 +59,7 @@
             };
 
             $scope.commit = function () {
-                ContainerCommit.commit({id: $stateParams.containerId, repo: $scope.container.Config.Image}, function (d) {
+                ContainerCommit.commit({id: $stateParams.containerId, repo: $scope.container.Config.Image, dockerId: $stateParams.dockerId}, function (d) {
                     update();
                     Messages.send("Container commited", $stateParams.containerId);
                 }, function (e) {
@@ -67,7 +68,7 @@
                 });
             };
             $scope.pause = function () {
-                Container.pause({id: $stateParams.containerId}, function (d) {
+                Container.pause({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     update();
                     Messages.send("Container paused", $stateParams.containerId);
                 }, function (e) {
@@ -77,7 +78,7 @@
             };
 
             $scope.unpause = function () {
-                Container.unpause({id: $stateParams.containerId}, function (d) {
+                Container.unpause({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     update();
                     Messages.send("Container unpaused", $stateParams.containerId);
                 }, function (e) {
@@ -87,7 +88,7 @@
             };
 
             $scope.remove = function () {
-                Container.remove({id: $stateParams.containerId}, function (d) {
+                Container.remove({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     update();
                     Messages.send("Container removed", $stateParams.containerId);
                 }, function (e) {
@@ -97,7 +98,7 @@
             };
 
             $scope.restart = function () {
-                Container.restart({id: $stateParams.containerId}, function (d) {
+                Container.restart({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     update();
                     Messages.send("Container restarted", $stateParams.containerId);
                 }, function (e) {
@@ -111,14 +112,14 @@
             };
 
             $scope.getChanges = function () {
-                Container.changes({id: $stateParams.containerId}, function (d) {
+                Container.changes({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                     $scope.changes = d;
                 });
             };
 
             $scope.renameContainer = function () {
                 // #FIXME fix me later to handle http status to show the correct error message
-                Container.rename({id: $stateParams.containerId, 'name': $scope.container.newContainerName}, function (data) {
+                Container.rename({id: $stateParams.containerId, 'name': $scope.container.newContainerName, dockerId: $stateParams.dockerId}, function (data) {
                     if (data.name) {
                         $scope.container.Name = data.name;
                         Messages.send("Container renamed", $stateParams.containerId);
@@ -132,6 +133,6 @@
 
             update();
             $scope.getChanges();
-        };
+        }
 
 })();
