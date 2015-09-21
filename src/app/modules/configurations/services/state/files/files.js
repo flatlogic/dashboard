@@ -56,18 +56,14 @@
                 }
             };
 
-            var deferred = $q.defer();
             $http(instanceRequest)
                 .success(function(response) {
                     $scope.instance = response[$stateParams.service];
                     $scope.service = $stateParams.service;
-                    deferred.resolve();
                 })
                 .error(function(e, code) {
                     $scope.error = errorHandler.showError(e, code);
                 });
-
-            return deferred.promise;
         };
 
         $scope.loadInstance();

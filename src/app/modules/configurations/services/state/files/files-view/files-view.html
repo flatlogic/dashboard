@@ -9,7 +9,7 @@
             {{selectedInstance ? selectedInstance : '- Choose instance -'}}<span class="fa fa-angle-down pull-right"></span>
           </button>
           <ul class="dropdown-menu">
-            <li ng-repeat="instance in instance.instances" ng-class="{'active' : isInstanceActive(instance)}">
+            <li ng-repeat="instance in instances track by $index" ng-class="{'active' : isInstanceActive(instance)}">
               <a ng-click="selectInstance(instance)">
                 {{instance}}
               </a>
@@ -19,7 +19,7 @@
       </div>
       <div class="btn-group">
         <div dropdown dropdown-append-to-body class="dropdown">
-          <button class="btn btn-default config-table-header-button" dropdown-toggle >
+          <button class="btn btn-default config-table-header-button" dropdown-toggle ng-disabled="!selectedInstance">
             {{addNewVersionClicked ? '-Create new version-' : (selectedVersion ? selectedVersion : '- Choose version -')}}
             <span class="fa fa-angle-down pull-right"></span>
             <span class="label label-success pull-right mr-xs" ng-show="isVersionLive(selectedVersion)">Live</span>
@@ -28,7 +28,7 @@
               <li ng-click="clickAddNewVersion" ng-class="{'active' : addNewVersionClicked}">
                   <a ng-click="clickAddNewVersion()">-Create new version-</a>
               </li>
-            <li ng-repeat="version in instance.versions" ng-class="{'active' : isVersionActive(version)}">
+            <li ng-repeat="version in versions[selectedInstance]" ng-class="{'active' : isVersionActive(version)}">
               <a ng-click="selectVersion(version)">
                 {{version}}
                 <span class="label label-success pull-right" ng-show="isVersionLive(version)">Live</span>

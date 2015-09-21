@@ -7,6 +7,9 @@
         $scope.addNewVersionClicked = false;
 
         $scope.selectInstance = function (instance) {
+            if ($scope.selectedInstance != instance) {
+                $scope.selectedVersion = '';
+            }
             $scope.selectedInstance = instance;
 
             $state.go('.', {
@@ -15,6 +18,48 @@
             });
 
             $scope.showFile();
+        };
+
+        $scope.$watch('instance', function() {
+            if ($scope.instance) {
+                $scope._loadVersions();
+            }
+        });
+
+        $scope.versions = {};
+        $scope.liveVersion = {};
+        $scope.instances = [];
+
+        $scope._loadVersions = function() {
+            $scope.instance.instances.forEach(function(instance) {
+                var versionsRequest = {
+                    method: 'GET',
+                    url: API_URL + '/v1/conf/' + $stateParams.domain + '/' + instance + '/' +
+                        $scope.service + '/' + $stateParams.file + '/',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                $http(versionsRequest)
+                    .success(function(response, code, headers, request) {
+                        if (!$scope.versions[instance]) {
+                            $scope.versions[instance] = [];
+                        }
+
+                        if (response.length != 0) {
+                            $scope.instances.push(instance);
+                        }
+
+                        for (var i in response) {
+                            $scope.versions[instance].push(i);
+
+                            if (response[i]) {
+                                $scope.liveVersion[instance] = i;
+                            }
+                        }
+                    });
+            });
         };
 
         $scope.selectVersion = function(version) {
