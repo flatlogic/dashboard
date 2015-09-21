@@ -17,7 +17,7 @@
                                   {{selectedVersion[instance]}} <span class="label label-success" ng-show="isLive(instance, selectedVersion[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li ng-repeat="version in editorService.versions track by $index">
+                                    <li ng-repeat="version in versions[instance] track by $index">
                                         <a ng-if="changeSelected(instance, version)" ng-hide="isVersionDeleted(instance, version)" ng-click="changeSelectedVersion(instance, version);"
                                            ng-class="{'li-active': selectedVersion[instance] == version}">
                                             {{version}}

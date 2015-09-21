@@ -22,6 +22,9 @@
 
         $scope.requestsCounter = 0;
 
+        $scope.versions = {};
+        $scope.liveVersion = {};
+
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
                 return;
@@ -89,33 +92,13 @@
 
                 $scope.values = {};
                 $scope.val1 = {};
-                $scope.deledVersions = {};
 
-                var _loadLiveVersion = function() {
-                    var request = {
-                        method: 'GET',
-                        url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' +  $scope.editorService.service,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    };
+                $scope.versions = {};
+                $scope.liveVersion = {};
 
-                    console.log(request);
-
-                    $http(request)
-                        .success(function (data) {
-                            debugger;
-                        })
-                        .error(function (e,code) {
-                            debugger;
-                        });
-                };
-
-                //_loadLiveVersion();
-
-                $scope.editorService.instances.forEach(function (instance) {
-                    for (var i in $scope.editorService.versions) {
-                        var version = $scope.editorService.versions[i];
+                var _loadVariables = function(instance) {
+                    for (var i in $scope.versions[instance]) {
+                        var version = $scope.versions[instance][i];
                         var request = {
                             method: 'GET',
                             url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
@@ -152,23 +135,39 @@
                             .error(function (error, status, headers, request) {
                                 $scope.requestsCounter--;
 
-                                if (status == 404) {
-                                    var splitedUrl = request.url.split('/');
-
-                                    var version = splitedUrl[splitedUrl.length - 1],
-                                        instance = splitedUrl[splitedUrl.length - 3];
-
-                                    if (!$scope.deletedVersions[instance]) {
-                                        $scope.deletedVersions[instance] = [];
-                                    }
-
-                                    $scope.deletedVersions[instance].push(version);
-                                }
-
                                 $scope.loaded = true;
                             });
                     }
+                };
+
+                $scope.editorService.instances.forEach(function (instance) {
+                    var loadVersionsRequest = {
+                        method: 'GET',
+                        url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    };
+                    $scope.requestsCounter++;
+                    $http(loadVersionsRequest)
+                        .success(function(response, code, headers, config) {
+                            $scope.requestsCounter--;
+                            for (var i in response) {
+                                if (!$scope.versions[instance]) {
+                                    $scope.versions[instance] = [];
+                                }
+
+                                $scope.versions[instance].push(i);
+                                if (response[i]) {
+                                    $scope.liveVersion[instance] = i;
+                                    $scope.selectedVersion[instance] = i;
+                                }
+                            }
+
+                            _loadVariables(instance);
+                        });
                 });
+
             };
 
             $scope.loadData();
@@ -204,7 +203,7 @@
          * @returns {boolean}
          */
         $scope.isLive = function (instance, version) {
-            return $scope.editorService.live[instance] == version;
+            return $scope.liveVersion[instance] == version;
         };
 
         $scope.makeLive = function(instance, version) {
