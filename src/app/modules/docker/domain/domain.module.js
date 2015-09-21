@@ -13,7 +13,7 @@
     function appConfig($stateProvider) {
         $stateProvider
             .state('app.docker.domain', {
-                url: '/:id',
+                url: '/:domain',
                 templateUrl: 'app/modules/docker/domain/domain.html',
                 controller: 'DockerDomainController',
                 authenticate: true

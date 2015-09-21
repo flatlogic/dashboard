@@ -3,22 +3,22 @@ angular.module('dockerui.services', ['ngResource'])
         'use strict';
         // Resource for interacting with the docker containers
         // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#2-1-containers
-        return $resource(Settings.url + '/:dockerId/containers/:id/:action', {
+        return $resource(Settings.url + '/:domain/:instance/:dockerId/containers/:id/:action', {
             name: '@name'
         }, {
             query: {method: 'GET', params: {all: 0, action: 'json'}, isArray: true},
             get: {method: 'GET', params: {action: 'json'}},
-            start: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'start'}},
-            stop: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', t: 5, action: 'stop'}},
-            restart: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', t: 5, action: 'restart'}},
-            kill: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'kill'}},
-            pause: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'pause'}},
-            unpause: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'unpause'}},
-            changes: {method: 'GET', params: {action: 'changes'}, isArray: true},
-            create: {method: 'POST', params: {action: 'create'}},
-            remove: {method: 'DELETE', params: {id: '@id', dockerId: '@dockerId', v: 0}},
-            rename: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'rename'}, isArray: false},
-            stats: {method: 'GET', params: {id: '@id', dockerId: '@dockerId', stream: false, action: 'stats'}, timeout: 2000}
+            start: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'start'}},
+            stop: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', t: 5, action: 'stop'}},
+            restart: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', t: 5, action: 'restart'}},
+            kill: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'kill'}},
+            pause: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'pause'}},
+            unpause: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'unpause'}},
+            changes: {method: 'GET', params: {domain: '@domain', instance: '@instance', action: 'changes'}, isArray: true},
+            create: {method: 'POST', params: {domain: '@domain', instance: '@instance', action: 'create'}},
+            remove: {method: 'DELETE', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', v: 0}},
+            rename: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'rename'}, isArray: false},
+            stats: {method: 'GET', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', stream: false, action: 'stats'}, timeout: 2000}
         });
     })
     .factory('ContainerCommit', function ($resource, $http, Settings) {
@@ -28,7 +28,7 @@ angular.module('dockerui.services', ['ngResource'])
             commit: function (params, callback) {
                 $http({
                     method: 'POST',
-                    url: Settings.url + '/' + params.dockerId + '/commit',
+                    url: Settings.url + '/' + params.domain + '/' + params.instance + '/' + params.dockerId + '/commit',
                     params: {
                         'container': params.id,
                         'repo': params.repo
@@ -46,7 +46,7 @@ angular.module('dockerui.services', ['ngResource'])
             get: function (id, params, callback) {
                 $http({
                     method: 'GET',
-                    url: Settings.url + '/' + params.dockerId + '/containers/' + id + '/logs',
+                    url: Settings.url + '/' + params.domain + '/' + params.instance + '/' + params.dockerId + '/containers/' + id + '/logs',
                     params: {
                         'stdout': params.stdout || 0,
                         'stderr': params.stderr || 0,
@@ -66,7 +66,7 @@ angular.module('dockerui.services', ['ngResource'])
             get: function (id, params, callback, errorCallback) {
                 $http({
                     method: 'GET',
-                    url: Settings.url + '/' + params.dockerId + '/containers/' + id + '/top',
+                    url: Settings.url + '/' + params.domain + '/' + params.instance + params.dockerId + '/containers/' + id + '/top',
                     params: {
                         ps_args: params.ps_args
                     }
@@ -77,7 +77,7 @@ angular.module('dockerui.services', ['ngResource'])
     .factory('Image', function ($resource, Settings) {
         'use strict';
         // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#2-2-images
-        return $resource(Settings.url + '/:dockerId/images/:id/:action', {}, {
+        return $resource(Settings.url + '/:domain/:instance/:dockerId/images/:id/:action', {}, {
             query: {method: 'GET', params: {all: 0, action: 'json'}, isArray: true},
             get: {method: 'GET', params: {action: 'json'}},
             search: {method: 'GET', params: {action: 'search'}},
@@ -89,32 +89,32 @@ angular.module('dockerui.services', ['ngResource'])
                 }],
                 params: {action: 'create', fromImage: '@fromImage', repo: '@repo', tag: '@tag', registry: '@registry', dockerId: '@dockerId'}
             },
-            insert: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'insert'}},
-            push: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'push'}},
-            tag: {method: 'POST', params: {id: '@id', dockerId: '@dockerId', action: 'tag', force: 0, repo: '@repo'}},
-            remove: {method: 'DELETE', params: {id: '@id', dockerId: '@dockerId'}, isArray: true}
+            insert: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'insert'}},
+            push: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'push'}},
+            tag: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'tag', force: 0, repo: '@repo'}},
+            remove: {method: 'DELETE', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId'}, isArray: true}
         });
     })
     .factory('Docker', function ($resource, Settings) {
         'use strict';
         // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#show-the-docker-version-information
-        return $resource(Settings.url + '/version', {}, {
-            get: {method: 'GET'}
+        return $resource(Settings.url + '/:domain/:instance/:dockerId/version', {}, {
+            get: {method: 'GET', params: {domain: '@domain', instance: '@instance', dockerId: '@dockerId'}}
         });
     })
     .factory('Auth', function ($resource, Settings) {
         'use strict';
         // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#check-auth-configuration
-        return $resource(Settings.url + '/auth', {}, {
-            get: {method: 'GET'},
-            update: {method: 'POST'}
+        return $resource(Settings.url + '/:domain/:instance/:dockerId/auth', {}, {
+            get: {method: 'GET', params: {domain: '@domain', instance: '@instance'}},
+            update: {method: 'POST', params: {domain: '@domain', instance: '@instance', dockerId: '@dockerId'}}
         });
     })
     .factory('System', function ($resource, Settings) {
         'use strict';
         // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#display-system-wide-information
-        return $resource(Settings.url + '/info', {}, {
-            get: {method: 'GET'}
+        return $resource(Settings.url + '/:domain/:instance/:dockerId/info', {}, {
+            get: {method: 'GET', params: {domain: '@domain', instance: '@instance', dockerId: '@dockerId'}}
         });
     })
     .factory('Settings', function (DOCKER_ENDPOINT, DOCKER_PORT, DOCKER_API_VERSION, UI_VERSION) {
@@ -151,28 +151,28 @@ angular.module('dockerui.services', ['ngResource'])
         'use strict';
         return {
             send: function (title, text) {
-                $.gritter.add({
-                    title: title,
-                    text: text,
-                    time: 2000,
-                    before_open: function () {
-                        if ($('.gritter-item-wrapper').length === 3) {
-                            return false;
-                        }
-                    }
-                });
+//                $.gritter.add({
+//                    title: title,
+//                    text: text,
+//                    time: 2000,
+//                    before_open: function () {
+//                        if ($('.gritter-item-wrapper').length === 3) {
+//                            return false;
+//                        }
+//                    }
+//                });
             },
             error: function (title, text) {
-                $.gritter.add({
-                    title: title,
-                    text: text,
-                    time: 10000,
-                    before_open: function () {
-                        if ($('.gritter-item-wrapper').length === 4) {
-                            return false;
-                        }
-                    }
-                });
+//                $.gritter.add({
+//                    title: title,
+//                    text: text,
+//                    time: 10000,
+//                    before_open: function () {
+//                        if ($('.gritter-item-wrapper').length === 4) {
+//                            return false;
+//                        }
+//                    }
+//                });
             }
         };
     })

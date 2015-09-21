@@ -34,7 +34,7 @@
             }, 5000);
         }
 
-        Container.query({all: 1, dockerId: $stateParams.dockerId}, function (d) {
+        Container.query({all: 1,domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
             var running = 0;
             var ghost = 0;
             var stopped = 0;

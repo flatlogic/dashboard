@@ -12,7 +12,7 @@
         $scope.showTimestamps = false;
         $scope.tailLines = 2000;
 
-        Container.get({id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+        Container.get({domain: $stateParams.domain, instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
             $scope.container = d;
         }, function (e) {
             if (e.status === 404) {
@@ -24,6 +24,8 @@
 
         function getLogs() {
             ContainerLogs.get($stateParams.containerId, {
+                domain: $stateParams.domain,
+                instance: $stateParams.instance,
                 stdout: 1,
                 stderr: 0,
                 timestamps: $scope.showTimestamps,
@@ -39,6 +41,8 @@
             });
 
             ContainerLogs.get($stateParams.containerId, {
+                domain: $stateParams.domain,
+                instance: $stateParams.instance,
                 stdout: 0,
                 stderr: 1,
                 timestamps: $scope.showTimestamps,

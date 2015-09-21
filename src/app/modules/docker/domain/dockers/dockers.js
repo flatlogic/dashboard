@@ -6,7 +6,7 @@
 
     dockersController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler'];
     function dockersController($scope, $stateParams, $http, API_URL, errorHandler) {
-        var domainId = $stateParams.id,
+        var domainId = $stateParams.domain,
             instance = $stateParams.instance;
 
         $scope.instance = instance;

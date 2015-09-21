@@ -32,7 +32,7 @@
             angular.forEach($scope.images, function (i) {
                 if (i.Checked) {
                     counter = counter + 1;
-                    Image.remove({id: i.Id, dockerId: $stateParams.dockerId}, function (d) {
+                    Image.remove({domain: $stateParams.domain,instance: $stateParams.instance, id: i.Id, dockerId: $stateParams.dockerId}, function (d) {
                         angular.forEach(d, function (resource) {
                             Messages.send("Image deleted", resource.Deleted);
                         });
@@ -53,7 +53,7 @@
             });
         };
 
-        Image.query({dockerId: $stateParams.dockerId}, function (d) {
+        Image.query({domain: $stateParams.domain,instance: $stateParams.instance, dockerId: $stateParams.dockerId}, function (d) {
             $scope.images = d.map(function (item) {
                 return new ImageViewModel(item);
             });
@@ -96,6 +96,8 @@
             $('#pull-modal').modal('hide');
             $modalInstance.close();
             config.dockerId = $stateParams.dockerId;
+            config.instance = $stateParams.instance;
+            config.domain = $stateParams.domain;
             Image.create(config, function (data) {
                 if (data.constructor === Array) {
                     var f = data.length > 0 && data[data.length - 1].hasOwnProperty('error');

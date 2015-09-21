@@ -10,7 +10,7 @@
         $scope.tag = {repo: '', force: false};
 
         $scope.remove = function () {
-            Image.remove({id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
+            Image.remove({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
                 Messages.send("Image Removed", $stateParams.imageId);
             }, function (e) {
                 $scope.error = e.data;
@@ -19,14 +19,14 @@
         };
 
         $scope.getHistory = function () {
-            Image.history({id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
+            Image.history({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
                 $scope.history = d;
             });
         };
 
         $scope.updateTag = function () {
             var tag = $scope.tag;
-            Image.tag({id: $stateParams.imageId, repo: tag.repo, force: tag.force ? 1 : 0, dockerId: $stateParams.dockerId}, function (d) {
+            Image.tag({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, repo: tag.repo, force: tag.force ? 1 : 0, dockerId: $stateParams.dockerId}, function (d) {
                 Messages.send("Tag Added", $stateParams.imageId);
             }, function (e) {
                 $scope.error = e.data;
@@ -37,7 +37,7 @@
         function getContainersFromImage($q, Container, tag) {
             var defer = $q.defer();
 
-            Container.query({all: 1, notruc: 1, dockerId: $stateParams.dockerId}, function (d) {
+            Container.query({all: 1, notruc: 1, domain: $stateParams.domain, instance: $stateParams.instance, dockerId: $stateParams.dockerId}, function (d) {
                 var containers = [];
                 for (var i = 0; i < d.length; i++) {
                     var c = d[i];
@@ -51,7 +51,7 @@
             return defer.promise;
         }
 
-        Image.get({id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
+        Image.get({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
             $scope.image = d;
             $scope.tag = d.id;
             var t = $stateParams.imageTag;

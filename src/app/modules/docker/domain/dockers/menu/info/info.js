@@ -5,17 +5,17 @@
         .controller('DockerInfoController', dockerInfoController);
 
 
-    dockerInfoController.$inject = ['$scope', 'System', 'Docker', 'Settings', 'Messages'];
-    function dockerInfoController($scope, System, Docker, Settings, Messages) {
+    dockerInfoController.$inject = ['$scope', 'System', 'Docker', 'Settings', '$stateParams'];
+    function dockerInfoController($scope, System, Docker, Settings, $stateParams) {
         $scope.info = {};
         $scope.docker = {};
         $scope.endpoint = Settings.endpoint;
         $scope.apiVersion = Settings.version;
 
-        Docker.get({}, function (d) {
+        Docker.get({domain: $stateParams.domain,instance: $stateParams.instance, dockerId: $stateParams.dockerId}, function (d) {
             $scope.docker = d;
         });
-        System.get({}, function (d) {
+        System.get({domain: $stateParams.domain,instance: $stateParams.instance, dockerId: $stateParams.dockerId}, function (d) {
             $scope.info = d;
         });
     }

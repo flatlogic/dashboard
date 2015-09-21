@@ -6,7 +6,7 @@
 
     domainController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler'];
     function domainController($scope, $stateParams, $http, API_URL, errorHandler) {
-        var domainId = $stateParams.id;
+        var domainId = $stateParams.domain;
 
         $http.get(API_URL + '/v1/domain/' + domainId)
             .success(function (response, status, headers) {

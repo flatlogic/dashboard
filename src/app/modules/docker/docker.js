@@ -9,7 +9,7 @@
                 $scope.domains = response;
 
                 if($scope.domains.length === 1 && $state.current.name == 'app.docker'){
-                    $state.go('app.docker.domain', {id:$scope.domains[0].id})
+                    $state.go('app.docker.domain', {domain:$scope.domains[0].id})
                 }
             })
             .error(function (e, code) {

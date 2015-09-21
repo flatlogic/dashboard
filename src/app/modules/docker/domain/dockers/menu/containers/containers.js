@@ -12,6 +12,8 @@
 
         var update = function (data) {
             data.dockerId = $stateParams.dockerId;
+            data.instance = $stateParams.instance;
+            data.domain = $stateParams.domain;
             Container.query(data, function (d) {
                 $scope.containers = d.map(function (item) {
                     return new ContainerViewModel(item);
