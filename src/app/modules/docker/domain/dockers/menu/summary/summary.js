@@ -15,7 +15,7 @@
                 return new Date(c.Created * 1000).toLocaleDateString();
             });
             var s = $scope;
-            Image.query({dockerId: $stateParams.dockerId}, function (d) {
+            Image.query({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
                 s.totalImages = d.length;
                 LineChart.build('#images-created-chart', d, function (c) {
                     return new Date(c.Created * 1000).toLocaleDateString();
@@ -59,17 +59,20 @@
                 {
                     value: running,
                     color: '#5bb75b',
-                    title: 'Running'
+                    title: 'Running',
+                    label: 'Running'
                 }, // running
                 {
                     value: stopped,
                     color: '#C7604C',
-                    title: 'Stopped'
+                    title: 'Stopped',
+                    label: 'Stopped'
                 }, // stopped
                 {
                     value: ghost,
                     color: '#E2EAE9',
-                    title: 'Ghost'
+                    title: 'Ghost',
+                    label: 'Ghost'
                 } // ghost
             ];
 

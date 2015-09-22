@@ -1389,3 +1389,27 @@ width: 20px;
 #new_file_content {
   height: 400px;
 }
+
+.legend .title {
+  padding: 0 0.3em;
+  margin: 0.5em;
+  border-style: solid;
+  border-width: 0 0 0 1em;
+}
+
+.containers-list {
+  >li {
+    list-style-type: none;
+    background-color: white;
+    padding: 4px 0 4px 0;
+    margin-bottom: 2px;
+
+    >span {
+      margin-left: 25px;
+    }
+  }
+}
+
+.containers-stat {
+  margin-top: 30px;
+}
