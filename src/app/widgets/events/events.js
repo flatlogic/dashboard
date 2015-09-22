@@ -1,10 +1,6 @@
 (function () {
     'use strict';
 
-    var eventsModule = angular.module('qorDash.widget.events')
-            .directive('qlEvents', qlEvents)
-        ;
-
     qlEvents.$inject = ['$timeout', '$window'];
     function qlEvents($timeout, $window) {
         var adaptHeight = function (element) {
@@ -27,39 +23,75 @@
     }
 
     var timelineController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', 'terminal', function ($scope, $rootScope, $timeout, terminal) {
-        // List of all events
         $scope.events = [];
 
-        var socketMessage = function (event) {
+        /**
+         * Listener for new messages from server
+         * @param event Raw JSON from server response
+         */
+        var _socketMessage = function (event) {
             parseInput(event.data);
 
             var sheetContent = angular.element('#events').parents('.qor-sheet-content')[0];
             sheetContent.scrollTop = sheetContent.scrollHeight
         };
 
-        // Get EventSource url from attribute
-        var es = new EventSource($scope.wsUrl);
+        /**
+         * Check that url is valid WebSocket url
+         * @param urlToCheck string URL
+         * @return boolean true - if url is WebSocket and false if not
+         */
+        var _checkWsUrl = function(urlToCheck) {
+            var urlParser = document.createElement('a');
 
-        es.addEventListener('Event', socketMessage);
+            urlParser.href = urlToCheck;
+
+            return (urlParser.protocol == 'ws:' || urlParser.protocol == 'wss:');
+        };
+
+        /**
+         * Function for creating WS or ES object to url
+         * @param connectionUrl
+         * @returns {*} Socket object or null if can't connect
+         */
+        var _createConnection = function(connectionUrl) {
+            var socketObject;
+
+            try {
+
+                if (_checkWsUrl(connectionUrl)) {
+                    socketObject = new WebSocket(connectionUrl);
+                    socketObject.onmessage = _socketMessage;
+                } else {
+                    socketObject = new EventSource(connectionUrl);
+                    socketObject.addEventListener('Event', _socketMessage);
+                }
+            } catch(e) {
+                return null;
+            }
+
+            return socketObject;
+        };
+
+        $scope._socketObject = _createConnection($scope.wsUrl);
 
         $rootScope.$on('events:newWsUrl', function (event, newUrl) {
-            es.close();
+            if ($scope._socketObject) {
+                $scope._socketObject.close();
+            }
             $timeout(function () {
                 $scope.$apply(function () {
                     $scope.events = [];
                     $scope.allMessages = {};
                 });
             });
-            try {
-                es = new EventSource(newUrl);
-                es.addEventListener('Event', socketMessage);
-            } catch (e) {
-                alert('Wrong WebSocket url' + e);
-            }
+            $scope._socketObject = _createConnection(newUrl);
         });
 
         $scope.$on("$destroy", function () {
-            es.close();
+            if ($scope._socketObject) {
+                $scope._socketObject.close();
+            }
         });
 
         function parseInput(input) {
@@ -69,6 +101,7 @@
         }
     }]);
 
-    eventsModule.controller(timelineController);
-
+    angular.module('qorDash.widget.events')
+        .directive('qlEvents', qlEvents)
+        .controller(timelineController);
 })();
