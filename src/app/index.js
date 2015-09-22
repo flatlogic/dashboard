@@ -35,6 +35,7 @@
             coreApplication.constant("ICON_URL", iconUrl);
             coreApplication.constant("LOGIN_PAGE_ICON_URL", loginPageIconUrl);
             coreApplication.constant("AUTH_API_USER", authApiUser);
+            coreApplication.constant("DOCKER_ENDPOINT", apiUrl + '/v1/dockerapi');
             coreApplication.constant("AUTH_API_SECRET", authApiSecret);
         }, function(errorResponse) {
             debugger;
