@@ -18,6 +18,7 @@
     "domain_details": "my_account",
     "FilesEditorController": "my_account",
     "FilesViewController": "my_account",
+    "DockerContainerStatsController": "my_account",
     "DomainDetailsController": "my_account",
     "ContainerController": "my_account",
     "DockerImageController": "my_account",

@@ -151,28 +151,10 @@ angular.module('dockerui.services', ['ngResource'])
         'use strict';
         return {
             send: function (title, text) {
-//                $.gritter.add({
-//                    title: title,
-//                    text: text,
-//                    time: 2000,
-//                    before_open: function () {
-//                        if ($('.gritter-item-wrapper').length === 3) {
-//                            return false;
-//                        }
-//                    }
-//                });
+                //Notification.error(text);
             },
             error: function (title, text) {
-//                $.gritter.add({
-//                    title: title,
-//                    text: text,
-//                    time: 10000,
-//                    before_open: function () {
-//                        if ($('.gritter-item-wrapper').length === 4) {
-//                            return false;
-//                        }
-//                    }
-//                });
+                //Notification.success(text);
             }
         };
     })

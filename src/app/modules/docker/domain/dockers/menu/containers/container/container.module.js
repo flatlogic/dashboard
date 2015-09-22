@@ -3,7 +3,8 @@
 
     var module = angular.module('qorDash.docker.domain.dockers.menu.containers.container', [
         'ui.router',
-        'qorDash.docker.domain.dockers.menu.containers.container.logs'
+        'qorDash.docker.domain.dockers.menu.containers.container.logs',
+        'qorDash.docker.domain.dockers.menu.containers.container.stats'
     ]);
 
     module.config(appConfig);
