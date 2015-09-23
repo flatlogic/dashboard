@@ -18,12 +18,12 @@ test:
     - gulp build
 
 deployment:
-  master:
+  production:
+    branch: master
     commands:
-      - cd dist
-      - git init
-      - git config user.name "Travis CI"
+      - git config user.name "Circle CI"
       - git config user.email "sdgaykov@gmail.com"
-      - git add .
-      - git commit -m "Deploy to GitHub Pages"
-      - git push --force --quiet "https://e55ce523a8913765f162942573d401ebeb64e903@github.com/qoriolabs/dashboard.git" master:gh-pages
+      - cd dist && git init
+      - cd dist && git add .
+      - cd dist && git commit -m "Deploy to GitHub Pages"
+      - cd dist && git push --force --quiet "https://e55ce523a8913765f162942573d401ebeb64e903@github.com/qoriolabs/dashboard.git" master:gh-pages
