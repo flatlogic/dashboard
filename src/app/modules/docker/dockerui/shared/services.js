@@ -6,7 +6,7 @@ angular.module('dockerui.services', ['ngResource'])
         return $resource(Settings.url + '/:domain/:instance/:dockerId/containers/:id/:action', {
             name: '@name'
         }, {
-            query: {method: 'GET', params: {all: 0, action: 'json'}, isArray: true},
+            query: {method: 'GET', params: {domain: '@domain', instance: '@instance', dockerId: '@dockerId',all: 0, action: 'json'}, isArray: true},
             get: {method: 'GET', params: {action: 'json'}},
             start: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', action: 'start'}},
             stop: {method: 'POST', params: {domain: '@domain', instance: '@instance', id: '@id', dockerId: '@dockerId', t: 5, action: 'stop'}},
@@ -66,7 +66,7 @@ angular.module('dockerui.services', ['ngResource'])
             get: function (id, params, callback, errorCallback) {
                 $http({
                     method: 'GET',
-                    url: Settings.url + '/' + params.domain + '/' + params.instance + '/' + params.dockerId + '/containers/' + id + '/top',
+                    url: Settings.url + '/' + params.domain + '/' + params.instance + params.dockerId + '/containers/' + id + '/top',
                     params: {
                         ps_args: params.ps_args
                     }

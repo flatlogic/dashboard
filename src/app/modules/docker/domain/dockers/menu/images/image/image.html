@@ -1,5 +1,5 @@
 <section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{dockerId}}">
+    <header horizontal-ui-sheet-header title="{{image.Id}}">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="alert alert-error" id="error-message" style="display:none">
@@ -11,7 +11,7 @@
             <h4>Image: {{ tag }} </h4>
 
             <div class="btn-group detail">
-                <button class="btn btn-success" data-toggle="modal" data-target="#create-modal">Create</button>
+                <button class="btn btn-success" ng-click="openCreateImageModal()">Create</button>
             </div>
 
             <div>
