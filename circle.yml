@@ -13,7 +13,7 @@ dependencies:
     - npm install bower
     - bower install
 
-tests:
+test:
   override:
     - gulp build
 
