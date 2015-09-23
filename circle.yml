@@ -1,0 +1,19 @@
+machine:
+  node:
+    version: 0.12
+
+general:
+  branches:
+    only:
+      - master
+
+dependencies:
+  override:
+    - npm install
+    - npm install bower
+    - bower install
+
+deployment:
+  master:
+    commands:
+      - bash ./deploy.sh
