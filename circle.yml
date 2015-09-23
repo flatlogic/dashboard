@@ -13,7 +13,17 @@ dependencies:
     - npm install bower
     - bower install
 
+tests:
+  override:
+    - gulp build
+
 deployment:
   master:
     commands:
-      - bash ./deploy.sh
+      - cd dist
+      - git init
+      - git config user.name "Travis CI"
+      - git config user.email "sdgaykov@gmail.com"
+      - git add .
+      - git commit -m "Deploy to GitHub Pages"
+      - git push --force --quiet "https://e55ce523a8913765f162942573d401ebeb64e903@github.com/qoriolabs/dashboard.git" master:gh-pages
