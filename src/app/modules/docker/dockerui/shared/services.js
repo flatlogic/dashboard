@@ -66,7 +66,7 @@ angular.module('dockerui.services', ['ngResource'])
             get: function (id, params, callback, errorCallback) {
                 $http({
                     method: 'GET',
-                    url: Settings.url + '/' + params.domain + '/' + params.instance + params.dockerId + '/containers/' + id + '/top',
+                    url: Settings.url + '/' + params.domain + '/' + params.instance + '/' + params.dockerId + '/containers/' + id + '/top',
                     params: {
                         ps_args: params.ps_args
                     }

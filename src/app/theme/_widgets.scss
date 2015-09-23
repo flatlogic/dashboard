@@ -1306,37 +1306,27 @@ width: 20px;
 .qor-btn-success {
   background-color: #7CB342;
   border-color: #7CB342;
+  color: #FFFFFF;
 }
 .qor-btn-warning {
   background-color: #ECAA57;
   border-color: #ECAA57;
+  color: #FFFFFF;
 }
 .qor-btn-danger {
   background-color: #D9534F;
   border-color: #D9534F;
+  color: #FFFFFF;
 }
 .qor-btn-info {
   background-color: #6A78B1;
   border-color: #6A78B1;
+  color: #FFFFFF;
 }
 .qor-btn-primary {
   background-color: #464C64;
   border-color: #464C64;
-
-  &:hover {
-    background-color: #262D4B;
-    border-color: #262D4B;
-  }
-
-  &:active {
-    background-color: #1C2238;
-    border-color: #1C2238;
-  }
-
-  &:focus {
-    background-color: #1C2238;
-    border-color: #1C2238;
-  }
+  color: #FFFFFF;
 }
 
 .reload-logs {
