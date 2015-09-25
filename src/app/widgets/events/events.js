@@ -22,7 +22,7 @@
         }
     }
 
-    var timelineController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', 'terminal', function ($scope, $rootScope, $timeout, terminal) {
+    var timelineController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', function ($scope, $rootScope, $timeout) {
         $scope.events = [];
 
         /**
