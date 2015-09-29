@@ -22,7 +22,7 @@
         }
     }
 
-    var timelineController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', function ($scope, $rootScope, $timeout) {
+    var eventsController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', function ($scope, $rootScope, $timeout) {
         $scope.events = [];
 
         /**
@@ -30,11 +30,21 @@
          * @param event Raw JSON from server response
          */
         var _socketMessage = function (event) {
-            parseInput(event.data);
+            _addEvent(event.data);
 
             var sheetContent = angular.element('#events').parents('.qor-sheet-content')[0];
             sheetContent.scrollTop = sheetContent.scrollHeight
         };
+
+        /**
+         * Add event to list
+         * @param event
+         */
+        var _addEvent = function (event) {
+            $scope.$apply(function () {
+                $scope.events.push(JSON.parse(event));
+            });
+        }
 
         /**
          * Check that url is valid WebSocket url
@@ -58,7 +68,6 @@
             var socketObject;
 
             try {
-
                 if (_checkWsUrl(connectionUrl)) {
                     socketObject = new WebSocket(connectionUrl);
                     socketObject.onmessage = _socketMessage;
@@ -94,14 +103,9 @@
             }
         });
 
-        function parseInput(input) {
-            $scope.$apply(function () {
-                $scope.events.push(JSON.parse(input));
-            });
-        }
     }]);
 
     angular.module('qorDash.widget.events')
         .directive('qlEvents', qlEvents)
-        .controller(timelineController);
+        .controller(eventsController);
 })();
