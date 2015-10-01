@@ -17,16 +17,27 @@ module.exports = function(config) {
         files: [
             'bower_components/angular/angular.js',
             'bower_components/angular-mocks/angular-mocks.js',
-            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/jquery/dist/jquery.js',
+            'bower_components/angular-ui-router/release/angular-ui-router.js',
+            'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-sanitize/angular-sanitize.js',
+            'bower_components/angular-ui-layout/ui-layout.js',
+            'bower_components/angular-relative-date/angular-relative-date.js',
+            'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            'bower_components/angular-ui-codemirror/ui-codemirror.js',
+            'bower_components/angular-ui-notification/src/angular-ui-notification.js',
+            'bower_components/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.js',
+            'bower_components/oboe/dist/oboe-browser.js',
+            'bower_components/angular-oboe/dist/angular-oboe.js',
+            'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-diff-match-patch/*.js',
             'bower_components/jasmine-jquery/lib/*.js',
-            'bower_components/karma*/*.js',
             'src/app/index.js',
-            'bower_components/**/*.min.js',
             'src/app/**/*.module.js',
             'src/app/**/*.js',
             'src/app/**/*.spec.js',
-            {pattern: 'src/data/*.json',included: false}
+            {pattern: 'src/data/*.json', included: false},
+            {pattern: 'src/app/**/*.html', included: false},
         ],
 
 
@@ -74,7 +85,8 @@ module.exports = function(config) {
         singleRun: false,
 
         proxies: {
-            "/data/": "http://localhost:9876/base/src/data/"
+            "/data/": "http://localhost:9876/base/src/data/",
+            "/app/": "http://localhost:9876/base/src/app/"
         }
     })
 };

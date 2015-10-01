@@ -160,11 +160,11 @@
     /**
      * Service for working with user authentication
      * @param $http angular http service
-     * @param AUTH_API_URL link to REST api
+     * @param $injector to get AUTH_API_URL link to REST api
      * @param auth authorization service
      */
-    userService.$inject = ['$http', 'AUTH_API_URL', 'auth', 'dataLoader'];
-    function userService($http, AUTH_API_URL, auth, dataLoader) {
+    userService.$inject = ['$http', '$injector', 'auth', 'dataLoader'];
+    function userService($http, $injector, auth, dataLoader) {
         var self = this;
 
         self.isAuthed = function () {
@@ -190,7 +190,7 @@
         self.login = function (username, password) {
             var request = {
                 method: 'POST',
-                url: AUTH_API_URL + '/auth',
+                url: $injector.get('AUTH_API_URL') + '/auth',
                 headers: {
                     'Content-Type': 'application/json'
                 },
