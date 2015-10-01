@@ -13,4 +13,8 @@ describe('Service: dataLoader', function() {
     it('permissions key should match the value', function() {
         expect(dataLoader.permissionsJsonKey).toBe('permissions_json');
     });
+
+    it('function loading', function() {
+        dataLoader.loadGlobalPermissions();
+    });
 });
