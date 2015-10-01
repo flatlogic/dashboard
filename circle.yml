@@ -19,6 +19,7 @@ dependencies:
 test:
   override:
     - ./node_modules/.bin/gulp build
+    - karma start --single-run
 
 deployment:
   production:
