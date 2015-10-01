@@ -9,13 +9,15 @@
         $scope.predicate = '-Created';
         $scope.containers = [];
 
+        var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
+
         var getStarted = function (data) {
             $scope.totalContainers = data.length;
             LineChart.build('#containers-started-chart', data, function (c) {
                 return new Date(c.Created * 1000).toLocaleDateString();
             });
             var s = $scope;
-            Image.query({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+            Image.query(urlParams, function (d) {
                 s.totalImages = d.length;
                 LineChart.build('#images-created-chart', d, function (c) {
                     return new Date(c.Created * 1000).toLocaleDateString();
@@ -34,7 +36,7 @@
             }, 5000);
         }
 
-        Container.query({all: 1,domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+        Container.query(angular.extend({all: 1}, urlParams), function (d) {
             var running = 0;
             var ghost = 0;
             var stopped = 0;

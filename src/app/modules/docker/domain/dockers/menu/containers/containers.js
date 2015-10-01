@@ -4,17 +4,16 @@
     angular.module('qorDash.docker.domain.dockers.menu.containers')
         .controller('ContainersController', containersController);
 
-    containersController.$inject = ['$scope', '$stateParams', 'Container', 'Settings', 'Messages'];
-    function containersController($scope, $stateParams, Container, Settings, Messages) {
+    containersController.$inject = ['$scope', 'Container', 'Settings', 'Messages'];
+    function containersController($scope, Container, Settings, Messages) {
         $scope.predicate = '-Created';
         $scope.toggle = false;
         $scope.displayAll = Settings.displayAll;
 
+        var urlParams = Settings.urlParams;
+
         var update = function (data) {
-            data.dockerId = $stateParams.dockerId;
-            data.instance = $stateParams.instance;
-            data.domain = $stateParams.domain;
-            Container.query(data, function (d) {
+            Container.query(angular.extend(data, urlParams), function (d) {
                 $scope.containers = d.map(function (item) {
                     return new ContainerViewModel(item);
                 });
@@ -32,10 +31,10 @@
             angular.forEach(items, function (c) {
                 if (c.Checked) {
                     if (action === Container.start) {
-                        Container.get({id: c.Id}, function (d) {
+                        Container.get(angular.extend({id: c.Id}, urlParams), function (d) {
                             c = d;
                             counter = counter + 1;
-                            action({id: c.Id, HostConfig: c.HostConfig || {}}, function (d) {
+                            action(angular.extend({id: c.Id, HostConfig: c.HostConfig || {}}, urlParams), function (d) {
                                 Messages.send("Container " + msg, c.Id);
                                 var index = $scope.containers.indexOf(c);
                                 complete();
@@ -55,7 +54,7 @@
                     }
                     else {
                         counter = counter + 1;
-                        action({id: c.Id}, function (d) {
+                        action(angular.extend({id: c.Id}, urlParams), function (d) {
                             Messages.send("Container " + msg, c.Id);
                             var index = $scope.containers.indexOf(c);
                             complete();

@@ -5,10 +5,12 @@
         .controller('DockerImagesController', dockerImagesController)
         .controller('DockerPullImageController', dockerPullImageController);
 
-    dockerImagesController.$inject = ['$scope', '$stateParams', 'Image', 'Messages', '$modal'];
-    function dockerImagesController($scope, $stateParams, Image, Messages, $modal) {
+    dockerImagesController.$inject = ['$scope', 'Image', 'Settings', 'Messages', '$modal'];
+    function dockerImagesController($scope, Image, Settings, Messages, $modal) {
         $scope.toggle = false;
         $scope.predicate = '-Created';
+
+        var urlParams = Settings.urlParams;
 
         $scope.showBuilder = function () {
             $('#build-modal').modal('show');
@@ -32,7 +34,7 @@
             angular.forEach($scope.images, function (i) {
                 if (i.Checked) {
                     counter = counter + 1;
-                    Image.remove({domain: $stateParams.domain,instance: $stateParams.instance, id: i.Id, dockerId: $stateParams.dockerId}, function (d) {
+                    Image.remove(angular.extend({id: i.Id}, urlParams), function (d) {
                         angular.forEach(d, function (resource) {
                             Messages.send("Image deleted", resource.Deleted);
                         });
@@ -53,7 +55,7 @@
             });
         };
 
-        Image.query({domain: $stateParams.domain,instance: $stateParams.instance, dockerId: $stateParams.dockerId}, function (d) {
+        Image.query(urlParams, function (d) {
             $scope.images = d.map(function (item) {
                 return new ImageViewModel(item);
             });
@@ -62,9 +64,11 @@
         });
     }
 
-    dockerPullImageController.$inject = ['$scope', '$stateParams', 'Messages', 'Image', '$modalInstance'];
-    function dockerPullImageController ($scope, $stateParams, Messages, Image, $modalInstance) {
+    dockerPullImageController.$inject = ['$scope', 'Messages', 'Image', '$modalInstance'];
+    function dockerPullImageController ($scope, Messages, Image, $modalInstance) {
         $scope.template = 'app/components/pullImage/pullImage.html';
+
+        var urlParams = Settings.urlParams;
 
         $scope.init = function () {
             $scope.config = {
@@ -95,10 +99,8 @@
 
             $('#pull-modal').modal('hide');
             $modalInstance.close();
-            config.dockerId = $stateParams.dockerId;
-            config.instance = $stateParams.instance;
-            config.domain = $stateParams.domain;
-            Image.create(config, function (data) {
+
+            Image.create(angular.extend(config, urlParams), function (data) {
                 if (data.constructor === Array) {
                     var f = data.length > 0 && data[data.length - 1].hasOwnProperty('error');
                     //check for error

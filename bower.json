@@ -27,7 +27,8 @@
     "font-awesome": "4.4.0",
     "jquery": "2.1.3",
     "jquery.terminal": "https://github.com/jcubic/jquery.terminal.git#fc76ddd45b514bcf0704d1602c8ad06dcad03a0c",
-    "metrojs": "~0.9.77"
+    "metrojs": "~0.9.77",
+    "docker": "2.1.3"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0",

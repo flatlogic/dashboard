@@ -5,13 +5,15 @@
         .controller('DockerImageController', dockerImageController)
         .controller('CreateImageModalController', createImageModalController);
 
-    dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'Messages', 'LineChart', '$modal'];
-    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, Messages, LineChart, $modal) {
+    dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'Settings', 'Messages', 'LineChart', '$modal'];
+    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, Settings, Messages, LineChart, $modal) {
         $scope.history = [];
         $scope.tag1 = {repo: '', force: false};
 
+        var urlParams = angular.extend({id: $stateParams.imageId}, Settings.urlParams);
+
         $scope.remove = function () {
-            Image.remove({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
+            Image.remove(urlParams, function (d) {
                 Messages.send("Image Removed", $stateParams.imageId);
             }, function (e) {
                 $scope.error = e.data;
@@ -20,14 +22,14 @@
         };
 
         $scope.getHistory = function () {
-            Image.history({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
+            Image.history(urlParams, function (d) {
                 $scope.history = d;
             });
         };
 
         $scope.updateTag = function () {
             var tag = $scope.tag1;
-            Image.tag({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, repo: tag.repo, force: tag.force ? 1 : 0, dockerId: $stateParams.dockerId}, function (d) {
+            Image.tag(angular.extend({repo: tag.repo, force: tag.force ? 1 : 0}, urlParams), function (d) {
                 Messages.send("Tag Added", $stateParams.imageId);
             }, function (e) {
                 $scope.error = e.data;
@@ -46,7 +48,7 @@
         function getContainersFromImage($q, Container, tag) {
             var defer = $q.defer();
 
-            Container.query({all: 1, notruc: 1, domain: $stateParams.domain, instance: $stateParams.instance, dockerId: $stateParams.dockerId}, function (d) {
+            Container.query(angular.extend({all: 1, notruc: 1}, Settings.urlParams), function (d) {
                 var containers = [];
                 for (var i = 0; i < d.length; i++) {
                     var c = d[i];
@@ -60,7 +62,7 @@
             return defer.promise;
         }
 
-        Image.get({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.imageId, dockerId: $stateParams.dockerId}, function (d) {
+        Image.get(urlParams, function (d) {
             $scope.image = d;
             $scope.tag = d.id;
             var t = $stateParams.imageTag;
@@ -87,9 +89,12 @@
         $scope.getHistory();
     }
 
-    createImageModalController.$inject = ['$scope', '$stateParams', '$location', 'Container', 'Messages', 'containernameFilter', 'errorMsgFilter'];
-    function createImageModalController($scope, $stateParams, $location, Container, Messages, containernameFilter, errorMsgFilter) {
-        Container.query({domain: $stateParams.domain,instance: $stateParams.instance, dockerId: $stateParams.dockerId,all: 1}, function (d) {
+    createImageModalController.$inject = ['$scope', '$stateParams', '$location', 'Settings', 'Container', 'Messages', 'containernameFilter', 'errorMsgFilter'];
+    function createImageModalController($scope, $stateParams, $location, Settings, Container, Messages, containernameFilter, errorMsgFilter) {
+
+        var urlParams = Settings.urlParams;
+
+        Container.query(angular.extend({all: 1}, urlParams), function (d) {
             $scope.containerNames = d.map(function (container) {
                 return containernameFilter(container);
             });
@@ -203,11 +208,11 @@
             var ctor = Container;
             var loc = $location;
             var s = $scope;
-            Container.create(config, function (d) {
+            Container.create(angular.extend(config, urlParams), function (d) {
                 if (d.Id) {
                     var reqBody = config.HostConfig || {};
                     reqBody.id = d.Id;
-                    ctor.start(reqBody, function (cd) {
+                    ctor.start(angular.extend(reqBody, urlParams), function (cd) {
                         if (cd.id) {
                             Messages.send('Container Started', d.Id);
                             $('#create-modal').modal('hide');

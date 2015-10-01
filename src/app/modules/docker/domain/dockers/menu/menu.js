@@ -11,7 +11,6 @@
                 return;
             }
             $scope.docker = value[$stateParams.dockerId];
-            $rootScope.dockerEndpoint = 'https://ops-dev.blinker.com/v1/dockerapi/blinker.com/dev/' + $stateParams.dockerId;
         });
         $scope.dockerId = $stateParams.dockerId;
     }
