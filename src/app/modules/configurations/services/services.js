@@ -9,8 +9,8 @@
         return size;
     };
 
-    servicesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler', 'domainInstancesLoader'];
-    function servicesController($scope, $state, $stateParams, $http, API_URL, errorHandler, domainInstancesLoader) {
+    servicesController.$inject = ['$scope', '$state', '$stateParams', 'errorHandler', 'domainLoader'];
+    function servicesController($scope, $state, $stateParams, errorHandler, domainLoader) {
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
                 return;
@@ -21,7 +21,7 @@
             })[0];
         });
 
-        domainInstancesLoader.load($stateParams.domain).then(
+        domainLoader.load($stateParams.domain).then(
             function (response) {
                 $scope.services = response.data.services;
 

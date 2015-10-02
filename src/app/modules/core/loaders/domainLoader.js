@@ -1,10 +1,10 @@
 (function () {
 
     angular.module('qorDash.loaders')
-        .service('domainInstancesLoader', domainInstancesLoaderService);
+        .service('domainLoader', domainLoaderService);
 
-    domainInstancesLoaderService.$inject = ['$http', 'API_URL'];
-    function domainInstancesLoaderService ($http, API_URL) {
+    domainLoaderService.$inject = ['$http', 'API_URL'];
+    function domainLoaderService ($http, API_URL) {
         return {
             load : function(domainId) {
                 return $http.get(API_URL + '/v1/domain/' + domainId);
