@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile', 'WS_URL', 'errorHandler'];
-    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile, WS_URL, errorHandler) {
+    orchestrateOptionController.$inject = ['$scope', '$stateParams', 'orchestrateService', '$compile', 'WS_URL', 'errorHandler'];
+    function orchestrateOptionController($scope, $stateParams, orchestrateService, $compile, WS_URL, errorHandler) {
 
         $scope.title = $stateParams.opt;
 
@@ -69,7 +69,7 @@
                 }
             });
         } else {
-            $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + opt + '/' + optId).then(
+            orchestrateService.loadOption(domain, instance, opt, optId).then(
                 function (response) {
                     $scope.workflow = response.data;
                     for (var index in $scope.workflow.context) {
@@ -94,17 +94,7 @@
                     data[index] = $('#input-' + index).val();
                 }
 
-                var request = {
-                    method: 'POST',
-                    url: API_URL + $scope.workflow.activate_url,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: data
-                };
-
-
-                $http(request).then(
+                orchestrateService.loadLogUrl($scope.workflow.activate_url, data).then(
                     function (response) {
                         $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.data.log_ws_url + "'\"></div>")($scope));
                         $('#sendMessageButton').button('reset');
