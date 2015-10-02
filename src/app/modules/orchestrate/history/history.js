@@ -10,11 +10,14 @@
         var instance = $stateParams.inst;
         var option = $stateParams.opt;
 
-        $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/').success(function (data) {
-            $scope.previousCalls = data;
-        }).error(function(e, code){
-            $scope.error = errorHandler.showError(e, code);
-        });
+        $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/').then(
+            function (response) {
+                $scope.previousCalls = response.data;
+            },
+            function(response){
+                $scope.error = errorHandler.showError(response.data, response.status);
+            }
+        );
 
     }
 

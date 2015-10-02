@@ -108,19 +108,19 @@
                         };
 
                         $scope.requestsCounter++;
-                        $http(request)
-                            .success(function (data, status, headers, config) {
+                        $http(request).then(
+                            function (response) {
                                 $scope.requestsCounter--;
                                 $scope.loaded = true;
 
-                                var splitedUrl = config.url.split('/');
+                                var splitedUrl = response.config.url.split('/');
 
                                 var version = splitedUrl[splitedUrl.length - 1],
                                     instance = splitedUrl[splitedUrl.length - 3];
 
                                 $scope.selectedVersion[instance] = version;
 
-                                for (var varName in data) {
+                                for (var varName in response.data) {
                                     if (!$scope.values[varName]) {
                                         $scope.values[varName] = {};
                                     }
@@ -129,14 +129,15 @@
                                         $scope.values[varName][instance] = {};
                                     }
 
-                                    $scope.values[varName][instance][version] = data[varName];
+                                    $scope.values[varName][instance][version] = response.data[varName];
                                 }
-                            })
-                            .error(function (error, status, headers, request) {
+                            },
+                            function (response) {
                                 $scope.requestsCounter--;
 
                                 $scope.loaded = true;
-                            });
+                            }
+                    );
                     }
                 };
 
@@ -149,10 +150,10 @@
                         }
                     };
                     $scope.requestsCounter++;
-                    $http(loadVersionsRequest)
-                        .success(function(response, code, headers, config) {
+                    $http(loadVersionsRequest).then(
+                        function(response) {
                             $scope.requestsCounter--;
-                            for (var i in response) {
+                            for (var i in response.data) {
                                 if (!$scope.versions[instance]) {
                                     $scope.versions[instance] = [];
                                 }
@@ -165,7 +166,11 @@
                             }
 
                             _loadVariables(instance);
-                        });
+                        },
+                        function(response) {
+
+                        }
+                    );
                 });
 
             };
@@ -217,17 +222,16 @@
                 }
             };
 
-            $http(postRequest)
-                .success(function(response, code) {
+            $http(postRequest).then(
+                function(response) {
                     Notification.success('Live version for ' + instance + ' has been changed.');
                     $('span[instance='+instance+'].set-live-button').removeClass('loading').text('Set live');
                     $scope.editorService.live[instance] = version;
-                })
-                .error(function(e) {
-                    var error = e ? e.error : 'unknown server error';
-                    Notification.error('Can\'t load data: ' + error);
+                },
+                function(response) {
                     $('span[instance='+instance+'].set-live-button').removeClass('loading').text('Set live');
-                });
+                }
+            );
         };
 
         var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -316,8 +320,8 @@
                     data: data
                 };
 
-                $http(postRequest)
-                    .success(function(d, status) {
+                $http(postRequest).then(
+                    function(response) {
                         $scope.editorService.versions.push(newVersionName);
                         for (var i in $scope.deletedVersions) {
                             if (i != targetInstance) {
@@ -334,11 +338,11 @@
                         Notification.success('Copy created');
 
                         $modalInstance.close();
-                    })
-                    .error(function(e) {
+                    },
+                    function(response) {
                         $('#config-modal-ok-button').button('reset');
-                        Notification.error('Data sending error: ' + e.error);
-                    })
+                    }
+                );
             };
         };
 
@@ -360,15 +364,16 @@
                         data: data
                     };
 
-                    $http(request)
-                        .success(function (response) {
+                    $http(request).then(
+                        function (response) {
                             Notification.success('Saved successfully');
                             $('#env-save-button').button('reset');
-                        })
-                        .error(function (error) {
+                        },
+                        function (responce) {
                             Notification.error('Saving error: ' + error.error);
                             $('#env-save-button').button('reset');
-                        });
+                        }
+                    );
                 }
             }
 

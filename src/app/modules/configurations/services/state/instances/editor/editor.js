@@ -35,13 +35,14 @@
                     + instance + '/' + $scope.service.service + '/' + newVersionName
             };
 
-            return $http(request)
-                .success(function(response) {
+            return $http(request).then(
+                function(response) {
                     Notification.success('Successfully created');
-                })
-                .error(function(e, code) {
-                    errorHandler.showError(e, code);
-                });
+                },
+                function(response) {
+                    errorHandler.showError(response.data, response.status);
+                }
+            );
         };
 
         $scope.clickAddNewVersion = function(instance) {
@@ -113,12 +114,12 @@
                         };
 
                         $scope.requestsCounter++;
-                        $http(request)
-                            .success(function (data, status, headers, config) {
+                        $http(request).then(
+                            function (response) {
                                 $scope.requestsCounter--;
                                 $scope.loaded = true;
 
-                                var version = config.version;
+                                var version = response.config.version;
                                 for (var varName in data) {
                                     if (!$scope.val1[varName]) {
                                         $scope.val1[varName] = {};
@@ -146,8 +147,8 @@
                                 if ($scope.requestsCounter <= 0) {
                                     formatValues();
                                 }
-                            })
-                            .error(function (error, status, headers, request) {
+                            },
+                            function (response) {
                                 $scope.requestsCounter--;
 
                                 $scope.loaded = true;
@@ -155,7 +156,8 @@
                                 if ($scope.requestsCounter <= 0) {
                                     formatValues();
                                 }
-                            });
+                            }
+                        );
                     }
                 };
 
@@ -169,23 +171,27 @@
                         }
                     };
                     $scope.requestsCounter++;
-                    $http(loadVersionsRequest)
-                        .success(function(response, code, headers, config) {
+                    $http(loadVersionsRequest).then(
+                        function(response) {
                             $scope.requestsCounter--;
-                            for (var i in response) {
+                            for (var i in response.data) {
                                 if (!$scope.versions[instance]) {
                                     $scope.versions[instance] = [];
                                 }
 
                                 $scope.versions[instance].push(i);
-                                if (response[i]) {
+                                if (response.data[i]) {
                                     $scope.liveVersion[instance] = i;
                                     $scope.selectedVersion[instance] = i;
                                 }
                             }
 
                             _loadVariables(instance);
-                        });
+                        },
+                        function(response) {
+
+                        }
+                    );
                 });
             };
 
@@ -236,17 +242,17 @@
                 }
             };
 
-            $http(postRequest)
-                .success(function(response, code) {
+            $http(postRequest).then(
+                function(response) {
                     Notification.success('Live version for ' + instance + ' has been changed.');
                     $('span[instance='+instance+'].set-live-button').removeClass('loading').text('Set live');
                     $scope.editorService.live[instance] = version;
-                })
-                .error(function(e) {
-                    var error = e ? e.error : 'unknown server error';
-                    Notification.error('Can\'t load data: ' + error);
+                },
+                function(response) {
+                    //TODO Add error handler
                     $('span[instance='+instance+'].set-live-button').removeClass('loading').text('Set live');
-                });
+                }
+            );
         };
 
         var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -327,9 +333,9 @@
 
                 var newVars = {};
 
-                $http(getRequest)
-                    .success(function(data, status) {
-                        newVars = data;
+                $http(getRequest).then(
+                    function(response) {
+                        newVars = response.data;
 
                         var patchRequest = {
                             method: 'POST',
@@ -340,8 +346,8 @@
                             data: data
                         };
 
-                        $http(patchRequest)
-                            .success(function(data, status) {
+                        $http(patchRequest).then(
+                            function(response) {
                                 $scope.versions[targetInstance].push(newVersionName);
 
                                 for (var i in $scope.values) {
@@ -358,16 +364,17 @@
                                 Notification.success('Copy created');
 
                                 $modalInstance.close();
-                            })
-                            .error(function(e) {
+                            },
+                            function(response) {
                                 $('#config-modal-ok-button').button('reset');
-                                Notification.error('Data sending error' + e.error);
+                                //TODO Add error handler
                             });
-                    })
-                    .error(function(s) {
+                    },
+                    function(response) {
                         $('#config-modal-ok-button').button('reset');
-                        Notification.error('Data loading error' + e.error);
-                    });
+                        //TODO Add error handler
+                    }
+                );
             };
         };
 
@@ -419,16 +426,17 @@
                         data: data
                     };
                     if (request.data.delete) {
-                        $http(request)
-                            .success(function (response) {
+                        $http(request).then(
+                            function (response) {
                                 Notification.success('Saved successfully');
                                 $('#env-save-button').button('reset');
                                 $scope.loadData();
-                            })
-                            .error(function (error) {
-                                Notification.error('Saving error: ' + error.error);
+                            },
+                            function (response) {
+                                //TODO Add error handler
                                 $('#env-save-button').button('reset');
-                            });
+                            }
+                        );
                     }
                 }
             }
@@ -728,13 +736,14 @@
 
             $($event.target).button('loading');
 
-            createVersion(instance, $scope.versionName)
-                .success(function() {
+            createVersion(instance, $scope.versionName).then(
+                function() {
                     $modalInstance.close();
-                })
-                .error(function() {
+                },
+                function() {
                     $($scope.event.target).button('reset');
-                });
+                }
+            );
         };
 
         $scope.cancel = function () {

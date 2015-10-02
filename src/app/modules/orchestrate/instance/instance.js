@@ -9,11 +9,14 @@
         $scope.title = $stateParams.inst;
         $scope.workflows = [];
 
-        $http.get(API_URL + '/v1/orchestrate/'+ $stateParams.id +'/'+ $stateParams.inst +'/').success(function (data) {
-            $scope.workflows = data;
-        }).error(function (e, code) {
-            $scope.error = errorHandler.showError(e, code);
-        });
+        $http.get(API_URL + '/v1/orchestrate/'+ $stateParams.id +'/'+ $stateParams.inst +'/').then(
+            function (response) {
+                $scope.workflows = response.data;
+            },
+            function (response) {
+                $scope.error = errorHandler.showError(response.data, response.status);
+            }
+        );
     }
 
     angular.module('qorDash.orchestrate')

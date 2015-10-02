@@ -14,13 +14,14 @@
         var url = API_URL + '/v1/dockerapi/' + domainId + '/' + instance + '/';
         console.log(url);
 
-        $http.get(url)
-            .success(function (response, status, headers) {
-                $scope.dockers = response;
-            })
-            .error(function (e, code) {
-                $scope.error = errorHandler.showError(e, code);
-            });
+        $http.get(url).then(
+            function (response) {
+                $scope.dockers = response.data;
+            },
+            function (response) {
+                $scope.error = errorHandler.showError(response.data, response.status);
+            }
+        );
     }
 
 })();

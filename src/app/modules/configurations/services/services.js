@@ -9,10 +9,8 @@
         return size;
     };
 
-    servicesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
-    function servicesController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
-        var domainId = $stateParams.domain;
-
+    servicesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler', 'domainInstancesLoader'];
+    function servicesController($scope, $state, $stateParams, $http, API_URL, errorHandler, domainInstancesLoader) {
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
                 return;
@@ -23,18 +21,19 @@
             })[0];
         });
 
-        $http.get(API_URL + '/v1/domain/' + domainId)
-            .success(function (response) {
-                $scope.services = response.services;
+        domainInstancesLoader.load($stateParams.domain).then(
+            function (response) {
+                $scope.services = response.data.services;
 
                 if(Object.size($scope.services) == 1 && $state.current.name == 'app.configurations.services'){
                     $state.go('.state', {service: $scope.services[0]})
                 }
 
-            })
-            .error(function (e, code) {
-                $scope.error = errorHandler.showError(e, code);
-            });
+            },
+            function (response) {
+                $scope.error = errorHandler.showError(response.data, response.status);
+            }
+        );
     }
 
     angular.module('qorDash.configurations.services')

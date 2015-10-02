@@ -69,17 +69,16 @@
                 }
             });
         } else {
-            $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + opt + '/' + optId)
-                .success(function (response, status, headers) {
-
-                    $scope.workflow = response;
+            $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + opt + '/' + optId).then(
+                function (response) {
+                    $scope.workflow = response.data;
                     for (var index in $scope.workflow.context) {
                         var value = $scope.workflow.context[index];
                         $('#dynamic-form').append(getElement(value, index));
                     }
-                })
-                .error(function (e, code) {
-                    $scope.error = errorHandler.showError(e, code);
+                },
+                function (response) {
+                    $scope.error = errorHandler.showError(response.data, response.status);
 
             });
         }
@@ -105,11 +104,12 @@
                 };
 
 
-                $http(request)
-                    .success(function (response) {
-                        $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.log_ws_url + "'\"></div>")($scope));
+                $http(request).then(
+                    function (response) {
+                        $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.data.log_ws_url + "'\"></div>")($scope));
                         $('#sendMessageButton').button('reset');
-                    });
+                    }
+                );
             } else {
                 var wsUrl = WS_URL + '/v1/ws/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId;
                 $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'"+ wsUrl +"'\"></div>")($scope));
