@@ -1,22 +1,21 @@
 (function () {
     'use strict';
 
-    var domainsController = angular.createAuthorizedController('DomainsController', ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler',
-                                                                                            function ($scope, $state, $stateParams, $http, API_URL, errorHandler) {
+    var domainsController = angular.createAuthorizedController('DomainsController', ['$scope', '$state', '$stateParams', 'errorHandler', 'domainsLoader',
+        function ($scope, $state, $stateParams, errorHandler, domainsLoader) {
+            domainsLoader.load().then(
+                function (response) {
+                    $scope.domains = response.data;
 
-        $http.get(API_URL + '/v1/domain/')
-            .success(function (response, status, headers) {
-                $scope.domains = response;
-
-                if($scope.domains.length === 1 && $state.current.name == 'app.domains'){
-                    $state.go('app.domains.domain', {id:$scope.domains[0].id})
+                    if($scope.domains.length === 1 && $state.current.name == 'app.domains'){
+                        $state.go('app.domains.domain', {id:$scope.domains[0].id})
+                    }
+                },
+                function (response) {
+                    $scope.error = errorHandler.showError(response.data, response.status);
                 }
-
-            })
-            .error(function (e, code) {
-                $scope.error = errorHandler.showError(e, code);
-            });
-    }]);
+            );
+        }]);
 
     angular.module('qorDash.domains')
         .controller(domainsController);

@@ -181,7 +181,7 @@
     }
 
     /**
-     * Error servise
+     * Error service
      */
     errorService.$inject = ['Notification'];
     function errorService(Notification){

@@ -3,17 +3,20 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler'];
-    function orchestrateInstanceController($scope, $stateParams, $http, API_URL, errorHandler) {
+    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'orchestrateService', 'errorHandler'];
+    function orchestrateInstanceController($scope, $stateParams, $http, orchestrateService, errorHandler) {
 
         $scope.title = $stateParams.inst;
         $scope.workflows = [];
 
-        $http.get(API_URL + '/v1/orchestrate/'+ $stateParams.id +'/'+ $stateParams.inst +'/').success(function (data) {
-            $scope.workflows = data;
-        }).error(function (e, code) {
-            $scope.error = errorHandler.showError(e, code);
-        });
+        orchestrateService.loadInstances($stateParams.id, $stateParams.inst).then(
+            function (response) {
+                $scope.workflows = response.data;
+            },
+            function (response) {
+                $scope.error = errorHandler.showError(response.data, response.status);
+            }
+        );
     }
 
     angular.module('qorDash.orchestrate')

@@ -41,8 +41,9 @@
                     }
                 };
 
-                $http(versionsRequest)
-                    .success(function(response, code, headers, request) {
+                $http(versionsRequest).then(
+                    function(response) {
+                        response = response.data;
                         if (!$scope.versions[instance]) {
                             $scope.versions[instance] = [];
                         }
@@ -57,7 +58,11 @@
                                 $scope.liveVersion[instance] = i;
                             }
                         }
-                    });
+                    },
+                    function (response) {
+                        $scope.error = errorHandler.showError(response.data, response.status);
+                    }
+                );
             });
         };
 

@@ -23,12 +23,12 @@
             }
         }).then(function(response) {
             deferred.resolve(response.data.token)
-        }, function(e, code) {
+        }, function(response) {
             deferred.reject();
             $scope.error = errorHandler.showError(e, code);
         });
 
-            return deferred.promise;
+        return deferred.promise;
     }
 
     angular.module('qorDash.manage')

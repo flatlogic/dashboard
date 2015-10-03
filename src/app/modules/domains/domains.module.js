@@ -16,7 +16,6 @@
         'qorDash.domains.env.network.note.logs',
         'qorDash.domains.env.resources',
         'log_details'
-
     ]);
 
     module.config(appConfig);

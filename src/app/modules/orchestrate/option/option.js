@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', '$compile', 'WS_URL', 'errorHandler'];
-    function orchestrateOptionController($scope, $stateParams, $http, API_URL, $compile, WS_URL, errorHandler) {
+    orchestrateOptionController.$inject = ['$scope', '$stateParams', 'orchestrateService', '$compile', 'WS_URL', 'errorHandler'];
+    function orchestrateOptionController($scope, $stateParams, orchestrateService, $compile, WS_URL, errorHandler) {
 
         $scope.title = $stateParams.opt;
 
@@ -69,17 +69,16 @@
                 }
             });
         } else {
-            $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + opt + '/' + optId)
-                .success(function (response, status, headers) {
-
-                    $scope.workflow = response;
+            orchestrateService.loadOption(domain, instance, opt, optId).then(
+                function (response) {
+                    $scope.workflow = response.data;
                     for (var index in $scope.workflow.context) {
                         var value = $scope.workflow.context[index];
                         $('#dynamic-form').append(getElement(value, index));
                     }
-                })
-                .error(function (e, code) {
-                    $scope.error = errorHandler.showError(e, code);
+                },
+                function (response) {
+                    $scope.error = errorHandler.showError(response.data, response.status);
 
             });
         }
@@ -95,21 +94,12 @@
                     data[index] = $('#input-' + index).val();
                 }
 
-                var request = {
-                    method: 'POST',
-                    url: API_URL + $scope.workflow.activate_url,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: data
-                };
-
-
-                $http(request)
-                    .success(function (response) {
-                        $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.log_ws_url + "'\"></div>")($scope));
+                orchestrateService.loadLogUrl($scope.workflow.activate_url, data).then(
+                    function (response) {
+                        $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.data.log_ws_url + "'\"></div>")($scope));
                         $('#sendMessageButton').button('reset');
-                    });
+                    }
+                );
             } else {
                 var wsUrl = WS_URL + '/v1/ws/orchestrate/'+ domain +'/'+ instance +'/'+ opt +'/' + optId;
                 $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'"+ wsUrl +"'\"></div>")($scope));

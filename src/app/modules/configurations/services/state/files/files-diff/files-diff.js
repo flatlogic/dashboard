@@ -142,21 +142,23 @@
                 }
             };
 
-            $http(getFirstFileRequest)
-                .success (function(response) {
-                    $scope.firstFileData = response;
+            $http(getFirstFileRequest).then(
+                function(response) {
+                    $scope.firstFileData = response.data;
 
-                    $http(getSecondFileRequest)
-                        .then(function(response) {
+                    $http(getSecondFileRequest).then(
+                        function(response) {
                             $scope.secondFileData = response.data;
 
-                        }, function(e) {
-                            $scope.error = errorHandler.showError(response, code);
+                        },
+                        function(response) {
+                            $scope.error = errorHandler.showError(response.data, response.status);
                         });
-                })
-                .error (function(e, code) {
-                    $scope.error = errorHandler.showError(e, code);
-                });
+                },
+                function(response) {
+                    $scope.error = errorHandler.showError(response.data, response.status);
+                }
+            );
         }
     }
 

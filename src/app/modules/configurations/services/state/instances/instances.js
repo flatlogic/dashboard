@@ -17,9 +17,9 @@
 
         $scope.checked = {};
 
-        $http.get(API_URL + '/v1/env/' + $stateParams.domain + '/')
-            .success(function (response) {
-                $scope.service = response[$state.params.service];
+        $http.get(API_URL + '/v1/env/' + $stateParams.domain + '/').then(
+            function (response) {
+                $scope.service = response.data[$state.params.service];
                 $scope.instances = $scope.service.instances;
                 $scope.instances.forEach(function(instance) {
                     $scope.saveAvailableHelper++;
@@ -38,10 +38,11 @@
                     });
                 }
 
-            })
-            .error(function (e, code) {
-                $scope.error = errorHandler.showError(e, code);
-            });
+            },
+            function (response) {
+                $scope.error = errorHandler.showError(response.data, response.status);
+            }
+        );
 
         $scope.saveAvailableHelper = 0;
 
