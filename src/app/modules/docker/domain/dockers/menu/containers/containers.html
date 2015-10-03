@@ -22,7 +22,7 @@
         </div>
 
         <div class="text-right containers-form">
-            <input class="new-checkbox bordered" id="display-all-checkbox" ng-model="disableFilter"  type="checkbox"><label for="display-all-checkbox"></label> <p>Display All</p>
+            <input class="new-checkbox bordered" type="checkbox" ng-model="displayAll" id="displayAll" ng-change="toggleGetAll()"/><label for="displayAll"></label> <p>Display All</p>
             <input type="text" class="form-control" id="filter" placeholder="Filter" ng-model="filter"/> <label class="sr-only" for="filter">Filter</label>
         </div>
 
@@ -38,7 +38,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="container in containers | filter:!disableFilter && filter | orderBy:predicate">
+            <tr ng-repeat="container in containers | filter:filter | orderBy:predicate">
                 <td class="center-text"><input class="new-checkbox bordered" id="check-{{container.Id}}" ng-model="container.Checked" type="checkbox"><label for="check-{{container.Id}}"></label></td>
                 <td><a ui-sref="app.docker.domain.dockers.menu.containers.container({containerId: container.Id})">{{ container|containername}}</a></td>
                 <td><a ui-sref="app.docker.domain.dockers.menu.images.image({imageId: container.Image})">{{ container.Image }}</a></td>
