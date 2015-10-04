@@ -5,7 +5,7 @@
         .module('qorDash.docker', [
             'ui.router',
             'qorDash.docker.domain',
-            'dockerui2'
+            'dockerui'
         ])
         .config(config)
         .run(run);

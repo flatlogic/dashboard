@@ -4,8 +4,8 @@
     angular.module('qorDash.docker.domain.dockers.menu.summary')
         .controller('DockerSummaryController', dockerSummaryController);
 
-    dockerSummaryController.$inject = ['$scope', '$stateParams', 'Container', 'Image', 'Settings', 'LineChart'];
-    function dockerSummaryController($scope, $stateParams, Container, Image, Settings, LineChart) {
+    dockerSummaryController.$inject = ['$scope', '$stateParams', 'Container', 'DockerViewModel', 'Image', 'Settings', 'LineChart'];
+    function dockerSummaryController($scope, $stateParams, Container, DockerViewModel, Image, Settings, LineChart) {
         $scope.predicate = '-Created';
         $scope.containers = [];
 
@@ -50,7 +50,7 @@
                     stopped += 1;
                 } else {
                     running += 1;
-                    $scope.containers.push(new ContainerViewModel(item));
+                    $scope.containers.push(DockerViewModel.container(item));
                 }
             }
 

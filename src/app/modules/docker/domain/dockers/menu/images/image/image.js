@@ -5,8 +5,8 @@
         .controller('DockerImageController', dockerImageController)
         .controller('CreateImageModalController', createImageModalController);
 
-    dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'Settings', 'Messages', 'LineChart', '$modal'];
-    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, Settings, Messages, LineChart, $modal) {
+    dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'DockerViewModel', 'Settings', 'Messages', 'LineChart', '$modal'];
+    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, DockerViewModel, Settings, Messages, LineChart, $modal) {
         $scope.history = [];
         $scope.tag1 = {repo: '', force: false};
 
@@ -53,7 +53,7 @@
                 for (var i = 0; i < d.length; i++) {
                     var c = d[i];
                     if (c.Image === tag) {
-                        containers.push(new ContainerViewModel(c));
+                        containers.push(DockerViewModel.container(c));
                     }
                 }
                 defer.resolve(containers);

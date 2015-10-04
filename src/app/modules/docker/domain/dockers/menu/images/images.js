@@ -5,8 +5,8 @@
         .controller('DockerImagesController', dockerImagesController)
         .controller('DockerPullImageController', dockerPullImageController);
 
-    dockerImagesController.$inject = ['$scope', 'Image', 'Settings', 'Messages', '$modal'];
-    function dockerImagesController($scope, Image, Settings, Messages, $modal) {
+    dockerImagesController.$inject = ['$scope', 'Image', 'Settings', 'Messages', 'DockerViewModel', '$modal'];
+    function dockerImagesController($scope, Image, Settings, Messages, DockerViewModel, $modal) {
         $scope.toggle = false;
         $scope.predicate = '-Created';
 
@@ -57,7 +57,7 @@
 
         Image.query(urlParams, function (d) {
             $scope.images = d.map(function (item) {
-                return new ImageViewModel(item);
+                return DockerViewModel.image(item);
             });
         }, function (e) {
             Messages.error("Failure", e.data);
