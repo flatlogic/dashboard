@@ -10,12 +10,10 @@
         .config(config)
         .run(run);
 
-    config.$inject = ['$stateProvider', '$qorSidebarProvider', 'SettingsProvider', '$urlRouterProvider'];
-    run.$inject = ['$rootScope', '$location', 'Settings'];
+    config.$inject = ['$stateProvider', '$qorSidebarProvider'];
+    run.$inject = ['$rootScope', '$location', 'Settings', 'DOCKER_ENDPOINT'];
 
-    function config($stateProvider, $qorSidebarProvider, SettingsProvider, $urlRouterProvider) {
-        SettingsProvider.endpoint = 'https://ops-dev.blinker.com/v1/dockerapi/';
-        // TODO: getting from constant;
+    function config($stateProvider, $qorSidebarProvider) {
 
         $stateProvider
             .state('app.docker', {
@@ -36,15 +34,17 @@
         });
     }
 
-    function run($rootScope, $location, Settings){
-      $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-        if (toState.name.split('.')[1]==='docker'){
-          var dockerParams = $location.path().match(/docker((\/[a-z0-9.]+){1,3})/);
-          if (dockerParams && dockerParams[1]) {
-            Settings.buildUrl(dockerParams[1].substr(1));
-          }
-        }
-      });
+    function run($rootScope, $location, Settings, DOCKER_ENDPOINT){
+        Settings.endpoint = DOCKER_ENDPOINT;
+
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+            if (toState.name.split('.')[1]==='docker'){
+                var dockerParams = $location.path().match(/docker((\/[a-z0-9.]+){1,3})/);
+                if (dockerParams && dockerParams[1]) {
+                    Settings.buildUrl(dockerParams[1]);
+                }
+            }
+        });
     }
 
 })();

@@ -6,7 +6,7 @@
           'use strict';
           // Resource for interacting with the docker containers
           // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#2-1-containers
-          return $resource(Settings.endpoint + ':domain/:instance/:dockerId/containers/:id/:action', {
+          return $resource(Settings.endpoint + '/:domain/:instance/:dockerId/containers/:id/:action', {
               name:     '@name',
               domain:   '@domain',
               instance: '@instance',
@@ -30,7 +30,7 @@
       .factory('Image', ['$resource', 'Settings', function ImageFactory($resource, Settings) {
           'use strict';
           // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#2-2-images
-          return $resource(Settings.endpoint + ':domain/:instance/:dockerId/images/:id/:action', {
+          return $resource(Settings.endpoint + '/:domain/:instance/:dockerId/images/:id/:action', {
               domain:   '@domain',
               instance: '@instance',
               dockerId: '@dockerId'
@@ -55,7 +55,7 @@
       .factory('Docker', ['$resource', 'Settings', function DockerFactory($resource, Settings) {
           'use strict';
           // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#show-the-docker-version-information
-          return $resource(Settings.endpoint + ':domain/:instance/:dockerId/version', {
+          return $resource(Settings.endpoint + '/:domain/:instance/:dockerId/version', {
               domain:   '@domain',
               instance: '@instance',
               dockerId: '@dockerId'
@@ -66,7 +66,7 @@
       .factory('Auth', ['$resource', 'Settings', function AuthFactory($resource, Settings) {
           'use strict';
           // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#check-auth-configuration
-          return $resource(Settings.endpoint + ':domain/:instance/:dockerId/auth', {
+          return $resource(Settings.endpoint + '/:domain/:instance/:dockerId/auth', {
               domain:   '@domain',
               instance: '@instance',
               dockerId: '@dockerId'
@@ -78,7 +78,7 @@
       .factory('System', ['$resource', 'Settings', function SystemFactory($resource, Settings) {
           'use strict';
           // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#display-system-wide-information
-          return $resource(Settings.endpoint + ':domain/:instance/:dockerId/info', {
+          return $resource(Settings.endpoint + '/:domain/:instance/:dockerId/info', {
               domain:   '@domain',
               instance: '@instance',
               dockerId: '@dockerId'
@@ -143,7 +143,7 @@
         'use strict';
 
         function extractParams(url) {
-          var params = url ? url.split('/') : null;
+          var params = url ? url.substr(1).split('/') : null;
           return params ? {
             'domain': params[0],
             'instance': params[1],
