@@ -19,7 +19,7 @@
                     $scope.container.edit = false;
                     $scope.container.newContainerName = d.Name;
                     if (updateList) {
-                        $scope.$emit('updateContainers');
+                        $scope.$emit('updateContainersList');
                     }
                 }, function (e) {
                     if (e.status === 404) {

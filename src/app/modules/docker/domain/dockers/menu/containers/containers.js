@@ -10,7 +10,7 @@
         $scope.toggle = false;
         $scope.displayAll = Settings.displayAll;
 
-        $scope.$on('updateContainers', function(data, event){
+        $scope.$on('updateContainersList', function(data, event){
             update({all: Settings.displayAll ? 1 : 0});
         });
 
