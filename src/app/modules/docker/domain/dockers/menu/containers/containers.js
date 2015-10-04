@@ -10,6 +10,10 @@
         $scope.toggle = false;
         $scope.displayAll = Settings.displayAll;
 
+        $scope.$on('updateContainers', function(data, event){
+            update({all: Settings.displayAll ? 1 : 0});
+        });
+
         var urlParams = Settings.urlParams;
 
         var update = function (data) {

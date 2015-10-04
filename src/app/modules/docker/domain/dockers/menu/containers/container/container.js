@@ -11,11 +11,16 @@
 
             var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
 
-            var update = function () {
+            var update = function (updateList) {
+                updateList = updateList === false ? false : true;
+
                 Container.get(urlParams, function (d) {
                     $scope.container = d;
                     $scope.container.edit = false;
                     $scope.container.newContainerName = d.Name;
+                    if (updateList) {
+                        $scope.$emit('updateContainers');
+                    }
                 }, function (e) {
                     if (e.status === 404) {
                         $('.detail').hide();
@@ -129,7 +134,7 @@
                 $scope.container.edit = false;
             };
 
-            update();
+            update(false);
             $scope.getChanges();
         }
 
