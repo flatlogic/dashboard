@@ -5,13 +5,13 @@
         .controller('DockerInfoEventsController', dockerInfoEventsController);
 
 
-    dockerInfoEventsController.$inject = ['Settings', '$scope', 'Oboe', 'Messages', '$timeout', '$stateParams'];
-    function dockerInfoEventsController(Settings, $scope, oboe, Messages, $timeout, $stateParams) {
+    dockerInfoEventsController.$inject = ['Settings', '$scope', 'Oboe', 'Messages', '$timeout'];
+    function dockerInfoEventsController(Settings, $scope, oboe, Messages, $timeout) {
         $scope.updateEvents = function () {
             $scope.dockerEvents = [];
 
             // TODO: Clean up URL building
-            var url = Settings.url + '/' + $stateParams.domain + '/' + $stateParams.instance + '/' + $stateParams.dockerId + '/' + '/events?';
+            var url = Settings.url + '/events?';
 
             if ($scope.model.since) {
                 var sinceSecs = Math.floor($scope.model.since.getTime() / 1000);

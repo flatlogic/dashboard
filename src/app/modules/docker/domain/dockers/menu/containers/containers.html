@@ -22,7 +22,7 @@
         </div>
 
         <div class="text-right containers-form">
-            <input class="new-checkbox bordered" id="display-all-checkbox"  type="checkbox"><label for="display-all-checkbox"></label> <p>Display All</p>
+            <input class="new-checkbox bordered" type="checkbox" ng-model="displayAll" id="displayAll" ng-change="toggleGetAll()"/><label for="displayAll"></label> <p>Display All</p>
             <input type="text" class="form-control" id="filter" placeholder="Filter" ng-model="filter"/> <label class="sr-only" for="filter">Filter</label>
         </div>
 

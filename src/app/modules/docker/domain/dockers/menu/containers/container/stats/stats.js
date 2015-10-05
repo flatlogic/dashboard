@@ -7,6 +7,7 @@
 
     dockerContainerStatsController.$inject = ['Settings', '$scope', 'Messages', '$timeout', 'Container', '$stateParams', 'humansizeFilter', '$sce'];
     function dockerContainerStatsController(Settings, $scope, Messages, $timeout, Container, $stateParams, humansizeFilter, $sce) {
+        var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
         var cpuLabels = [];
         var cpuData = [];
         var memoryLabels = [];
@@ -102,7 +103,7 @@
         $scope.networkLegend = $sce.trustAsHtml(networkChart.generateLegend());
 
         function updateStats() {
-            Container.stats({domain: $stateParams.domain, instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+            Container.stats(urlParams, function (d) {
                 var arr = Object.keys(d).map(function (key) {
                     return d[key];
                 });
