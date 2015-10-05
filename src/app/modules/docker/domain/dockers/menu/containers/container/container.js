@@ -4,16 +4,23 @@
     angular.module('qorDash.docker.domain.dockers.menu.containers.container')
         .controller('ContainerController', containerController);
 
-    containerController.$inject = ['$scope', '$stateParams', '$location', 'Container', 'ContainerCommit', 'Messages'];
-    function containerController($scope, $stateParams, $location, Container, ContainerCommit, Messages) {
+    containerController.$inject = ['$scope', '$stateParams', '$location', 'Container', 'ContainerCommit', 'Messages', 'Settings'];
+    function containerController($scope, $stateParams, $location, Container, ContainerCommit, Messages, Settings) {
             $scope.changes = [];
             $scope.edit = false;
 
-            var update = function () {
-                Container.get({domain: $stateParams.domain, instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+            var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
+
+            var update = function (updateList) {
+                updateList = updateList === false ? false : true;
+
+                Container.get(urlParams, function (d) {
                     $scope.container = d;
                     $scope.container.edit = false;
                     $scope.container.newContainerName = d.Name;
+                    if (updateList) {
+                        $scope.$emit('updateContainersList');
+                    }
                 }, function (e) {
                     if (e.status === 404) {
                         $('.detail').hide();
@@ -25,13 +32,7 @@
             };
 
             $scope.start = function () {
-                Container.start({
-                    domain: $stateParams.domain,
-                    instance: $stateParams.instance,
-                    id: $scope.container.Id,
-                    HostConfig: $scope.container.HostConfig,
-                    dockerId: $stateParams.dockerId
-                }, function (d) {
+                Container.start(angular.extend({HostConfig: $scope.container.HostConfig}, urlParams), function (d) {
                     update();
                     Messages.send("Container started", $stateParams.containerId);
                 }, function (e) {
@@ -41,7 +42,7 @@
             };
 
             $scope.stop = function () {
-                Container.stop({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+                Container.stop(urlParams, function (d) {
                     update();
                     Messages.send("Container stopped", $stateParams.containerId);
                 }, function (e) {
@@ -51,7 +52,7 @@
             };
 
             $scope.kill = function () {
-                Container.kill({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+                Container.kill(urlParams, function (d) {
                     update();
                     Messages.send("Container killed", $stateParams.containerId);
                 }, function (e) {
@@ -61,7 +62,7 @@
             };
 
             $scope.commit = function () {
-                ContainerCommit.commit({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, repo: $scope.container.Config.Image, dockerId: $stateParams.dockerId}, function (d) {
+                ContainerCommit.commit(angular.extend({repo: $scope.container.Config.Image}, urlParams), function (d) {
                     update();
                     Messages.send("Container commited", $stateParams.containerId);
                 }, function (e) {
@@ -70,7 +71,7 @@
                 });
             };
             $scope.pause = function () {
-                Container.pause({domain: $stateParams.domain,id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+                Container.pause(urlParams, function (d) {
                     update();
                     Messages.send("Container paused", $stateParams.containerId);
                 }, function (e) {
@@ -80,7 +81,7 @@
             };
 
             $scope.unpause = function () {
-                Container.unpause({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+                Container.unpause(urlParams, function (d) {
                     update();
                     Messages.send("Container unpaused", $stateParams.containerId);
                 }, function (e) {
@@ -90,7 +91,7 @@
             };
 
             $scope.remove = function () {
-                Container.remove({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+                Container.remove(urlParams, function (d) {
                     update();
                     Messages.send("Container removed", $stateParams.containerId);
                 }, function (e) {
@@ -100,7 +101,7 @@
             };
 
             $scope.restart = function () {
-                Container.restart({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+                Container.restart(urlParams, function (d) {
                     update();
                     Messages.send("Container restarted", $stateParams.containerId);
                 }, function (e) {
@@ -114,14 +115,14 @@
             };
 
             $scope.getChanges = function () {
-                Container.changes({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+                Container.changes(urlParams, function (d) {
                     $scope.changes = d;
                 });
             };
 
             $scope.renameContainer = function () {
                 // #FIXME fix me later to handle http status to show the correct error message
-                Container.rename({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, 'name': $scope.container.newContainerName, dockerId: $stateParams.dockerId}, function (data) {
+                Container.rename(angular.extend({'name': $scope.container.newContainerName}, urlParams), function (data) {
                     if (data.name) {
                         $scope.container.Name = data.name;
                         Messages.send("Container renamed", $stateParams.containerId);
@@ -133,7 +134,7 @@
                 $scope.container.edit = false;
             };
 
-            update();
+            update(false);
             $scope.getChanges();
         }
 

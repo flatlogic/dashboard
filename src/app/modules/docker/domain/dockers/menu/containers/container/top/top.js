@@ -14,10 +14,6 @@
          */
         $scope.getTop = function () {
             ContainerTop.get($stateParams.containerId, {
-                domain: $stateParams.domain,
-                instance: $stateParams.instance,
-                id: $stateParams.containerId,
-                dockerId: $stateParams.dockerId,
                 ps_args: $scope.ps_args
             }, function (data) {
                 $scope.containerTop = data;

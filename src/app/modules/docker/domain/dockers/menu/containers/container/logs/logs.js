@@ -5,14 +5,16 @@
         .controller('DockerContainerLogsController', dockerContainerLogsController);
 
 
-    dockerContainerLogsController.$inject = ['$scope', '$stateParams', '$location', '$anchorScroll', 'ContainerLogs', 'Container'];
-    function dockerContainerLogsController($scope, $stateParams, $location, $anchorScroll, ContainerLogs, Container) {
+    dockerContainerLogsController.$inject = ['$scope', '$stateParams', '$location', '$anchorScroll', 'ContainerLogs', 'Container', 'Settings'];
+    function dockerContainerLogsController($scope, $stateParams, $location, $anchorScroll, ContainerLogs, Container, Settings) {
         $scope.stdout = '';
         $scope.stderr = '';
         $scope.showTimestamps = false;
         $scope.tailLines = 2000;
 
-        Container.get({domain: $stateParams.domain, instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+        var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
+
+        Container.get(urlParams, function (d) {
             $scope.container = d;
         }, function (e) {
             if (e.status === 404) {
@@ -24,13 +26,10 @@
 
         function getLogs() {
             ContainerLogs.get($stateParams.containerId, {
-                domain: $stateParams.domain,
-                instance: $stateParams.instance,
                 stdout: 1,
                 stderr: 0,
                 timestamps: $scope.showTimestamps,
                 tail: $scope.tailLines,
-                dockerId: $stateParams.dockerId
             }, function (data, status, headers, config) {
                 // Replace carriage returns with newlines to clean up output
                 data = data.replace(/[\r]/g, '\n');
@@ -41,13 +40,10 @@
             });
 
             ContainerLogs.get($stateParams.containerId, {
-                domain: $stateParams.domain,
-                instance: $stateParams.instance,
                 stdout: 0,
                 stderr: 1,
                 timestamps: $scope.showTimestamps,
                 tail: $scope.tailLines,
-                dockerId: $stateParams.dockerId
             }, function (data, status, headers, config) {
                 // Replace carriage returns with newlines to clean up output
                 data = data.replace(/[\r]/g, '\n');

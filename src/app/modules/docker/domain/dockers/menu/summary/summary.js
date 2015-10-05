@@ -4,10 +4,12 @@
     angular.module('qorDash.docker.domain.dockers.menu.summary')
         .controller('DockerSummaryController', dockerSummaryController);
 
-    dockerSummaryController.$inject = ['$scope', '$stateParams', 'Container', 'Image', 'Settings', 'LineChart'];
-    function dockerSummaryController($scope, $stateParams, Container, Image, Settings, LineChart) {
+    dockerSummaryController.$inject = ['$scope', '$stateParams', 'Container', 'DockerViewModel', 'Image', 'Settings', 'LineChart'];
+    function dockerSummaryController($scope, $stateParams, Container, DockerViewModel, Image, Settings, LineChart) {
         $scope.predicate = '-Created';
         $scope.containers = [];
+
+        var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
 
         var getStarted = function (data) {
             $scope.totalContainers = data.length;
@@ -15,7 +17,7 @@
                 return new Date(c.Created * 1000).toLocaleDateString();
             });
             var s = $scope;
-            Image.query({domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+            Image.query(urlParams, function (d) {
                 s.totalImages = d.length;
                 LineChart.build('#images-created-chart', d, function (c) {
                     return new Date(c.Created * 1000).toLocaleDateString();
@@ -34,7 +36,7 @@
             }, 5000);
         }
 
-        Container.query({all: 1,domain: $stateParams.domain,instance: $stateParams.instance, id: $stateParams.containerId, dockerId: $stateParams.dockerId}, function (d) {
+        Container.query(angular.extend({all: 1}, urlParams), function (d) {
             var running = 0;
             var ghost = 0;
             var stopped = 0;
@@ -48,7 +50,7 @@
                     stopped += 1;
                 } else {
                     running += 1;
-                    $scope.containers.push(new ContainerViewModel(item));
+                    $scope.containers.push(DockerViewModel.container(item));
                 }
             }
 
