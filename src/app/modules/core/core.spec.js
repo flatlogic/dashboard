@@ -2,8 +2,8 @@ describe('Service: dataLoader', function() {
 
     beforeEach(module('qorDash.core'));
 
-    var dataLoader;
-    var httpBackend;
+    var dataLoader,
+        httpBackend;
 
     beforeEach(inject(function($httpBackend, _dataLoader_) {
         httpBackend = $httpBackend;
@@ -16,5 +16,5 @@ describe('Service: dataLoader', function() {
 
     it('function loading', function() {
         dataLoader.loadGlobalPermissions();
-    });
+});
 });

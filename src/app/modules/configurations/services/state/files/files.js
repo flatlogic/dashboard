@@ -43,11 +43,11 @@
                 .success(function(response) {
                     $scope.instance = response[$stateParams.service];
                     $scope.service = $stateParams.service;
-                })
-                .error(function(e, code) {
-                    $scope.error = errorHandler.showError(e, code);
+                },
+                function (response) {
+                    $scope.error = errorHandler.showError(response.data, response.status);
                 });
-        };
+            };
 
         $scope.loadInstance();
     }

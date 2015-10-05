@@ -40,7 +40,7 @@
 
             },
             function (response) {
-                $scope.error = errorHandler.showError(response.data, response.status);
+                $scope.error = errorHandler.showError(response);
             }
         );
 
@@ -64,7 +64,8 @@
             if (selectedInstances.length > 0) {
                 $state.go('app.configurations.services.state.instances.editor', {instances: selectedInstances});
             }
-        }
+        };
+
     }
 
     angular.module('qorDash.configurations.services.state.instances')

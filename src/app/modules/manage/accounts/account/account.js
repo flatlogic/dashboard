@@ -18,8 +18,8 @@
 
             accountsService.getAccountById(accountId, token).then(function(data) {
                 $scope.account = data.data;
-            }, function(e, code) {
-                $scope.error = errorHandler.showError(e, code);
+            }, function(response) {
+                $scope.error = errorHandler.showError(response);
             });
     })
 

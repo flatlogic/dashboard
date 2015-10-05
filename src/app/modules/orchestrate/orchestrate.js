@@ -16,9 +16,8 @@
                 })[0];
             },
             function (response) {
-                $scope.error = errorHandler.showError(response.data, response.status);
-            }
-        );
+                $scope.error = errorHandler.showError(response);
+            });
     }]);
 
     angular.module('qorDash.orchestrate')

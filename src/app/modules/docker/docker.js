@@ -7,14 +7,14 @@
                 function (response) {
                     $scope.domains = response.data;
 
-                    if($scope.domains.length === 1 && $state.current.name == 'app.docker'){
-                        $state.go('app.docker.domain', {domain:$scope.domains[0].id})
-                    }
-                },
+                if($scope.domains.length === 1 && $state.current.name == 'app.docker'){
+                    $state.go('app.docker.domain', {domain:$scope.domains[0].id})
+                }
+            },
                 function (response) {
-                    $scope.error = errorHandler.showError(response.data, response.status);
-                });
-        }]);
+                    $scope.error = errorHandler.showError(response);
+            });
+    }]);
 
     angular.module('qorDash.domains')
         .controller(dockerController);

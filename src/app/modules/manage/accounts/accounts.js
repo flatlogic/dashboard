@@ -17,17 +17,16 @@
 
             accountsService.getAccounts(token).then(function(data) {
                 $scope.accounts = data.data;
-            }, function(e, code) {
-                $scope.error = errorHandler.showError(e, code);
+            }, function(response) {
+                $scope.error = errorHandler.showError(response);
             });
 
             $scope.addUser = function(username, password, custom_object){
                 return accountsService.createAccount(username, password, custom_object, token).then(function(e) {
                     $scope.accounts.push({id: e.data.id, primary: e.data});
                     Notification.success('Successfully created');
-                }, function(e) {
-                    var error = e ? e.error : 'unknown server error';
-                    Notification.error('Can\'t load data: ' + error);
+                }, function(response) {
+                    $scope.error = errorHandler.showError(response);
                 });
             }
         });
