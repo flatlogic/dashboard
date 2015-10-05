@@ -6,44 +6,23 @@
         .controller('NewUserController', newUserController);
 
 
-    accountsController.$inject = ['$scope', '$http', 'AUTH_API_URL', 'errorHandler', 'Notification', '$modal', 'currentUser'];
-    function accountsController ($scope, $http, AUTH_API_URL, errorHandler, Notification, $modal, currentUser) {
+    accountsController.$inject = ['$scope', 'accountsService', 'errorHandler', 'Notification', '$modal', 'currentUser'];
+    function accountsController ($scope, accountsService, errorHandler, Notification, $modal, currentUser) {
         currentUser.then(function () {
             $scope.token = currentUser.$$state.value;
         });
 
         $scope.$watch('token', function (token) {
             if (!token) return;
-            $http({
-                method: 'GET',
-                url: AUTH_API_URL + '/account/',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                }
-            }).then(function(data) {
+
+            accountsService.getAccounts(token).then(function(data) {
                 $scope.accounts = data.data;
             }, function(e, code) {
                 $scope.error = errorHandler.showError(e, code);
             });
 
             $scope.addUser = function(username, password, custom_object){
-                var request = {
-                    method: 'POST',
-                    url: AUTH_API_URL + '/register',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    data: {
-                        "identity": {
-                            "username": username,
-                            "password": password
-                        },
-                        "custom_object": custom_object
-                    }
-                };
-                return $http(request).then(function(e) {
+                return accountsService.createAccount(username, password, custom_object, token).then(function(e) {
                     $scope.accounts.push({id: e.data.id, primary: e.data});
                     Notification.success('Successfully created');
                 }, function(e) {
