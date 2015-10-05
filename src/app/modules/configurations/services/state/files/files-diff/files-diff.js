@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesEditorController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
-    function filesEditorController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
+    filesEditorController.$inject = ['$scope', '$state', '$stateParams', 'configurationService', 'errorHandler'];
+    function filesEditorController($scope, $state, $stateParams, configurationService,  errorHandler) {
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -121,32 +121,11 @@
 
             $scope.loading = true;
 
-            var domainClass = $stateParams.domain,
-                service = $scope.service,
-                object = $stateParams.file;
-
-
-            var getFirstFileRequest = {
-                method: 'GET',
-                url: API_URL + '/v1/conf/' + domainClass + '/' + $scope.selectedFirstInstance + '/' + service + '/' + $scope.selectedFirstVersion + '/' + object,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            var getSecondFileRequest = {
-                method: 'GET',
-                url: API_URL + '/v1/conf/' + domainClass + '/' + $scope.selectedSecondInstance + '/' + service + '/' + $scope.selectedSecondVersion + '/' + object,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            $http(getFirstFileRequest).then(
+            configurationService.files.getFileContent($stateParams.domain, $scope.selectedFirstInstance, $scope.service, $scope.selectedFirstVersion, $stateParams.file).then(
                 function(response) {
                     $scope.firstFileData = response.data;
 
-                    $http(getSecondFileRequest).then(
+                    configurationService.files.getFileContent($stateParams.domain, $scope.selectedSecondInstance, $scope.service, $scope.selectedSecondVersion, $stateParams.file).then(
                         function(response) {
                             $scope.secondFileData = response.data;
 

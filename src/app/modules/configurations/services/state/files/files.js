@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    filesController.$inject = ['$scope', '$stateParams', '$q', '$http', 'API_URL', 'errorHandler', '$modal', 'Notification'];
-    function filesController($scope, $stateParams, $q, $http, API_URL, errorHandler, $modal, Notification) {
+    filesController.$inject = ['$scope', 'configurationService', '$stateParams', 'errorHandler', '$modal', 'Notification'];
+    function filesController($scope, configurationService,$stateParams, errorHandler, $modal, Notification) {
 
         $scope.$watch('domains', function() {
             if (!$scope.domains) {
@@ -28,16 +28,7 @@
         };
 
         $scope.createFile = function(fileName, text) {
-            var request = {
-                method: 'POST',
-                url: API_URL + '/v1/conf/' + $stateParams.domain + '/' + $stateParams.service + '/' + fileName,
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
-                data: text
-            };
-
-            return $http(request)
+            return configurationService.files.createFile($stateParams.domain, $stateParams.service, fileName, text)
                 .success(function(response) {
                     $scope.instance.objects.push(fileName);
                     Notification.success('Successfully created');
@@ -48,15 +39,7 @@
         };
 
         $scope.loadInstance = function () {
-            var instanceRequest = {
-                method: 'GET',
-                url: API_URL + '/v1/conf/' + $stateParams.domain + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            $http(instanceRequest)
+            configurationService.loadInstance($stateParams.domain)
                 .success(function(response) {
                     $scope.instance = response[$stateParams.service];
                     $scope.service = $stateParams.service;

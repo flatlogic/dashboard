@@ -68,11 +68,6 @@
         </div>
       </div>
       <div class="filled-content">
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.configurations.services.state.files.files-view.diff" data-ui-sref-opts="{reload: true}">
-            <i class="fa fa-refresh reload-button"></i>
-          </a>
-        </div>
         <pre ng-show="firstFileData && secondFileData" class="textdiff" line-diff left-obj="firstFileData" right-obj="secondFileData">
         </pre>
       </div>
