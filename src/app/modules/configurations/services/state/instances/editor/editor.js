@@ -120,7 +120,7 @@
                                 $scope.loaded = true;
 
                                 var version = response.config.version;
-                                for (var varName in data) {
+                                for (var varName in response.data) {
                                     if (!$scope.val1[varName]) {
                                         $scope.val1[varName] = {};
                                     }
@@ -133,8 +133,8 @@
                                         $scope.val1[varName][instance][version] = {};
                                     }
 
-                                    if (data[varName]) {
-                                        $scope.val1[varName][instance][version]['value'] = data[varName];
+                                    if (response.data[varName]) {
+                                        $scope.val1[varName][instance][version]['value'] = response.data[varName];
                                     } else {
                                         $scope.val1[varName][instance][version]['value'] = '-';
                                     }
@@ -142,7 +142,7 @@
                                     if (!$scope.dashVersions[instance]) {
                                         $scope.dashVersions[instance] = {};
                                     }
-                                    $scope.dashVersions[instance][version] = headers('X-Dash-Version');
+                                    $scope.dashVersions[instance][version] = response.headers('X-Dash-Version');
                                 }
                                 if ($scope.requestsCounter <= 0) {
                                     formatValues();
