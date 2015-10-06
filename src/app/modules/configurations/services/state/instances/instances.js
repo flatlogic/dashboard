@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    instancesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
-    function instancesController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
+    instancesController.$inject = ['$scope', '$state', '$stateParams', 'configurationService', 'errorHandler'];
+    function instancesController($scope, $state, $stateParams, configurationService, errorHandler) {
 
         // TODO Make global
         Object.filter = function( obj, predicate) {
@@ -17,7 +17,7 @@
 
         $scope.checked = {};
 
-        $http.get(API_URL + '/v1/env/' + $stateParams.domain + '/').then(
+        configurationService.loadEnv($stateParams.domain).then(
             function (response) {
                 $scope.service = response.data[$state.params.service];
                 $scope.instances = $scope.service.instances;

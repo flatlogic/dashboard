@@ -16,6 +16,9 @@
                 };
                 return $http(instanceRequest);
             },
+            loadEnv : function (domain) {
+                return $http.get(API_URL + '/v1/env/' + domain + '/');
+            },
             files: {
                 createFile : function(domain, service, fileName, text) {
                     var request = {
