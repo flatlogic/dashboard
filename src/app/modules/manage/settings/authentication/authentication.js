@@ -7,20 +7,19 @@
 
     authenticationSettingsController.$inject = ['$scope', 'authenticationService', 'errorHandler'];
     function authenticationSettingsController ($scope, authenticationService, errorHandler) {
-        var vm = this;
-
-        vm.domains = [];
-        vm.loadDomains = loadDomains;
-
         loadDomains();
 
         function loadDomains() {
             authenticationService.getDomains().then(
                 function(response){
-                    vm.domains = response.data;
+                    if (response.data.error) {
+                        $scope.error = errorHandler.showError(response);
+                        return;
+                    }
+                    $scope.domains = response.data;
                 },
                 function(response){
-                    errorHandler(response);
+                    $scope.error = errorHandler.showError(response);
                 }
             )
         }

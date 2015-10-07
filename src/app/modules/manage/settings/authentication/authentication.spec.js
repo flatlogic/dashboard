@@ -26,14 +26,12 @@ describe('Controller: AuthenticationSettingsController', function() {
                 }
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
-            _$controller_('AuthenticationSettingsController as auth', {$scope: $scope});
+            _$controller_('AuthenticationSettingsController', {$scope: $scope});
         })
     });
 
     it('$scope.number', function(){
-        expect($scope.auth.domains).toEqual([]);
-        $scope.auth.loadDomains();
-        //TODO
+        expect($scope.auth).not.toBeDefined();
     });
 
 });
