@@ -45,8 +45,7 @@
                 content = element.parents('[horizontal-ui-sheet]').find('[horizontal-ui-sheet-content]');
 
                 content.on('scroll', function() {
-                    console.log(element.offset().top);
-
+                    
                     if(element.offset().top < headerSheet.height() && firstAdd) {
                         getSize(element);
 
