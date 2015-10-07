@@ -51,7 +51,7 @@
                         }
                     },
                     function (response) {
-                        $scope.error = errorHandler.showError(response.data, response.status);
+                        $scope.error = errorHandler.showError(response);
                     }
                 );
             });
@@ -86,8 +86,8 @@
                         $scope.fileContents = response.data;
                         $scope.fileVersion = response.headers('X-Dash-Version');
                     },
-                    function(e, code) {
-                        $scope.error = errorHandler.showError(e, code);
+                    function(response) {
+                        $scope.error = errorHandler.showError(response);
                     }
                 );
             }
@@ -100,8 +100,8 @@
                         $scope.fileContents = response.data;
                         $scope.fileVersion = response.headers('X-Dash-Version');
                     },
-                    function(e, code) {
-                        $scope.error = errorHandler.showError(e, code);
+                    function(response) {
+                        $scope.error = errorHandler.showError(response);
                     }
                 );
             }
@@ -119,8 +119,8 @@
                     $scope.contentsChanged = false;
                     Notification.success('Successfully created');
                 })
-                .error(function(e, code) {
-                    errorHandler.showError(e, code);
+                .error(function(response) {
+                    errorHandler.showError(response);
                 });
         };
 
