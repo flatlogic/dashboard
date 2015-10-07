@@ -3,8 +3,8 @@
     angular.module('qorDash.loaders')
         .service('accountsService', accountsService);
 
-    accountsService.$inject = ['$http', 'API_URL', 'AUTH_API_URL'];
-    function accountsService ($http, API_URL, AUTH_API_URL) {
+    accountsService.$inject = ['$http', 'AUTH_API_URL'];
+    function accountsService ($http, AUTH_API_URL) {
         return {
             getAccounts : function(token) {
                 var request = {

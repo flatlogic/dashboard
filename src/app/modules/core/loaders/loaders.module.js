@@ -1,5 +1,8 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.loaders', []);
+    var module = angular.module('qorDash.loaders', [
+        'qorDash.core',
+        'qorDash.auth'
+    ]);
 })();
