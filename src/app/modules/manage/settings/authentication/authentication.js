@@ -7,12 +7,14 @@
 
     authenticationSettingsController.$inject = ['$scope', 'authenticationService', 'errorHandler'];
     function authenticationSettingsController ($scope, authenticationService, errorHandler) {
+        $scope.loadDomains = loadDomains;
+
         loadDomains();
 
         function loadDomains() {
             authenticationService.getDomains().then(
                 function(response){
-                    if (response.data.error) {
+                    if (!response || response.data.error) {
                         $scope.error = errorHandler.showError(response);
                         return;
                     }

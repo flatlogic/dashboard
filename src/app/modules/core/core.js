@@ -187,7 +187,7 @@
     function errorService(Notification){
         return {
             showError: function(response){
-                var error = response.data ? response.data.error : 'unknown server error';
+                var error = response ? response.data ? response.data.error : 'unknown server error' : 'unknown error';
                 Notification.error('Can\'t load data: ' + error);
                 return error;
             }
