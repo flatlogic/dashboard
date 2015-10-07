@@ -2,7 +2,8 @@
     'use strict';
 
     var module = angular.module('qorDash.manage.settings', [
-        'ui.router'
+        'ui.router',
+        'qorDash.manage.settings.authentication'
     ]);
 
     module.config(appConfig);

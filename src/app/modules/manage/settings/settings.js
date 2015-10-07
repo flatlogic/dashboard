@@ -7,7 +7,7 @@
 
     settingsController.$inject = ['$scope'];
     function settingsController ($scope) {
-        $scope.hello = 'Hello!'
+
     }
 
 })();
