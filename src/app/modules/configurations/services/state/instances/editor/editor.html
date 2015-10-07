@@ -2,73 +2,66 @@
     <header horizontal-ui-sheet-header title="{{domain.name}} > {{service.service}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div id="test">
-
-        </div>
         <div class="editor-content">
             <div class="loading" ng-if="!values">Loading...</div>
-            <div class="filled-content widget-table-overflow">
+            <div class="filled-content">
                 <h3 class="config-table-header">Environment Variables</h3>
-                <div class="widget-table-overflow">
-                    <table class="table table-bordered config-table table-hover table-list-overview">
-                        <thead>
-                        <tr>
-                            <th class="th-fixed">
-                            </th>
-                            <th  ng-repeat="instance in editorService.instances | orderBy:''" class="config-table-th th-fixed">
-                                <h4>{{instance}}</h4>
-                                    <span dropdown dropdown-append-to-body class="dropdown" ng-hide="requestsCounter != 0">
-                                        <button class="btn config-table-header-button" dropdown-toggle>
-                                            {{selectedVersion[instance]}} <span class="label label-success" ng-show="isLive(instance, selectedVersion[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li ng-repeat="version in versions[instance] track by $index">
-                                                <a ng-click="changeSelectedVersion(instance, version);"
-                                                   ng-class="{'li-active': selectedVersion[instance] == version}">
-                                                    {{version}}
-                                                    <span class="label label-success pull-right" ng-show="isLive(instance, version)">Live</span>
-                                                </a>
-                                            </li>
-                                            <li ng-click="clickAddNewVersion" ng-class="{'li-active' : addNewVersionClicked[instance]}">
-                                                <a ng-click="clickAddNewVersion(instance)">-Create new version-</a>
-                                            </li>
-                                        </ul>
-                                        <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
-                                        <span class="label label-success set-live-button"
-                                              ng-hide="isLive(instance, selectedVersion[instance])"
-                                              mwl-confirm
-                                              instance="{{instance}}"
-                                              title="Are you sure?"
-                                              message="Make {{selectedVersion[instance]}} live for {{instance}}"
-                                              confirm-text="Yes"
-                                              cancel-text="No"
-                                              placement="bottom"
-                                              on-confirm="makeLive(instance, selectedVersion[instance], $event)">Set live</span>
-                                    </span>
-                            </th>
-                            <th class="rox-40px th-fixed">
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="value in values">
-                            <th inline-edit="value.name" is-name="true" on-save="updateName(oldName, newName)">
-                                {{value.name}}
-                            </th>
-                            <th ng-repeat="instance in editorService.instances | orderBy:''" parent="value[instance]" key="value.name"
-                                versions="editorService.versions"
-                                ng-class="{'no-value': !value[instance][selectedVersion[instance]]['value']}"
-                                instance="instance" version="selectedVersion[instance]"
-                                inline-edit="value[instance][selectedVersion[instance]]['value']"
-                                change-selected="changeSelectedVersion"
-                                on-delete="deleteValue(name, instance, version)"
-                                on-save="updateValues(name, newValue, instance, selectedVersion[instance], xDashVersion)"
-                                class="config-input-th"></th>
-                            <th><div class="config-table-actions"><span ng-click="deleteInAllVersions(value.name)" class="fa fa-remove config-table-action-btn"> </span></div></th>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-bordered config-table">
+                    <thead  table-fixed-header>
+                    <tr>
+                        <th></th>
+                        <th ng-repeat="instance in editorService.instances | orderBy:''" class="config-table-th">
+                            <h4>{{instance}}</h4>
+                            <span dropdown dropdown-append-to-body class="dropdown" ng-hide="requestsCounter != 0">
+                                <button class="btn config-table-header-button" dropdown-toggle>
+                                  {{selectedVersion[instance]}} <span class="label label-success" ng-show="isLive(instance, selectedVersion[instance])">Live</span> <span class="fa fa-chevron-down pull-right"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="version in versions[instance] track by $index">
+                                        <a ng-click="changeSelectedVersion(instance, version);"
+                                           ng-class="{'li-active': selectedVersion[instance] == version}">
+                                            {{version}}
+                                            <span class="label label-success pull-right" ng-show="isLive(instance, version)">Live</span>
+                                        </a>
+                                    </li>
+                                    <li ng-click="clickAddNewVersion" ng-class="{'li-active' : addNewVersionClicked[instance]}">
+                                        <a ng-click="clickAddNewVersion(instance)">-Create new version-</a>
+                                    </li>
+                                </ul>
+                                <span class="fa fa-copy copy-version" ng-click="makeCopy(instance, selectedVersion[instance])"></span>
+                                <span class="label label-success set-live-button"
+                                      ng-hide="isLive(instance, selectedVersion[instance])"
+                                      mwl-confirm
+                                      instance="{{instance}}"
+                                      title="Are you sure?"
+                                      message="Make {{selectedVersion[instance]}} live for {{instance}}"
+                                      confirm-text="Yes"
+                                      cancel-text="No"
+                                      placement="bottom"
+                                      on-confirm="makeLive(instance, selectedVersion[instance], $event)">Set live</span>
+                            </span>
+                        </th>
+                        <th class="rox-40px"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="value in values">
+                        <th inline-edit="value.name" is-name="true" on-save="updateName(oldName, newName)">
+                            {{value.name}}
+                        </th>
+                        <th ng-repeat="instance in editorService.instances | orderBy:''" parent="value[instance]" key="value.name"
+                            versions="editorService.versions"
+                            ng-class="{'no-value': !value[instance][selectedVersion[instance]]['value']}"
+                            instance="instance" version="selectedVersion[instance]"
+                            inline-edit="value[instance][selectedVersion[instance]]['value']"
+                            change-selected="changeSelectedVersion"
+                            on-delete="deleteValue(name, instance, version)"
+                            on-save="updateValues(name, newValue, instance, selectedVersion[instance], xDashVersion)"
+                            class="config-input-th"></th>
+                        <th><div class="config-table-actions"><span ng-click="deleteInAllVersions(value.name)" class="fa fa-remove config-table-action-btn"> </span></div></th>
+                    </tr>
+                    </tbody>
+                </table>
                 <div id="env-loader" ng-show="requestsCounter != 0">
                     <img src="assets/images/cube.gif">
                 </div>
