@@ -6,7 +6,8 @@ describe('Controller: AuthenticationSettingsController', function() {
         authenticationService,
         deferred,
         q,
-        errorHandler;
+        errorHandler,
+        currentUser;
 
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
@@ -43,7 +44,14 @@ describe('Controller: AuthenticationSettingsController', function() {
             showError: function() {
                 return false;
             }
-        }
+        };
+
+        currentUser = {
+            then: function() {
+                deferred = q.defer();
+                return deferred.promise;
+            }
+        };
     });
 
     beforeEach(function () {
@@ -59,31 +67,25 @@ describe('Controller: AuthenticationSettingsController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler});
+            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
         })
     });
 
-    it('should call getDomains from authenticationService after calling loadDomains', function(){
-        httpBackend.expectGET('data/permissions.json').respond('');
-
-        spyOn(authenticationService, 'getDomains').and.callThrough();
-        spyOn(errorHandler, 'showError').and.callThrough();
-
-        $scope.loadDomains();
-        deferred.resolve();
-        $scope.$root.$digest();
-
-        expect(authenticationService.getDomains).toHaveBeenCalled();
-    });
 
     it('should populate with domains array the domains when loadDomains is called', function() {
         httpBackend.expectGET('data/permissions.json').respond('');
+        spyOn(authenticationService, 'getDomains').and.callThrough();
+
         $scope.loadDomains();
+
+        $scope.token = 'token';
+        $scope.$apply();
 
         deferred.resolve(authenticationService.response);
 
         $scope.$root.$digest();
 
+        expect(authenticationService.getDomains).toHaveBeenCalled();
         expect($scope.domains).toBe(authenticationService.response.data);
     });
 });
