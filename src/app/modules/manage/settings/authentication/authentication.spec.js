@@ -72,7 +72,7 @@ describe('Controller: AuthenticationSettingsController', function() {
     });
 
 
-    it('should populate with domains array the domains when loadDomains is called', function() {
+    it('should populate the domains array with domains when loadDomains is called', function() {
         httpBackend.expectGET('data/permissions.json').respond('');
         spyOn(authenticationService, 'getDomains').and.callThrough();
 

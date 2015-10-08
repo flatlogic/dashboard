@@ -5,6 +5,7 @@
         <div class="list-group text-left ng-scope">
             <a class="list-group-item"
                ui-sref-active="active"
+               ui-sref="app.manage.settings.authentication.domain({authDomain: domain.domain})"
                     ng-repeat="domain in domains">
                 {{domain.domain}}
             </a>

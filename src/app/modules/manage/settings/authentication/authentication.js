@@ -11,11 +11,11 @@
 
         loadDomains();
 
-        function loadDomains() {
-            currentUser.then(function () {
-                $scope.token = currentUser.$$state.value;
-            });
+        currentUser.then(function () {
+            $scope.token = currentUser.$$state.value;
+        });
 
+        function loadDomains() {
             $scope.$watch('token', function (token) {
                 if (!token) return;
 
