@@ -175,7 +175,7 @@
             } else {
                 return false;
             }
-        }
+        };
 
         // Get all user permissions in one array of strings
         self.getPermissions = function () {
@@ -185,7 +185,7 @@
             } else {
                 return [];
             }
-        }
+        };
 
         self.login = function (username, password) {
             var request = {
@@ -223,7 +223,7 @@
             } else {
                 return false;
             }
-        }
+        };
 
         self.logout = function () {
             auth.removeToken();
