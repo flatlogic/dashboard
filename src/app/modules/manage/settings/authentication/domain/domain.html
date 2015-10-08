@@ -2,6 +2,20 @@
     <header horizontal-ui-sheet-header title="{{domain.domain}}">
     </header>
     <div horizontal-ui-sheet-content>
-        {{domain}}
+        <table class="table" ng-repeat="(serviceName,service) in domain.services">
+            <tr style="text-align: center;">
+                <td>{{service.name}}</td>
+            </tr>
+            <tr>
+                <td>url</td>
+                <td>{{service.url}}</td>
+            </tr>
+            <tr style="text-align: center;">
+                <td>WebHooks</td>
+            </tr>
+            <tr ng-repeat="(hookName, hook) in service.webhooks">
+
+            </tr>
+        </table>
     </div>
 </section>

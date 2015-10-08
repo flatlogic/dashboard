@@ -1,14 +1,21 @@
 describe('Service: accountsService ', function() {
     var accountsService, httpBackend;
 
-    var token = 'token';
+    var token = 'token',
+        serverResponse = 'response',
+        accountId = 'accountId',
+        username = 'username',
+        password = 'password',
+        custom_object = 'custom_object',
+        token = 'token',
+        AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
     beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
+        $provide.constant("AUTH_API_URL", AUTH_API_URL);
     }));
 
     beforeEach(function() {
@@ -30,40 +37,11 @@ describe('Service: accountsService ', function() {
 
     it("should get all accounts", function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
-        httpBackend.expect('GET', /.*account\//, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(
-            [
-                {
-                    "id": "1230e852-4c55-11e5-af87-0242ac11000e",
-                    "created_timestamp": 1440636396,
-                    "services": [
-                        {
-                            "id": "passport",
-                            "account_id": "1230e852-4c55-11e5-af87-0242ac11000e",
-                            "scopes": [
-                                "my_account"
-                            ],
-                            "start_timestamp": 1440636396
-                        }
-                    ],
-                    "primary": {
-                        "domain": "qor.io",
-                        "id": "1230e852-4c55-11e5-af87-0242ac11000e",
-                        "password": "JDJhJDEwJHZna2xDQUpMVVZ3Y3ZiOEtzRzBpbU9XQWE4QTREb0oveGZSQURXb0hlQW1PbTVmUUkzVG9X",
-                        "username": "dashboard-admin2"
-                    },
-                    "custom_json": "{ \\\n        \"name\":\"dashboard-user\" \\\n    }"
-                }
-            ]
-        );
+        httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         accountsService.getAccounts(token)
             .success(function(response) {
-                expect(response).toBeDefined();
-                expect(response[0].id).toMatch(/\d\w+/);
-                done();
-            })
-            .error(function(response) {
-                //TODO
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -72,40 +50,11 @@ describe('Service: accountsService ', function() {
 
     it ('should get account by id', function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
-        httpBackend.expect('GET', /.*account\/1/, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(
-            [
-                {
-                    "id": "1",
-                    "created_timestamp": 1440636396,
-                    "services": [
-                        {
-                            "id": "passport",
-                            "account_id": "1230e852-4c55-11e5-af87-0242ac11000e",
-                            "scopes": [
-                                "my_account"
-                            ],
-                            "start_timestamp": 1440636396
-                        }
-                    ],
-                    "primary": {
-                        "domain": "qor.io",
-                        "id": "1230e852-4c55-11e5-af87-0242ac11000e",
-                        "password": "JDJhJDEwJHZna2xDQUpMVVZ3Y3ZiOEtzRzBpbU9XQWE4QTREb0oveGZSQURXb0hlQW1PbTVmUUkzVG9X",
-                        "username": "dashboard-admin2"
-                    },
-                    "custom_json": "{ \\\n        \"name\":\"dashboard-user\" \\\n    }"
-                }
-            ]
-        );
+        httpBackend.expect('GET', AUTH_API_URL + '/account/' + accountId, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
-        accountsService.getAccountById(1, token)
+        accountsService.getAccountById(accountId, token)
             .success(function(response){
-                expect(response).toBeDefined();
-                expect(response[0].id).toEqual('1');
-                done();
-            })
-            .error(function(response) {
-                //TODO
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -114,28 +63,24 @@ describe('Service: accountsService ', function() {
 
     it ('should create an account', function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
-        httpBackend.expect('POST', /.*\/register/,
+        httpBackend.expect('POST', AUTH_API_URL + '/register',
             {
                 "identity": {
-                    "username": 'username',
-                    "password": 'password'
+                    "username": username,
+                    "password": password
                 },
-                "custom_object": 'custom_object'
+                "custom_object": custom_object
             },
             {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,
                 "Accept":"application/json"
             }
-        ).respond({});
+        ).respond(serverResponse);
 
-        accountsService.createAccount('username', 'password', 'custom_object', token)
+        accountsService.createAccount(username, password, custom_object, token)
             .success(function(response) {
-                expect(response).toBeDefined();
-                done();
-            })
-            .error(function(response) {
-                //TODO
+                expect(response).toEqual(serverResponse);
                 done();
             });
 

@@ -2,14 +2,16 @@ describe('Service: authenticationService', function() {
     var authenticationService, httpBackend;
 
     var token = 'token',
-        domain = 'blinker.com';
+        domain = 'blinker.com',
+        serverResponse = 'response',
+        AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
     beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
+        $provide.constant("AUTH_API_URL", AUTH_API_URL);
     }));
 
     beforeEach(function() {
@@ -31,24 +33,16 @@ describe('Service: authenticationService', function() {
 
     it("should get a list of domains", function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
-        httpBackend.expect('GET', /.*\/v1\/admin\/domain\//).respond(
-            [
-                {
-                    "domain": "blinker.com",
-                    "version": 0
-                },
-                {
-                    "domain": "qor.io",
-                    "version": 0
-                }
-            ]
-        );
+        httpBackend.expect('GET', AUTH_API_URL + '/admin/domain/', undefined,
+            {
+                "Accept":"application/json",
+                'Authorization': 'Bearer ' + token
+            }
+        ).respond(serverResponse);
 
-        authenticationService.getDomains()
+        authenticationService.getDomains(token)
             .success(function(response) {
-                expect(response).toBeDefined();
-                expect(response[0].domain).toEqual('blinker.com');
-                expect(response[1].domain).toEqual('qor.io');
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -57,30 +51,14 @@ describe('Service: authenticationService', function() {
 
     it("should get domain info by id", function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
-        httpBackend.expect('GET', /.*\/v1\/admin\/domain\/.*/, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(
-            {
-                "domain": "blinker.com"
-            }
-        );
+        httpBackend.expect('GET', AUTH_API_URL + '/admin/domain/' + domain, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         authenticationService.getDomainInfo(domain, token)
             .success(function(response) {
-                expect(response).toBeDefined();
-                expect(response.domain).toEqual(domain);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
         httpBackend.flush();
-    });
-
-    it("should save changes", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
-        httpBackend.expect('POST', /.*\/v1\/admin\/domain\/.*/).respond(
-            {
-                "domain": "blinker.com"
-            }
-        );
-        done();
-        //TODO after getting more specifications
     });
 });
