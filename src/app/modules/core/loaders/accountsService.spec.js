@@ -40,8 +40,8 @@ describe('Service: accountsService ', function() {
         httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         accountsService.getAccounts(token)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 
@@ -53,8 +53,8 @@ describe('Service: accountsService ', function() {
         httpBackend.expect('GET', AUTH_API_URL + '/account/' + accountId, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         accountsService.getAccountById(accountId, token)
-            .success(function(response){
-                expect(response).toEqual(serverResponse);
+            .then(function(response){
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 
@@ -79,8 +79,8 @@ describe('Service: accountsService ', function() {
         ).respond(serverResponse);
 
         accountsService.createAccount(username, password, custom_object, token)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 

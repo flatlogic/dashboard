@@ -41,8 +41,8 @@ describe('Service: orchestrateService', function() {
             .respond(serverResponse);
 
         orchestrateService.loadHistory(domain, instance, option)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 
@@ -55,8 +55,8 @@ describe('Service: orchestrateService', function() {
             .respond(serverResponse);
 
         orchestrateService.loadInstances(domain, instance)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 
@@ -69,8 +69,8 @@ describe('Service: orchestrateService', function() {
             .respond(serverResponse);
 
         orchestrateService.loadOption(domain, instance, option, optionId)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 
@@ -83,8 +83,8 @@ describe('Service: orchestrateService', function() {
             .respond(serverResponse);
 
         orchestrateService.loadLogUrl(activateUrl, data)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 

@@ -41,8 +41,8 @@ describe('Service: authenticationService', function() {
         ).respond(serverResponse);
 
         authenticationService.getDomains(token)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 
@@ -54,8 +54,8 @@ describe('Service: authenticationService', function() {
         httpBackend.expect('GET', AUTH_API_URL + '/admin/domain/' + domain, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         authenticationService.getDomainInfo(domain, token)
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 

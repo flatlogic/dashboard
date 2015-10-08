@@ -34,8 +34,8 @@ describe('Service: domainsLoader', function() {
         httpBackend.expect('GET', API_URL + '/v1/domain/').respond(serverResponse);
 
         domainsLoader.load()
-            .success(function(response) {
-                expect(response).toEqual(serverResponse);
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
                 done();
             });
 
