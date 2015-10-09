@@ -8,7 +8,8 @@
         return {
             getAccounts : getAccounts,
             getAccountById : getAccountById,
-            createAccount : createAccount
+            createAccount : createAccount,
+            createGoogleAccount : createGoogleAccount
         };
 
         function getAccounts(token){
@@ -32,6 +33,26 @@
                     'Authorization': 'Bearer ' + token
                 }
             };
+            return $http(request);
+        }
+
+        function createGoogleAccount(username, email, token) {
+            var request = {
+                method: 'POST',
+                url: AUTH_API_URL + '/register',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                data: {
+                    "identity": {
+                        "username": username,
+                        "oauth2_provider" :"google.com",
+                        "oauth2_account_id" : email
+                    }
+                }
+            };
+
             return $http(request);
         }
 

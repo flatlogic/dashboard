@@ -4,17 +4,21 @@
   <div horizontal-ui-sheet-content>
     <div class="list-group text-left ng-scope" ng-show="account">
         <div class="row">
-            <div class="col-md-2 user-info-titles">
+            <div class="col-md-4 user-info-titles">
                 <p>ID: </p>
-                <p>Username: </p>
+                <p ng-show="account.primary.username">Username: </p>
                 <p ng-show="account.primary.email">Email: </p>
                 <p ng-show="account.primary.phone">Phone: </p>
+                <p ng-show="account.primary.oauth2_provider">OAuth2 Provider: </p>
+                <p ng-show="account.primary.oauth2_account_id">Oauth2 Account ID: </p>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <p>{{ account.id}}</p>
-                <p>Username: {{ account.primary.username }}</p>
+                <p ng-show="account.primary.username">{{account.primary.username}}</p>
                 <p ng-show="account.primary.email">{{ account.primary.email }}</p>
                 <p ng-show="account.primary.phone">{{ account.primary.phone }}</p>
+                <p ng-show="account.primary.oauth2_provider">{{account.primary.oauth2_provider}}</p>
+                <p ng-show="account.primary.oauth2_account_id">{{account.primary.oauth2_account_id}}</p>
             </div>
         </div>
         <table class="table">

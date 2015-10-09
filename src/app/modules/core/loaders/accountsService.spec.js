@@ -8,6 +8,7 @@ describe('Service: accountsService ', function() {
         password = 'password',
         custom_object = 'custom_object',
         token = 'token',
+        email = 'email',
         AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(module('qorDash.core'));
@@ -79,6 +80,33 @@ describe('Service: accountsService ', function() {
         ).respond(serverResponse);
 
         accountsService.createAccount(username, password, custom_object, token)
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
+                done();
+            });
+
+        httpBackend.flush();
+    });
+
+    it ('should create Google account', function(done) {
+        httpBackend.expectGET('data/permissions.json').respond('');
+
+        httpBackend.expect('POST', AUTH_API_URL + '/register',
+            {
+                "identity": {
+                    "username": username,
+                    "oauth2_provider" :"google.com",
+                    "oauth2_account_id" : email
+                }
+            },
+            {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                "Accept":"application/json"
+            }
+        ).respond(serverResponse);
+
+        accountsService.createGoogleAccount(username, email, token)
             .then(function(response) {
                 expect(response.data).toEqual(serverResponse);
                 done();

@@ -2,26 +2,26 @@
     <header horizontal-ui-sheet-header title="Accounts">
     </header>
     <div horizontal-ui-sheet-content>
-      <div class="list-group text-left ng-scope" ng-show="accounts">
+      <div class="list-group text-left ng-scope" ng-show="vm.accounts">
           <div class="align-text-right">
-              <button class="btn btn-warning add-new-account-button" ng-click="newUser()">
+              <button class="btn btn-warning add-new-account-button" ng-click="vm.newUser()">
                   Create new
               </button>
           </div>
           <div class="list-group">
               <a class="list-group-item"
-                 ng-repeat="account in accounts"
+                 ng-repeat="account in vm.accounts"
                  ui-sref-active="active"
                  ui-sref="app.manage.accounts.account({id : account.id})">
-                  <i class="fa fa-user accounts-list-user-icon"></i> {{ account.primary.username || account.primary.email || account.primary.phone }}
+                  <i class="fa fa-user accounts-list-user-icon"></i> {{ account.primary.username || account.primary.email || account.primary.oauth2_account_id || '???'}}
               </a>
           </div>
       </div>
-      <div id="env-loader" ng-hide="accounts || error">
+      <div id="env-loader" ng-hide="vm.accounts || vm.error">
         <img src="assets/images/cube.gif">
       </div>
-      <div id="reload" ng-hide="!error">
-        <a ui-sref="app.manage.accounts" data-ui-sref-opts="{reload: true}">
+      <div id="reload" ng-hide="!vm.error">
+        <a ui-sref="." data-ui-sref-opts="{reload: true}">
           <i class="fa fa-refresh reload-button"></i>
         </a>
       </div>

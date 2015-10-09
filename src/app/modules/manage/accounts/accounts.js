@@ -8,62 +8,85 @@
 
     accountsController.$inject = ['$scope', 'accountsService', 'errorHandler', 'Notification', '$modal', 'currentUser'];
     function accountsController ($scope, accountsService, errorHandler, Notification, $modal, currentUser) {
-        currentUser.then(function () {
-            $scope.token = currentUser.$$state.value;
+        var vm = this;
+
+        vm.newUser = newUser;
+        vm.addUser = addUser;
+
+        loadToken();
+
+        $scope.$watch('vm.token', function () {
+            if (!vm.token) return;
+            loadAccounts();
         });
 
-        $scope.$watch('token', function (token) {
-            if (!token) return;
-
-            accountsService.getAccounts(token).then(function(data) {
-                $scope.accounts = data.data;
-            }, function(response) {
-                $scope.error = errorHandler.showError(response);
-            });
-
-            $scope.addUser = function(username, password, custom_object){
-                return accountsService.createAccount(username, password, custom_object, token).then(function(e) {
-                    $scope.accounts.push({id: e.data.id, primary: e.data});
+        function addUser(username, email, password, custom_object){
+            if (!email) {
+                return accountsService.createAccount(username, password, custom_object, vm.token).then(function (response) {
+                    vm.accounts.push({id: response.data.id, primary: response.data});
                     Notification.success('Successfully created');
-                }, function(response) {
-                    $scope.error = errorHandler.showError(response);
+                }, function (response) {
+                    vm.error = errorHandler.showError(response);
+                });
+            } else {
+                return accountsService.createGoogleAccount(username, email, vm.token).then(function (response) {
+                    vm.accounts.push({id: response.data.id, primary: response.data});
+                    Notification.success('Successfully created');
+                }, function (response) {
+                    vm.error = errorHandler.showError(response);
                 });
             }
-        });
+        }
 
-
-        $scope.$watch('accounts', function (accounts) {
-            if (!accounts) return;
-
-            $scope.newUser = function () {
-                $modal.open({
-                    animation: true,
-                    templateUrl: 'app/modules/manage/accounts/new-user-modal.html',
-                    controller: 'NewUserController',
-                    resolve: {
-                        accounts: function () {
-                            return $scope.accounts;
-                        },
-                        addUser: function () {
-                            return $scope.addUser;
-                        }
+        function newUser() {
+            $modal.open({
+                animation: true,
+                templateUrl: 'app/modules/manage/accounts/new-user-modal.html',
+                controller: 'NewUserController',
+                controllerAs: 'vm',
+                resolve: {
+                    accounts: function () {
+                        return vm.accounts;
+                    },
+                    addUser: function () {
+                        return vm.addUser;
                     }
-                });
-            }
-        })
+                }
+            });
+        }
+
+        function loadAccounts() {
+            accountsService.getAccounts(vm.token).then(function(response) {
+                vm.accounts = response.data;
+            }, function(response) {
+                vm.error = errorHandler.showError(response);
+            });
+        }
+
+        function loadToken() {
+            currentUser.then(function () {
+                vm.token = currentUser.$$state.value;
+            });
+        }
     }
 
-    newUserController.$inject = ['$scope', 'accounts', 'addUser', '$modalInstance'];
-    function newUserController ($scope, accounts, addUser, $modalInstance) {
-        $scope.accounts = accounts;
+    newUserController.$inject = ['accounts', 'addUser', '$modalInstance'];
+    function newUserController (accounts, addUser, $modalInstance) {
+        var vm = this;
 
-        $scope.ok = function () {
-            addUser($scope.username, $scope.password, $scope.custom_object).then(function () {
-                $modalInstance.close();
-            });
-        };
+        vm.accounts = accounts;
+        vm.ok = ok;
+        vm.cancel = cancel;
 
-        $scope.cancel = function () {
+        function ok() {
+            if ((vm.username && vm.email) || (vm.username && vm.password && vm.custom_object)) {
+                addUser(vm.username, vm.email, vm.password, vm.custom_object).then(function () {
+                    $modalInstance.close();
+                });
+            }
+        }
+
+        function cancel() {
             $modalInstance.dismiss('cancel');
         }
     }
