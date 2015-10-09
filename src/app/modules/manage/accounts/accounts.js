@@ -65,8 +65,8 @@
         }
 
         function loadToken() {
-            currentUser.then(function () {
-                vm.token = currentUser.$$state.value;
+            currentUser.then(function (token) {
+                vm.token = token;
             });
         }
     }
