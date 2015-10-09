@@ -12,6 +12,7 @@
 
         vm.newUser = newUser;
         vm.addUser = addUser;
+        vm.accounts = [];
 
         loadToken();
 
