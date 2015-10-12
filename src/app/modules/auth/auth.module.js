@@ -16,7 +16,8 @@
             .state('login', {
                 url: '/login',
                 templateUrl: 'app/modules/auth/login.html',
-                controller: 'LoginController'
+                controller: 'LoginController',
+                controllerAs: 'vm'
             })
             .state('logout', {
                 url: '/logout',

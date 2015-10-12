@@ -2,7 +2,6 @@
     'use strict';
 
     angular.module('qorDash.auth')
-        .controller('LoginController', loginController)
         .service('auth', authService)
         .service('user', userService)
         .factory('authInterceptor', authInterceptor)
@@ -30,71 +29,6 @@
                     $('.user-actions').css({opacity: 1.0, visibility: "visible"}).animate({opacity: 1}, 100);
                 });
             }
-        }
-    }
-
-    loginController.$inject = ['$scope', '$location', 'user', 'LOGIN_PAGE_ICON_URL'];
-    function loginController($scope, $location, user, LOGIN_PAGE_ICON_URL) {
-        if (user.isAuthed()) {
-            $location.path('/app/dashboard');
-            return;
-        }
-
-        $scope.ICON_URL = LOGIN_PAGE_ICON_URL;
-
-        $scope.userCredentials = {
-            login: '',
-            password: ''
-        };
-
-        function removeError() {
-            if ($('.has-feedback').hasClass('has-error')) {
-                $('.has-feedback').removeClass('has-error');
-                $scope.errorMessage = '';
-            }
-        }
-
-        $scope.$watch('userCredentials.login', removeError);
-        $scope.$watch('userCredentials.password', removeError);
-
-        $scope.startLoginAnimation = function () {
-            $('#loginButton').button('loading');
-        };
-
-        $scope.stopLoginAnimation = function () {
-            $('#loginButton').button('reset');
-        };
-
-        $scope.showErrorMessage = function (message) {
-            $scope.errorMessage = message;
-
-            $('.has-feedback').addClass('has-error');
-        };
-
-        $scope.login = function () {
-            $scope.startLoginAnimation();
-            user.login($scope.userCredentials.login, $scope.userCredentials.password)
-                .success(function (response) {
-                    window.location.reload();
-                })
-                .error(function (e) {
-                    if (!e) {
-                        e = {'error': 'unknown'};
-                    }
-                    switch (e.error) {
-                        case 'error-account-not-found':
-                            $scope.showErrorMessage('Account fot found');
-                            break;
-                        case 'error-bad-credentials':
-                            $scope.showErrorMessage('Bad credentials');
-                            break;
-                        default:
-                            $scope.showErrorMessage('Unknown server error')
-                            break;
-                    }
-
-                    $scope.stopLoginAnimation();
-                });
         }
     }
 

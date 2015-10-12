@@ -100,15 +100,23 @@ $stat-blue-color: #7986CB;
   }
 
   > .btn-login {
-    width: 49%;
+    width: 100%;
     background-color: #EDA22D;
     border-color: #EDA22D;
   }
 
   > .btn-signup {
-    width: 46%;
+    margin-top: 10px;
+    width: 100%;
     background-color: #B3B3B3;
     border-color: #B3B3B3;
+
+    >i {
+      float: left;
+      font-size: 21px;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
   }
 }
 
