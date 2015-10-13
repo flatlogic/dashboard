@@ -27,7 +27,7 @@
 
         $rootScope.$on('event:google-signin-success', function(event, googleUser) {
             if (!user.isAuthed()) {
-                user.googleLogin(googleUser.ws.access_token).then(
+                user.googleLogin(googleUser.wc.access_token).then(
                     function() {
                         console.log('successful google login');
                     }, function() {
