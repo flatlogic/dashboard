@@ -7,29 +7,26 @@
                         <img src="{{vm.ICON_URL}}" class="login-logo" width="250">
                     </header>
                     <div class="widget-body">
-                        <form class="login-form mt-lg" name="vm.loginForm" ng-submit="vm.login()">
-                            <div ng-messages="vm.loginForm.$error">
-                                <p class="error-message" ng-message="response == 'error-account-not-found'">Account not found</p>
-                                <p class="error-message" ng-message="'error-bad-credentials'">Bad credentials</p>
-                                <p class="error-message" ng-message="undefined">Unknown server error</p>
-                            </div>
+                        <form class="login-form mt-lg" ng-submit="vm.login()">
+                            <p class="error-message" ng-show="vm.errorMessage">{{vm.errorMessage}}</p>
 
-                            <div class="form-group has-feedback" ng-class="{'has-error' : vm.loginForm.$error.response}">
-                                <input type="text" class="form-control" id="username" name="username"
+                            <div class="form-group has-feedback" ng-class="{'has-error' : vm.errorMessage}">
+                                <input type="text" class="form-control" id="inputUserNme"
                                        ng-model="vm.userCredentials.login" placeholder="Username" required="required">
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
-                            <div class="form-group has-feedback small-margin" ng-class="{'has-error' : vm.loginForm.$error.response}">
+                            <div class="form-group has-feedback small-margin" ng-class="{'has-error' : vm.errorMessage}">
                                 <input class="form-control" id="inputPassword" type="password" placeholder="Password"
                                        ng-model="vm.userCredentials.password" required="required">
                                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                             </div>
                             <div class="clearfix">
-                                <div class="login-toolbar pull-right">
+                                <div class="btn-toolbar login-toolbar pull-right">
                                     <button class="btn btn-inverse btn-sm btn-login" id="loginButton"
                                             data-loading-text="Loading..." button-loading="vm.loginButtonLoadingState" type="submit">Log In
                                     </button>
-                                    <a id="google-signin" g-signin class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
+                                    <a id="google-signin" g-signin data-client-id="138766960114-ikj7ignimooj54qabses3cc857l1a8h4.apps.googleusercontent.com"
+                                       class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
                                         <i class="fa fa-google"></i>Sign in with Google
                                     </a>
                                 </div>
