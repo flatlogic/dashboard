@@ -134,6 +134,8 @@
                 }
             };
 
+            console.log(request);
+
             return $http(request)
                 .success(function (response) {
                     if (response.token) {

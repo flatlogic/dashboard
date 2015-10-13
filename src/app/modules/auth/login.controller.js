@@ -4,8 +4,8 @@
     angular.module('qorDash.auth')
         .controller('LoginController', loginController);
 
-    loginController.$inject = ['$scope', '$state', 'user', 'LOGIN_PAGE_ICON_URL', '$rootScope'];
-    function loginController($scope, $state, user, LOGIN_PAGE_ICON_URL, $rootScope) {
+    loginController.$inject = ['$scope', '$state', 'user', 'LOGIN_PAGE_ICON_URL', '$rootScope', 'errorHandler'];
+    function loginController($scope, $state, user, LOGIN_PAGE_ICON_URL, $rootScope, errorHandler) {
         var vm = this;
 
         vm.startLoginAnimation = startLoginAnimation;
@@ -30,8 +30,8 @@
                 user.googleLogin(googleUser.wc.access_token).then(
                     function() {
                         console.log('successful google login');
-                    }, function() {
-                        console.log('google login failed');
+                    }, function(response) {
+                        errorHandler.showError(response);
                     }
                 )
             }
