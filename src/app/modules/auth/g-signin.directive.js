@@ -14,22 +14,32 @@
 
         function link(scope, element, attrs, ctrl, linker) {
             var auth2;
+            var clientId = attrs.clientId;
+
+            if (!clientId) {
+                return;
+            }
+
+            clientId += (ending.test(clientId) ? '' : '.apps.googleusercontent.com');
+
             gapi.load('auth2', function(){
                 auth2 = gapi.auth2.init({
-                    client_id: '138766960114-ikj7ignimooj54qabses3cc857l1a8h4.apps.googleusercontent.com',
+                    client_id: clientId,
                     cookiepolicy: 'single_host_origin'
                 });
 
-                auth2.attachClickHandler(document.getElementById('google-signin'), {}, successLogin, failedLogin);
+                auth2.attachClickHandler(document.getElementById(element.attr('id')), {}, successLogin, failedLogin);
             });
         }
 
         function successLogin(googleUser) {
-
+            console.log(googleUser);
+            $rootScope.$broadcast('event:google-signin-success', googleUser);
         }
 
         function failedLogin (error) {
-
+            console.log(error);
+            $rootScope.$broadcast('event:google-signin-failure', authResult);
         }
     }
 })();
