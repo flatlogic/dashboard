@@ -49,33 +49,24 @@ describe('Controller: LoginController', function() {
     });
 
     describe ('startLoginAnimation', function() {
-        beforeEach(function() {
-            spyOn($.fn, 'button');
-        });
-        it ('should change loginButtonState', function() {
+        it ('should change loginButtonLoadingState to true', function() {
             $scope.vm.startLoginAnimation();
-            expect($.fn.button).toHaveBeenCalled();
+            expect($scope.vm.loginButtonLoadingState).toBe(true);
         });
     });
 
     describe ('stopLoginAnimation', function() {
-        beforeEach(function() {
-            spyOn($.fn, 'button');
-        });
-        it ('should change loginButtonState', function() {
-            $scope.vm.startLoginAnimation();
-            expect($.fn.button).toHaveBeenCalled();
+        it ('should change loginButtonLoadingState to false', function() {
+            $scope.vm.stopLoginAnimation();
+            expect($scope.vm.loginButtonLoadingState).toBe(false);
         });
     });
 
     describe('showErrorMessage', function() {
         it ('should set vm.errorMessage as value of a function', function() {
-            setFixtures(sandbox({class: 'has-feedback'}));
-
             $scope.vm.showErrorMessage(message);
 
             expect($scope.vm.errorMessage).toBe(message);
-            expect($('#sandbox')).toHaveClass('has-error')
         });
     });
 

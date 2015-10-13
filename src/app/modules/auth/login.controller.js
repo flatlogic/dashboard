@@ -18,6 +18,7 @@
             login: '',
             password: ''
         };
+        vm.loginButtonLoadingState = false;
 
         if (user.isAuthed()) {
             $state.go('app.dashboard');
@@ -28,31 +29,23 @@
         $scope.$watch('vm.userCredentials.password', removeError);
 
         function removeError() {
-            var hasFeedbackSelector = '.has-feedback',
-                hasClass = 'has-error';
-            if ($(hasFeedbackSelector).hasClass(hasClass)) {
-                $(hasFeedbackSelector).removeClass(hasClass);
-                vm.errorMessage = '';
-            }
+            vm.errorMessage = '';
         }
 
         function startLoginAnimation() {
-            $('#loginButton').button('loading');
+            vm.loginButtonLoadingState = true;
         }
 
         function stopLoginAnimation() {
-            $('#loginButton').button('reset');
+            vm.loginButtonLoadingState = false;
         }
 
         function showErrorMessage(message) {
             vm.errorMessage = message;
-
-            $('.has-feedback').addClass('has-error');
         }
 
         function login() {
             vm.startLoginAnimation();
-            //TODO then
             user.login(vm.userCredentials.login, vm.userCredentials.password).then(
                 function (response) {
                     $state.go('app.dashboard');
@@ -62,10 +55,6 @@
                     if (response && response.data) {
                         e = response.data;
                     } else {
-                        e = {};
-                    }
-
-                    if (!e) {
                         e = {'error': 'unknown'};
                     }
 
