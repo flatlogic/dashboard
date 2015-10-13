@@ -3,12 +3,19 @@ describe('Controller: LoginController', function() {
     var $scope,
         httpBackend,
         deferred, q,
-        location,
+        errorHandler,
         user,
+        notification,
+        state,
         LOGIN_PAGE_ICON_URL = 'LOGIN_PAGE_ICON_URL',
         serverResponse = 'serverResponse',
         message = 'message;',
         window;
+
+
+    beforeEach(module('qorDash.core', function($provide) {
+        $provide.constant("Notification", "1");
+    }));
 
     beforeEach(module('qorDash.auth'));
 
@@ -28,6 +35,12 @@ describe('Controller: LoginController', function() {
                 return path;
             }
         };
+
+        errorHandler = {
+            showError: function() {
+                return false;
+            }
+        };
     });
 
     beforeEach(function () {
@@ -43,7 +56,7 @@ describe('Controller: LoginController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('LoginController as vm', {$scope: $scope, $state : state, user: user, LOGIN_PAGE_ICON_URL: LOGIN_PAGE_ICON_URL});
+            _$controller_('LoginController as vm', {$scope: $scope, $state : state, user: user, LOGIN_PAGE_ICON_URL: LOGIN_PAGE_ICON_URL, errorHandler: errorHandler});
             httpBackend.expectGET('data/permissions.json').respond('');
         })
     });
