@@ -8,9 +8,6 @@
     function loginController($scope, $state, user, LOGIN_PAGE_ICON_URL) {
         var vm = this;
 
-        vm.startLoginAnimation = startLoginAnimation;
-        vm.stopLoginAnimation = stopLoginAnimation;
-        vm.showErrorMessage = showErrorMessage;
         vm.login = login;
 
         vm.ICON_URL = LOGIN_PAGE_ICON_URL;
@@ -18,6 +15,7 @@
             login: '',
             password: ''
         };
+
         vm.loginButtonLoadingState = false;
 
         if (user.isAuthed()) {
@@ -28,8 +26,21 @@
         $scope.$watch('vm.userCredentials.login', removeError);
         $scope.$watch('vm.userCredentials.password', removeError);
 
+        function login() {
+            startLoginAnimation();
+            user.login(vm.userCredentials.login, vm.userCredentials.password).then(
+                function (response) {
+                    $state.go('app.dashboard');
+                },
+                function (response) {
+                    vm.loginForm.$error.response = response.data.error ? response.data.error : {'error': 'unknown'};
+
+                    stopLoginAnimation();
+                });
+        }
+
         function removeError() {
-            vm.errorMessage = '';
+            vm.loginForm.$error.response = '';
         }
 
         function startLoginAnimation() {
@@ -38,40 +49,6 @@
 
         function stopLoginAnimation() {
             vm.loginButtonLoadingState = false;
-        }
-
-        function showErrorMessage(message) {
-            vm.errorMessage = message;
-        }
-
-        function login() {
-            vm.startLoginAnimation();
-            user.login(vm.userCredentials.login, vm.userCredentials.password).then(
-                function (response) {
-                    $state.go('app.dashboard');
-                },
-                function (response) {
-                    var e;
-                    if (response && response.data) {
-                        e = response.data;
-                    } else {
-                        e = {'error': 'unknown'};
-                    }
-
-                    switch (e.error) {
-                        case 'error-account-not-found':
-                            vm.showErrorMessage('Account not found');
-                            break;
-                        case 'error-bad-credentials':
-                            vm.showErrorMessage('Bad credentials');
-                            break;
-                        default:
-                            vm.showErrorMessage('Unknown server error');
-                            break;
-                    }
-
-                    vm.stopLoginAnimation();
-                });
         }
     }
 })();
