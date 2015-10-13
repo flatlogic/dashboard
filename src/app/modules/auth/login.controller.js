@@ -26,7 +26,7 @@
         }
 
         $rootScope.$on('event:google-signin-success', function(event, data) {
-            console.log(event, data);
+            console.log('In controller >>> ' , event, data);
         });
 
         $scope.$watch('vm.userCredentials.login', removeError);

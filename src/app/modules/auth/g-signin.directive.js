@@ -4,7 +4,8 @@
     angular.module('qorDash.auth')
         .directive('gSignin', gSingin);
 
-    function gSingin() {
+    gSingin.$inject = ['$rootScope'];
+    function gSingin($rootScope) {
         var ending = /\.apps\.googleusercontent\.com$/;
 
         return {
@@ -33,15 +34,13 @@
         }
 
         function successLogin(googleUser) {
-            console.log(googleUser);
-            document.getElementById('app').innerText = "Signed in: " + JSON.stringify(googleUser);
-            $rootScope.$broadcast('event:google-signin-success', googleUser);
+            console.log('successLogin >>>' + googleUser);
+            $rootScope.$broadcast('event:google-signin-success', googleUser.wc.access_token);
         }
 
         function failedLogin (error) {
-            console.log(error);
-            document.getElementById('app').innerText = "Signed in: " + JSON.stringify(error);
-            $rootScope.$broadcast('event:google-signin-failure', authResult);
+            console.log('failedLogin >>>' + googleUser);
+            $rootScope.$broadcast('event:google-signin-failure', error);
         }
     }
 })();
