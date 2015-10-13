@@ -6,6 +6,7 @@ general:
   branches:
     only:
       - master
+      - feature/137
 
 dependencies:
   cache_directories:
