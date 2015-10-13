@@ -38,6 +38,7 @@ deployment:
         - git config --global user.name "Circle CI"
         - git config --global user.email "sdgaykov@gmail.com"
         - cd dist && git init
+        - cd dist && "ops-dash.blinker.com" > CNAME
         - cd dist && git add .
         - cd dist && git commit -m "Deploy to GitHub Pages [ci skip]"
         - cd dist && git push --force --quiet "https://e55ce523a8913765f162942573d401ebeb64e903@github.com/qoriolabs/dashboard.git" master:gh-pages
