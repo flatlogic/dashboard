@@ -4,8 +4,8 @@
     angular.module('qorDash.auth')
         .controller('LoginController', loginController);
 
-    loginController.$inject = ['$scope', '$state', 'user', 'LOGIN_PAGE_ICON_URL'];
-    function loginController($scope, $state, user, LOGIN_PAGE_ICON_URL) {
+    loginController.$inject = ['$scope', '$state', 'user', 'LOGIN_PAGE_ICON_URL', '$rootScope'];
+    function loginController($scope, $state, user, LOGIN_PAGE_ICON_URL, $rootScope) {
         var vm = this;
 
         vm.startLoginAnimation = startLoginAnimation;
@@ -24,6 +24,14 @@
             $state.go('app.dashboard');
             return;
         }
+
+        $rootScope.on('event:google-signin-success', function(event, data) {
+            console.log(event, data);
+        });
+
+        $rootScope.on('event:google-signin-failure', function(event, data) {
+            console.log(event, data);
+        });
 
         $scope.$watch('vm.userCredentials.login', removeError);
         $scope.$watch('vm.userCredentials.password', removeError);
