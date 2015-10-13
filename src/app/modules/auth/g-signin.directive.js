@@ -34,12 +34,10 @@
         }
 
         function successLogin(googleUser) {
-            console.log('successLogin >>>' + googleUser);
-            $rootScope.$broadcast('event:google-signin-success', googleUser.wc.access_token);
+            $rootScope.$broadcast('event:google-signin-success', googleUser);
         }
 
         function failedLogin (error) {
-            console.log('failedLogin >>>' + googleUser);
             $rootScope.$broadcast('event:google-signin-failure', error);
         }
     }

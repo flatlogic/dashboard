@@ -25,8 +25,20 @@
             return;
         }
 
-        $rootScope.$on('event:google-signin-success', function(event, data) {
-            console.log('In controller >>> ' , event, data);
+        $rootScope.$on('event:google-signin-success', function(event, googleUser) {
+            if (!user.isAuthed()) {
+                user.googleLogin(googleUser.ws.access_token).then(
+                    function() {
+                        console.log('successful google login');
+                    }, function() {
+                        console.log('google login failed');
+                    }
+                )
+            }
+        });
+
+        $rootScope.$on('event:google-signin-failure', function(event, googleUser) {
+            //TODO Show error
         });
 
         $scope.$watch('vm.userCredentials.login', removeError);

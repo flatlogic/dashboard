@@ -121,6 +121,31 @@
             }
         };
 
+        self.googleLogin = function(token) {
+            var request = {
+                method: 'POST',
+                url: $injector.get('AUTH_API_URL') + '/auth',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    "oauth2_provider" :"google.com",
+                    "oauth2_access_token" : token
+                }
+            };
+
+            return $http(request)
+                .success(function (response) {
+                    if (response.token) {
+                        auth.saveToken(response.token);
+                    }
+                    return response;
+                })
+                .error(function (error) {
+                    return error;
+                });
+        };
+
         self.login = function (username, password) {
             var request = {
                 method: 'POST',
