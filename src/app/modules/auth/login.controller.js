@@ -25,11 +25,7 @@
             return;
         }
 
-        $rootScope.on('event:google-signin-success', function(event, data) {
-            console.log(event, data);
-        });
-
-        $rootScope.on('event:google-signin-failure', function(event, data) {
+        $rootScope.$on('event:google-signin-success', function(event, data) {
             console.log(event, data);
         });
 
