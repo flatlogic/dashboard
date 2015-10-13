@@ -34,11 +34,13 @@
 
         function successLogin(googleUser) {
             console.log(googleUser);
+            document.getElementById('app').innerText = "Signed in: " + JSON.stringify(googleUser);
             $rootScope.$broadcast('event:google-signin-success', googleUser);
         }
 
         function failedLogin (error) {
             console.log(error);
+            document.getElementById('app').innerText = "Signed in: " + JSON.stringify(error);
             $rootScope.$broadcast('event:google-signin-failure', authResult);
         }
     }
