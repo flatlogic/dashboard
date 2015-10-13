@@ -29,7 +29,7 @@
             if (!user.isAuthed()) {
                 user.googleLogin(googleUser.wc.access_token).then(
                     function() {
-                        console.log('successful google login');
+                        $state.go('app.dashboard');
                     }, function(response) {
                         errorHandler.showError(response);
                     }
