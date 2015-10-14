@@ -1,22 +1,23 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.docker.domain.dockers', [
-        'ui.router',
-        'qorDash.docker.domain.dockers.menu'
-    ]);
+    angular
+        .module('qorDash.docker.domain.dockers', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.docker.domains.domain.dockers', {
                 url: '/:instance',
+                authenticate: true,
                 templateUrl: 'app/modules/docker/dockers/dockers.html',
                 controller: 'DockersController',
-                authenticate: true
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedDockers: function(dockerService, $stateParams) {
+                        return dockerService.loadDockers($stateParams.domain, $stateParams.instance);
+                    }
+                }
             })
     }
 })();
