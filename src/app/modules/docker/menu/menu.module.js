@@ -1,17 +1,9 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.docker.domain.dockers.menu', [
-        'ui.router',
-        'qorDash.docker.domain.dockers.menu.containers',
-        'qorDash.docker.domain.dockers.menu.summary',
-        'qorDash.docker.domain.dockers.menu.images',
-        'qorDash.docker.domain.dockers.menu.info'
-    ]);
-
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
+    angular
+        .module('qorDash.docker.domain.dockers.menu', [])
+        .config(appConfig);
 
     function appConfig($stateProvider) {
         $stateProvider
@@ -19,6 +11,7 @@
                 url: '/:dockerId',
                 templateUrl: 'app/modules/docker/menu/menu.html',
                 controller: 'DockerMenuController',
+                controllerAs: 'vm',
                 authenticate: true
             })
     }
