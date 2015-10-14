@@ -1,25 +1,25 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.containers.container.top')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.containers.container.top')
         .controller('DockerContainerTopController', dockerContainerTopController);
 
 
-    dockerContainerTopController.$inject = ['$scope', '$stateParams', 'ContainerTop'];
-    function dockerContainerTopController($scope, $stateParams, ContainerTop) {
-        $scope.ps_args = '';
+    function dockerContainerTopController($stateParams, ContainerTop) {
+        var vm = this;
 
         /**
          * Get container processes
          */
-        $scope.getTop = function () {
+        vm.getTop = function () {
             ContainerTop.get($stateParams.containerId, {
-                ps_args: $scope.ps_args
+                ps_args: vm.ps_args
             }, function (data) {
-                $scope.containerTop = data;
+                vm.containerTop = data;
             });
         };
 
-        $scope.getTop();
+        vm.getTop();
     }
 })();

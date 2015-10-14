@@ -4,20 +4,20 @@
     <div horizontal-ui-sheet-content>
         <div class="containerTop">
             <div class="form-group col-xs-2">
-                <input type="text" class="form-control" placeholder="[options] (aux)" ng-model="ps_args">
+                <input type="text" class="form-control" placeholder="[options] (aux)" ng-model="vm.ps_args">
             </div>
-            <button type="button" class="btn qor-btn-primary" ng-click="getTop()">Submit</button>
+            <button type="button" class="btn qor-btn-primary" ng-click="vm.getTop()">Submit</button>
 
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th ng-repeat="title in containerTop.Titles">{{title}}</th>
-                </tr>
+                    <tr>
+                        <th ng-repeat="title in vm.containerTop.Titles">{{title}}</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="processInfos in containerTop.Processes">
-                    <td ng-repeat="processInfo in processInfos track by $index">{{processInfo}}</td>
-                </tr>
+                    <tr ng-repeat="processInfos in containerTop.Processes">
+                        <td ng-repeat="processInfo in processInfos track by $index">{{processInfo}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
