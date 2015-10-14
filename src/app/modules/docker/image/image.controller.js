@@ -5,8 +5,7 @@
         .controller('DockerImageController', dockerImageController)
         .controller('CreateImageModalController', createImageModalController);
 
-    dockerImageController.$inject = ['$scope', '$q', '$stateParams', '$location', 'Image', 'Container', 'DockerViewModel', 'Settings', 'Messages', 'LineChart', '$modal'];
-    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, DockerViewModel, Settings, Messages, LineChart, $modal) {
+    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, DockerViewModel, Settings, Messages, $modal) {
         $scope.history = [];
         $scope.tag1 = {repo: '', force: false};
 
@@ -71,9 +70,7 @@
                 var promise = getContainersFromImage($q, Container, t);
 
                 promise.then(function (containers) {
-                    LineChart.build('#containers-started-chart', containers, function (c) {
-                        return new Date(c.Created * 1000).toLocaleDateString();
-                    });
+                    $scope.containers = containers;
                 });
             }
         }, function (e) {
