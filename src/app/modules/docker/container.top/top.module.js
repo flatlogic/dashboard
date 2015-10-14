@@ -13,7 +13,7 @@
         $stateProvider
             .state('app.docker.domain.dockers.menu.containers.container.top', {
                 url: '/top',
-                templateUrl: 'app/modules/docker/domain/dockers/menu/containers/container/top/top.html',
+                templateUrl: 'app/modules/docker/container.top/top.html',
                 controller: 'DockerContainerTopController'
             })
     }

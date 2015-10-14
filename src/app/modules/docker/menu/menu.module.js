@@ -17,7 +17,7 @@
         $stateProvider
             .state('app.docker.domain.dockers.menu', {
                 url: '/:dockerId',
-                templateUrl: 'app/modules/docker/domain/dockers/menu/menu.html',
+                templateUrl: 'app/modules/docker/menu/menu.html',
                 controller: 'DockerMenuController',
                 authenticate: true
             })

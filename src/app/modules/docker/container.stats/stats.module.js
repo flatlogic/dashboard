@@ -13,7 +13,7 @@
         $stateProvider
             .state('app.docker.domain.dockers.menu.containers.container.stats', {
                 url: '/stats',
-                templateUrl: 'app/modules/docker/domain/dockers/menu/containers/container/stats/stats.html',
+                templateUrl: 'app/modules/docker/container.stats/stats.html',
                 controller: 'DockerContainerStatsController'
             })
     }

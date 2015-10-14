@@ -19,7 +19,7 @@
         $scope.pullImage = function() {
             $modal.open({
                 animation: true,
-                templateUrl: 'app/modules/docker/domain/dockers/menu/images/pull-image.html',
+                templateUrl: 'app/modules/docker/images/pull-image.html',
                 controller: 'DockerPullImageController'
             });
         };

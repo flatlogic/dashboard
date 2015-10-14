@@ -40,7 +40,7 @@
         $scope.openCreateImageModal = function() {
             $modal.open({
                 animation: true,
-                templateUrl: 'app/modules/docker/domain/dockers/menu/images/image/create-modal.html',
+                templateUrl: 'app/modules/docker/image/create-modal.html',
                 controller: 'CreateImageModalController'
             });
         };

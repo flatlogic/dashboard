@@ -13,7 +13,7 @@
         $stateProvider
             .state('app.docker.domain.dockers.menu.summary', {
                 url: '/summary',
-                templateUrl: 'app/modules/docker/domain/dockers/menu/summary/summary.html',
+                templateUrl: 'app/modules/docker/summary/summary.html',
                 controller: 'DockerSummaryController',
                 authenticate: true
             })

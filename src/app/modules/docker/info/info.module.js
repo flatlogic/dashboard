@@ -14,7 +14,7 @@
         $stateProvider
             .state('app.docker.domain.dockers.menu.info', {
                 url: '/info',
-                templateUrl: 'app/modules/docker/domain/dockers/menu/info/info.html',
+                templateUrl: 'app/modules/docker/info/info.html',
                 controller: 'DockerInfoController',
                 authenticate: true
             })

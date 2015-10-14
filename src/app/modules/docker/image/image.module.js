@@ -13,7 +13,7 @@
         $stateProvider
             .state('app.docker.domain.dockers.menu.images.image', {
                 url: '/:imageId/:imageTag',
-                templateUrl: 'app/modules/docker/domain/dockers/menu/images/image/image.html',
+                templateUrl: 'app/modules/docker/image/image.html',
                 controller: 'DockerImageController',
                 authenticate: true
             })

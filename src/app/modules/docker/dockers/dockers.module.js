@@ -14,7 +14,7 @@
         $stateProvider
             .state('app.docker.domain.dockers', {
                 url: '/:instance',
-                templateUrl: 'app/modules/docker/domain/dockers/dockers.html',
+                templateUrl: 'app/modules/docker/dockers/dockers.html',
                 controller: 'DockersController',
                 authenticate: true
             })

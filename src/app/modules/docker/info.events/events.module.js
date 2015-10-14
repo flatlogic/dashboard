@@ -14,7 +14,7 @@
         $stateProvider
             .state('app.docker.domain.dockers.menu.info.events', {
                 url: '/events',
-                templateUrl: 'app/modules/docker/domain/dockers/menu/info/events/events.html',
+                templateUrl: 'app/modules/docker/info.events/events.html',
                 controller: 'DockerInfoEventsController'
             })
     }
