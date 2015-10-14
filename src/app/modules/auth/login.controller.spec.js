@@ -30,6 +30,11 @@ describe('Controller: LoginController', function() {
         };
     });
 
+    beforeEach(function() {
+        spyOn(user, 'isAuthed').and.callThrough();
+        spyOn(state, 'go').and.callThrough();
+    });
+
     beforeEach(function () {
         inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
             q = $q;
@@ -48,6 +53,20 @@ describe('Controller: LoginController', function() {
         })
     });
 
+    describe('after loading', function() {
+        it ('should set ICON_URL to the LOGIN_PAGE_ICON_URL value from injector and init vm.userCredentials & loginButtonState', function() {
+            expect($scope.vm.ICON_URL).toBe(LOGIN_PAGE_ICON_URL);
+            expect($scope.vm.userCredentials.login).toBeDefined();
+            expect($scope.vm.userCredentials.password).toBeDefined();
+            expect($scope.vm.loginButtonLoadingState).toBeDefined();
+        });
+
+        it ('should check is user authenticated and send her to the dashboard if yes', function() {
+            expect(user.isAuthed).toHaveBeenCalled();
+            expect(state.go).toHaveBeenCalledWith('app.dashboard');
+        });
+    });
+
     describe('login', function() {
         beforeEach(function() {
             spyOn(user, 'login').and.callThrough();
@@ -64,7 +83,6 @@ describe('Controller: LoginController', function() {
 
             describe('after successful loading', function() {
                 beforeEach(function() {
-                    spyOn(state, 'go');
                     deferred.resolve(serverResponse);
                     $scope.$root.$digest();
                 });

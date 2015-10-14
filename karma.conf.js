@@ -25,6 +25,7 @@ module.exports = function(config) {
             'bower_components/angular-relative-date/angular-relative-date.js',
             'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'bower_components/angular-ui-codemirror/ui-codemirror.js',
+            'bower_components/angular-messages/angular-messages.js',
             'bower_components/angular-ui-notification/src/angular-ui-notification.js',
             'bower_components/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.js',
             'bower_components/oboe/dist/oboe-browser.js',
