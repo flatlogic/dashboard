@@ -8,7 +8,7 @@
                     </header>
                     <div class="widget-body">
                         <form class="login-form mt-lg" name="vm.loginForm" ng-submit="vm.login()">
-                            <ng-messages for="vm.loginForm.$error" role="alert">                                {{vm.loginForm.$error.response}}
+                            <ng-messages for="vm.loginForm.$error" role="alert">
                                 <p ng-message="error-account-not-found" class="error-message">Account not found</p>
                                 <p ng-message="error-bad-credentials" class="error-message">Bad credentials</p>
                                 <p ng-message="unknown" class="error-message">Unknown server error</p>
@@ -19,7 +19,7 @@
                                        ng-model="vm.userCredentials.login" placeholder="Username" required="required">
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
-                            <div class="form-group has-feedback small-margin" ng-class="{'has-error' : vm.loginForm.$error['error-bad-credentials']}">
+                            <div class="form-group has-feedback small-margin" ng-class="{'has-error' : vm.loginForm.$error}">
                                 <input class="form-control" id="inputPassword" type="password" placeholder="Password"
                                        ng-model="vm.userCredentials.password" required="required">
                                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
