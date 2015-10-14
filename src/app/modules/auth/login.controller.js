@@ -33,7 +33,12 @@
                     $state.go('app.dashboard');
                 },
                 function (response) {
-                    vm.loginForm.$error.response = response.data.error ? response.data.error : {'error': 'unknown'};
+                    if (!response || !response.data || !response.data.error) {
+                        vm.loginForm.$error.response = 'unknown';
+                    } else {
+                        vm.loginForm.$error.response = response.data.error;
+                    }
+
                     stopLoginAnimation();
                 });
         }

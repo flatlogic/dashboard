@@ -90,6 +90,50 @@ describe('Controller: LoginController', function() {
                     expect(state.go).toHaveBeenCalledWith('app.dashboard');
                 });
             });
+
+            describe('after login fail', function() {
+                beforeEach(function() {
+                    $scope.vm.loginForm = {
+                        $error : {}
+                    };
+                });
+                describe ('after normal server response', function() {
+                    beforeEach(function() {
+                        deferred.reject({data: {error: serverResponse}});
+                        $scope.$root.$digest();
+                    });
+                    it ('should set vm.loginForm.$error.response to the value of response object', function() {
+                        expect($scope.vm.loginForm.$error.response).toBe(serverResponse);
+                    });
+                });
+                describe ('after empty response', function() {
+                    beforeEach(function() {
+                        deferred.reject();
+                        $scope.$root.$digest();
+                    });
+                    it ('should set vm.loginForm.$error.response to "unknown"', function() {
+                        expect($scope.vm.loginForm.$error.response).toBe('unknown');
+                    });
+                });
+                describe ('after response without data field', function() {
+                    beforeEach(function() {
+                        deferred.reject({});
+                        $scope.$root.$digest();
+                    });
+                    it ('should set vm.loginForm.$error.response to "unknown"', function() {
+                        expect($scope.vm.loginForm.$error.response).toBe('unknown');
+                    });
+                });
+                describe ('after response without error field', function() {
+                    beforeEach(function() {
+                        deferred.reject({data: {}});
+                        $scope.$root.$digest();
+                    });
+                    it ('should set vm.loginForm.$error.response to "unknown"', function() {
+                        expect($scope.vm.loginForm.$error.response).toBe('unknown');
+                    });
+                });
+            });
         });
     });
 });
