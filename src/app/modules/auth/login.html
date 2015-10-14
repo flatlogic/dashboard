@@ -8,9 +8,11 @@
                     </header>
                     <div class="widget-body">
                         <form class="login-form mt-lg" name="vm.loginForm" ng-submit="vm.login()">
-                            <p class="error-message" ng-show="vm.loginForm.$error.response == 'error-account-not-found'">Account not found</p>
-                            <p class="error-message" ng-show="vm.loginForm.$error.response == 'error-bad-credentials'">Bad credentials</p>
-                            <p class="error-message" ng-show="vm.loginForm.$error.response == undefined">Unknown server error</p>
+                            <ng-messages for="vm.loginForm.$error.response" role="alert">
+                                <p ng-message="error-account-not-found" class="error-message">Account not found</p>
+                                <p ng-message="error-bad-credentials" class="error-message">Bad credentials</p>
+                                <p ng-message="unknown" class="error-message">Unknown server error</p>
+                            </ng-messages>
 
                             <div class="form-group has-feedback" ng-class="{'has-error' : vm.loginForm.$error.response}">
                                 <input type="text" class="form-control" id="username" name="username"

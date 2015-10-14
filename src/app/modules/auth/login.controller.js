@@ -34,7 +34,6 @@
                 },
                 function (response) {
                     vm.loginForm.$error.response = response.data.error ? response.data.error : {'error': 'unknown'};
-
                     stopLoginAnimation();
                 });
         }

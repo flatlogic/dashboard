@@ -4,7 +4,8 @@
     var module = angular.module('qorDash.auth', [
         'qorDash.core',
         'qorDash.helpers',
-        'ui.router'
+        'ui.router',
+        'ngMessages'
     ]);
 
     module.config(appConfig);
