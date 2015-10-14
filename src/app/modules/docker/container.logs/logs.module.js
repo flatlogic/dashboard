@@ -11,7 +11,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.docker.domain.dockers.menu.containers.container.logs', {
+            .state('app.docker.domains.domain.dockers.menu.containers.container.logs', {
                 url: '/logs',
                 templateUrl: 'app/modules/docker/container.logs/logs.html',
                 controller: 'DockerContainerLogsController',

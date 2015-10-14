@@ -12,7 +12,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.docker.domain.dockers.menu.images', {
+            .state('app.docker.domains.domain.dockers.menu.images', {
                 url: '/images',
                 templateUrl: 'app/modules/docker/images/images.html',
                 controller: 'DockerImagesController',

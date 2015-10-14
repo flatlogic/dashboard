@@ -12,7 +12,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.docker.domain.dockers.menu.info.events', {
+            .state('app.docker.domains.domain.dockers.menu.info.events', {
                 url: '/events',
                 templateUrl: 'app/modules/docker/info.events/events.html',
                 controller: 'DockerInfoEventsController'

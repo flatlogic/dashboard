@@ -11,7 +11,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.docker.domain.dockers.menu.summary', {
+            .state('app.docker.domains.domain.dockers.menu.summary', {
                 url: '/summary',
                 templateUrl: 'app/modules/docker/summary/summary.html',
                 controller: 'DockerSummaryController',

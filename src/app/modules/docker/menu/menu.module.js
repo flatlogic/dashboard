@@ -15,7 +15,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.docker.domain.dockers.menu', {
+            .state('app.docker.domains.domain.dockers.menu', {
                 url: '/:dockerId',
                 templateUrl: 'app/modules/docker/menu/menu.html',
                 controller: 'DockerMenuController',

@@ -11,7 +11,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.docker.domain.dockers.menu.containers.container.stats', {
+            .state('app.docker.domains.domain.dockers.menu.containers.container.stats', {
                 url: '/stats',
                 templateUrl: 'app/modules/docker/container.stats/stats.html',
                 controller: 'DockerContainerStatsController'

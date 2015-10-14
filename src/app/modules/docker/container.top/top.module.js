@@ -11,7 +11,7 @@
 
     function appConfig($stateProvider) {
         $stateProvider
-            .state('app.docker.domain.dockers.menu.containers.container.top', {
+            .state('app.docker.domains.domain.dockers.menu.containers.container.top', {
                 url: '/top',
                 templateUrl: 'app/modules/docker/container.top/top.html',
                 controller: 'DockerContainerTopController'

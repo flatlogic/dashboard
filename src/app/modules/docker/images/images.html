@@ -35,7 +35,7 @@
             <tbody>
             <tr ng-repeat="image in images | filter:filter | orderBy:predicate">
                 <td class="center-text"><input class="new-checkbox bordered" id="check-{{image.Id}}" ng-model="image.Checked" type="checkbox"><label for="check-{{image.Id}}"></label></td>
-                <td><a ui-sref="app.docker.domain.dockers.menu.images.image({imageId: image.Id, imageTag: (image|repotag)})">{{ image.Id|truncate:20}}</a></td>
+                <td><a ui-sref=".image({imageId: image.Id, imageTag: (image|repotag)})">{{ image.Id|truncate:20}}</a></td>
                 <td>{{ image|repotag }}</td>
                 <td>{{ image.VirtualSize|humansize }}</td>
                 <td>{{ image.Created|getdate }}</td>
