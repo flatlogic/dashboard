@@ -88,7 +88,7 @@ module.exports = function(config) {
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: true,
+        singleRun: false,
 
         proxies: {
             "/data/": "http://localhost:9876/base/src/data/",
