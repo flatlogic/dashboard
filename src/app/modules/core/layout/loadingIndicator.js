@@ -16,9 +16,9 @@
                 bindToController: true
             };
 
-            function linkFn(scope, elem, attrs) {
-                scope.$watch('vm.isSpinning', function(newVal, oldVal) {
-                    var image = elem.find('img');
+            function linkFn($scope, $elem, attrs) {
+                $scope.$watch('vm.isSpinning', function(newVal, oldVal) {
+                    var image = $elem.find('img');
                     $timeout(function () {
                         image.toggleClass('show', newVal);
                     });
