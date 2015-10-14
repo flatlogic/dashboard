@@ -34,9 +34,9 @@
                 },
                 function (response) {
                     if (!response || !response.data || !response.data.error) {
-                        vm.loginForm.$error.response = 'unknown';
+                        vm.loginForm.$error['unknown'] = true;
                     } else {
-                        vm.loginForm.$error.response = response.data.error;
+                        vm.loginForm.$error[response.data.error] = true;
                     }
 
                     stopLoginAnimation();
@@ -44,7 +44,7 @@
         }
 
         function removeError() {
-            vm.loginForm.$error.response = '';
+            vm.loginForm.$error = {};
         }
 
         function startLoginAnimation() {

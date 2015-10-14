@@ -102,8 +102,8 @@ describe('Controller: LoginController', function() {
                         deferred.reject({data: {error: serverResponse}});
                         $scope.$root.$digest();
                     });
-                    it ('should set vm.loginForm.$error.response to the value of response object', function() {
-                        expect($scope.vm.loginForm.$error.response).toBe(serverResponse);
+                    it ('should set vm.loginForm.$error[serverResponse] to true', function() {
+                        expect($scope.vm.loginForm.$error[serverResponse]).toBe(true);
                     });
                 });
                 describe ('after empty response', function() {
@@ -111,8 +111,8 @@ describe('Controller: LoginController', function() {
                         deferred.reject();
                         $scope.$root.$digest();
                     });
-                    it ('should set vm.loginForm.$error.response to "unknown"', function() {
-                        expect($scope.vm.loginForm.$error.response).toBe('unknown');
+                    it ('should set vm.loginForm.$error["unknown"] to be true', function() {
+                        expect($scope.vm.loginForm.$error['unknown']).toBe(true);
                     });
                 });
                 describe ('after response without data field', function() {
@@ -120,8 +120,8 @@ describe('Controller: LoginController', function() {
                         deferred.reject({});
                         $scope.$root.$digest();
                     });
-                    it ('should set vm.loginForm.$error.response to "unknown"', function() {
-                        expect($scope.vm.loginForm.$error.response).toBe('unknown');
+                    it ('should set vm.loginForm.$error["unknown"] to be true', function() {
+                        expect($scope.vm.loginForm.$error['unknown']).toBe(true);
                     });
                 });
                 describe ('after response without error field', function() {
@@ -129,8 +129,8 @@ describe('Controller: LoginController', function() {
                         deferred.reject({data: {}});
                         $scope.$root.$digest();
                     });
-                    it ('should set vm.loginForm.$error.response to "unknown"', function() {
-                        expect($scope.vm.loginForm.$error.response).toBe('unknown');
+                    it ('should set vm.loginForm.$error["unknown"] to be true', function() {
+                        expect($scope.vm.loginForm.$error['unknown']).toBe(true);
                     });
                 });
             });
