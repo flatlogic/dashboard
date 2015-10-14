@@ -38,7 +38,9 @@
                 }
 
                 function hide() {
-                    vm.isSpinning = false;
+                    $timeout(function(){
+                        vm.isSpinning = false;
+                    },250);
                 }
             }
 
