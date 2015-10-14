@@ -19,7 +19,7 @@
                 bindToController: true
             };
 
-// TODO: replace Chart by D3
+            // TODO: replace Chart by D3
 
             function createMap(data) {
                 var map = {};
