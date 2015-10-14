@@ -9,23 +9,23 @@
                 <tbody>
                     <tr>
                         <td>API Endpoint:</td>
-                        <td>{{ endpoint }}</td>
+                        <td>{{ vm.endpoint }}</td>
                     </tr>
                     <tr>
                         <td>API Version:</td>
-                        <td>{{ docker.ApiVersion }}</td>
+                        <td>{{ vm.docker.ApiVersion }}</td>
                     </tr>
                     <tr>
                         <td>Docker version:</td>
-                        <td>{{ docker.Version }}</td>
+                        <td>{{ vm.docker.Version }}</td>
                     </tr>
                     <tr>
                         <td>Git Commit:</td>
-                        <td>{{ docker.GitCommit }}</td>
+                        <td>{{ vm.docker.GitCommit }}</td>
                     </tr>
                     <tr>
                         <td>Go Version:</td>
-                        <td>{{ docker.GoVersion }}</td>
+                        <td>{{ vm.docker.GoVersion }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -34,63 +34,63 @@
                 <tbody>
                 <tr>
                     <td>Containers:</td>
-                    <td>{{ info.Containers }}</td>
+                    <td>{{ vm.info.Containers }}</td>
                 </tr>
                 <tr>
                     <td>Images:</td>
-                    <td>{{ info.Images }}</td>
+                    <td>{{ vm.info.Images }}</td>
                 </tr>
                 <tr>
                     <td>Debug:</td>
-                    <td>{{ info.Debug }}</td>
+                    <td>{{ vm.info.Debug }}</td>
                 </tr>
                 <tr>
                     <td>CPUs:</td>
-                    <td>{{ info.NCPU }}</td>
+                    <td>{{ vm.info.NCPU }}</td>
                 </tr>
                 <tr>
                     <td>Total Memory:</td>
-                    <td>{{ info.MemTotal|humansize }}</td>
+                    <td>{{ vm.info.MemTotal|humansize }}</td>
                 </tr>
                 <tr>
                     <td>Operating System:</td>
-                    <td>{{ info.OperatingSystem }}</td>
+                    <td>{{ vm.info.OperatingSystem }}</td>
                 </tr>
                 <tr>
                     <td>Kernel Version:</td>
-                    <td>{{ info.KernelVersion }}</td>
+                    <td>{{ vm.info.KernelVersion }}</td>
                 </tr>
                 <tr>
                     <td>ID:</td>
-                    <td>{{ info.ID }}</td>
+                    <td>{{ vm.info.ID }}</td>
                 </tr>
                 <tr>
                     <td>Labels:</td>
-                    <td>{{ info.Labels }}</td>
+                    <td>{{ vm.info.Labels }}</td>
                 </tr>
                 <tr>
                     <td>File Descriptors:</td>
-                    <td>{{ info.NFd }}</td>
+                    <td>{{ vm.info.NFd }}</td>
                 </tr>
                 <tr>
                     <td>Goroutines:</td>
-                    <td>{{ info.NGoroutines }}</td>
+                    <td>{{ vm.info.NGoroutines }}</td>
                 </tr>
                 <tr>
                     <td>Storage Driver:</td>
-                    <td>{{ info.Driver }}</td>
+                    <td>{{ vm.info.Driver }}</td>
                 </tr>
                 <tr>
                     <td>Storage Driver Status:</td>
                     <td>
-                        <p ng-repeat="val in info.DriverStatus">
+                        <p ng-repeat="val in vm.info.DriverStatus">
                             {{ val[0] }}: {{ val[1] }}
                         </p>
                     </td>
                 </tr>
                 <tr>
                     <td>Execution Driver:</td>
-                    <td>{{ info.ExecutionDriver }}</td>
+                    <td>{{ vm.info.ExecutionDriver }}</td>
                 </tr>
                 <tr>
                     <td>Events:</td>
@@ -98,35 +98,34 @@
                 </tr>
                 <tr>
                     <td>IPv4 Forwarding:</td>
-                    <td>{{ info.IPv4Forwarding }}</td>
+                    <td>{{ vm.info.IPv4Forwarding }}</td>
                 </tr>
                 <tr>
                     <td>Index Server Address:</td>
-                    <td>{{ info.IndexServerAddress }}</td>
+                    <td>{{ vm.info.IndexServerAddress }}</td>
                 </tr>
                 <tr>
                     <td>Init Path:</td>
-                    <td>{{ info.InitPath }}</td>
+                    <td>{{ vm.info.InitPath }}</td>
                 </tr>
                 <tr>
                     <td>Docker Root Directory:</td>
-                    <td>{{ info.DockerRootDir }}</td>
+                    <td>{{ vm.info.DockerRootDir }}</td>
                 </tr>
                 <tr>
                     <td>Init SHA1</td>
-                    <td>{{ info.InitSha1 }}</td>
+                    <td>{{ vm.info.InitSha1 }}</td>
                 </tr>
                 <tr>
                     <td>Memory Limit:</td>
-                    <td>{{ info.MemoryLimit }}</td>
+                    <td>{{ vm.info.MemoryLimit }}</td>
                 </tr>
                 <tr>
                     <td>Swap Limit:</td>
-                    <td>{{ info.SwapLimit }}</td>
+                    <td>{{ vm.info.SwapLimit }}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
-
     </div>
 </section>

@@ -1,21 +1,25 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.docker.domain.dockers.menu.info', [
-        'ui.router',
-        'qorDash.docker.domain.dockers.menu.info.events'
-    ]);
+    angular
+        .module('qorDash.docker.domain.dockers.menu.info', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.docker.domains.domain.dockers.menu.info', {
                 url: '/info',
                 templateUrl: 'app/modules/docker/info/info.html',
                 controller: 'DockerInfoController',
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedDockerInfo: function(Docker, Settings) {
+                        return Docker.get(Settings.urlParams).$promise;
+                    },
+                    resolvedSystemInfo: function(System, Settings) {
+                        return System.get(Settings.urlParams).$promise;
+                    }
+                },
                 authenticate: true
             })
     }
