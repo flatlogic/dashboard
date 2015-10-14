@@ -19,7 +19,7 @@
                                        ng-model="vm.userCredentials.login" placeholder="Username" required="required">
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
-                            <div class="form-group has-feedback small-margin" ng-class="{'has-error' : vm.loginForm.$error}">
+                            <div class="form-group has-feedback small-margin" ng-class="{'has-error' : vm.loginForm.$error['error-bad-credentials']}">
                                 <input class="form-control" id="inputPassword" type="password" placeholder="Password"
                                        ng-model="vm.userCredentials.password" required="required">
                                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
