@@ -112,7 +112,7 @@ describe('Service: configurationService', function() {
     it("should create file version", function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + newVersionName + '/' + fileName,
-        undefined, {'X-Dash-Version': fileVersion, "Accept":"application/json"}).respond(serverResponse);
+        undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.createVersion(domain, instance, service, newVersionName, fileName, fileVersion).then(function(response) {
             expect(response.data).toEqual(serverResponse);
@@ -125,7 +125,7 @@ describe('Service: configurationService', function() {
     it("should save file", function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('PUT', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
-            + version + '/' + fileName, data, {'X-Dash-Version': fileVersion, "Accept":"application/json", "Content-Type":"application/json;charset=utf-8"}).respond(serverResponse);
+            + version + '/' + fileName, data, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.saveFile(domain, instance, service, version, fileName, fileVersion, data).then(function(response) {
             expect(response.data).toEqual(serverResponse);
@@ -151,7 +151,7 @@ describe('Service: configurationService', function() {
     it("should delete file", function(done) {
         httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('DELETE', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
-            + version + '/' + fileName, undefined, {'X-Dash-Version': fileVersion, "Accept":"application/json"}).respond(serverResponse);
+            + version + '/' + fileName, undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.deleteFile(domain, instance, service, version, fileName, fileVersion).then(function(response) {
             expect(response.data).toEqual(serverResponse);

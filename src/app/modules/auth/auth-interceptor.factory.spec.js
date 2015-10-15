@@ -1,4 +1,4 @@
-describe('Service: userService ', function() {
+describe('Factory: authInterceptor ', function() {
     var authInterceptor, auth;
 
     var token = 'token',

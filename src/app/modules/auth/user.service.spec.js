@@ -88,7 +88,7 @@ describe('Service: userService ', function() {
             spyOn(auth, 'saveToken');
         });
         it ('should send POST request with params and should save token by call to auth.saveToken', function(done) {
-            httpBackend.expect('POST', AUTH_API_URL + '/auth', {username: username, password: password}, {"Content-Type":"application/json","Accept":"application/json"}).respond(serverResponse);
+            httpBackend.expect('POST', AUTH_API_URL + '/auth', {username: username, password: password}, undefined).respond(serverResponse);
 
             userService.login(username, password).then(function() {
                 expect(auth.saveToken).toHaveBeenCalledWith(serverResponse.token);
