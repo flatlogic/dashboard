@@ -3,7 +3,6 @@
 
     angular.module('qorDash.auth')
         .service('auth', authService)
-        .service('user', userService)
         .factory('authInterceptor', authInterceptor)
         .run(runAuth)
         .directive('userSection', userSection)
@@ -88,79 +87,6 @@
 
             var parsedToken = JSON.parse($window.atob(base64));
             return parsedToken;
-        }
-    }
-
-    /**
-     * Service for working with user authentication
-     * @param $http angular http service
-     * @param $injector to get AUTH_API_URL link to REST api
-     * @param auth authorization service
-     */
-    userService.$inject = ['$http', '$injector', 'auth', 'dataLoader'];
-    function userService($http, $injector, auth, dataLoader) {
-        var self = this;
-
-        self.isAuthed = function () {
-            var token = auth.getParsedToken();
-            if (token) {
-                // Check token expiration
-                return Math.round(new Date().getTime() / 1000) <= token.exp;
-            } else {
-                return false;
-            }
-        };
-
-        // Get all user permissions in one array of strings
-        self.getPermissions = function () {
-            var token = auth.getParsedToken();
-            if (token) {
-                return token['passport/@scopes'].split(',');
-            } else {
-                return [];
-            }
-        };
-
-        self.login = function (username, password) {
-            var request = {
-                method: 'POST',
-                url: $injector.get('AUTH_API_URL') + '/auth',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    username: username,
-                    password: password
-                }
-            };
-
-            return $http(request)
-                .success(function (response) {
-                    if (response.token) {
-                        auth.saveToken(response.token);
-                    }
-                    return response;
-                })
-                .error(function (error) {
-                    return error;
-                });
-        };
-
-        self.hasAccessTo = function (itemName) {
-            var currentUserPermissions = self.getPermissions();
-            var globalPermissions = dataLoader.getGlobalPermissions();
-
-            var neededPermission = globalPermissions[itemName];
-
-            if (neededPermission) {
-                return currentUserPermissions.indexOf(neededPermission) != -1;
-            } else {
-                return false;
-            }
-        };
-
-        self.logout = function () {
-            auth.removeToken();
         }
     }
 
