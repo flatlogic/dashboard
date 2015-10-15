@@ -46,8 +46,8 @@
                 controller: 'DockerController',
                 controllerAs: 'vm',
                 resolve: {
-                    resolvedDomains: function(dockerService) {
-                        return dockerService.loadDomains();
+                    resolvedDomains: function(domainService) {
+                        return domainService.loadDomains();
                     }
                 },
                 authenticate: true

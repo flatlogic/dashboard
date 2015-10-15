@@ -14,8 +14,8 @@
                 authenticate: true,
                 controllerAs: 'vm',
                 resolve: {
-                    resolvedDomain: function(dockerService, $stateParams) {
-                        return dockerService.loadDomain($stateParams.domain);
+                    resolvedDomain: function(domainService, $stateParams) {
+                        return domainService.loadDomain($stateParams.domain);
                     }
                 }
             })

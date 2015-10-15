@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="processInfos in containerTop.Processes">
+                    <tr ng-repeat="processInfos in vm.containerTop.Processes">
                         <td ng-repeat="processInfo in processInfos track by $index">{{processInfo}}</td>
                     </tr>
                 </tbody>

@@ -124,21 +124,6 @@
               }
           };
       }])
-      .factory('ContainerTop', ['$http', 'Settings', function ($http, Settings) {
-          'use strict';
-          // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#list-processes-running-inside-a-container
-          return {
-              get: function (id, params, callback, errorCallback) {
-                  $http({
-                      method: 'GET',
-                      url: Settings.url + '/containers/' + id + '/top',
-                      params: {
-                          ps_args: params.ps_args
-                      }
-                  }).success(callback);
-              }
-          };
-      }])
       .provider('Settings', [function SettingsFactory() {
         'use strict';
 
@@ -177,20 +162,6 @@
           };
         }];
       }])
-      .factory('ViewSpinner', function ViewSpinnerFactory() {
-          'use strict';
-          var spinner = new Spinner();
-          var target = document.getElementById('view');
-
-          return {
-              spin: function () {
-                  spinner.spin(target);
-              },
-              stop: function () {
-                  spinner.stop();
-              }
-          };
-      })
       .factory('Messages', ['$rootScope', function MessagesFactory($rootScope) {
           'use strict';
           return {

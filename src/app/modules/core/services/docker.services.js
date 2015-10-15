@@ -3,13 +3,10 @@
     angular.module('qorDash.loaders')
         .factory('dockerService', dockerService);
 
-    function dockerService ($http, $q, API_URL, errorHandler) {
-        var _URL = API_URL;
+    function dockerService ($http, $q, Settings, errorHandler) {
 
         return {
-            loadDomains: loadDomains,
-            loadDomain: loadDomain,
-            loadDockers: loadDockers
+            getContainerTop: getContainerTop
         };
 
         function httpRequestSuccess(response) {
@@ -21,25 +18,17 @@
             return $q.reject(response.data ? response.data : response);
         }
 
-        function loadDomains() {
-            return $http
-                .get(_URL + '/v1/domain/')
-                .then(httpRequestSuccess)
-                .catch(httpRequestFailed);
-        }
 
-        function loadDomain(domainId) {
-            return $http
-                .get(_URL + '/v1/domain/' + domainId)
-                .then(httpRequestSuccess)
-                .catch(httpRequestFailed);
-        }
-
-        function loadDockers(domainId, instance) {
-            return $http
-                .get(_URL + '/v1/dockerapi/' + domainId + '/' + instance + '/')
-                .then(httpRequestSuccess)
-                .catch(httpRequestFailed);
+        function getContainerTop(id, ps_args) {
+            return $http({
+                        method: 'GET',
+                        url: Settings.url + '/containers/' + id + '/top',
+                        params: {
+                            ps_args: ps_args
+                        }
+                    })
+                    .then(httpRequestSuccess)
+                    .catch(httpRequestFailed);
         }
 
     }
