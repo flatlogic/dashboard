@@ -14,8 +14,8 @@
                 controller: 'DockersController',
                 controllerAs: 'vm',
                 resolve: {
-                    resolvedDockers: function(dockerService, $stateParams) {
-                        return dockerService.loadDockers($stateParams.domain, $stateParams.instance);
+                    resolvedDockers: function(domainService, $stateParams) {
+                        return domainService.loadDockers($stateParams.domain, $stateParams.instance);
                     }
                 }
             })

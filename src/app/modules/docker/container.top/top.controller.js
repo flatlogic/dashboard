@@ -6,20 +6,17 @@
         .controller('DockerContainerTopController', dockerContainerTopController);
 
 
-    function dockerContainerTopController($stateParams, ContainerTop) {
+    function dockerContainerTopController($stateParams, dockerService, resolvedContainerTop) {
         var vm = this;
+        vm.containerTop = resolvedContainerTop;
 
-        /**
-         * Get container processes
-         */
         vm.getTop = function () {
-            ContainerTop.get($stateParams.containerId, {
-                ps_args: vm.ps_args
-            }, function (data) {
-                vm.containerTop = data;
-            });
+            dockerService
+                .getContainerTop($stateParams.containerId, vm.ps_args)
+                .then(function(response){
+                    vm.containerTop = response;
+                });
         };
 
-        vm.getTop();
     }
 })();

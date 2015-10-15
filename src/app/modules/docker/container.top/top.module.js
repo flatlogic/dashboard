@@ -11,7 +11,12 @@
                 url: '/top',
                 templateUrl: 'app/modules/docker/container.top/top.html',
                 controller: 'DockerContainerTopController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedContainerTop: function(dockerService, $stateParams) {
+                        return dockerService.getContainerTop($stateParams.containerId);
+                    }
+                }
             })
     }
 })();
