@@ -15,6 +15,7 @@
                 url: '/:inst',
                 templateUrl: 'app/modules/orchestrate/instance/instance.html',
                 controller: 'OrchestrateInstanceController',
+                controllerAs: 'vm',
                 authenticate: true
             })
     }

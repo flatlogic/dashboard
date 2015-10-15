@@ -1,19 +1,19 @@
 <section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{title}}">
+    <header horizontal-ui-sheet-header title="{{vm.title}}">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="workflow in workflows | orderBy:'label'"
+            <a class="list-group-item" ng-repeat="workflow in vm.workflows | orderBy:'label'"
                ui-sref-active="active"
                ui-sref="app.orchestrate.domain.instance.history({opt : workflow.name})">
                 {{workflow.label}}
             </a>
         </div>
-        <div id="env-loader" ng-hide="workflows.length || error">
+        <div id="env-loader" ng-hide="vm.workflows.length || vm.error">
             <img src="assets/images/cube.gif">
         </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.orchestrate.domain.instance" data-ui-sref-opts="{reload: true}">
+        <div id="reload" ng-hide="!vm.error">
+          <a ui-sref="." data-ui-sref-opts="{reload: true}">
             <i class="fa fa-refresh reload-button"></i>
           </a>
         </div>

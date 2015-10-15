@@ -1,24 +1,22 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular.module('qorDash.orchestrate')
+        .controller('OrchestrateInstanceController', orchestrateInstanceController);
 
-    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'orchestrateService', 'errorHandler'];
-    function orchestrateInstanceController($scope, $stateParams, $http, orchestrateService, errorHandler) {
+    function orchestrateInstanceController($stateParams, orchestrateService, errorHandler) {
+        var vm = this;
 
-        $scope.title = $stateParams.inst;
-        $scope.workflows = [];
+        vm.title = $stateParams.inst;
+        vm.workflows = [];
 
         orchestrateService.loadInstances($stateParams.id, $stateParams.inst).then(
             function (response) {
-                $scope.workflows = response.data;
+                vm.workflows = response.data;
             },
             function (response) {
-                $scope.error = errorHandler.showError(response);
+                vm.error = errorHandler.showError(response);
             }
         );
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateInstanceController', orchestrateInstanceController);
 })();
