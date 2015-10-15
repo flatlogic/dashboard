@@ -33,14 +33,16 @@
                 $scope.$on('$stateChangeSuccess', hide);
                 $scope.$on('$stateChangeError', hide);
 
-                function show() {
-                    vm.isSpinning = true;
+                function show(event, toState, toParams) {
+                    if (toState.resolve) {
+                        vm.isSpinning = true;
+                    }
                 }
 
-                function hide() {
-                    $timeout(function(){
+                function hide(event, toState, toParams) {
+                    if (toState.resolve) {
                         vm.isSpinning = false;
-                    },250);
+                    }
                 }
             }
 
