@@ -1,117 +1,90 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.containers')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.containers')
         .controller('ContainersController', containersController);
 
-    containersController.$inject = ['$scope', 'Container', 'Settings', 'Messages', 'DockerViewModel'];
-    function containersController($scope, Container, Settings, Messages, DockerViewModel) {
-        $scope.predicate = '-Created';
-        $scope.toggle = false;
-        $scope.displayAll = Settings.displayAll;
-
-        $scope.$on('updateContainersList', function(data, event){
-            update({all: Settings.displayAll ? 1 : 0});
-        });
-
+    function containersController($scope, $q, Container, Settings, DockerViewModel, resolveContainers) {
+        var vm = this;
         var urlParams = Settings.urlParams;
 
-        var update = function (data) {
+        vm.predicate = '-Created';
+        vm.toggle = false;
+        vm.displayAll = Settings.displayAll;
+        vm.containers = resolveContainers.map(DockerViewModel.container);
+
+        $scope.$on('updateContainersList', function(data, event){
+            update({all: Number(Settings.displayAll)});
+        });
+
+        function update(data) {
             Container.query(angular.extend(data, urlParams), function (d) {
-                $scope.containers = d.map(function (item) {
-                    return DockerViewModel.container(item);
-                });
+                vm.containers = d.map(DockerViewModel.container);
             });
         };
 
-        var batch = function (items, action, msg) {
-            var counter = 0;
-            var complete = function () {
-                counter = counter - 1;
-                if (counter === 0) {
-                    update({all: Settings.displayAll ? 1 : 0});
-                }
-            };
-            angular.forEach(items, function (c) {
-                if (c.Checked) {
-                    if (action === Container.start) {
-                        Container.get(angular.extend({id: c.Id}, urlParams), function (d) {
-                            c = d;
-                            counter = counter + 1;
-                            action(angular.extend({id: c.Id, HostConfig: c.HostConfig || {}}, urlParams), function (d) {
-                                Messages.send("Container " + msg, c.Id);
-                                var index = $scope.containers.indexOf(c);
-                                complete();
-                            }, function (e) {
-                                Messages.error("Failure", e.data);
-                                complete();
-                            });
-                        }, function (e) {
-                            if (e.status === 404) {
-                                $('.detail').hide();
-                                Messages.error("Not found", "Container not found.");
-                            } else {
-                                Messages.error("Failure", e.data);
-                            }
-                            complete();
-                        });
-                    }
-                    else {
-                        counter = counter + 1;
-                        action(angular.extend({id: c.Id}, urlParams), function (d) {
-                            Messages.send("Container " + msg, c.Id);
-                            var index = $scope.containers.indexOf(c);
-                            complete();
-                        }, function (e) {
-                            Messages.error("Failure", e.data);
-                            complete();
-                        });
 
-                    }
-
+        function batch (action, msg) {
+            // TODO: handle msg messages ?
+            var promises = [];
+            var selectedContainers = vm.containers.filter(function(c){
+                return c.Checked;
+            });
+            selectedContainers.forEach(function(c){
+                var containerParams = angular.extend({id: c.Id}, urlParams);
+                if (action === Container.start) {
+                    promises.push(
+                        Container.get(containerParams).$promise.then(function(d){
+                            return action(angular.extend({HostConfig: d.HostConfig || {}}, containerParams)).$promise;
+                        })
+                    )
+                } else {
+                    promises.push(action(containerParams).$promise);
                 }
             });
-        };
-
-        $scope.toggleSelectAll = function () {
-            angular.forEach($scope.containers, function (i) {
-                i.Checked = $scope.toggle;
+            $q.all(promises).then(function(){
+                update({all: Number(Settings.displayAll)});
             });
         };
 
-        $scope.toggleGetAll = function () {
-            Settings.displayAll = $scope.displayAll;
-            update({all: Settings.displayAll ? 1 : 0});
+        vm.toggleSelectAll = function () {
+            vm.containers.forEach(function (i) {
+                i.Checked = vm.toggle;
+            });
         };
 
-        $scope.startAction = function () {
-            batch($scope.containers, Container.start, "Started");
+        vm.toggleGetAll = function () {
+            Settings.displayAll = vm.displayAll;
+            update({all: Number(Settings.displayAll)});
         };
 
-        $scope.stopAction = function () {
-            batch($scope.containers, Container.stop, "Stopped");
+        vm.startAction = function () {
+            batch(Container.start, "Started");
         };
 
-        $scope.restartAction = function () {
-            batch($scope.containers, Container.restart, "Restarted");
+        vm.stopAction = function () {
+            batch(Container.stop, "Stopped");
         };
 
-        $scope.killAction = function () {
-            batch($scope.containers, Container.kill, "Killed");
+        vm.restartAction = function () {
+            batch(Container.restart, "Restarted");
         };
 
-        $scope.pauseAction = function () {
-            batch($scope.containers, Container.pause, "Paused");
+        vm.killAction = function () {
+            batch(Container.kill, "Killed");
         };
 
-        $scope.unpauseAction = function () {
-            batch($scope.containers, Container.unpause, "Unpaused");
+        vm.pauseAction = function () {
+            batch(Container.pause, "Paused");
         };
 
-        $scope.removeAction = function () {
-            batch($scope.containers, Container.remove, "Removed");
+        vm.unpauseAction = function () {
+            batch(Container.unpause, "Unpaused");
         };
 
-        update({all: Settings.displayAll ? 1 : 0});
+        vm.removeAction = function () {
+            batch(Container.remove, "Removed");
+        };
     };
 })();
