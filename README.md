@@ -16,16 +16,21 @@
 3. Run the application `gulp deploy`
 4. Sync local gh-pages branch with remote origin
 
+### Testing
+1. Install node and bower dependencies: `npm install`
+2. Install global dependencies `npm install istanbul karma-coverage karma-chrome-launcher karma-jasmine -g`
+3. Run tests `karma start`
+
 ## Project 1 - Improve on this app template
 
 We want to add some features.
 
 + Use a live authentication service  (we provide REST api) - store an auth token from server (a JWT token -- see [http://jwt.io/] ) in a browser cache
 + Add some example code to include the token as HTTPS header when calling a backend service.
-+ Implement timer based on the token's expiration and logout the user. 
++ Implement timer based on the token's expiration and logout the user.
 + Make the Sing app template capability-driven:  the auth token from the auth service contains different permission strings.  Add support for this at the app/ framework level so that the dashboard will render only components permitted according.
   + Map permission strings (e.g. 'update_account') to Angular controls (e.g. EditAccountWizard) - 1 to many relationship
-  + Render components based on the user's permissions 
+  + Render components based on the user's permissions
 + Make the view/dashboard.html data driven -- instead of layout of widgets in static html, call a server to load a JSON (your design) that will driven the generation of the contents of the dashboard html.  What components will finally render will be controlled by this user's permissions.
 + Make some of the dashboard example widgets driven by websocket.  We would like to have live data feeds to the dashboard instead of having the UI poll the server.  Please come up with a basic framework and example for doing this.
 
