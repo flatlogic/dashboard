@@ -3,7 +3,6 @@
 
     angular.module('qorDash.auth')
         .service('auth', authService)
-        .factory('authInterceptor', authInterceptor)
         .run(runAuth)
         .directive('userSection', userSection)
         .directive('userActions', userActions);
@@ -87,28 +86,6 @@
 
             var parsedToken = JSON.parse($window.atob(base64));
             return parsedToken;
-        }
-    }
-
-    // Http interceptor for attaching token to headers
-    authInterceptor.$inject = ['auth'];
-    function authInterceptor(auth) {
-        return {
-            // automatically attach Authorization header
-            request: function (config) {
-                var token = auth.getToken();
-                if (token && !config.headers.Authorization) {
-                    config.headers.Authorization = 'Bearer ' + token;
-                }
-
-                config.headers.Accept = "application/json";
-
-                return config;
-            },
-
-            response: function (res) {
-                return res;
-            }
         }
     }
 })();

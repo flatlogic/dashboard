@@ -3,12 +3,8 @@ describe('Service: userService ', function() {
 
     var token = 'token',
         serverResponse = {token: 1},
-        accountId = 'accountId',
         username = 'username',
         password = 'password',
-        custom_object = 'custom_object',
-        token = 'token',
-        email = 'email',
         AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(module('qorDash.auth', function($provide) {
