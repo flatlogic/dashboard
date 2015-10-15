@@ -1,26 +1,26 @@
 (function () {
     'use strict';
 
-    var orchestrateController = angular.createAuthorizedController('OrchestrateController', ['$scope', '$state', '$stateParams', 'errorHandler', 'domainsLoader',
-    function ($scope, $state, $stateParams, errorHandler, domainsLoader) {
+    angular.module('qorDash.orchestrate')
+        .controller('OrchestrateController', orchestrateController);
+
+    function orchestrateController($state, $stateParams, errorHandler, domainsLoader) {
+        var vm = this;
+
         domainsLoader.load().then(
             function (response) {
-                $scope.domains = response.data;
+                vm.domains = response.data;
 
-                if($scope.domains.length === 1 && $state.current.name == 'app.orchestrate'){
-                    $state.go('app.orchestrate.domain', {id:$scope.domains[0].id})
+                if(vm.domains.length === 1 && $state.current.name == 'app.orchestrate'){
+                    $state.go('app.orchestrate.domain', {id: vm.domains[0].id})
                 }
 
-                $scope.domain = $scope.domains.filter(function (domain) {
+                vm.domain = vm.domains.filter(function (domain) {
                     return domain.id == $stateParams.id;
                 })[0];
             },
             function (response) {
-                $scope.error = errorHandler.showError(response);
+                vm.error = errorHandler.showError(response);
             });
-    }]);
-
-    angular.module('qorDash.orchestrate')
-        .controller(orchestrateController);
-
+    }
 })();
