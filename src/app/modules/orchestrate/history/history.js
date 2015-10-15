@@ -1,21 +1,20 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular.module('qorDash.orchestrate')
+        .controller('OrchestrateHistoryController', orchestrateHistoryController);
 
-    orchestrateHistoryController.$inject = ['$scope', '$stateParams', 'orchestrateService', 'errorHandler'];
-    function orchestrateHistoryController($scope, $stateParams, orchestrateService, errorHandler) {
+    function orchestrateHistoryController($stateParams, orchestrateService, errorHandler) {
+        var vm = this;
+
         orchestrateService.loadHistory($stateParams.id, $stateParams.inst, $stateParams.opt).then(
             function (response) {
-                $scope.previousCalls = response.data;
+                vm.previousCalls = response.data;
             },
             function(response){
-                $scope.error = errorHandler.showError(response);
+                vm.error = errorHandler.showError(response);
             }
         );
 
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateHistoryController', orchestrateHistoryController);
 })();

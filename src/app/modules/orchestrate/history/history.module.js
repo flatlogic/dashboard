@@ -7,14 +7,13 @@
 
     module.config(appConfig);
 
-    appConfig.$inject = ['$stateProvider'];
-
     function appConfig($stateProvider) {
         $stateProvider
             .state('app.orchestrate.domain.instance.history', {
                 url: '/:opt',
                 templateUrl: 'app/modules/orchestrate/history/history.html',
                 controller: 'OrchestrateHistoryController',
+                controllerAs: 'vm',
                 authenticate: true
             })
     }

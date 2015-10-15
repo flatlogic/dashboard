@@ -7,8 +7,6 @@
 
     module.config(appConfig);
 
-    appConfig.$inject = ['$stateProvider'];
-
     function appConfig($stateProvider) {
         $stateProvider
             .state('app.orchestrate.domain', {

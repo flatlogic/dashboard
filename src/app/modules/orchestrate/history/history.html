@@ -1,5 +1,5 @@
 <section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{title}}">
+    <header horizontal-ui-sheet-header title="History">
     </header>
     <div horizontal-ui-sheet-content>
 
@@ -7,7 +7,7 @@
                 ui-sref="app.orchestrate.domain.instance.history.option({opt_id : 'new'})"
                 >New</button>
 
-        <div class="list-group text-left ng-scope" ng-show="previousCalls.length > 0">
+        <div class="list-group text-left ng-scope" ng-show="vm.previousCalls.length > 0">
             <table class="orchestrate-history-table">
                 <thead>
                     <tr>
@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="call in previousCalls"
+                    <tr ng-repeat="call in vm.previousCalls"
                         ui-sref="app.orchestrate.domain.instance.history.option({opt_id : call.id})"
                         ui-sref-active="active">
                         <td class="history-table-icon-item">
@@ -35,11 +35,11 @@
                 </tbody>
             </table>
         </div>
-        <div id="env-loader" ng-hide="previousCalls || error">
+        <div id="env-loader" ng-hide="vm.previousCalls || vm.error">
             <img src="assets/images/cube.gif">
         </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.orchestrate.domain.instance.history" data-ui-sref-opts="{reload: true}">
+        <div id="reload" ng-hide="!vm.error">
+          <a ui-sref="." data-ui-sref-opts="{reload: true}">
             <i class="fa fa-refresh reload-button"></i>
           </a>
         </div>

@@ -11,8 +11,6 @@
 
     module.config(appConfig);
 
-    appConfig.$inject = ['$stateProvider', '$qorSidebarProvider'];
-
     function appConfig($stateProvider, $qorSidebarProvider) {
         $stateProvider
             .state('app.orchestrate', {
