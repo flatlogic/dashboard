@@ -15,6 +15,7 @@
                 url: '/:id',
                 templateUrl: 'app/modules/orchestrate/domain/domain.html',
                 controller: 'OrchestrateDomainController',
+                controllerAs: 'vm',
                 authenticate: true
             })
     }

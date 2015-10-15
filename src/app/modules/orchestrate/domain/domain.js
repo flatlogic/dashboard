@@ -1,20 +1,19 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular.module('qorDash.orchestrate')
+        .controller('OrchestrateDomainController', orchestrateDomainController);
 
-    orchestrateDomainController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler', 'domainLoader'];
-    function orchestrateDomainController($scope, $stateParams, $http, API_URL, errorHandler, domainLoader) {
+    function orchestrateDomainController($stateParams, errorHandler, domainLoader) {
+        var vm = this;
+
         domainLoader.load($stateParams.id).then(
             function (response) {
-                $scope.domain = response.data;
+                vm.domain = response.data;
             },
             function (response) {
-                $scope.error = errorHandler.showError(response);
+                vm.error = errorHandler.showError(response);
             }
         );
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateDomainController', orchestrateDomainController);
 })();
