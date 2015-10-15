@@ -1,23 +1,23 @@
 <section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{title}}">
+    <header horizontal-ui-sheet-header title="{{vm.title}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div id="env-loader" ng-hide="workflow || error">
+        <div id="env-loader" ng-hide="vm.workflow || vm.error">
             <img src="assets/images/cube.gif">
         </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.orchestrate.domain.instance.history.option" data-ui-sref-opts="{reload: true}">
+        <div id="reload" ng-show="vm.error">
+          <a ui-sref="." data-ui-sref-opts="{reload: true}">
             <i class="fa fa-refresh reload-button"></i>
           </a>
         </div>
         <form class="form-horizontal orchestration-parameters">
-            <fieldset id="dynamic-form">
+            <fieldset id="dynamic-form" orchestrate-form="vm.formElements">
             </fieldset>
 
             <div class="form-group">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 text-align-right">
-                    <button type="button" ng-click="sendMessage()" ng-show="workflow" id="sendMessageButton" class="btn btn-warning">
+                    <button type="button" ng-click="vm.sendMessage()" ng-show="vm.workflow" id="sendMessageButton" class="btn btn-warning">
                     Run
                 </button>
                 </div>

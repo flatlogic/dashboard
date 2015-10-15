@@ -1,100 +1,77 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular.module('qorDash.orchestrate')
+        .controller('OrchestrateOptionController', orchestrateOptionController);
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', 'orchestrateService', '$compile', 'WS_URL', 'errorHandler'];
     function orchestrateOptionController($scope, $stateParams, orchestrateService, $compile, WS_URL, errorHandler) {
+        var vm = this;
 
-        $scope.title = $stateParams.opt;
+        vm.sendMessage = sendMessage;
 
-        var getType = function (value) {
-            return ({}).toString.call(value).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
-        };
+        vm.title = $stateParams.opt;
+
+        vm.formElements = [];
 
         var domain = $stateParams.id,
             instance = $stateParams.inst,
             opt = $stateParams.opt,
             optId = $stateParams.opt_id;
 
-        var getElement = function(value, index) {
-            switch (getType(value)) {
-                case "string":
-                    return '<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                        '<div class="col-md-4">' +
-                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
-                        '</div>' +
-                        '</div>';
-                    break;
-                case "number":
-                    return '<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                        '<div class="col-md-4">' +
-                        '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
-                        '</div>' +
-                        '</div>';
-                    break;
-                case "boolean":
-                    var checked = value ? 'checked' : '';
-                    return '<div class="form-group" > ' +
-                        '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
-                        '<div class="col-md-4">' +
-                        '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" ' + checked + '>' + '<label for="input-' + index + '"></label>' +
-                        '</div>' +
-                        '</div>';
-                    break;
-                default:
-                    break;
-            }
-        };
-
         if (optId == 'new') {
-            $scope.$watch('workflows', function() {
-                if (!$scope.$parent.$parent.workflows) {
+            $scope.$watch('$parent.$parent.vm.workflows', function() {
+                if (!$scope.$parent.$parent.vm.workflows) {
                     return;
                 }
 
-                $scope.workflow = $scope.$parent.$parent.workflows.filter(function (workflow) {
+                vm.workflow = $scope.$parent.$parent.vm.workflows.filter(function (workflow) {
                     return workflow.name == $stateParams.opt;
                 })[0];
 
-                if (!$scope.workflow) {
+                console.log(vm.workflow);
+
+                if (!vm.workflow) {
                     return;
                 }
 
-                for (var index in $scope.workflow.default_input) {
-                    var value = $scope.workflow.default_input[index];
-                    $('#dynamic-form').append(getElement(value, index));
+                for (var index in vm.workflow.default_input) {
+                    var value = vm.workflow.default_input[index];
+                    vm.formElements.push({
+                        index: index,
+                        value : value
+                    })
                 }
             });
         } else {
             orchestrateService.loadOption(domain, instance, opt, optId).then(
                 function (response) {
-                    $scope.workflow = response.data;
-                    for (var index in $scope.workflow.context) {
-                        var value = $scope.workflow.context[index];
-                        $('#dynamic-form').append(getElement(value, index));
+                    vm.workflow = response.data;
+                    for (var index in vm.workflow.context) {
+                        var value = vm.workflow.context[index];
+                        vm.formElements.push({
+                            index: index,
+                            value : value
+                        });
                     }
                 },
                 function (response) {
-                    $scope.error = errorHandler.showError(response);
+                    vm.error = errorHandler.showError(response);
 
             });
         }
 
-        $scope.sendMessage = function () {
+        function sendMessage() {
             $('#sendMessageButton').button('loading');
 
-            if (!$scope.workflow.model) {
+            if (!vm.workflow.model) {
 
                 var data = {};
 
-                for (var index in $scope.workflow.default_input) {
+                for (var index in vm.workflow.default_input) {
                     data[index] = $('#input-' + index).val();
                 }
 
-                orchestrateService.loadLogUrl($scope.workflow.activate_url, data).then(
+                orchestrateService.loadLogUrl(vm.workflow.activate_url, data).then(
                     function (response) {
                         $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.data.log_ws_url + "'\"></div>")($scope));
                         $('#sendMessageButton').button('reset');
@@ -107,7 +84,4 @@
             }
         }
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateOptionController', orchestrateOptionController);
 })();

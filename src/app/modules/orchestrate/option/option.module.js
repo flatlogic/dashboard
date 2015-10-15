@@ -13,6 +13,7 @@
                 url: '/:opt_id',
                 templateUrl: 'app/modules/orchestrate/option/option.html',
                 controller: 'OrchestrateOptionController',
+                controllerAs: 'vm',
                 authenticate: true
             });
     }
