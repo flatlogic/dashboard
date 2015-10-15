@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('qorDash.auth')
-        .factory('auth', authService);
+        .service('auth', authService);
 
     function authService($window) {
         var self = this;
@@ -41,11 +41,6 @@
 
             // Decode from base64
             var base64Url = token.split('.')[1];
-
-            if (!base64Url) {
-                return false;
-            }
-
             var base64 = base64Url.replace('-', '+').replace('_', '/');
 
             return JSON.parse($window.atob(base64));

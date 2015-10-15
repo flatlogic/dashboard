@@ -2,9 +2,7 @@ describe('Factory: authInterceptor ', function() {
     var authInterceptor, auth;
 
     var token = 'token',
-        config = {
-            headers: {}
-        };
+        config = {headers: {}};
 
 
     beforeEach(module('qorDash.auth'));

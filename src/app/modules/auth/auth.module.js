@@ -1,10 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.auth', [
-        'qorDash.core',
-        'ui.router'
-        ])
+    angular.module('qorDash.auth', ['qorDash.core', 'ui.router'])
         .config(appConfig)
         .run(runAuth);
 
