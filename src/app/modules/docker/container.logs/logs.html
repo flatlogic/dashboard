@@ -4,23 +4,23 @@
     <div horizontal-ui-sheet-content>
         <div class="logs">
             <div class="docker-logs-left">
-                <h4 class="display-inline">Logs for container: <a ui-sref="^.^.container({containerId: container.Id})">{{ container.Name }}</a></td></h4>
+                <h4 class="display-inline">Logs for container: <a ui-sref="^.^.container({containerId: vm.container.Id})">{{ vm.container.Name }}</a></td></h4>
 
                 <div class="btn-group detail log-btns">
-                    <button class="btn btn-info" ng-click="scrollTo('stdout')">stdout</button>
-                    <button class="btn btn-primary" ng-click="scrollTo('stderr')">stderr</button>
+                    <button class="btn btn-info" ng-click="vm.scrollTo('stdout')">vm.stdout</button>
+                    <button class="btn btn-primary" ng-click="vm.scrollTo('stderr')">vm.stderr</button>
                 </div>
 
             </div>
 
             <div class="reload-logs pull-right">
                 <div>
-                    <a class="btn btn-warning" ng-click="toggleTail()" role="button">Reload logs</a>
+                    <a class="btn btn-warning" ng-click="vm.toggleTail()" role="button">Reload logs</a>
                     <input id="tailLines" type="number"
-                           ng-model="tailLines" ng-keypress="($event.which === 13)? toggleTail() : 0"/>
+                           ng-model="vm.tailLines" ng-keypress="($event.which === 13)? vm.toggleTail() : 0"/>
                     <label for="tailLines">lines</label>
-                    <input class="new-checkbox bordered" id="timestampToggle" ng-model="showTimestamps"
-                           ng-change="toggleTimestamps()" type="checkbox"><label for="timestampToggle"></label>Timestamp
+                    <input class="new-checkbox bordered" id="timestampToggle" ng-model="vm.showTimestamps"
+                           ng-change="vm.toggleTimestamps()" type="checkbox"><label for="timestampToggle"></label>Timestamp
                 </div>
             </div>
 
@@ -30,7 +30,7 @@
                         <h3 id="stdout" class="panel-title">STDOUT</h3>
                     </div>
                     <div class="panel-body">
-                        <pre id="stdoutLog" class="pre-scrollable pre-x-scrollable">{{stdout}}</pre>
+                        <pre class="pre-scrollable pre-x-scrollable">{{vm.stdout}}</pre>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                         <h3 id="stderr" class="panel-title">STDERR</h3>
                     </div>
                     <div class="panel-body">
-                        <pre id="stderrLog" class="pre-scrollable pre-x-scrollable">{{stderr}}</pre>
+                        <pre class="pre-scrollable pre-x-scrollable">{{vm.stderr}}</pre>
                     </div>
                 </div>
             </div>

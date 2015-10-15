@@ -1,78 +1,66 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.containers.container.logs')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.containers.container.logs')
         .controller('DockerContainerLogsController', dockerContainerLogsController);
 
+    function dockerContainerLogsController($interval, $scope, $q, $stateParams, $location, $anchorScroll, dockerService, resolvedContainer, resolvedContainerLogsStdout, resolvedContainerLogsStderr) {
 
-    dockerContainerLogsController.$inject = ['$scope', '$stateParams', '$location', '$anchorScroll', 'ContainerLogs', 'Container', 'Settings'];
-    function dockerContainerLogsController($scope, $stateParams, $location, $anchorScroll, ContainerLogs, Container, Settings) {
-        $scope.stdout = '';
-        $scope.stderr = '';
-        $scope.showTimestamps = false;
-        $scope.tailLines = 2000;
-
-        var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
-
-        Container.get(urlParams, function (d) {
-            $scope.container = d;
-        }, function (e) {
-            if (e.status === 404) {
-                Messages.error("Not found", "Container not found.");
-            } else {
-                Messages.error("Failure", e.data);
-            }
-        });
+        function prosessLogData(data) {
+            // Replace carriage returns with newlines to clean up output
+            data = data.replace(/[\r]/g, '\n');
+            // Strip 8 byte header from each line of output
+            data = data.substring(8);
+            data = data.replace(/\n(.{8})/g, '\n');
+            return data;
+        }
 
         function getLogs() {
-            ContainerLogs.get($stateParams.containerId, {
-                stdout: 1,
-                stderr: 0,
-                timestamps: $scope.showTimestamps,
-                tail: $scope.tailLines,
-            }, function (data, status, headers, config) {
-                // Replace carriage returns with newlines to clean up output
-                data = data.replace(/[\r]/g, '\n');
-                // Strip 8 byte header from each line of output
-                data = data.substring(8);
-                data = data.replace(/\n(.{8})/g, '\n');
-                $scope.stdout = data;
-            });
-
-            ContainerLogs.get($stateParams.containerId, {
-                stdout: 0,
-                stderr: 1,
-                timestamps: $scope.showTimestamps,
-                tail: $scope.tailLines,
-            }, function (data, status, headers, config) {
-                // Replace carriage returns with newlines to clean up output
-                data = data.replace(/[\r]/g, '\n');
-                // Strip 8 byte header from each line of output
-                data = data.substring(8);
-                data = data.replace(/\n(.{8})/g, '\n');
-                $scope.stderr = data;
+            var promises = [
+                dockerService.getContainerLogs($stateParams.containerId, {
+                    stdout: 1,
+                    stderr: 0,
+                    timestamps: vm.showTimestamps,
+                    tail: vm.tailLines
+                }),
+                dockerService.getContainerLogs($stateParams.containerId, {
+                    stdout: 0,
+                    stderr: 1,
+                    timestamps: vm.showTimestamps,
+                    tail: vm.tailLines
+                })
+            ];
+            $q.all(promises).then(function(data){
+                vm.stdout = prosessLogData(data[0]);
+                vm.stderr = prosessLogData(data[1]);
             });
         }
 
-        // initial call
-        getLogs();
-        var logIntervalId = window.setInterval(getLogs, 5000);
+        var vm = this;
+        var logIntervalId = $interval(getLogs, 5000);
 
-        $scope.$on("$destroy", function () {
+        vm.showTimestamps = false;
+        vm.tailLines = 2000;
+        vm.container = resolvedContainer;
+        vm.stdout = prosessLogData(resolvedContainerLogsStdout);
+        vm.stderr = prosessLogData(resolvedContainerLogsStderr);
+
+        $scope.$on("$destroy", function() {
             // clearing interval when view changes
-            clearInterval(logIntervalId);
+            $interval.cancel(logIntervalId);
         });
 
-        $scope.scrollTo = function (id) {
+        vm.scrollTo = function(id) {
             $location.hash(id);
             $anchorScroll();
         };
 
-        $scope.toggleTimestamps = function () {
+        vm.toggleTimestamps = function() {
             getLogs();
         };
 
-        $scope.toggleTail = function () {
+        vm.toggleTail = function() {
             getLogs();
         };
     }
