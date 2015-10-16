@@ -48,7 +48,6 @@
                     },
                     function (response) {
                         vm.error = errorHandler.showError(response);
-
                     });
             }
         }
@@ -81,7 +80,6 @@
                 for (var index in vm.workflow.default_input) {
                     data[index] = vm.formElements[index]
                 }
-
                 orchestrateService.loadLogUrl(vm.workflow.activate_url, data).then(
                     function (response) {
                         vm.timeLineUrl = WS_URL + response.data.log_ws_url;
