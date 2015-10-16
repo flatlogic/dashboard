@@ -1,23 +1,27 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.docker.domain.dockers.menu.containers.container', [
-        'ui.router',
-        'qorDash.docker.domain.dockers.menu.containers.container.logs',
-        'qorDash.docker.domain.dockers.menu.containers.container.stats',
-        'qorDash.docker.domain.dockers.menu.containers.container.top'
-    ]);
+    angular
+        .module('qorDash.docker.domain.dockers.menu.containers.container', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.docker.domains.domain.dockers.menu.containers.container', {
                 url: '/:containerId',
                 templateUrl: 'app/modules/docker/container/container.html',
                 controller: 'ContainerController',
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedContainer: function(Container, Settings, $stateParams) {
+                        var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
+                        return Container.get(urlParams).$promise;
+                    },
+                    resolvedContainerChanges: function(Container, Settings, $stateParams) {
+                        var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
+                        return Container.changes(urlParams).$promise;
+                    }
+                },
                 authenticate: true
             })
     }

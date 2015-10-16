@@ -86,24 +86,6 @@
               get: {method: 'GET'}
           });
       }])
-      .factory('ContainerCommit', ['$http', 'Settings', function ContainerCommitFactory($http, Settings) {
-          'use strict';
-          // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#create-a-new-image-from-a-container-s-changes
-          return {
-              commit: function (params, callback) {
-                  $http({
-                      method: 'POST',
-                      url: Settings.url + '/commit',
-                      params: {
-                          'container': params.id,
-                          'repo': params.repo
-                      }
-                  }).success(callback).error(function (data, status, headers, config) {
-                      console.log(error, data);
-                  });
-              }
-          };
-      }])
       .provider('Settings', [function SettingsFactory() {
         'use strict';
 

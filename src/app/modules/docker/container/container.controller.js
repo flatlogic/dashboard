@@ -1,141 +1,82 @@
-(function () {
+(function() {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.containers.container')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.containers.container')
         .controller('ContainerController', containerController);
 
-    containerController.$inject = ['$scope', '$stateParams', '$location', 'Container', 'ContainerCommit', 'Messages', 'Settings'];
-    function containerController($scope, $stateParams, $location, Container, ContainerCommit, Messages, Settings) {
-            $scope.changes = [];
-            $scope.edit = false;
+    function containerController($scope, $state, Container, Settings, resolvedContainer, resolvedContainerChanges, dockerService) {
 
-            var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
-
-            var update = function (updateList) {
-                updateList = updateList === false ? false : true;
-
+            function getContainer() {
                 Container.get(urlParams, function (d) {
-                    $scope.container = d;
-                    $scope.container.edit = false;
-                    $scope.container.newContainerName = d.Name;
-                    if (updateList) {
-                        $scope.$emit('updateContainersList');
-                    }
-                }, function (e) {
-                    if (e.status === 404) {
-                        $('.detail').hide();
-                        Messages.error("Not found", "Container not found.");
-                    } else {
-                        Messages.error("Failure", e.data);
-                    }
+                    vm.container = d;
+                    vm.container.edit = false;
+                    vm.container.newContainerName = d.Name;
+                    $scope.$emit('updateContainersList');
                 });
             };
 
-            $scope.start = function () {
-                Container.start(angular.extend({HostConfig: $scope.container.HostConfig}, urlParams), function (d) {
-                    update();
-                    Messages.send("Container started", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to start." + e.data);
-                });
-            };
+            function updateContainer(action, params) {
+                var containerParams;
+                switch (action) {
+                    case 'start':
+                    case 'rename':
+                        containerParams = angular.extend(params, urlParams);
+                        break;
+                    default:
+                        containerParams = urlParams;
+                        break;
+                }
+                return Container[action](containerParams).$promise.then(getContainer);
+            }
 
-            $scope.stop = function () {
-                Container.stop(urlParams, function (d) {
-                    update();
-                    Messages.send("Container stopped", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to stop." + e.data);
-                });
-            };
+            var vm = this;
+            vm.container = resolvedContainer;
+            vm.container.edit = false;
+            vm.container.newContainerName = resolvedContainer.Name;
+            vm.changes = resolvedContainerChanges;
 
-            $scope.kill = function () {
-                Container.kill(urlParams, function (d) {
-                    update();
-                    Messages.send("Container killed", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to die." + e.data);
-                });
-            };
+            var urlParams = angular.extend({id: vm.container.Id}, Settings.urlParams);
 
-            $scope.commit = function () {
-                ContainerCommit.commit(angular.extend({repo: $scope.container.Config.Image}, urlParams), function (d) {
-                    update();
-                    Messages.send("Container commited", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to commit." + e.data);
-                });
-            };
-            $scope.pause = function () {
-                Container.pause(urlParams, function (d) {
-                    update();
-                    Messages.send("Container paused", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to pause." + e.data);
-                });
-            };
-
-            $scope.unpause = function () {
-                Container.unpause(urlParams, function (d) {
-                    update();
-                    Messages.send("Container unpaused", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to unpause." + e.data);
-                });
-            };
-
-            $scope.remove = function () {
-                Container.remove(urlParams, function (d) {
-                    update();
-                    Messages.send("Container removed", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to remove." + e.data);
-                });
-            };
-
-            $scope.restart = function () {
-                Container.restart(urlParams, function (d) {
-                    update();
-                    Messages.send("Container restarted", $stateParams.containerId);
-                }, function (e) {
-                    update();
-                    Messages.error("Failure", "Container failed to restart." + e.data);
-                });
-            };
-
-            $scope.hasContent = function (data) {
+            vm.hasContent = function (data) {
                 return data !== null && data !== undefined;
             };
 
-            $scope.getChanges = function () {
+            vm.getChanges = function() {
                 Container.changes(urlParams, function (d) {
-                    $scope.changes = d;
+                    vm.changes = d;
                 });
             };
 
-            $scope.renameContainer = function () {
-                // #FIXME fix me later to handle http status to show the correct error message
-                Container.rename(angular.extend({'name': $scope.container.newContainerName}, urlParams), function (data) {
-                    if (data.name) {
-                        $scope.container.Name = data.name;
-                        Messages.send("Container renamed", $stateParams.containerId);
-                    } else {
-                        $scope.container.newContainerName = $scope.container.Name;
-                        Messages.error("Failure", "Container failed to rename.");
-                    }
-                });
-                $scope.container.edit = false;
+            vm.start = function() {
+                updateContainer('start', {HostConfig: vm.container.HostConfig});
             };
-
-            update(false);
-            $scope.getChanges();
+            vm.rename = function() {
+                updateContainer('rename', {name: vm.container.newContainerName});
+            };
+            vm.stop = function() {
+                updateContainer('stop');
+            };
+            vm.kill = function() {
+                updateContainer('kill');
+            };
+            vm.pause = function() {
+                updateContainer('pause');
+            };
+            vm.unpause = function() {
+                updateContainer('unpause');
+            };
+            vm.remove = function() {
+                updateContainer('remove', null).then(function(){
+                    $scope.$emit('updateContainersList');
+                    $state.go('^');
+                });
+            };
+            vm.restart = function() {
+                updateContainer('restart');
+            };
+            vm.commit = function() {
+                dockerService.containerCommit(vm.container.Id, vm.container.Config.Image).then(getContainer);
+            };
         }
-
 })();

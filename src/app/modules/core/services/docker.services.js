@@ -7,7 +7,8 @@
 
         return {
             getContainerTop: getContainerTop,
-            getContainerLogs: getContainerLogs
+            getContainerLogs: getContainerLogs,
+            containerCommit: containerCommit
         };
 
         function httpRequestSuccess(response) {
@@ -19,6 +20,19 @@
             return $q.reject(response.data ? response.data : response);
         }
 
+        function containerCommit(id, repo) {
+            // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#create-a-new-image-from-a-container-s-changes
+            return $http({
+                    method: 'POST',
+                    url: Settings.url + '/commit',
+                    params: {
+                        container: id,
+                        repo: repo
+                    }
+                })
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
+        }
 
         function getContainerTop(id, ps_args) {
             // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#list-processes-running-inside-a-container
