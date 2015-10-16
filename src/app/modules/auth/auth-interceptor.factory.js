@@ -5,7 +5,6 @@
         .factory('authInterceptor', authInterceptor);
 
     // Http interceptor for attaching token to headers
-    authInterceptor.$inject = ['auth'];
     function authInterceptor(auth) {
         return {
             request: request,
