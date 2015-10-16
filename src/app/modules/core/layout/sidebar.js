@@ -78,16 +78,6 @@
                 '<ul class="qor-sidebar-nav">' +
                 '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'User\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
                 '</ul>' +
-                '<div class="user-actions" user-actions>' +
-                '<div class="user-action" >' +
-                '<div><i class="fa fa-cog"></i></div>' +
-                '<span class="group-nav-heading ">Settings</span>' +
-                '</div><br>' +
-                '<div class="user-action" ui-sref="logout">' +
-                '<div><i class="fa fa-sign-out"></i></div>' +
-                '<span class="group-nav-heading ">Logout</span>' +
-                '</div>' +
-                '</div>' +
                 '</header>' +
                 '</nav>'
         };

@@ -1,14 +1,9 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.auth', [
-        'qorDash.core',
-        'ui.router'
-    ]);
-
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider', '$httpProvider', '$qorSidebarProvider'];
+    angular.module('qorDash.auth', ['qorDash.core', 'ui.router'])
+        .config(appConfig)
+        .run(runAuth);
 
     function appConfig($stateProvider, $httpProvider, $qorSidebarProvider) {
         $httpProvider.interceptors.push('authInterceptor');
@@ -21,16 +16,32 @@
             })
             .state('logout', {
                 url: '/logout',
-                controller: function ($location, user) {
+                controller: function ($state, user) {
                     user.logout();
-                    $location.path('/login');
+                    $state.go('login');
                 }
             });
 
         $qorSidebarProvider.config('User', {
             title: 'User',
             nav: 20,
-            content: '<span id="user-actions" user-section  qor-sidebar-group-heading="Admin" data-icon-class="fa fa-user"></span>'
+            content: '<span id="user-actions" ui-sref="logout" qor-sidebar-group-heading="Logout" data-icon-class="fa fa-sign-out"></span>'
+        });
+    }
+
+    function runAuth($rootScope, $state, user) {
+        $rootScope.$on("$stateChangeStart", function (event, toState) {
+            // Go to login page if user is not authorized
+            if (toState.authenticate && !user.isAuthed()) {
+                $state.transitionTo("login");
+                event.preventDefault();
+                return;
+            }
+            // Go to 404 if user has no access to page controller
+            if (toState.authenticate && toState.controller && !user.hasAccessTo(toState.controller)) {
+                $state.transitionTo('error');
+                event.preventDefault();
+            }
         });
     }
 })();

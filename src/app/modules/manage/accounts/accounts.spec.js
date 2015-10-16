@@ -24,9 +24,7 @@ describe('Controller: AccountsController', function() {
     beforeEach(module('qorDash.loaders'));
     beforeEach(module('qorDash.manage.accounts'));
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("AUTH_API_URL", AUTH_API_URL);
-    }));
+
 
     beforeEach(function() {
         accountsService = {
