@@ -7,12 +7,11 @@
     /**
      * Directive for creating dynamic for on the orchestrate page. You should pass object to the attribute. With the following syntax:
      * {
-     *     index: '...',
-     *     value: '...'
+     *     index: value
      * }
      * @returns {{restrict: string, link: link}}
      */
-    function orchestrateForm() {
+    function orchestrateForm($compile) {
         return {
             restrict: 'A',
             link: link
@@ -20,11 +19,9 @@
 
         function link(scope, element, attrs) {
             scope.$watch(attrs.orchestrateForm, function(newValue, oldValue){
-                if (newValue == oldValue) {
-                    createAndAppend(newValue);
-                } else if (newValue.length > oldValue.length) {
-                    var newElements = $(newValue).not(oldValue).get();
-                    createAndAppend(element, newElements);
+                if (Object.keys(oldValue).length == 0) {
+                    element.empty();
+                    createAndAppend(element, newValue);
                 }
             }, true);
 
@@ -35,9 +32,9 @@
              */
             function createAndAppend(parent, elementsArray) {
                 if (elementsArray) {
-                    elementsArray.forEach(function (element) {
-                        parent.append(getElement(element.index, element.value));
-                    });
+                    for (var index in elementsArray) {
+                        parent.append($compile(getElement(index, elementsArray[index]))(scope));
+                    }
                 }
             }
 
@@ -52,7 +49,7 @@
                         return '<div class="form-group" > ' +
                             '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
                             '<div class="col-md-4">' +
-                            '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
+                            '<input required="required" ng-model="vm.formElements[\''+index+'\']" name="input-' + index + '" type="text"  class="form-control input-md">' +
                             '</div>' +
                             '</div>';
                         break;
@@ -60,7 +57,7 @@
                         return '<div class="form-group" > ' +
                             '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
                             '<div class="col-md-4">' +
-                            '<input required="required" id="input-' + index + '" name="input-' + index + '" type="text" value="' + value + '" class="form-control input-md">' +
+                            '<input required="required" ng-model="vm.formElements[\''+index+'\']" name="input-' + index + '" type="text" class="form-control input-md">' +
                             '</div>' +
                             '</div>';
                         break;
@@ -69,7 +66,7 @@
                         return '<div class="form-group" > ' +
                             '<label class="col-md-4 control-label" for="input-' + index + '">' + index + '</label>' +
                             '<div class="col-md-4">' +
-                            '<input class="new-checkbox" id="input-' + index + '" name="input-' + index + '" type="checkbox" ' + checked + '>' + '<label for="input-' + index + '"></label>' +
+                            '<input class="new-checkbox" ng-model="vm.formElements[\''+index+'\']" name="input-' + index + '" type="checkbox">' + '<label for="input-' + index + '"></label>' +
                             '</div>' +
                             '</div>';
                         break;

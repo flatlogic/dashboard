@@ -2,7 +2,7 @@
     'use strict';
 
     var module = angular.module('qorDash.orchestrate.domain.instance.history.option', [
-        'ui.router'
+        'ui.router',
     ]);
 
     module.config(appConfig);
