@@ -11,21 +11,21 @@
                             aria-haspopup="true" aria-expanded="false">Action<span
                             class="fa fa-angle-down pull-right"></span></button>
                     <ul class="dropdown-menu">
-                        <li><a ng-click="removeAction()">Remove</a></li>
+                        <li><a ng-click="vm.removeAction()">Remove</a></li>
                     </ul>
                 </div>
             </div>
             <button class="btn btn-default config-table-header-button" id="pull-image"
-                    ng-click="pullImage()">Pull</button>
+                    ng-click="vm.pullImage()">Pull</button>
 
             <div class="pull-right form-inline containers-form">
-                <input type="text" class="form-control" id="filter" placeholder="Filter" ng-model="filter"/> <label class="sr-only" for="filter">Filter</label>
+                <input type="text" class="form-control" id="filter" placeholder="Filter" ng-model="vm.filter"/> <label class="sr-only" for="filter">Filter</label>
             </div>
         </div>
         <table class="table images-table">
             <thead>
             <tr>
-                <th><input class="new-checkbox bordered" id="header-checkbox" ng-model="toggle" ng-change="toggleSelectAll()" type="checkbox"><label for="header-checkbox"></label> ACTION</th>
+                <th><input class="new-checkbox bordered" id="header-checkbox" ng-model="vm.toggle" ng-change="vm.toggleSelectAll()" type="checkbox"><label for="header-checkbox"></label> ACTION</th>
                 <th>ID</th>
                 <th>REPOSITORY</th>
                 <th>VIRTUALSIZE</th>
@@ -33,7 +33,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="image in images | filter:filter | orderBy:predicate">
+            <tr ng-repeat="image in vm.images | filter:vm.filter | orderBy:vm.predicate">
                 <td class="center-text"><input class="new-checkbox bordered" id="check-{{image.Id}}" ng-model="image.Checked" type="checkbox"><label for="check-{{image.Id}}"></label></td>
                 <td><a ui-sref=".image({imageId: image.Id, imageTag: (image|repotag)})">{{ image.Id|truncate:20}}</a></td>
                 <td>{{ image|repotag }}</td>

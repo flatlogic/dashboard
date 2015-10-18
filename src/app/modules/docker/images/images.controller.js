@@ -1,77 +1,58 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.images')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.images')
         .controller('DockerImagesController', dockerImagesController)
         .controller('DockerPullImageController', dockerPullImageController);
 
-    dockerImagesController.$inject = ['$scope', 'Image', 'Settings', 'Messages', 'DockerViewModel', '$modal'];
-    function dockerImagesController($scope, Image, Settings, Messages, DockerViewModel, $modal) {
-        $scope.toggle = false;
-        $scope.predicate = '-Created';
-
+    function dockerImagesController($q, $modal, Image, Settings, DockerViewModel, resolvedDockerImages) {
         var urlParams = Settings.urlParams;
+        var vm = this;
+        vm.toggle = false;
+        vm.predicate = '-Created';
+        vm.images = resolvedDockerImages.map(DockerViewModel.image);
 
-        $scope.showBuilder = function () {
-            $('#build-modal').modal('show');
+        vm.toggleSelectAll = function () {
+            angular.forEach(vm.images, function (i) {
+                i.Checked = vm.toggle;
+            });
         };
 
-        $scope.pullImage = function() {
+        vm.removeAction = function () {
+            var imagesToRemove = vm.images.filter(function(image){
+                return image.Checked;
+            });
+            var promises = [];
+            imagesToRemove.forEach(function(image){
+                promises.push(Image.remove(angular.extend({id: image.Id}, urlParams)));
+            });
+            $q.all(promises).then(function(){
+                Image.query(Settings.urlParams, function(response) {
+                    vm.images = response.map(DockerViewModel.image);;
+                });
+            });
+        };
+
+
+        vm.pullImage = function() {
             $modal.open({
                 animation: true,
                 templateUrl: 'app/modules/docker/images/pull-image.html',
-                controller: 'DockerPullImageController'
+                controller: 'DockerPullImageController',
+                controllerAs: 'vm'
             });
         };
 
-        $scope.removeAction = function () {
-            var counter = 0;
-            var complete = function () {
-                counter = counter - 1;
-                if (counter === 0) {
-                }
-            };
-            angular.forEach($scope.images, function (i) {
-                if (i.Checked) {
-                    counter = counter + 1;
-                    Image.remove(angular.extend({id: i.Id}, urlParams), function (d) {
-                        angular.forEach(d, function (resource) {
-                            Messages.send("Image deleted", resource.Deleted);
-                        });
-                        var index = $scope.images.indexOf(i);
-                        $scope.images.splice(index, 1);
-                        complete();
-                    }, function (e) {
-                        Messages.error("Failure", e.data);
-                        complete();
-                    });
-                }
-            });
-        };
-
-        $scope.toggleSelectAll = function () {
-            angular.forEach($scope.images, function (i) {
-                i.Checked = $scope.toggle;
-            });
-        };
-
-        Image.query(urlParams, function (d) {
-            $scope.images = d.map(function (item) {
-                return DockerViewModel.image(item);
-            });
-        }, function (e) {
-            Messages.error("Failure", e.data);
-        });
     }
 
-    dockerPullImageController.$inject = ['$scope', 'Messages', 'Image', '$modalInstance'];
-    function dockerPullImageController ($scope, Messages, Image, $modalInstance) {
-        $scope.template = 'app/components/pullImage/pullImage.html';
-
+    function dockerPullImageController (Settings, Messages, Image, $modalInstance) {
         var urlParams = Settings.urlParams;
+        var vm = this;
+        vm.template = 'app/components/pullImage/pullImage.html';
 
-        $scope.init = function () {
-            $scope.config = {
+        vm.init = function () {
+            vm.config = {
                 registry: '',
                 repo: '',
                 fromImage: '',
@@ -79,25 +60,25 @@
             };
         };
 
-        $scope.init();
+        vm.close = function() {
+            $modalInstance.close();
+        };
+
+        vm.init();
 
         function failedRequestHandler(e, Messages) {
             Messages.error('Error', errorMsgFilter(e));
         }
 
-        $scope.close = function() {
-            $modalInstance.close();
-        };
 
-        $scope.pull = function () {
-            $('#error-message').hide();
-            var config = angular.copy($scope.config);
+        vm.pull = function () {
+            vm.error = null;
+            var config = angular.copy(vm.config);
             var imageName = (config.registry ? config.registry + '/' : '' ) +
                 (config.repo ? config.repo + '/' : '') +
                 (config.fromImage) +
                 (config.tag ? ':' + config.tag : '');
 
-            $('#pull-modal').modal('hide');
             $modalInstance.close();
 
             Image.create(angular.extend(config, urlParams), function (data) {
@@ -106,21 +87,17 @@
                     //check for error
                     if (f) {
                         var d = data[data.length - 1];
-                        $scope.error = "Cannot pull image " + imageName + " Reason: " + d.error;
-                        $('#pull-modal').modal('show');
-                        $('#error-message').show();
+                        vm.error = "Cannot pull image " + imageName + " Reason: " + d.error;
                     } else {
                         Messages.send("Image Added", imageName);
-                        $scope.init();
+                        vm.init();
                     }
                 } else {
                     Messages.send("Image Added", imageName);
-                    $scope.init();
+                    vm.init();
                 }
             }, function (e) {
-                $scope.error = "Cannot pull image " + imageName + " Reason: " + e.data;
-                $('#pull-modal').modal('show');
-                $('#error-message').show();
+                vm.error = "Cannot pull image " + imageName + " Reason: " + e.data;
             });
         };
     }

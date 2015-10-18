@@ -1,21 +1,22 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.docker.domain.dockers.menu.images', [
-        'ui.router',
-        'qorDash.docker.domain.dockers.menu.images.image'
-    ]);
+    angular
+        .module('qorDash.docker.domain.dockers.menu.images', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.docker.domains.domain.dockers.menu.images', {
                 url: '/images',
                 templateUrl: 'app/modules/docker/images/images.html',
                 controller: 'DockerImagesController',
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedDockerImages: function(Image, Settings) {
+                        return Image.query(Settings.urlParams).$promise;
+                    }
+                },
                 authenticate: true
             })
     }
