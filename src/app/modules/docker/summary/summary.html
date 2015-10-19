@@ -14,16 +14,16 @@
             </div>
             <div class="col-xs-6 centered-text">
                 <h3>Status</h3>
-                <pie-chart data="vm.dataset"></pie-chart>
+                <canvas class="chart chart-doughnut" chart-colours="vm.colours" chart-legend="true" chart-data="vm.dataset" chart-labels="vm.labels"></canvas>
             </div>
         </div>
 
         <div class="row containers-stat">
             <div class="col-xs-12 centered-text">
                 <h3>Containers created</h3>
-                <line-chart data="vm.totalContainers" width='700'></line-chart>
+                <canvas class="chart chart-line" chart-colours="vm.lineChartColours" chart-options="vm.containersChartOptions" chart-data="vm.totalContainers[0]" chart-labels="vm.totalContainers[1]"></canvas>
                 <h3>Images created</h3>
-                <line-chart data="vm.totalImages" width='700'></line-chart>
+                <canvas class="chart chart-line" chart-colours="vm.lineChartColours" chart-options="vm.imagesChartOptions" chart-data="vm.totalImages[0]" chart-labels="vm.totalImages[1]"></canvas>
             </div>
         </div>
     </div>

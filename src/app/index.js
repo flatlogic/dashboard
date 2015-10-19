@@ -2,6 +2,8 @@
     'use strict';
 
     var coreApplication = angular.module('qorDash', [
+        'ui.router',
+        'chart.js',
         'qorDash.loaders',
         'qorDash.core',
         'qorDash.auth',

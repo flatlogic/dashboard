@@ -99,7 +99,6 @@
         }
 
         this.displayAll = false;
-        this.firstLoad = true;
         this.port = '';
         this.endpoint = '';
         this.url = this.endpoint;
@@ -119,7 +118,6 @@
             url:          this.url,
             urlParams:    this.urlParams,
             displayAll:   this.displayAll,
-            firstLoad:    this.firstLoad,
             buildUrl:     this.buildUrl
           };
         }];
