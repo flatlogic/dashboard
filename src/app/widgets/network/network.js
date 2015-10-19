@@ -24,11 +24,6 @@
                             });
                     }
 
-                    scope.highlightNode = function(root, nodeName, type) {
-                        var node = findNodeByName(root, nodeName);
-                        node['_highlight'] = type;
-                    };
-
                     scope.render = function (data) {
                         var root = data;
 
@@ -48,19 +43,34 @@
 
                         var wrap = d3.select(element[0]);
 
+                        var zoom = d3.behavior.zoom()
+                            .scaleExtent([1, 10])
+                            .on("zoom", zoomed)
+                            .translate([5,5]);
+
                         var svg = wrap.append("svg")
                             .attr("width", width + margin.left + margin.right)
                             .attr("height", height + margin.bottom + margin.top)
                             .style("margin-left", -margin.left + "px")
                             .style("margin-right", -margin.right + "px")
                             .classed('network-svg', true)
-                            .append("g")
                             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                            .style("shape-rendering", "crispEdges");
+                            .style("shape-rendering", "crispEdges")
+                            .call(zoom);
 
-                        var drawRectangle = function(rect) {
+                        var g = svg.append('g');
 
-                            svg.append("rect")
+                        function zoomed() {
+                            console.log(d3.event.translate);
+                            console.log(d3.event.scale);
+                            g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+                        }
+
+                        d3.select(self.frameElement).style("height", height + "px");
+
+                       var drawRectangle = function(rect) {
+
+                            g.append("rect")
                                 .style("fill", "none")
                                 .style("stroke", "blue")
                                 .style("stroke-width", "2")
@@ -98,15 +108,17 @@
                             }
 
                             if('parent' in node) {
-                                if (!curParent || curParent != node.parent) {
+                                if (!curParent || curParent !== node.parent) {
                                     curChildNodeRow = 1;
                                     curChildNodeColomn = 0;
 
                                     numChildNode = 1;
                                     curParent = node.parent;
 
-                                    while (queue[numChildNode - 1].parent == curParent) {
-                                        numChildNode++;
+                                    if(queue.length !== 0) {
+                                        while (queue[numChildNode - 1].parent === curParent) {
+                                            numChildNode++;
+                                        }
                                     }
 
                                     marginWidth = node.parent.width/20;
@@ -133,7 +145,10 @@
                             }
 
                             drawRectangle(node);
-                            BFS(queue.shift());
+
+                            if(queue.length !== 0) {
+                                BFS(queue.shift());
+                            }
                         };
 
                         BFS(node);
