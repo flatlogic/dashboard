@@ -25,7 +25,12 @@
                     }
 
                     scope.render = function (data) {
-                        var root = data;
+                        var root = data,
+                            depth = 7,
+                            preScrolLevel = 0,
+                            levels = [],
+                            queue = [],
+                            node;
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
@@ -44,9 +49,8 @@
                         var wrap = d3.select(element[0]);
 
                         var zoom = d3.behavior.zoom()
-                            .scaleExtent([1, 10])
-                            .on("zoom", zoomed)
-                            .translate([5,5]);
+                            .scaleExtent([1, depth])
+                            .on("zoom", zoomed);
 
                         var svg = wrap.append("svg")
                             .attr("width", width + margin.left + margin.right)
@@ -60,35 +64,39 @@
 
                         var g = svg.append('g');
 
+                        d3.select(self.frameElement).style("height", height + "px");
+
                         function zoomed() {
-                            console.log(d3.event.translate);
-                            console.log(d3.event.scale);
+                            detalizationRect();
                             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
                         }
 
-                        d3.select(self.frameElement).style("height", height + "px");
+                        function drawRectangle (node) {
 
-                       var drawRectangle = function(rect) {
-
-                            g.append("rect")
+                            var rect = g.append("rect")
                                 .style("fill", "none")
                                 .style("stroke", "blue")
                                 .style("stroke-width", "2")
-                                .attr("x", rect.x)
-                                .attr("y", rect.y)
-                                .attr("width", rect.width)
-                                .attr("height", rect.height);
+                                .attr("x", node.x)
+                                .attr("y", node.y)
+                                .attr("width", node.width)
+                                .attr("height", node.height);
 
+                            rect.depth = node.depth;
+
+                            if(!levels[node.depth]) {
+                                levels[node.depth] = [];
+                            }
+
+                            levels[node.depth].push(rect);
                         };
-
-                        var queue = [],
-                            node;
 
                         queue.push(root);
                         node = queue.shift();
 
                         node.width = 1350;
                         node.height = 800;
+                        node.depth = 1;
                         node.x = 40;
                         node.y = 40;
 
@@ -104,6 +112,7 @@
 
                             for (var i in node.children) {
                                 node.children[i].parent = node;
+                                node.children[i].depth = node.depth + 1;
                                 queue.push(node.children[i]);
                             }
 
@@ -151,7 +160,26 @@
                             }
                         };
 
+                        function detalizationRect () {
+
+                            var scrolLevel = Math.round(zoom.scale());
+
+                            if(preScrolLevel === scrolLevel)    return;
+
+                            preScrolLevel = scrolLevel;
+
+                            if(!levels[scrolLevel+2]) {
+                                scrolLevel = depth - 2;
+                            }
+
+                            d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.5/scrolLevel);
+                            levels[scrolLevel + 2].forEach(function(item, i) {
+                                item.style("fill", "red");
+                            });
+                        };
+
                         BFS(node);
+                        detalizationRect();
                     };
 
                     if (!scope.sourceJson) {
