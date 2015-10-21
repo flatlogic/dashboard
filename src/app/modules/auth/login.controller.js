@@ -4,17 +4,14 @@
     angular.module('qorDash.auth')
         .controller('LoginController', loginController);
 
-    loginController.$inject = ['$scope', '$state', 'user', 'LOGIN_PAGE_ICON_URL'];
-    function loginController($scope, $state, user, LOGIN_PAGE_ICON_URL) {
+    function loginController($state, user, LOGIN_PAGE_ICON_URL) {
         var vm = this;
 
         vm.login = login;
+        vm.removeError = removeError;
 
         vm.ICON_URL = LOGIN_PAGE_ICON_URL;
-        vm.userCredentials = {
-            login: '',
-            password: ''
-        };
+        vm.userCredentials = {};
 
         vm.loginButtonLoadingState = false;
 
@@ -23,9 +20,6 @@
             return;
         }
 
-        $scope.$watch('vm.userCredentials.login', removeError);
-        $scope.$watch('vm.userCredentials.password', removeError);
-
         function login() {
             startLoginAnimation();
             user.login(vm.userCredentials.login, vm.userCredentials.password).then(
@@ -33,18 +27,20 @@
                     $state.go('app.dashboard');
                 },
                 function (response) {
-                    if (!response || !response.data || !response.data.error) {
-                        vm.loginForm.$error['unknown'] = true;
-                    } else {
-                        vm.loginForm.$error[response.data.error] = true;
-                    }
-
+                    var errorCode = response && response.data && response.data.error ? response.data.error : 'unknown';
+                    vm.loginForm.$setValidity(errorCode, false);
                     stopLoginAnimation();
                 });
         }
 
         function removeError() {
-            vm.loginForm.$error = {};
+          if (vm.loginForm.$invalid && vm.loginForm.$submitted){
+            vm.loginForm.$setPristine();
+            vm.loginForm.$setUntouched();
+            for (var errorCode in vm.loginForm.$error) {
+              vm.loginForm.$setValidity(errorCode, true);
+            }
+          }
         }
 
         function startLoginAnimation() {
