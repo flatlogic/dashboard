@@ -22,56 +22,6 @@
                     });
                 };
 
-                function drawRectangle (node) {
-
-                    var rect = g.append("rect")
-                        .style("fill", "none")
-                        .style("stroke", "blue")
-                        .style("stroke-width", "2")
-                        .attr("x", node.x)
-                        .attr("y", node.y)
-                        .attr("width", node.width)
-                        .attr("height", node.height);
-
-                    setLevels(rect, node);
-                };
-
-                function setLevels(rect, node) {
-
-                    rect.depth = node.depth;
-
-                    if(!levels[node.depth]) {
-                        levels[node.depth] = [];
-                    }
-
-                    levels[node.depth].push(rect);
-                };
-
-                function zoomed() {
-                    preventDefault();
-                    detalizationRect();
-                    g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-                };
-
-                function detalizationRect () {
-
-                    var scrolLevel = Math.round(zoom.scale());
-
-                    if(preScrolLevel === scrolLevel)    return;
-
-                    preScrolLevel = scrolLevel;
-
-                    if(!levels[scrolLevel+2]) {
-                        scrolLevel = depth - 2;
-                    }
-
-                    d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.5/Math.round(zoom.scale()));
-                    levels[scrolLevel + 2].forEach(function(item, i) {
-                        item.style("fill", "red");
-                    });
-                };
-
-
                 d3.d3().then(function (d3) {
                     function initJson() {
                         return $http.get('data/network-data.json')
@@ -198,6 +148,56 @@
 
                         BFS(node);
                         detalizationRect();
+
+
+                        function drawRectangle (node) {
+
+                            var rect = g.append("rect")
+                                .style("fill", "none")
+                                .style("stroke", "blue")
+                                .style("stroke-width", "2")
+                                .attr("x", node.x)
+                                .attr("y", node.y)
+                                .attr("width", node.width)
+                                .attr("height", node.height);
+
+                            setLevels(rect, node);
+                        };
+
+                        function setLevels(rect, node) {
+
+                            rect.depth = node.depth;
+
+                            if(!levels[node.depth]) {
+                                levels[node.depth] = [];
+                            }
+
+                            levels[node.depth].push(rect);
+                        };
+
+                        function zoomed() {
+                            preventDefault();
+                            detalizationRect();
+                            g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+                        };
+
+                        function detalizationRect () {
+
+                            var scrolLevel = Math.round(zoom.scale());
+
+                            if(preScrolLevel === scrolLevel)    return;
+
+                            preScrolLevel = scrolLevel;
+
+                            if(!levels[scrolLevel+2]) {
+                                scrolLevel = depth - 2;
+                            }
+
+                            d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.5/Math.round(zoom.scale()));
+                            levels[scrolLevel + 2].forEach(function(item, i) {
+                                item.style("fill", "red");
+                            });
+                        };
                     };
 
                     if (!scope.sourceJson) {
