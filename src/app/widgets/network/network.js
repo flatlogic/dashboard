@@ -11,6 +11,67 @@
             restrict: 'EA',
             replace: true,
             link: function (scope, element, attrs) {
+
+                function preventDefault() {
+                    $('.network').on({
+                        'mousewheel': function(e) {
+                            if (e.target.id == 'el') return;
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    });
+                };
+
+                function drawRectangle (node) {
+
+                    var rect = g.append("rect")
+                        .style("fill", "none")
+                        .style("stroke", "blue")
+                        .style("stroke-width", "2")
+                        .attr("x", node.x)
+                        .attr("y", node.y)
+                        .attr("width", node.width)
+                        .attr("height", node.height);
+
+                    setLevels(rect, node);
+                };
+
+                function setLevels(rect, node) {
+
+                    rect.depth = node.depth;
+
+                    if(!levels[node.depth]) {
+                        levels[node.depth] = [];
+                    }
+
+                    levels[node.depth].push(rect);
+                };
+
+                function zoomed() {
+                    preventDefault();
+                    detalizationRect();
+                    g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+                };
+
+                function detalizationRect () {
+
+                    var scrolLevel = Math.round(zoom.scale());
+
+                    if(preScrolLevel === scrolLevel)    return;
+
+                    preScrolLevel = scrolLevel;
+
+                    if(!levels[scrolLevel+2]) {
+                        scrolLevel = depth - 2;
+                    }
+
+                    d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.5/Math.round(zoom.scale()));
+                    levels[scrolLevel + 2].forEach(function(item, i) {
+                        item.style("fill", "red");
+                    });
+                };
+
+
                 d3.d3().then(function (d3) {
                     function initJson() {
                         return $http.get('data/network-data.json')
@@ -25,12 +86,20 @@
                     }
 
                     scope.render = function (data) {
+
                         var root = data,
                             depth = 7,
                             preScrolLevel = 0,
                             levels = [],
                             queue = [],
-                            node;
+                            node,
+                            curParent,
+                            curChildNodeRow = 0,
+                            curChildNodeColomn = 0,
+                            numChildNode,
+                            numColomn,
+                            marginWidth,
+                            marginHeight;
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
@@ -49,7 +118,7 @@
                         var wrap = d3.select(element[0]);
 
                         var zoom = d3.behavior.zoom()
-                            .scaleExtent([1, depth])
+                            .scaleExtent([1, depth * 20])
                             .on("zoom", zoomed);
 
                         var svg = wrap.append("svg")
@@ -66,49 +135,16 @@
 
                         d3.select(self.frameElement).style("height", height + "px");
 
-                        function zoomed() {
-                            detalizationRect();
-                            g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-                        }
-
-                        function drawRectangle (node) {
-
-                            var rect = g.append("rect")
-                                .style("fill", "none")
-                                .style("stroke", "blue")
-                                .style("stroke-width", "2")
-                                .attr("x", node.x)
-                                .attr("y", node.y)
-                                .attr("width", node.width)
-                                .attr("height", node.height);
-
-                            rect.depth = node.depth;
-
-                            if(!levels[node.depth]) {
-                                levels[node.depth] = [];
-                            }
-
-                            levels[node.depth].push(rect);
-                        };
-
                         queue.push(root);
                         node = queue.shift();
 
-                        node.width = 1350;
+                        node.width = 1200;
                         node.height = 800;
                         node.depth = 1;
                         node.x = 40;
                         node.y = 40;
 
-                        var curParent,
-                            curChildNodeRow = 0,
-                            curChildNodeColomn = 0,
-                            numChildNode,
-                            numColomn,
-                            marginWidth,
-                            marginHeight;
-
-                        var BFS = function(node) {
+                        function BFS (node) {
 
                             for (var i in node.children) {
                                 node.children[i].parent = node;
@@ -158,24 +194,6 @@
                             if(queue.length !== 0) {
                                 BFS(queue.shift());
                             }
-                        };
-
-                        function detalizationRect () {
-
-                            var scrolLevel = Math.round(zoom.scale());
-
-                            if(preScrolLevel === scrolLevel)    return;
-
-                            preScrolLevel = scrolLevel;
-
-                            if(!levels[scrolLevel+2]) {
-                                scrolLevel = depth - 2;
-                            }
-
-                            d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.5/scrolLevel);
-                            levels[scrolLevel + 2].forEach(function(item, i) {
-                                item.style("fill", "red");
-                            });
                         };
 
                         BFS(node);
