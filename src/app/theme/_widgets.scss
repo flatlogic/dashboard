@@ -30,8 +30,8 @@ $stat-blue-color: #7986CB;
   }
 }
 
-.widget-login-container {
-  padding-top: 10%;
+.center-vertical {
+  @include vertical-align-center();
 }
 
 .widget-login-logo {
