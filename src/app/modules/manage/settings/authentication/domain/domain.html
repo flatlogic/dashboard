@@ -2,20 +2,57 @@
     <header horizontal-ui-sheet-header title="{{domain.domain}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <table class="table" ng-repeat="(serviceName,service) in domain.services">
-            <tr style="text-align: center;">
-                <td>{{service.name}}</td>
-            </tr>
-            <tr>
-                <td>url</td>
-                <td>{{service.url}}</td>
-            </tr>
-            <tr style="text-align: center;">
-                <td>WebHooks</td>
-            </tr>
-            <tr ng-repeat="(hookName, hook) in service.webhooks">
-
-            </tr>
+        <table class="table auth-table" ng-repeat="(serviceName,service) in domain.services">
+            <tbody>
+                <tr>
+                    <td>name</td>
+                    <td>{{service.name}}</td>
+                    <td class="hidden"></td>
+                    <td class="hidden"></td>
+                </tr>
+                <tr ng-show="service.url">
+                    <td>url</td>
+                    <td>{{service.url}}</td>
+                    <td class="hidden"></td>
+                    <td class="hidden"></td>
+                </tr>
+                <tr>
+                    <td rowspan="4">webhooks</td>
+                    <td rowspan="2">new-user-registration <i class="fa fa-angle-right"></i></td>
+                    <td >destination_url <i class="fa fa-angle-right"></i></td>
+                    <td >liiink</td>
+                </tr>
+                <tr>
+                    <td>auth_token <i class="fa fa-angle-right"></i></td>
+                    <td>liiink</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">second-user-registration <i class="fa fa-angle-right"></i>
+                    <td >destination_url <i class="fa fa-angle-right"></i></td>
+                    <td >liiink</td>
+                </tr>
+                <tr>
+                    <td >liiink</td>
+                </tr>
+                <tr>
+                    <td rowspan="4">new_account_preset</td>
+                    <td>id <i class="fa fa-angle-right"></i></td>
+                    <td>app1</td>
+                    <td class="hidden"></td>
+                </tr>
+                <tr>
+                    <td rowspan="3">scopes <i class="fa fa-angle-right"></i></td>
+                    <td>app1-readonly</td>
+                    <td class="hidden"></td>
+                </tr>
+                <tr>
+                    <td>app1-write</td>
+                    <td class="hidden"></td>
+                </tr>
+                <tr>
+                    <td>+</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </section>

@@ -1424,3 +1424,23 @@ width: 20px;
 .containers-stat {
   margin-top: 30px;
 }
+
+
+.auth-table {
+  border: none;
+
+  >tbody>tr>td {
+    background: white;
+    border: 2px solid #F0F0F0;
+    vertical-align: middle;
+
+    >.fa {
+      float: right;
+      margin-top: 3px;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+}
