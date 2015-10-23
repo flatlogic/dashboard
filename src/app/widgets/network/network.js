@@ -39,7 +39,8 @@
                             numChildNode,
                             numColomn,
                             marginWidth,
-                            marginHeight;
+                            marginHeight,
+                            unusedRect = [];
 
                         var margin = {top: 20, right: 0, bottom: 0, left: 0},
                             width = element.width(),
@@ -234,7 +235,13 @@
                                     .attr("width", item.width)
                                     .attr("height", item.height + item.headerheight);
 
-
+                                unusedRect.push(rect);
+                                if (unusedRect.length > 2* levels[depth].length && depth < zoom.scale()) {
+                                    unusedRect.forEach(function(item){
+                                        item.remove();
+                                    })
+                                    unusedRect = [];
+                                }
                             });
                         };
 
