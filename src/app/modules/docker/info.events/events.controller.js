@@ -1,28 +1,30 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.info.events')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.info.events')
         .controller('DockerInfoEventsController', dockerInfoEventsController);
 
+    function dockerInfoEventsController($scope, $timeout, Settings, Oboe, Messages) {
+        var vm = this;
+        var url = Settings.url + '/events?';
+        vm.model = {};
+        vm.model.since = new Date(Date.now() - 86400000); // 24 hours in the past
+        vm.model.until = new Date();
+        vm.updateEvents();
 
-    dockerInfoEventsController.$inject = ['Settings', '$scope', 'Oboe', 'Messages', '$timeout'];
-    function dockerInfoEventsController(Settings, $scope, oboe, Messages, $timeout) {
-        $scope.updateEvents = function () {
-            $scope.dockerEvents = [];
-
-            // TODO: Clean up URL building
-            var url = Settings.url + '/events?';
-
-            if ($scope.model.since) {
-                var sinceSecs = Math.floor($scope.model.since.getTime() / 1000);
+        vm.updateEvents = function () {
+            vm.dockerEvents = [];
+            if (vm.model.since) {
+                var sinceSecs = Math.floor(vm.model.since.getTime() / 1000);
                 url += 'since=' + sinceSecs + '&';
             }
-            if ($scope.model.until) {
-                var untilSecs = Math.floor($scope.model.until.getTime() / 1000);
+            if (vm.model.until) {
+                var untilSecs = Math.floor(vm.model.until.getTime() / 1000);
                 url += 'until=' + untilSecs;
             }
 
-            oboe({
+            Oboe({
                 url: url,
                 pattern: '{id status time}'
             })
@@ -36,14 +38,8 @@
                     Messages.error("Failure", error.data);
                 }, function (node) {
                     // node received
-                    $scope.dockerEvents.push(node);
+                    vm.dockerEvents.push(node);
                 });
         };
-
-        // Init
-        $scope.model = {};
-        $scope.model.since = new Date(Date.now() - 86400000); // 24 hours in the past
-        $scope.model.until = new Date();
-        $scope.updateEvents();
     }
 })();

@@ -7,13 +7,13 @@
                 <form class="form-inline">
                     <div class="form-group">
                         <label for="since">Since:</label>
-                        <input id="since" type="datetime-local" ng-model="model.since" class="form-control" step="any"/>
+                        <input id="since" type="datetime-local" ng-model="vm.model.since" class="form-control" step="any"/>
                     </div>
                     <div class="form-group">
                         <label for="until">Until:</label>
-                        <input id="until" type="datetime-local" ng-model="model.until" class="form-control" step="any"/>
+                        <input id="until" type="datetime-local" ng-model="vm.model.until" class="form-control" step="any"/>
                     </div>
-                    <button ng-click="updateEvents()" class="btn btn-warning">Update</button>
+                    <button ng-click="vm.updateEvents()" class="btn btn-warning">Update</button>
                 </form>
                 <br>
                 <table class="table containers-table">
@@ -24,7 +24,7 @@
                         <th>ID</th>
                         <th>Time</th>
                     </tr>
-                    <tr ng-repeat="event in dockerEvents">
+                    <tr ng-repeat="event in vm.dockerEvents">
                         <td ng-bind="event.status"/>
                         <td ng-bind="event.from"/>
                         <td ng-bind="event.id"/>
