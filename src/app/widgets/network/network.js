@@ -12,16 +12,6 @@
             replace: true,
             link: function (scope, element, attrs) {
 
-                function preventDefault() {
-                    $('.network').on({
-                        'mousewheel': function(e) {
-                            if (e.target.id == 'el') return;
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }
-                    });
-                };
-
                 d3.d3().then(function (d3) {
                     function initJson() {
                         return $http.get('data/network-data.json')
@@ -89,7 +79,8 @@
                         node = queue.shift();
 
                         node.width = 1200;
-                        node.height = 800;
+                        node.height = 720;
+                        node.headerheight = 80;
                         node.depth = 1;
                         node.x = 40;
                         node.y = 40;
@@ -133,10 +124,12 @@
                                     curChildNodeRow++;
                                 }
 
-                                node.width = node.parent.width/numColomn - marginWidth * 2;
-                                node.height = node.parent.height/numColomn - marginHeight * 2;
+                                node.width = node.parent.width/numColomn - marginWidth * 1.5;
+                                node.height = node.parent.height/numColomn - marginHeight * 1.5;
                                 node.x = node.parent.x + marginWidth * curChildNodeRow + node.width * (curChildNodeRow - 1) ;
-                                node.y =  node.parent.y + marginHeight * curChildNodeColomn + node.height * (curChildNodeColomn - 1) ;
+                                node.y = node.parent.headerheight + node.parent.y + marginHeight * curChildNodeColomn + node.height * (curChildNodeColomn - 1) ;
+                                node.height = node.height * 8/10;
+                                node.headerheight = node.height * 2/10;
                             }
 
                             drawRectangle(node);
@@ -146,25 +139,48 @@
                             }
                         };
 
-                        BFS(node);
-                        detalizationRect();
-
-
                         function drawRectangle (node) {
 
                             var rect = g.append("rect")
                                 .style("fill", "none")
-                                .style("stroke", "blue")
+                                .style("stroke", "#949da5")
                                 .style("stroke-width", "2")
                                 .attr("x", node.x)
                                 .attr("y", node.y)
                                 .attr("width", node.width)
-                                .attr("height", node.height);
+                                .attr("height", node.height + node.headerheight);
+
+
+                            var rect2 = g.append("rect")
+                                .style("fill", "none")
+                                .style("stroke", "none")
+                                .style("stroke-width", "2")
+                                .attr("x", node.x)
+                                .attr("y", node.y)
+                                .attr("width", node.width)
+                                .attr("height", node.headerheight)
+                                .append("title")
+                                .text(node.name);
+
+                            //if ()
+
+                            g.append("text")
+                                .attr("x", node.x + node.width/20)
+                                .attr("y", node.y + node.headerheight / 2)
+                                .attr("dy", ".35em")
+                                .attr("font-size", node.height / 12  + "px")
+                                .text(node.name);
 
                             setLevels(rect, node);
                         };
 
                         function setLevels(rect, node) {
+
+                            rect.x = node.x;
+                            rect.y = node.y;
+                            rect.width = node.width;
+                            rect.height = node.height;
+                            rect.headerheight = node.headerheight;
 
                             rect.depth = node.depth;
 
@@ -181,6 +197,16 @@
                             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
                         };
 
+                        function preventDefault() {
+                            $('.network').on({
+                                'mousewheel': function(e) {
+                                    if (e.target.id == 'el') return;
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                }
+                            });
+                        };
+
                         function detalizationRect () {
 
                             var scrolLevel = Math.round(zoom.scale());
@@ -193,11 +219,27 @@
                                 scrolLevel = depth - 2;
                             }
 
-                            d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.5/Math.round(zoom.scale()));
+                            d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.4/Math.round(zoom.scale()));
+
                             levels[scrolLevel + 2].forEach(function(item, i) {
-                                item.style("fill", "red");
+                                //item.style("fill", "red");
+
+                                var rect = g.append("rect")
+                                    .style("fill", "#fff")
+                                    .style("stroke", "#949da5")
+                                    .style("stroke-width", "2")
+                                    .style("stroke-width", 1.5/Math.round(zoom.scale()))
+                                    .attr("x", item.x)
+                                    .attr("y", item.y )
+                                    .attr("width", item.width)
+                                    .attr("height", item.height + item.headerheight);
+
+
                             });
                         };
+
+                        BFS(node);
+                        detalizationRect();
                     };
 
                     if (!scope.sourceJson) {
