@@ -1,46 +1,59 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.images.image')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.images.image')
         .controller('DockerImageController', dockerImageController)
         .controller('CreateImageModalController', createImageModalController);
 
-    function dockerImageController($scope, $q, $stateParams, $location, Image, Container, DockerViewModel, Settings, Messages, $modal) {
-        $scope.history = [];
-        $scope.tag1 = {repo: '', force: false};
-
+    function dockerImageController($q, $stateParams, $modal, Image, Container, DockerViewModel, Settings, Messages, resolvedDockerImage, resolvedDockerImageHistory) {
         var urlParams = angular.extend({id: $stateParams.imageId}, Settings.urlParams);
+        var vm = this;
+        vm.tag1 = {repo: '', force: false};
+        vm.history = resolvedDockerImageHistory;
+        vm.image = resolvedDockerImage;
+        vm.tag = resolvedDockerImage.id;
 
-        $scope.remove = function () {
+        var t = $stateParams.imageTag;
+        if (t && t !== ":") {
+            vm.tag = t;
+            var promise = getContainersFromImage($q, Container, t);
+
+            promise.then(function (containers) {
+                vm.containers = containers;
+            });
+        }
+
+
+        vm.remove = function () {
             Image.remove(urlParams, function (d) {
                 Messages.send("Image Removed", $stateParams.imageId);
             }, function (e) {
-                $scope.error = e.data;
-                $('#error-message').show();
+                vm.error = e.data;
             });
         };
 
-        $scope.getHistory = function () {
+        vm.getHistory = function () {
             Image.history(urlParams, function (d) {
-                $scope.history = d;
+                vm.history = d;
             });
         };
 
-        $scope.updateTag = function () {
-            var tag = $scope.tag1;
+        vm.updateTag = function () {
+            var tag = vm.tag1;
             Image.tag(angular.extend({repo: tag.repo, force: tag.force ? 1 : 0}, urlParams), function (d) {
                 Messages.send("Tag Added", $stateParams.imageId);
             }, function (e) {
-                $scope.error = e.data;
-                $('#error-message').show();
+                vm.error = e.data;
             });
         };
 
-        $scope.openCreateImageModal = function() {
+        vm.openCreateImageModal = function() {
             $modal.open({
                 animation: true,
                 templateUrl: 'app/modules/docker/image/create-modal.html',
-                controller: 'CreateImageModalController'
+                controller: 'CreateImageModalController',
+                controllerAs: 'vm'
             });
         };
 
@@ -60,33 +73,8 @@
 
             return defer.promise;
         }
-
-        Image.get(urlParams, function (d) {
-            $scope.image = d;
-            $scope.tag = d.id;
-            var t = $stateParams.imageTag;
-            if (t && t !== ":") {
-                $scope.tag = t;
-                var promise = getContainersFromImage($q, Container, t);
-
-                promise.then(function (containers) {
-                    $scope.containers = containers;
-                });
-            }
-        }, function (e) {
-            if (e.status === 404) {
-                $('.detail').hide();
-                $scope.error = "Image not found.<br />" + $stateParams.imageId;
-            } else {
-                $scope.error = e.data;
-            }
-            $('#error-message').show();
-        });
-
-        $scope.getHistory();
     }
 
-    createImageModalController.$inject = ['$scope', '$stateParams', '$location', 'Settings', 'Container', 'Messages', 'containernameFilter', 'errorMsgFilter'];
     function createImageModalController($scope, $stateParams, $location, Settings, Container, Messages, containernameFilter, errorMsgFilter) {
 
         var urlParams = Settings.urlParams;
@@ -202,21 +190,18 @@
             rmEmptyKeys(config.HostConfig);
             rmEmptyKeys(config);
 
-            var ctor = Container;
-            var loc = $location;
-            var s = $scope;
             Container.create(angular.extend(config, urlParams), function (d) {
                 if (d.Id) {
                     var reqBody = config.HostConfig || {};
                     reqBody.id = d.Id;
-                    ctor.start(angular.extend(reqBody, urlParams), function (cd) {
+                    Container.start(angular.extend(reqBody, urlParams), function (cd) {
                         if (cd.id) {
                             Messages.send('Container Started', d.Id);
                             $('#create-modal').modal('hide');
-                            loc.path('/containers/' + d.Id + '/');
+                            $location.path('/containers/' + d.Id + '/');
                         } else {
                             failedRequestHandler(cd, Messages);
-                            ctor.remove({id: d.Id}, function () {
+                            Container.remove({id: d.Id}, function () {
                                 Messages.send('Container Removed', d.Id);
                             });
                         }

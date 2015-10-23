@@ -1,62 +1,62 @@
 <section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{image.Id}}">
+    <header horizontal-ui-sheet-header title="{{vm.image.Id}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div class="alert alert-error" id="error-message" style="display:none">
-            {{ error }}
+        <div class="alert alert-error" ng-show="vm.error">
+            {{vm.error}}
         </div>
 
         <div class="detail">
 
-            <h4>Image: {{ tag }} </h4>
+            <h4>Image: {{ vm.tag }} </h4>
 
             <div class="btn-group detail">
-                <button class="btn btn-success" ng-click="openCreateImageModal()">Create</button>
+                <button class="btn btn-success" ng-click="vm.openCreateImageModal()">Create</button>
             </div>
 
             <div>
                 <h4>Containers created:</h4>
-                <line-chart data="containers" width='700'></line-chart>
+                <line-chart data="vm.containers" width='700'></line-chart>
             </div>
 
             <table class="table table-striped">
                 <tbody>
                 <tr>
                     <td>Created:</td>
-                    <td>{{ image.Created }}</td>
+                    <td>{{ vm.image.Created }}</td>
                 </tr>
                 <tr>
                     <td>Parent:</td>
-                    <td><a ui-sref=".({imageId: image.Parent})">{{ image.Parent }}</a></td>
+                    <td><a ui-sref=".({imageId: vm.image.Parent})">{{ vm.image.Parent }}</a></td>
                 </tr>
                 <tr>
                     <td>Size (Virtual Size):</td>
-                    <td>{{ image.Size|humansize }} ({{ image.VirtualSize|humansize }})</td>
+                    <td>{{ vm.image.Size|humansize }} ({{ vm.image.VirtualSize|humansize }})</td>
                 </tr>
 
                 <tr>
                     <td>Hostname:</td>
-                    <td>{{ image.ContainerConfig.Hostname }}</td>
+                    <td>{{ vm.image.ContainerConfig.Hostname }}</td>
                 </tr>
                 <tr>
                     <td>User:</td>
-                    <td>{{ image.ContainerConfig.User }}</td>
+                    <td>{{ vm.image.ContainerConfig.User }}</td>
                 </tr>
                 <tr>
                     <td>Cmd:</td>
-                    <td>{{ image.ContainerConfig.Cmd }}</td>
+                    <td>{{ vm.image.ContainerConfig.Cmd }}</td>
                 </tr>
                 <tr>
                     <td>Volumes:</td>
-                    <td>{{ image.ContainerConfig.Volumes }}</td>
+                    <td>{{ vm.image.ContainerConfig.Volumes }}</td>
                 </tr>
                 <tr>
                     <td>Volumes from:</td>
-                    <td>{{ image.ContainerConfig.VolumesFrom }}</td>
+                    <td>{{ vm.image.ContainerConfig.VolumesFrom }}</td>
                 </tr>
                 <tr>
                     <td>Built with:</td>
-                    <td>Docker {{ image.DockerVersion }} on {{ image.Os}}, {{ image.Architecture }}</td>
+                    <td>Docker {{ vm.image.DockerVersion }} on {{ vm.image.Os}}, {{ vm.image.Architecture }}</td>
                 </tr>
 
                 </tbody>
@@ -67,15 +67,14 @@
                     History:
                 </div>
                 <div class="span5">
-                    <i class="icon-refresh" style="width:32px;height:32px;" ng-click="getHistory()"></i>
+                    <i class="icon-refresh" style="width:32px;height:32px;" ng-click="vm.getHistory()"></i>
                 </div>
             </div>
 
             <div class="well well-large">
                 <ul>
-                    <li ng-repeat="change in history">
-                        <strong>{{ change.Id }}</strong>: Created: {{ change.Created|getdate }} Created by: {{ change.CreatedBy
-                        }}
+                    <li ng-repeat="change in vm.history">
+                        <strong>{{ change.Id }}</strong>: Created: {{ change.Created|getdate }} Created by: {{ change.CreatedBy}}
                     </li>
                 </ul>
             </div>
@@ -88,12 +87,12 @@
                         <legend>Tag image</legend>
                         <div class="form-group">
                             <label>Tag:</label>
-                            <input type="text" placeholder="repo..." ng-model="tag1.repo" class="form-control">
+                            <input type="text" placeholder="repo..." ng-model="vm.tag1.repo" class="form-control">
                         </div>
                         <div class="form-group">
-                            <input class="new-checkbox bordered" id="check-tag" ng-model="tag1.force" type="checkbox"><label for="check-tag"></label> Force?
+                            <input class="new-checkbox bordered" id="check-tag" ng-model="vm.tag1.force" type="checkbox"><label for="check-tag"></label> Force?
                         </div>
-                        <input type="button" ng-click="updateTag()" value="Tag" class="btn btn-primary"/>
+                        <input type="button" ng-click="vm.updateTag()" value="Tag" class="btn btn-primary"/>
                     </fieldset>
                 </form>
             </div>
@@ -101,7 +100,7 @@
             <hr/>
 
             <div class="btn-remove">
-                <button class="btn btn-large btn-block btn-primary btn-danger" ng-click="remove()">Remove Image</button>
+                <button class="btn btn-large btn-block btn-primary btn-danger" ng-click="vm.remove()">Remove Image</button>
             </div>
         </div>
 
