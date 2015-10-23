@@ -26,8 +26,9 @@
                             </div>
                             <div class="clearfix">
                                 <div class="login-toolbar pull-right">
-                                    <button class="btn btn-inverse btn-sm btn-login"
-                                            data-loading-text="Loading..." button-loading="vm.loginButtonLoadingState" type="submit">Log In
+                                    <button type="submit" class="btn btn-inverse btn-sm btn-login" ng-disabled="vm.isLoading">
+                                        <span ng-hide="vm.isLoading">Log In</span>
+                                        <span ng-show="vm.isLoading">Loading...</span>
                                     </button>
                                     <a id="google-signin" g-signin class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
                                         <i class="fa fa-google"></i>Sign in with Google
