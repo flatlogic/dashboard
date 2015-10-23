@@ -21,9 +21,9 @@
         <div class="row containers-stat">
             <div class="col-xs-12 centered-text">
                 <h3>Containers created</h3>
-                <canvas class="chart chart-line" chart-colours="vm.lineChartColours" chart-options="vm.containersChartOptions" chart-data="vm.totalContainers[0]" chart-labels="vm.totalContainers[1]"></canvas>
+                <line-chart data="vm.totalContainers"></line-chart>
                 <h3>Images created</h3>
-                <canvas class="chart chart-line" chart-colours="vm.lineChartColours" chart-options="vm.imagesChartOptions" chart-data="vm.totalImages[0]" chart-labels="vm.totalImages[1]"></canvas>
+                <line-chart data="vm.totalImages"></line-chart>
             </div>
         </div>
     </div>

@@ -11,7 +11,6 @@
         vm.model = {};
         vm.model.since = new Date(Date.now() - 86400000); // 24 hours in the past
         vm.model.until = new Date();
-        vm.updateEvents();
 
         vm.updateEvents = function () {
             vm.dockerEvents = [];
@@ -41,5 +40,7 @@
                     vm.dockerEvents.push(node);
                 });
         };
+        
+        vm.updateEvents();
     }
 })();
