@@ -1,12 +1,13 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.docker.domain.dockers.menu.containers.container.stats')
+    angular
+        .module('qorDash.docker.domain.dockers.menu.containers.container.stats')
         .controller('DockerContainerStatsController', dockerContainerStatsController);
 
 
-    dockerContainerStatsController.$inject = ['Settings', '$scope', 'Messages', '$timeout', 'Container', '$stateParams', 'humansizeFilter', '$sce'];
-    function dockerContainerStatsController(Settings, $scope, Messages, $timeout, Container, $stateParams, humansizeFilter, $sce) {
+    function dockerContainerStatsController($scope, $interval, $stateParams, $sce, Messages, Settings, Container, humansizeFilter) {
+        var vm = this;
         var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
         var cpuLabels = [];
         var cpuData = [];
@@ -15,6 +16,8 @@
         var networkLabels = [];
         var networkTxData = [];
         var networkRxData = [];
+        var lastRxBytes = 0;
+        var lastTxBytes = 0;
         for (var i = 0; i < 20; i++) {
             cpuLabels.push('');
             cpuData.push(0);
@@ -24,83 +27,67 @@
             networkTxData.push(0);
             networkRxData.push(0);
         }
-        var cpuDataset = { // CPU Usage
+
+        vm.cpuStyles = [{ // CPU Usage
             fillColor: "rgba(151,187,205,0.5)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
             pointStrokeColor: "#fff",
             data: cpuData
-        };
-        var memoryDataset = {
+        }];
+
+        vm.memoryStyles = [{
             fillColor: "rgba(151,187,205,0.5)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
             pointStrokeColor: "#fff",
             data: memoryData
-        };
-        var networkRxDataset = {
-            label: "Rx Bytes",
-            fillColor: "rgba(151,187,205,0.5)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-            pointStrokeColor: "#fff",
-            data: networkRxData
-        };
-        var networkTxDataset = {
-            label: "Tx Bytes",
-            fillColor: "rgba(255,180,174,0.5)",
-            strokeColor: "rgba(255,180,174,1)",
-            pointColor: "rgba(255,180,174,1)",
-            pointStrokeColor: "#fff",
-            data: networkTxData
-        };
-        var networkLegendData = [
+        }];
+
+        vm.networkStyles = [
             {
-                //value: '',
-                color: 'rgba(151,187,205,0.5)',
-                title: 'Rx Data',
-                label: 'Rx Data'
+                label: "Rx Bytes",
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff"
             },
             {
-                //value: '',
-                color: 'rgba(255,180,174,0.5)',
-                title: 'Rx Data',
-                label: 'Rx Data'
-            }];
-        legend($('#network-legend').get(0), networkLegendData);
+                label: "Tx Bytes",
+                fillColor: "rgba(255,180,174,0.5)",
+                strokeColor: "rgba(255,180,174,1)",
+                pointColor: "rgba(255,180,174,1)",
+                pointStrokeColor: "#fff"
+            }
+        ];
 
-        Chart.defaults.global.animationSteps = 30; // Lower from 60 to ease CPU load.
-        var cpuChart = new Chart($('#cpu-stats-chart').get(0).getContext("2d")).Line({
-            labels: cpuLabels,
-            datasets: [cpuDataset]
-        }, {
-            responsive: true
-        });
+        vm.networkLegendData = [
+            'Rx Data', 'Tx Data'
+        ];
 
-        var memoryChart = new Chart($('#memory-stats-chart').get(0).getContext('2d')).Line({
-                labels: memoryLabels,
-                datasets: [memoryDataset]
-            },
+        vm.chartOtions = {
+          animation: false,
+          animationSteps: 30,
+          pointHitDetectionRadius: 3,
+          responsive: true
+        };
+
+        vm.memoryChartOptions = vm.networkChartOptions = angular.extend(
             {
                 scaleLabel: function (valueObj) {
                     return humansizeFilter(parseInt(valueObj.value, 10));
-                },
-                responsive: true
-                //scaleOverride: true,
-                //scaleSteps: 10,
-                //scaleStepWidth: Math.ceil(initialStats.memory_stats.limit / 10),
-                //scaleStartValue: 0
-            });
-        var networkChart = new Chart($('#network-stats-chart').get(0).getContext("2d")).Line({
-            labels: networkLabels,
-            datasets: [networkRxDataset, networkTxDataset]
-        }, {
-            scaleLabel: function (valueObj) {
-                return humansizeFilter(parseInt(valueObj.value, 10));
+                }
             },
-            responsive: true
-        });
-        $scope.networkLegend = $sce.trustAsHtml(networkChart.generateLegend());
+            vm.chartOtions
+        );
+
+        vm.cpuData = [cpuData];
+        vm.cpuLabels = cpuLabels;
+        vm.memoryData = [memoryData];
+        vm.memoryLabels = memoryLabels;
+        vm.networkData = [networkRxData, networkTxData];
+        vm.networkLabels = networkLabels;
+
 
         function updateStats() {
             Container.stats(urlParams, function (d) {
@@ -111,39 +98,35 @@
                     Messages.error('Unable to retrieve stats', 'Is this container running?');
                     return;
                 }
-
                 // Update graph with latest data
-                $scope.data = d;
+                vm.data = d;
                 updateCpuChart(d);
                 updateMemoryChart(d);
                 updateNetworkChart(d);
-                timeout = $timeout(updateStats, 2000);
             }, function () {
                 Messages.error('Unable to retrieve stats', 'Is this container running?');
-                timeout = $timeout(updateStats, 2000);
             });
         }
 
-        var timeout;
-        $scope.$on('$destroy', function () {
-            $timeout.cancel(timeout);
-        });
-
-        updateStats();
-
         function updateCpuChart(data) {
             console.log('updateCpuChart', data);
-            cpuChart.addData([calculateCPUPercent(data)], new Date(data.read).toLocaleTimeString());
-            cpuChart.removeData();
+            if (vm.cpuData[0].length >= 20) {
+              vm.cpuLabels = vm.cpuLabels.slice(1);
+              vm.cpuData[0] = vm.cpuData[0].slice(1);
+            }
+            vm.cpuLabels.push(new Date(data.read).toLocaleTimeString());
+            vm.cpuData[0].push(calculateCPUPercent(data));
         }
 
         function updateMemoryChart(data) {
             console.log('updateMemoryChart', data);
-            memoryChart.addData([data.memory_stats.usage], new Date(data.read).toLocaleTimeString());
-            memoryChart.removeData();
+            if (vm.memoryData[0].length >= 20) {
+              vm.memoryLabels = vm.memoryLabels.slice(1);
+              vm.memoryData[0] = vm.memoryData[0].slice(1);
+            }
+            vm.memoryLabels.push(new Date(data.read).toLocaleTimeString());
+            vm.memoryData[0].push(data.memory_stats.usage);
         }
-
-        var lastRxBytes = 0, lastTxBytes = 0;
 
         function updateNetworkChart(data) {
             var rxBytes = 0, txBytes = 0;
@@ -155,8 +138,15 @@
             lastRxBytes = data.network.rx_bytes;
             lastTxBytes = data.network.tx_bytes;
             console.log('updateNetworkChart', data);
-            networkChart.addData([rxBytes, txBytes], new Date(data.read).toLocaleTimeString());
-            networkChart.removeData();
+
+            if (vm.networkData[0].length >= 20 && vm.networkData[1].length >= 20) {
+              vm.networkLabels = vm.networkLabels.slice(1);
+              vm.networkData[0] = vm.networkData[0].slice(1);
+              vm.networkData[1] = vm.networkData[1].slice(1);
+            }
+            vm.networkLabels.push(new Date(data.read).toLocaleTimeString());
+            vm.networkData[0].push(rxBytes);
+            vm.networkData[1].push(txBytes);
         }
 
         function calculateCPUPercent(stats) {
@@ -177,6 +167,16 @@
             }
             return cpuPercent;
         }
-    }
 
+
+        var intervalId = $interval(updateStats, 2000);
+        updateStats();
+
+        $scope.$on('$destroy', function () {
+            $interval.cancel(intervalId);
+        });
+
+
+
+    }
 })();
