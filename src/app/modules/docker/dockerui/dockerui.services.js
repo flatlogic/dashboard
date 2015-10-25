@@ -86,59 +86,6 @@
               get: {method: 'GET'}
           });
       }])
-      .factory('ContainerCommit', ['$http', 'Settings', function ContainerCommitFactory($http, Settings) {
-          'use strict';
-          // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#create-a-new-image-from-a-container-s-changes
-          return {
-              commit: function (params, callback) {
-                  $http({
-                      method: 'POST',
-                      url: Settings.url + '/commit',
-                      params: {
-                          'container': params.id,
-                          'repo': params.repo
-                      }
-                  }).success(callback).error(function (data, status, headers, config) {
-                      console.log(error, data);
-                  });
-              }
-          };
-      }])
-      .factory('ContainerLogs', ['$http', 'Settings', function ContainerLogsFactory($http, Settings) {
-          'use strict';
-          // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#get-container-logs
-          return {
-              get: function (id, params, callback) {
-                  $http({
-                      method: 'GET',
-                      url: Settings.url + '/containers/' + id + '/logs',
-                      params: {
-                          'stdout': params.stdout || 0,
-                          'stderr': params.stderr || 0,
-                          'timestamps': params.timestamps || 0,
-                          'tail': params.tail || 'all'
-                      }
-                  }).success(callback).error(function (error, data) {
-                      console.log(error, data);
-                  });
-              }
-          };
-      }])
-      .factory('ContainerTop', ['$http', 'Settings', function ($http, Settings) {
-          'use strict';
-          // http://docs.docker.com/reference/api/docker_remote_api_<%= remoteApiVersion %>/#list-processes-running-inside-a-container
-          return {
-              get: function (id, params, callback, errorCallback) {
-                  $http({
-                      method: 'GET',
-                      url: Settings.url + '/containers/' + id + '/top',
-                      params: {
-                          ps_args: params.ps_args
-                      }
-                  }).success(callback);
-              }
-          };
-      }])
       .provider('Settings', [function SettingsFactory() {
         'use strict';
 
@@ -152,7 +99,6 @@
         }
 
         this.displayAll = false;
-        this.firstLoad = true;
         this.port = '';
         this.endpoint = '';
         this.url = this.endpoint;
@@ -172,25 +118,10 @@
             url:          this.url,
             urlParams:    this.urlParams,
             displayAll:   this.displayAll,
-            firstLoad:    this.firstLoad,
             buildUrl:     this.buildUrl
           };
         }];
       }])
-      .factory('ViewSpinner', function ViewSpinnerFactory() {
-          'use strict';
-          var spinner = new Spinner();
-          var target = document.getElementById('view');
-
-          return {
-              spin: function () {
-                  spinner.spin(target);
-              },
-              stop: function () {
-                  spinner.stop();
-              }
-          };
-      })
       .factory('Messages', ['$rootScope', function MessagesFactory($rootScope) {
           'use strict';
           return {
@@ -216,54 +147,6 @@
                   request.onload = callback;
                   request.open('POST', url);
                   request.send(data);
-              }
-          };
-      }])
-      .factory('LineChart', ['Settings', function LineChartFactory(Settings) {
-          'use strict';
-          return {
-              build: function (id, data, getkey) {
-                  var chart = new Chart($(id).get(0).getContext("2d"));
-                  var map = {};
-
-                  for (var i = 0; i < data.length; i++) {
-                      var c = data[i];
-                      var key = getkey(c);
-
-                      var count = map[key];
-                      if (count === undefined) {
-                          count = 0;
-                      }
-                      count += 1;
-                      map[key] = count;
-                  }
-
-                  var labels = [];
-                  data = [];
-                  var keys = Object.keys(map);
-
-                  for (i = keys.length - 1; i > -1; i--) {
-                      var k = keys[i];
-                      labels.push(k);
-                      data.push(map[k]);
-                  }
-                  var dataset = {
-                      fillColor: "rgba(151,187,205,0.5)",
-                      strokeColor: "rgba(151,187,205,1)",
-                      pointColor: "rgba(151,187,205,1)",
-                      pointStrokeColor: "#fff",
-                      data: data
-                  };
-                  chart.Line({
-                          labels: labels,
-                          datasets: [dataset]
-                      },
-                      {
-                          scaleStepWidth: 1,
-                          pointDotRadius: 1,
-                          scaleOverride: true,
-                          scaleSteps: labels.length
-                      });
               }
           };
       }]);

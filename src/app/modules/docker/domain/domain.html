@@ -1,21 +1,13 @@
 <section horizontal-ui-sheet class="qor-sheet-s">
-    <header horizontal-ui-sheet-header title="{{domain.name}}">
+    <header horizontal-ui-sheet-header title="{{vm.domain.name}}">
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="instance in domain.instances | orderBy:''"
+            <a class="list-group-item" ng-repeat="instance in vm.domain.instances | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.docker.domain.dockers({instance : instance})">
+               ui-sref=".dockers({instance : instance})">
                 {{instance}}
             </a>
-        </div>
-        <div id="env-loader" ng-hide="domain || error">
-            <img src="assets/images/cube.gif">
-        </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.docker.domain" data-ui-sref-opts="{reload: true}">
-            <i class="fa fa-refresh reload-button"></i>
-          </a>
         </div>
     </div>
 </section>
