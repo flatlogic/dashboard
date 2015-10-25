@@ -1,9 +1,14 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.auth', ['qorDash.core', 'ui.router'])
-        .config(appConfig)
-        .run(runAuth);
+    angular
+      .module('qorDash.auth', [
+        'qorDash.core',
+        'ui.router',
+        'ngMessages'
+      ])
+      .config(appConfig)
+      .run(runAuth);
 
     function appConfig($stateProvider, $httpProvider, $qorSidebarProvider) {
         $httpProvider.interceptors.push('authInterceptor');
