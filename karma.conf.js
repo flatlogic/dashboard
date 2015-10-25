@@ -32,6 +32,8 @@ module.exports = function(config) {
             'bower_components/angular-oboe/dist/angular-oboe.js',
             'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-diff-match-patch/*.js',
+            'bower_components/Chart.js/Chart.min.js',
+            'bower_components/angular-chart.js/angular-chart.js',
             'bower_components/jasmine-jquery/lib/*.js',
             'src/app/index.js',
             'src/app/**/*.module.js',

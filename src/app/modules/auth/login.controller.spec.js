@@ -56,9 +56,8 @@ describe('Controller: LoginController', function() {
     describe('after loading', function() {
         it ('should set ICON_URL to the LOGIN_PAGE_ICON_URL value from injector and init vm.userCredentials & loginButtonState', function() {
             expect($scope.vm.ICON_URL).toBe(LOGIN_PAGE_ICON_URL);
-            expect($scope.vm.userCredentials.login).toBeDefined();
-            expect($scope.vm.userCredentials.password).toBeDefined();
-            expect($scope.vm.loginButtonLoadingState).toBeDefined();
+            expect($scope.vm.userCredentials).toBeDefined();
+            expect($scope.vm.isLoading).toBeDefined();
         });
 
         it ('should check is user authenticated and send her to the dashboard if yes', function() {
@@ -69,7 +68,11 @@ describe('Controller: LoginController', function() {
 
     describe('login', function() {
         beforeEach(function() {
+            $scope.vm.loginForm = {
+                $setValidity: function(){}
+            };
             spyOn(user, 'login').and.callThrough();
+            spyOn($scope.vm.loginForm, '$setValidity').and.callThrough();
         });
         describe('after call', function() {
             beforeEach(function() {
@@ -92,18 +95,13 @@ describe('Controller: LoginController', function() {
             });
 
             describe('after login fail', function() {
-                beforeEach(function() {
-                    $scope.vm.loginForm = {
-                        $error : {}
-                    };
-                });
                 describe ('after normal server response', function() {
                     beforeEach(function() {
                         deferred.reject({data: {error: serverResponse}});
                         $scope.$root.$digest();
                     });
                     it ('should set vm.loginForm.$error[serverResponse] to true', function() {
-                        expect($scope.vm.loginForm.$error[serverResponse]).toBe(true);
+                        expect($scope.vm.loginForm.$setValidity).toHaveBeenCalledWith(serverResponse, false);
                     });
                 });
                 describe ('after empty response', function() {
@@ -112,7 +110,7 @@ describe('Controller: LoginController', function() {
                         $scope.$root.$digest();
                     });
                     it ('should set vm.loginForm.$error["unknown"] to be true', function() {
-                        expect($scope.vm.loginForm.$error['unknown']).toBe(true);
+                        expect($scope.vm.loginForm.$setValidity).toHaveBeenCalledWith('unknown', false);
                     });
                 });
                 describe ('after response without data field', function() {
@@ -121,7 +119,7 @@ describe('Controller: LoginController', function() {
                         $scope.$root.$digest();
                     });
                     it ('should set vm.loginForm.$error["unknown"] to be true', function() {
-                        expect($scope.vm.loginForm.$error['unknown']).toBe(true);
+                        expect($scope.vm.loginForm.$setValidity).toHaveBeenCalledWith('unknown', false);
                     });
                 });
                 describe ('after response without error field', function() {
@@ -130,7 +128,7 @@ describe('Controller: LoginController', function() {
                         $scope.$root.$digest();
                     });
                     it ('should set vm.loginForm.$error["unknown"] to be true', function() {
-                        expect($scope.vm.loginForm.$error['unknown']).toBe(true);
+                        expect($scope.vm.loginForm.$setValidity).toHaveBeenCalledWith('unknown', false);
                     });
                 });
             });
