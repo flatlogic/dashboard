@@ -32,7 +32,7 @@
                     <td editable-text="service.new_account_preset.id" buttons="no">{{service.new_account_preset.id}}</td>
                     <td class="hidden"></td>
                 </tr>
-                <tr ng-repeat-start="scope in service.new_account_preset.scopes track by $index" ng-if="$index == 0">
+                <tr ng-repeat-start="scope in service.new_account_preset.scopes" ng-if="$index == 0">
                     <td rowspan="{{service.new_account_preset.scopes.length + 1}}">scopes <i class="fa fa-angle-right"></i></td>
                     <td editable-text="scope" buttons="no">{{scope}}</td>
                     <td class="hidden"></td>
