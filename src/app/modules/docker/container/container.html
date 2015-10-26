@@ -1,0 +1,165 @@
+<section horizontal-ui-sheet class="qor-sheet-half">
+    <header horizontal-ui-sheet-header title="{{vm.container.Name}}">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="detail container-details">
+
+            <div ng-if="!vm.container.edit" class="name">
+                <h4>Container: {{ vm.container.Name }}
+                    <button class="btn btn-primary" ng-click="vm.container.edit = true;">Rename</button>
+                </h4>
+            </div>
+
+            <div ng-if="vm.container.edit" id="name-edit">
+                <h4>
+                    Container:
+                    <input type="text" ng-model="vm.container.newContainerName">
+                    <button class="btn btn-success" ng-click="vm.rename()">Save</button>
+                    <button class="btn btn-danger" ng-click="vm.container.edit = false;">&times;</button>
+                </h4>
+            </div>
+
+            <div class="btn-group detail" id="actions">
+                <button class="btn btn-success"
+                        ng-click="vm.start()"
+                        ng-show="!vm.container.State.Running">Start
+                </button>
+                <button class="btn btn-warning"
+                        ng-click="vm.stop()"
+                        ng-show="vm.container.State.Running && !vm.container.State.Paused">Stop
+                </button>
+                <button class="btn btn-danger"
+                        ng-click="kill()"
+                        ng-show="vm.container.State.Running && !vm.container.State.Paused">Kill
+                </button>
+                <button class="btn btn-info"
+                        ng-click="vm.pause()"
+                        ng-show="vm.container.State.Running && !vm.container.State.Paused">Pause
+                </button>
+                <button class="btn btn-success"
+                        ng-click="vm.unpause()"
+                        ng-show="vm.container.State.Running && vm.container.State.Paused">Unpause
+                </button>
+                <button class="btn btn-success"
+                        ng-click="vm.restart()"
+                        ng-show="vm.container.State.Running && !vm.container.State.Stopped">Restart
+                </button>
+                <button class="btn btn-primary"
+                        ng-click="vm.commit()"
+                        ng-show="vm.container.State.Running && !vm.container.State.Paused">Commit
+                </button>
+            </div>
+
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>Created:</td>
+                    <td>{{ vm.container.Created }}</td>
+                </tr>
+                <tr>
+                    <td>Path:</td>
+                    <td>{{ vm.container.Path }}</td>
+                </tr>
+                <tr>
+                    <td>Args:</td>
+                    <td>{{ vm.container.Args }}</td>
+                </tr>
+                <tr>
+                    <td>Exposed Ports:</td>
+                    <td>
+                        <ul style="display: inline-table">
+                            <li ng-repeat="(k, v) in vm.container.Config.ExposedPorts">{{ k }}</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Environment:</td>
+                    <td>
+                        <ul style="display: inline-table">
+                            <li ng-repeat="k in vm.container.Config.Env">{{ k }}</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Publish All:</td>
+                    <td>{{ vm.container.HostConfig.PublishAllPorts }}</td>
+                </tr>
+                <tr>
+                    <td>Ports:</td>
+                    <td>
+                        <ul style="display:inline-table">
+                            <li ng-repeat="(containerport, hostports) in vm.container.HostConfig.PortBindings">
+                                {{ containerport }} => <span class="label label-default" ng-repeat="(k,v) in hostports">{{ v.HostIp }}:{{ v.HostPort }}</span>
+                            </li>
+                        </ul>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Hostname:</td>
+                    <td>{{ vm.container.Config.Hostname }}</td>
+                </tr>
+                <tr>
+                    <td>IPAddress:</td>
+                    <td>{{ vm.container.NetworkSettings.IPAddress }}</td>
+                </tr>
+                <tr>
+                    <td>Cmd:</td>
+                    <td>{{ vm.container.Config.Cmd }}</td>
+                </tr>
+                <tr>
+                    <td>Entrypoint:</td>
+                    <td>{{ vm.container.Config.Entrypoint }}</td>
+                </tr>
+                <tr>
+                    <td>Volumes:</td>
+                    <td>{{ vm.container.Volumes }}</td>
+                </tr>
+
+                <tr>
+                    <td>SysInitpath:</td>
+                    <td>{{ vm.container.SysInitPath }}</td>
+                </tr>
+                <tr>
+                    <td>Image:</td>
+                    <td><a ui-sref="^.^.images.image({imageId: vm.container.Image})">{{ vm.container.Image }}</a></td>
+                </tr>
+                <tr>
+                    <td>State:</td>
+                    <td><span class="label {{ vm.container.State|getstatelabel }}">{{ vm.container.State|getstatetext }}</span></td>
+                </tr>
+                <tr>
+                    <td>Logs:</td>
+                    <td><a ui-sref=".logs">stdout/stderr</a></td>
+                </tr>
+                <tr>
+                    <td>Stats:</td>
+                    <td><a ui-sref=".stats">stats</a></td>
+                </tr>
+                <tr>
+                    <td>Top:</td>
+                    <td><a ui-sref=".top">Top</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="changes-container">
+                <div>
+                    Changes: <i class="icon-refresh" style="width:32px;height:32px;" ng-click="vm.getChanges()"></i>
+                </div>
+
+                <div>
+                    <ul>
+                        <li ng-repeat="change in vm.changes | filter:vm.hasContent">
+                            <strong>{{ change.Path }}</strong> {{ change.Kind }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="btn btn-remove-container" ng-click="vm.remove()">Remove Container</button>
+        </div>
+
+    </div>
+</section>

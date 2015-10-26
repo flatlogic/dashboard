@@ -1,0 +1,46 @@
+<section horizontal-ui-sheet class="qor-sheet-half">
+    <header horizontal-ui-sheet-header title="{{dockerId}}">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <h3 class="config-table-header">Images</h3>
+
+        <div>
+            <div class="btn-group pull-left">
+                <div dropdown="" dropdown-append-to-body="" class="dropdown">
+                    <button class="btn btn-default config-table-header-button" dropdown-toggle=""
+                            aria-haspopup="true" aria-expanded="false">Action<span
+                            class="fa fa-angle-down pull-right"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="vm.removeAction()">Remove</a></li>
+                    </ul>
+                </div>
+            </div>
+            <button class="btn btn-default config-table-header-button" id="pull-image"
+                    ng-click="vm.pullImage()">Pull</button>
+
+            <div class="pull-right form-inline containers-form">
+                <input type="text" class="form-control" id="filter" placeholder="Filter" ng-model="vm.filter"/> <label class="sr-only" for="filter">Filter</label>
+            </div>
+        </div>
+        <table class="table images-table">
+            <thead>
+            <tr>
+                <th><input class="new-checkbox bordered" id="header-checkbox" ng-model="vm.toggle" ng-change="vm.toggleSelectAll()" type="checkbox"><label for="header-checkbox"></label> ACTION</th>
+                <th>ID</th>
+                <th>REPOSITORY</th>
+                <th>VIRTUALSIZE</th>
+                <th>CREATED</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="image in vm.images | filter:vm.filter | orderBy:vm.predicate">
+                <td class="center-text"><input class="new-checkbox bordered" id="check-{{image.Id}}" ng-model="image.Checked" type="checkbox"><label for="check-{{image.Id}}"></label></td>
+                <td><a ui-sref=".image({imageId: image.Id, imageTag: (image|repotag)})">{{ image.Id|truncate:20}}</a></td>
+                <td>{{ image|repotag }}</td>
+                <td>{{ image.VirtualSize|humansize }}</td>
+                <td>{{ image.Created|getdate }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

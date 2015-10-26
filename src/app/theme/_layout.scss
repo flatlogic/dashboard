@@ -239,6 +239,14 @@ $qor-select-color: #000000;
 
 }
 
+.loading-indicator {
+  height: 80px;
+
+  img {
+    max-width: 100%;
+  }
+}
+
 .qor-sidebar {
   position: fixed;
   left: 0;

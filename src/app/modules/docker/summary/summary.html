@@ -1,0 +1,30 @@
+<section horizontal-ui-sheet class="qor-sheet-half">
+    <header horizontal-ui-sheet-header title="Summary">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="row">
+            <div class="col-xs-6 centered-text">
+                <h3>Running Containers</h3>
+                <ul class="containers-list">
+                    <li ng-repeat="container in vm.containers|orderBy:predicate">
+                        <a ui-sref="^.containers.container({containerId: container.Id})">{{ container|containername }}</a>
+                        <span class="label label-{{ container.Status|statusbadge }}">{{ container.Status }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6 centered-text">
+                <h3>Status</h3>
+                <canvas class="chart chart-doughnut" chart-colours="vm.colours" chart-legend="true" chart-data="vm.dataset" chart-labels="vm.labels"></canvas>
+            </div>
+        </div>
+
+        <div class="row containers-stat">
+            <div class="col-xs-12 centered-text">
+                <h3>Containers created</h3>
+                <line-chart data="vm.totalContainers"></line-chart>
+                <h3>Images created</h3>
+                <line-chart data="vm.totalImages"></line-chart>
+            </div>
+        </div>
+    </div>
+</section>
