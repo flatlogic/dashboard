@@ -15,7 +15,10 @@
         'qorDash.orchestrate',
         'qorDash.manage',
         'qorDash.docker'
-    ]);
+    ])
+    .config(function($httpProvider){
+        $httpProvider.defaults.headers.post['Content-Type'] =  'application/json';
+    });
 
     fetchCoreData().then(bootstrapApplication);
 
