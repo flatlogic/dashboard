@@ -64,6 +64,7 @@
         }
 
         function logout() {
+            // TODO: Implement oauth logout
             auth.removeToken();
         }
     }
