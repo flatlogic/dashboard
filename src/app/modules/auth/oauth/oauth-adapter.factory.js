@@ -26,8 +26,8 @@
             return deferred.promise;
         }
 
-        function login(provider) {
-            return provider.login();
+        function login() {
+            return selectedProvider.login();
         }
 
         function logout() {
