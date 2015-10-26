@@ -5,6 +5,16 @@
             .directive('qlNetwork', qlNetwork)
         ;
 
+    function preventDefault() {
+        $('.network').on({
+            'mousewheel': function(e) {
+                if (e.target.id == 'el') return;
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+    };
+
     qlNetwork.$inject = ['d3', '$window', '$stateParams', '$state', '$http', '$timeout'];
     function qlNetwork(d3, $window, $stateParams, $state, $http, $timeout) {
         return {
@@ -95,11 +105,12 @@
                             }
 
                             if('parent' in node) {
+
                                 if (!curParent || curParent !== node.parent) {
                                     curChildNodeRow = 1;
                                     curChildNodeColomn = 0;
-
                                     numChildNode = 1;
+
                                     curParent = node.parent;
 
                                     if(queue.length !== 0) {
@@ -108,8 +119,6 @@
                                         }
                                     }
 
-                                    marginWidth = node.parent.width/20;
-                                    marginHeight = node.parent.height/20;
                                     numColomn = Math.round( Math.sqrt(numChildNode));
                                 }
 
@@ -125,12 +134,16 @@
                                     curChildNodeRow++;
                                 }
 
+
+                                marginWidth = node.parent.width/20;
+                                marginHeight = node.parent.height/20;
+
                                 node.width = node.parent.width/numColomn - marginWidth * 1.5;
                                 node.height = node.parent.height/numColomn - marginHeight * 1.5;
                                 node.x = node.parent.x + marginWidth * curChildNodeRow + node.width * (curChildNodeRow - 1) ;
                                 node.y = node.parent.headerheight + node.parent.y + marginHeight * curChildNodeColomn + node.height * (curChildNodeColomn - 1) ;
-                                node.height = node.height * 8/10;
-                                node.headerheight = node.height * 2/10;
+                                node.height = node.height * 9/10;
+                                node.headerheight = node.height * 1/10;
                             }
 
                             drawRectangle(node);
@@ -140,12 +153,14 @@
                             }
                         };
 
-                        function drawRectangle (node) {
+                        function drawRect (node) {
 
                             var rect = g.append("rect")
                                 .style("fill", "none")
                                 .style("stroke", "#949da5")
-                                .style("stroke-width", "2")
+                                .style("stroke-width", "1.4")
+                                .classed('network-body', true)
+                                .attr("rx", "3px")
                                 .attr("x", node.x)
                                 .attr("y", node.y)
                                 .attr("width", node.width)
@@ -153,9 +168,11 @@
 
 
                             var rect2 = g.append("rect")
-                                .style("fill", "none")
+                                .style("fill", "#dae0ed")
                                 .style("stroke", "none")
-                                .style("stroke-width", "2")
+                                .style("stroke-width", "1.4")
+                                .classed('network-title', true)
+                                .attr("rx", "3px")
                                 .attr("x", node.x)
                                 .attr("y", node.y)
                                 .attr("width", node.width)
@@ -163,13 +180,11 @@
                                 .append("title")
                                 .text(node.name);
 
-                            //if ()
-
                             g.append("text")
                                 .attr("x", node.x + node.width/20)
                                 .attr("y", node.y + node.headerheight / 2)
                                 .attr("dy", ".35em")
-                                .attr("font-size", node.height / 12  + "px")
+                                .attr("font-size", node.height / 14  + "px")
                                 .text(node.name);
 
                             setLevels(rect, node);
@@ -198,16 +213,6 @@
                             g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
                         };
 
-                        function preventDefault() {
-                            $('.network').on({
-                                'mousewheel': function(e) {
-                                    if (e.target.id == 'el') return;
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                }
-                            });
-                        };
-
                         function detalizationRect () {
 
                             var scrolLevel = Math.round(zoom.scale());
@@ -216,33 +221,39 @@
 
                             preScrolLevel = scrolLevel;
 
-                            if(!levels[scrolLevel+2]) {
-                                scrolLevel = depth - 2;
+                            d3.selectAll(".network-body")
+                                .style("fill", "none")
+                                .style("stroke-width", 1.4/scrolLevel)
+                                .attr("rx", 3/scrolLevel + "px");
+
+                            d3.selectAll(".network-title")
+                                .style("stroke-width", 1.4/scrolLevel)
+                                .attr("rx", 3/scrolLevel + "px");
+
+                            if(unusedRect) {
+                                unusedRect.forEach(function(item){
+                                    item.remove();
+                                })
+                                unusedRect = [];
                             }
 
-                            d3.selectAll("rect").style("fill", "none").style("stroke-width", 1.4/Math.round(zoom.scale()));
+                            if(levels[scrolLevel+2]) {
 
-                            levels[scrolLevel + 2].forEach(function(item, i) {
-                                //item.style("fill", "red");
+                                levels[scrolLevel + 2].forEach(function (item, i) {
 
-                                var rect = g.append("rect")
-                                    .style("fill", "#fff")
-                                    .style("stroke", "#949da5")
-                                    .style("stroke-width", "2")
-                                    .style("stroke-width", 1.5/Math.round(zoom.scale()))
-                                    .attr("x", item.x)
-                                    .attr("y", item.y )
-                                    .attr("width", item.width)
-                                    .attr("height", item.height + item.headerheight);
+                                    var rect = g.append("rect")
+                                        .style("fill", "#fff")
+                                        .style("stroke", "#949da5")
+                                        .style("stroke-width", 1.4 / scrolLevel)
+                                        .attr("rx", 3 / scrolLevel + "px")
+                                        .attr("x", item.x)
+                                        .attr("y", item.y)
+                                        .attr("width", item.width)
+                                        .attr("height", item.height + item.headerheight);
 
-                                unusedRect.push(rect);
-                                if (unusedRect.length > 2* levels[depth].length && depth < zoom.scale()) {
-                                    unusedRect.forEach(function(item){
-                                        item.remove();
-                                    })
-                                    unusedRect = [];
-                                }
-                            });
+                                    unusedRect.push(rect);
+                                });
+                            }
                         };
 
                         BFS(node);
