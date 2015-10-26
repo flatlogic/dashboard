@@ -146,7 +146,7 @@
                                 node.headerheight = node.height * 1/10;
                             }
 
-                            drawRectangle(node);
+                            drawRect(node);
 
                             if(queue.length !== 0) {
                                 BFS(queue.shift());
@@ -155,19 +155,7 @@
 
                         function drawRect (node) {
 
-                            var rect = g.append("rect")
-                                .style("fill", "none")
-                                .style("stroke", "#949da5")
-                                .style("stroke-width", "1.4")
-                                .classed('network-body', true)
-                                .attr("rx", "3px")
-                                .attr("x", node.x)
-                                .attr("y", node.y)
-                                .attr("width", node.width)
-                                .attr("height", node.height + node.headerheight);
-
-
-                            var rect2 = g.append("rect")
+                            g.append("rect")
                                 .style("fill", "#dae0ed")
                                 .style("stroke", "none")
                                 .style("stroke-width", "1.4")
@@ -179,6 +167,17 @@
                                 .attr("height", node.headerheight)
                                 .append("title")
                                 .text(node.name);
+
+                            var rect = g.append("rect")
+                                .style("fill", "none")
+                                .style("stroke", "#949da5")
+                                .style("stroke-width", "1.4")
+                                .classed('network-body', true)
+                                .attr("rx", "3px")
+                                .attr("x", node.x)
+                                .attr("y", node.y)
+                                .attr("width", node.width)
+                                .attr("height", node.height + node.headerheight);
 
                             g.append("text")
                                 .attr("x", node.x + node.width/20)
@@ -230,15 +229,9 @@
                                 .style("stroke-width", 1.4/scrolLevel)
                                 .attr("rx", 3/scrolLevel + "px");
 
-                            if(unusedRect) {
-                                unusedRect.forEach(function(item){
-                                    item.remove();
-                                })
-                                unusedRect = [];
-                            }
+                            removeUnusedRect();
 
                             if(levels[scrolLevel+2]) {
-
                                 levels[scrolLevel + 2].forEach(function (item, i) {
 
                                     var rect = g.append("rect")
@@ -255,6 +248,13 @@
                                 });
                             }
                         };
+
+                        function removeUnusedRect() {
+                            unusedRect.forEach(function(item){
+                                item.remove();
+                            })
+                            unusedRect = [];
+                        }
 
                         BFS(node);
                         detalizationRect();
