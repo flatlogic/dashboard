@@ -2,7 +2,7 @@
     'use strict';
 
     var module = angular.module('qorDash.manage.settings.authentication.domain', [
-        'ui.router'
+        'ui.router', 'xeditable'
     ]);
 
     module.config(appConfig);
