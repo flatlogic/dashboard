@@ -97,7 +97,7 @@
 
                         BFS(node);
 
-                        depth = levels.length - 1;
+                        depth = Math.pow(2, levels.length - 1);
 
                         zoom.scaleExtent([1, depth * 20])
                             .on("zoom", zoomed);
