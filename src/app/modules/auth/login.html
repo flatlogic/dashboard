@@ -30,7 +30,7 @@
                                         <span ng-hide="vm.isLoading">Log In</span>
                                         <span ng-show="vm.isLoading">Loading...</span>
                                     </button>
-                                    <a id="google-signin" g-signin class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
+                                    <a g-signin on-success="vm.successCallback" class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
                                         <i class="fa fa-google"></i>Sign in with Google
                                     </a>
                                 </div>
