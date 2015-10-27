@@ -5,10 +5,10 @@
         .module('qorDash.auth')
         .factory('oauthProviderGoogle', oauthProviderGoogle);
 
-    function oauthProviderGoogle($http, $q) {
+    function oauthProviderGoogle($http, $q, AUTH_API_URL, GOOGLE_CLIENT_ID) {
 
         var providerData = {
-            client_id: '138766960114-ikj7ignimooj54qabses3cc857l1a8h4.apps.googleusercontent.com',
+            client_id: GOOGLE_CLIENT_ID,
             cookie_policy: 'single_host_origin',
         };
 
@@ -45,7 +45,7 @@
         function exchangeToken(user) {
             var accessToken = user.getAuthResponse().access_token;
             return $http
-                .post('https://accounts.qor.io/v1/auth', {
+                .post(AUTH_API_URL + '/auth', {
                     'oauth2_access_token': accessToken,
                     'oauth2_provider': 'google.com'
                 });

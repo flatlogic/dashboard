@@ -33,7 +33,8 @@
                 iconUrl = response.data['icon-url'],
                 loginPageIconUrl = response.data['login-page-icon-url'],
                 authApiUser = response.data['auth_api_user'],
-                authApiSecret = response.data['auth_api_secret'];
+                authApiSecret = response.data['auth_api_secret'],
+                googleClentId = response.data['google_client_id'];
 
             coreApplication.constant("AUTH_API_URL", authApiUrl);
             coreApplication.constant("API_URL", apiUrl);
@@ -43,6 +44,7 @@
             coreApplication.constant("AUTH_API_USER", authApiUser);
             coreApplication.constant("DOCKER_ENDPOINT", apiUrl + '/v1/dockerapi');
             coreApplication.constant("AUTH_API_SECRET", authApiSecret);
+            coreApplication.constant("GOOGLE_CLIENT_ID", googleClentId);
         }, function(errorResponse) {
             debugger;
             // Handle error case
