@@ -10,10 +10,12 @@
 
         vm.login = login;
         vm.removeError = removeError;
+        vm.successCallback = successCallback;
         vm.isLoading = false;
 
         vm.ICON_URL = LOGIN_PAGE_ICON_URL;
         vm.userCredentials = {};
+
 
         if (user.isAuthed()) {
             $state.go('app.dashboard');
