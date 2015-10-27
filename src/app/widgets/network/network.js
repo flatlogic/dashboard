@@ -38,14 +38,14 @@
                     scope.render = function (data) {
 
                         var root = data,
-                            depth = 7,
-                            preScrolLevel = 0,
+                            depth,
+                            preScrolLevel,
                             levels = [],
                             queue = [],
                             node,
                             curParent,
-                            curChildNodeRow = 0,
-                            curChildNodeColomn = 0,
+                            curChildNodeRow,
+                            curChildNodeColomn,
                             numChildNode,
                             numColomn,
                             marginWidth,
@@ -68,9 +68,7 @@
 
                         var wrap = d3.select(element[0]);
 
-                        var zoom = d3.behavior.zoom()
-                            .scaleExtent([1, depth * 20])
-                            .on("zoom", zoomed);
+                        var zoom = d3.behavior.zoom();
 
                         var svg = wrap.append("svg")
                             .attr("width", width + margin.left + margin.right)
@@ -84,7 +82,8 @@
 
                         var g = svg.append('g');
 
-                        d3.select(self.frameElement).style("height", height + "px");
+                        d3.select(self.frameElement)
+                            .style("height", height + "px");
 
                         queue.push(root);
                         node = queue.shift();
@@ -95,6 +94,15 @@
                         node.depth = 1;
                         node.x = 40;
                         node.y = 40;
+
+                        BFS(node);
+
+                        depth = levels.length - 1;
+
+                        zoom.scaleExtent([1, depth * 20])
+                            .on("zoom", zoomed);
+
+                        detalizationRect();
 
                         function BFS (node) {
 
@@ -118,22 +126,8 @@
                                             numChildNode++;
                                         }
                                     }
-
-                                    numColomn = Math.round( Math.sqrt(numChildNode));
                                 }
-
-                                if( numColomn*numColomn < numChildNode) {
-                                    numColomn++;
-                                }
-
-                                if(curChildNodeColomn < numColomn) {
-                                    curChildNodeColomn++;
-                                }
-                                else {
-                                    curChildNodeColomn = 1;
-                                    curChildNodeRow++;
-                                }
-
+                                countColumn();
 
                                 marginWidth = node.parent.width/20;
                                 marginHeight = node.parent.height/20;
@@ -206,6 +200,23 @@
                             levels[node.depth].push(rect);
                         };
 
+                        function countColumn() {
+
+                            numColomn = Math.round( Math.sqrt(numChildNode));
+
+                            if( numColomn*numColomn < numChildNode) {
+                                numColomn++;
+                            }
+
+                            if(curChildNodeColomn < numColomn) {
+                                curChildNodeColomn++;
+                            }
+                            else {
+                                curChildNodeColomn = 1;
+                                curChildNodeRow++;
+                            }
+                        };
+
                         function zoomed() {
                             preventDefault();
                             detalizationRect();
@@ -254,10 +265,7 @@
                                 item.remove();
                             })
                             unusedRect = [];
-                        }
-
-                        BFS(node);
-                        detalizationRect();
+                        };
                     };
 
                     if (!scope.sourceJson) {
