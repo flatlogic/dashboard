@@ -39,14 +39,11 @@
         };
 
         function loadInstance(domain) {
-            var instanceRequest = {
+            var request = {
                 method: 'GET',
-                url: API_URL + '/v1/conf/' + domain + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_URL + '/v1/conf/' + domain + '/'
             };
-            return $http(instanceRequest);
+            return $http(request);
         }
 
         function loadEnv(domain) {
@@ -57,9 +54,6 @@
             var request = {
                 method: 'POST',
                 url: API_URL + '/v1/conf/' + domain + '/' + service + '/' + fileName,
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
                 data: text
             };
 
@@ -69,25 +63,19 @@
         function getFileContent(domain, instance, service, version, fileName) {
             var request = {
                 method: 'GET',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName
             };
 
             return $http(request);
         }
 
         function getVersions(domain, instance, service, fileName) {
-            var versionsRequest = {
+            var request = {
                 method: 'GET',
                 url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' +
                     service + '/' + fileName + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             };
-            return $http(versionsRequest);
+            return $http(request);
         }
 
         function getBaseFile(domain, service, fileName) {
@@ -95,9 +83,6 @@
                 method: 'GET',
                 url: API_URL + '/v1/conf/' + domain +
                     '/' + service + '/' + fileName,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             };
             return $http(request);
         }
@@ -107,9 +92,6 @@
                 method: 'POST',
                 url: API_URL + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/' + newVersionName + '/' + fileName,
-                headers: {
-                    'X-Dash-Version': fileVersion
-                }
             };
             return $http(request);
         }
@@ -119,9 +101,6 @@
                 method: 'PUT',
                 url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
                     + version + '/' + fileName,
-                headers: {
-                    'X-Dash-Version': fileVersion
-                },
                 data: data
             };
             return $http(request);
@@ -133,9 +112,6 @@
                 url: API_URL + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/'
                     + version + '/' + object,
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
                 data: data
             };
             return $http(request);
@@ -147,9 +123,6 @@
                 url: API_URL + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/'
                     + version + '/' + fileName,
-                headers: {
-                    'X-Dash-Version': fileVersion
-                }
             };
             return $http(request);
         }
@@ -158,9 +131,6 @@
             var postRequest = {
                 method: 'POST',
                 url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             };
             return $http(postRequest);
         }
@@ -179,9 +149,6 @@
             var request = {
                 method: 'GET',
                 url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 'version': version
             };
 
@@ -192,9 +159,6 @@
             var request = {
                 method: 'GET',
                 url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             };
 
             return $http(request);
@@ -204,9 +168,6 @@
             var request = {
                 method: 'POST',
                 url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version + '/live',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             };
 
             return $http(request);
@@ -216,9 +177,6 @@
             var request = {
                 method: 'POST',
                 url: API_URL + '/v1/env/' + domain + '/' + targetInstance + '/' + service + '/' + newVersionName,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 data: data
             };
 
@@ -230,7 +188,6 @@
                 method: 'PATCH',
                 url: API_URL + '/v1/env/' + domainId + '/' + instance + '/' + service + '/' + version,
                 headers: {
-                    'Content-Type': 'application/json',
                     'X-Dash-Version': xDashVersion
                 },
                 data: data
@@ -284,9 +241,6 @@
             var request = {
                 method: 'PUT',
                 url: API_URL + '/v1/pkg/' + domainId + '/' + instance + '/' + service + '/' + version,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 data: data
             };
 
