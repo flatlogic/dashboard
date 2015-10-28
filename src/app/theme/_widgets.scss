@@ -1432,9 +1432,10 @@ width: 20px;
     padding: 0;
     box-shadow: 0 0 0 1px #F0F0F0 inset;
     border: none;
-    min-width: 155px;
+    min-width: $table-cell-width;
+    width: $table-cell-width;
     text-align: center;
-    height: 35px;
+    height: $table-cell-height;
   }
 
   .fa {

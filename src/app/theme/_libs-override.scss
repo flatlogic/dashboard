@@ -549,12 +549,13 @@ iframe.ui-layout-mask {
 
 // angular-xeditable
 .editable-wrap {
-  height: 100%;
+  height: $table-cell-height;
   width: 100%;
 
   .editable-controls>input {
     height: 100%;
-    width: 100%;
+    width: $table-cell-width;
+    display: table;
   }
 }
 
