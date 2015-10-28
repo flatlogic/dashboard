@@ -3,7 +3,6 @@
     angular.module('qorDash.loaders')
         .factory('configurationService', configurationService);
 
-    configurationService.$inject = ['$http', 'API_URL'];
     function configurationService ($http, API_URL) {
 
         return {
