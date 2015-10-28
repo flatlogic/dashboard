@@ -73,7 +73,7 @@
             var request = {
                 method: 'GET',
                 url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' +
-                    service + '/' + fileName + '/',
+                    service + '/' + fileName + '/'
             };
             return $http(request);
         }
@@ -82,7 +82,7 @@
             var request = {
                 method: 'GET',
                 url: API_URL + '/v1/conf/' + domain +
-                    '/' + service + '/' + fileName,
+                    '/' + service + '/' + fileName
             };
             return $http(request);
         }
@@ -92,6 +92,9 @@
                 method: 'POST',
                 url: API_URL + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/' + newVersionName + '/' + fileName,
+                headers: {
+                    'X-Dash-Version': fileVersion
+                }
             };
             return $http(request);
         }
@@ -101,6 +104,9 @@
                 method: 'PUT',
                 url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
                     + version + '/' + fileName,
+                headers: {
+                    'X-Dash-Version': fileVersion
+                },
                 data: data
             };
             return $http(request);
@@ -123,6 +129,9 @@
                 url: API_URL + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/'
                     + version + '/' + fileName,
+                headers: {
+                    'X-Dash-Version': fileVersion
+                }
             };
             return $http(request);
         }
@@ -130,7 +139,7 @@
         function makeVersionLive(domain, instance, service, version, fileName) {
             var postRequest = {
                 method: 'POST',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live',
+                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live'
             };
             return $http(postRequest);
         }
@@ -158,7 +167,7 @@
         function envLoadVersions(domain, instance, service) {
             var request = {
                 method: 'GET',
-                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/'
             };
 
             return $http(request);
@@ -167,7 +176,7 @@
         function envMakeVersionLive(domain, instance, service, version) {
             var request = {
                 method: 'POST',
-                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version + '/live',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version + '/live'
             };
 
             return $http(request);
@@ -221,7 +230,7 @@
         function pkgMakeLive(domain, instance, service, version) {
             var request = {
                 method: 'POST',
-                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/' + version + '/live',
+                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/' + version + '/live'
             };
 
             return $http(request);
