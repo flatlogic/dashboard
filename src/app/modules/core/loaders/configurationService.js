@@ -9,6 +9,7 @@
         return {
             loadInstance : loadInstance,
             loadEnv : loadEnv,
+            loadPkg: pkgLoad,
             files: {
                 createFile : createFile,
                 getFileContent : getFileContent,
@@ -27,6 +28,13 @@
                 makeVersionLive: envMakeVersionLive,
                 saveToNewTarget: envSaveToNewTarget,
                 save: envSave
+            },
+            pkg: {
+                loadVariables: pkgLoadVariables,
+                loadVersions: pkgLoadVersions,
+                makeLive: pkgMakeLive,
+                saveToNewTarget: pkgSaveToNewTarget,
+                save: pkgSave
             }
         };
 
@@ -224,6 +232,60 @@
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Dash-Version': xDashVersion
+                },
+                data: data
+            };
+
+            return $http(request);
+        }
+
+        function pkgLoad(domain) {
+            return $http.get(API_URL + '/v1/pkg/' + domain + '/');
+        }
+
+
+        function pkgLoadVariables(domain, instance, service, version) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/' + version
+            };
+
+            return $http(request);
+        }
+
+        function pkgLoadVersions(domain, instance, service) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/'
+            };
+            return $http(request);
+        }
+
+        function pkgMakeLive(domain, instance, service, version) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/' + version + '/live',
+            };
+
+            return $http(request);
+        }
+
+        function pkgSaveToNewTarget(domain, targetInstance, service, newVersionName, data) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/pkg/' + domain + '/' + targetInstance + '/' + service + '/' + newVersionName,
+                data: data
+            };
+
+            return $http(request);
+        }
+
+        function pkgSave(domainId, instance, service, version, data) {
+            var request = {
+                method: 'PUT',
+                url: API_URL + '/v1/pkg/' + domainId + '/' + instance + '/' + service + '/' + version,
+                headers: {
+                    'Content-Type': 'application/json'
                 },
                 data: data
             };
