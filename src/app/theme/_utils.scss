@@ -589,3 +589,7 @@ $z-index-variants: (more: 1, less: -1);
 .fade-left-big.ng-leave {
   @include animation(fadeOutRightBig 0.5s)
 }
+
+.white-bg {
+  background-color: white !important;
+}

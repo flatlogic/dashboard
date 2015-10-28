@@ -2,49 +2,6 @@
     <header horizontal-ui-sheet-header title="{{domain.domain}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <table class="table auth-table" ng-repeat="(serviceName,service) in domain.services">
-            <tbody>
-                <tr>
-                    <td>name</td>
-                    <td editable-text="service.name" buttons="no">{{service.name}}</td>
-                    <td class="hidden"></td>
-                    <td class="hidden"></td>
-                </tr>
-                <tr ng-if="service.url">
-                    <td>url</td>
-                    <td><a editable-text="service.url" buttons="no" href="{{service.url}}">{{service.url}}</a></td>
-                    <td class="hidden"></td>
-                    <td class="hidden"></td>
-                </tr>
-                <tr>
-                    <td rowspan="2">webhooks</td>
-                    <td rowspan="2">new-user-registration <i class="fa fa-angle-right"></i></td>
-                    <td >destination_url <i class="fa fa-angle-right"></i></td>
-                    <td editable-text="service.webhooks['new-user-registration'].destination_url" buttons="no">{{service.webhooks["new-user-registration"].destination_url}}</td>
-                </tr>
-                <tr>
-                    <td>auth_token <i class="fa fa-angle-right"></i></td>
-                    <td editable-text="service.webhooks['new-user-registration'].auth_token" buttons="no">{{service.webhooks["new-user-registration"].auth_token}}</td>
-                </tr>
-                <tr>
-                    <td rowspan="{{service.new_account_preset.scopes.length + 2}}">new_account_preset</td>
-                    <td>id <i class="fa fa-angle-right"></i></td>
-                    <td editable-text="service.new_account_preset.id" buttons="no">{{service.new_account_preset.id}}</td>
-                    <td class="hidden"></td>
-                </tr>
-                <tr ng-repeat-start="scope in service.new_account_preset.scopes" ng-if="$index == 0">
-                    <td rowspan="{{service.new_account_preset.scopes.length + 1}}">scopes <i class="fa fa-angle-right"></i></td>
-                    <td editable-text="scope" buttons="no">{{scope}}</td>
-                    <td class="hidden"></td>
-                </tr>
-                <tr ng-repeat-end ng-if="$index != 0">
-                    <td editable-text="scope" buttons="no">{{scope}}</td>
-                    <td class="hidden"></td>
-                </tr>
-                <tr>
-                    <td>+</td>
-                </tr>
-            </tbody>
-        </table>
+      <nested-table ng-repeat="(serviceName,service) in domain.services" class="table auth-table" data="service"></nested-table>
     </div>
 </section>

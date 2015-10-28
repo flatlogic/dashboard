@@ -1422,20 +1422,24 @@ width: 20px;
 
 
 .auth-table {
-  border: none;
 
   >tbody>tr>td {
-    background: white;
-    border: 2px solid #F0F0F0;
+    background: none;
+  }
+
+  tbody>tr>td {
     vertical-align: middle;
+    padding: 0;
+    box-shadow: 0 0 0 1px #F0F0F0 inset;
+    border: none;
+    min-width: 155px;
+    text-align: center;
+    height: 35px;
+  }
 
-    >.fa {
-      float: right;
-      margin-top: 3px;
-    }
-
-    &.hidden {
-      display: none;
-    }
+  .fa {
+    float: right;
+    margin-top: 3px;
+    margin-right: 5px;
   }
 }
