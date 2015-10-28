@@ -99,7 +99,7 @@
 
                         depth = Math.pow(2, levels.length - 1);
 
-                        zoom.scaleExtent([1, depth * 20])
+                        zoom.scaleExtent([1, depth])
                             .on("zoom", zoomed);
 
                         detalizationRect();
