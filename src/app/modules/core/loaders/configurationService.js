@@ -19,6 +19,14 @@
                 cloneFile : cloneFile,
                 deleteFile : deleteFile,
                 makeVersionLive : makeVersionLive
+            },
+            env: {
+                createVersion: envCreateVersion,
+                loadVariables: envLoadVariables,
+                loadVersions: envLoadVersions,
+                makeVersionLive: envMakeVersionLive,
+                saveToNewTarget: envSaveToNewTarget,
+                save: envSave
             }
         };
 
@@ -147,6 +155,80 @@
                 }
             };
             return $http(postRequest);
+        }
+
+        function envCreateVersion(domain, instance, service, newVersionName) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + domain + '/'
+                + instance + '/' + service + '/' + newVersionName
+            };
+
+            return $http(request);
+        }
+
+        function envLoadVariables(domain, instance, service, version) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                'version': version
+            };
+
+            return $http(request);
+        }
+
+        function envLoadVersions(domain, instance, service) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            return $http(request);
+        }
+
+        function envMakeVersionLive(domain, instance, service, version) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version + '/live',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            return $http(request);
+        }
+
+        function envSaveToNewTarget(domain, targetInstance, service, newVersionName, data) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + domain + '/' + targetInstance + '/' + service + '/' + newVersionName,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            return $http(request);
+        }
+
+        function envSave(domainId, instance, service,version, xDashVersion, data) {
+            var request = {
+                method: 'PATCH',
+                url: API_URL + '/v1/env/' + domainId + '/' + instance + '/' + service + '/' + version,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Dash-Version': xDashVersion
+                },
+                data: data
+            };
+
+            return $http(request);
         }
     }
 })();
