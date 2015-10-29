@@ -1,0 +1,131 @@
+<section horizontal-ui-sheet class="qor-sheet-half">
+    <header horizontal-ui-sheet-header title="Information">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="detail">
+            <h3 class="config-table-header">Docker Information</h3>
+
+            <table class="docker-info-small">
+                <tbody>
+                    <tr>
+                        <td>API Endpoint:</td>
+                        <td>{{ vm.endpoint }}</td>
+                    </tr>
+                    <tr>
+                        <td>API Version:</td>
+                        <td>{{ vm.docker.ApiVersion }}</td>
+                    </tr>
+                    <tr>
+                        <td>Docker version:</td>
+                        <td>{{ vm.docker.Version }}</td>
+                    </tr>
+                    <tr>
+                        <td>Git Commit:</td>
+                        <td>{{ vm.docker.GitCommit }}</td>
+                    </tr>
+                    <tr>
+                        <td>Go Version:</td>
+                        <td>{{ vm.docker.GoVersion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table docker-info-table">
+                <tbody>
+                <tr>
+                    <td>Containers:</td>
+                    <td>{{ vm.info.Containers }}</td>
+                </tr>
+                <tr>
+                    <td>Images:</td>
+                    <td>{{ vm.info.Images }}</td>
+                </tr>
+                <tr>
+                    <td>Debug:</td>
+                    <td>{{ vm.info.Debug }}</td>
+                </tr>
+                <tr>
+                    <td>CPUs:</td>
+                    <td>{{ vm.info.NCPU }}</td>
+                </tr>
+                <tr>
+                    <td>Total Memory:</td>
+                    <td>{{ vm.info.MemTotal|humansize }}</td>
+                </tr>
+                <tr>
+                    <td>Operating System:</td>
+                    <td>{{ vm.info.OperatingSystem }}</td>
+                </tr>
+                <tr>
+                    <td>Kernel Version:</td>
+                    <td>{{ vm.info.KernelVersion }}</td>
+                </tr>
+                <tr>
+                    <td>ID:</td>
+                    <td>{{ vm.info.ID }}</td>
+                </tr>
+                <tr>
+                    <td>Labels:</td>
+                    <td>{{ vm.info.Labels }}</td>
+                </tr>
+                <tr>
+                    <td>File Descriptors:</td>
+                    <td>{{ vm.info.NFd }}</td>
+                </tr>
+                <tr>
+                    <td>Goroutines:</td>
+                    <td>{{ vm.info.NGoroutines }}</td>
+                </tr>
+                <tr>
+                    <td>Storage Driver:</td>
+                    <td>{{ vm.info.Driver }}</td>
+                </tr>
+                <tr>
+                    <td>Storage Driver Status:</td>
+                    <td>
+                        <p ng-repeat="val in vm.info.DriverStatus">
+                            {{ val[0] }}: {{ val[1] }}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Execution Driver:</td>
+                    <td>{{ vm.info.ExecutionDriver }}</td>
+                </tr>
+                <tr>
+                    <td>Events:</td>
+                    <td><a ui-sref=".events">Events</a></td>
+                </tr>
+                <tr>
+                    <td>IPv4 Forwarding:</td>
+                    <td>{{ vm.info.IPv4Forwarding }}</td>
+                </tr>
+                <tr>
+                    <td>Index Server Address:</td>
+                    <td>{{ vm.info.IndexServerAddress }}</td>
+                </tr>
+                <tr>
+                    <td>Init Path:</td>
+                    <td>{{ vm.info.InitPath }}</td>
+                </tr>
+                <tr>
+                    <td>Docker Root Directory:</td>
+                    <td>{{ vm.info.DockerRootDir }}</td>
+                </tr>
+                <tr>
+                    <td>Init SHA1</td>
+                    <td>{{ vm.info.InitSha1 }}</td>
+                </tr>
+                <tr>
+                    <td>Memory Limit:</td>
+                    <td>{{ vm.info.MemoryLimit }}</td>
+                </tr>
+                <tr>
+                    <td>Swap Limit:</td>
+                    <td>{{ vm.info.SwapLimit }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

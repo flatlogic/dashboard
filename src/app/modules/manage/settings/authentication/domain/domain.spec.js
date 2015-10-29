@@ -60,7 +60,7 @@ describe('Controller: AuthenticationDomainController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AuthenticationDomainController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
+            _$controller_('AuthenticationDomainController as vm', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
         })
     });
 
@@ -69,9 +69,9 @@ describe('Controller: AuthenticationDomainController', function() {
         httpBackend.expectGET('data/permissions.json').respond('');
         spyOn(authenticationService, 'getDomainInfo').and.callThrough();
 
-        $scope.loadDomain();
+        $scope.vm.loadDomain();
 
-        $scope.token = 'token';
+        $scope.vm.token = 'token';
         $scope.$apply();
 
         deferred.resolve(authenticationService.response);
@@ -79,6 +79,6 @@ describe('Controller: AuthenticationDomainController', function() {
         $scope.$root.$digest();
 
         expect(authenticationService.getDomainInfo).toHaveBeenCalled();
-        expect($scope.domain).toBe(authenticationService.response.data);
+        expect($scope.vm.domain).toBe(authenticationService.response.data);
     });
 });

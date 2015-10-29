@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('dockerui.viewmodel', [])
-        .factory('DockerViewModel', function LineChartFactory() {
+        .factory('DockerViewModel', function dockerViewModel() {
 
             function ImageViewModel(data) {
                 this.Id = data.Id;

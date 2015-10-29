@@ -1,9 +1,0 @@
-{
-    "auth-url" : "https://accounts.qor.io/v1",
-    "api-url" : "https://ops-dev.blinker.com",
-    "ws-url" : "wss://ops-dev.blinker.com",
-    "icon-url" : "assets/images/logo-without-text.png",
-    "login-page-icon-url" : "assets/images/logo-white.png",
-    "auth_api_user" : "501f0c0390301655982bf6ba5581f95d",
-    "auth_api_secret" : "fd2c94f3f2c88d25649334017a25f900"
-}

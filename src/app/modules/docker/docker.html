@@ -3,19 +3,11 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="domain in domains | orderBy:''"
+            <a class="list-group-item" ng-repeat="domain in vm.domains | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.docker.domain({id : domain.id})">
+               ui-sref=".domain({domain : domain.id})">
                 {{domain.name}}
             </a>
-        </div>
-        <div id="env-loader" ng-hide="domains || error">
-          <img src="assets/images/cube.gif">
-        </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.docker" data-ui-sref-opts="{reload: true}">
-            <i class="fa fa-refresh reload-button"></i>
-          </a>
         </div>
     </div>
 </section>

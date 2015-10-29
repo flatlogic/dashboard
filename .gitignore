@@ -5,3 +5,4 @@ bower_components/
 .publish/
 dist/
 .idea/
+coverage

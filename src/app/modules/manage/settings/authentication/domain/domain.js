@@ -4,29 +4,44 @@
     angular.module('qorDash.manage.settings.authentication.domain')
         .controller('AuthenticationDomainController', authenticationDomainController);
 
+    function authenticationDomainController($scope, authenticationService, errorHandler, currentUser, $stateParams) {
+        var vm = this;
 
-    authenticationDomainController.$inject = ['$scope', 'authenticationService', 'errorHandler', 'currentUser', '$stateParams'];
-    function authenticationDomainController ($scope, authenticationService, errorHandler, currentUser, $stateParams) {
-        $scope.loadDomain = loadDomain;
+        vm.loadDomain = loadDomain;
+        vm.dataChanged = dataChanged;
+        vm.save = save;
+
+        vm.itemsForSave = [];
 
         loadDomain();
 
-        currentUser.then(function () {
-            $scope.token = currentUser.$$state.value;
+        currentUser.then(function (token) {
+            vm.token = token;
         });
 
         function loadDomain() {
-            $scope.$watch('token', function (token) {
+            $scope.$watch('vm.token', function (token) {
                 if (!token) return;
 
                 authenticationService.getDomainInfo($stateParams.authDomain, token).then(
                     function(response) {
-                        $scope.domain = response.data;
+                        vm.domain = response.data;
                     }, function(response) {
                         errorHandler.showError(response);
                     }
                 );
             });
+        }
+
+        function dataChanged(pathToArray, data) {
+            var obj = {};
+            obj[pathToArray] = data;
+            vm.itemsForSave.push(obj);
+        }
+
+        function save() {
+            vm.itemsForSave = [];
+            alert('Need to save');
         }
     }
 

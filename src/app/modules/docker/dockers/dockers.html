@@ -1,0 +1,13 @@
+<section horizontal-ui-sheet class="qor-sheet-s">
+    <header horizontal-ui-sheet-header title="{{vm.instance}}">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="list-group text-left ng-scope">
+            <a class="list-group-item" ng-repeat="(host, docker) in vm.dockers | orderBy:''"
+               ui-sref-active="active"
+               ui-sref=".menu({dockerId: host})">
+                {{host}}
+            </a>
+        </div>
+    </div>
+</section>

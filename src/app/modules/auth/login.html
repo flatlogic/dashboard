@@ -1,5 +1,5 @@
-<div class="container">
-    <main id="content" class="widget-login-container" role="main">
+<div class="container center-vertical">
+    <main id="content" role="main">
         <div class="row">
             <div class="col-lg-4 col-sm-6 col-xs-10 col-lg-offset-4 col-sm-offset-3 col-xs-offset-1">
                 <section class="widget widget-login animated fadeInUp">
@@ -7,25 +7,30 @@
                         <img src="{{vm.ICON_URL}}" class="login-logo" width="250">
                     </header>
                     <div class="widget-body">
-                        <form class="login-form mt-lg" ng-submit="vm.login()">
-                            <p class="error-message" ng-show="vm.errorMessage">{{vm.errorMessage}}</p>
+                        <form class="login-form mt-lg" name="vm.loginForm" ng-submit="vm.login()">
+                            <ng-messages for="vm.loginForm.$error" role="alert">
+                                <p ng-message="error-account-not-found" class="error-message">Account not found</p>
+                                <p ng-message="error-bad-credentials" class="error-message">Bad credentials</p>
+                                <p ng-message="unknown" class="error-message">Unknown server error</p>
+                            </ng-messages>
 
-                            <div class="form-group has-feedback">
-                                <input type="text" class="form-control" id="inputUserNme"
-                                       ng-model="vm.userCredentials.login" placeholder="Username" required="required">
+                            <div class="form-group has-feedback" ng-class="{'has-error' : vm.loginForm.$invalid && vm.loginForm.$submitted}">
+                                <input type="text" class="form-control" name="username"
+                                       ng-model="vm.userCredentials.login" ng-keyup="vm.removeError()" placeholder="Username" required="required">
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                             </div>
-                            <div class="form-group has-feedback small-margin">
-                                <input class="form-control" id="inputPassword" type="password" placeholder="Password"
-                                       ng-model="vm.userCredentials.password" required="required">
+                            <div class="form-group has-feedback small-margin" ng-class="{'has-error' : vm.loginForm.$invalid && vm.loginForm.$submitted}">
+                                <input type="password" class="form-control" name="password"
+                                       ng-model="vm.userCredentials.password" ng-keyup="vm.removeError()" placeholder="Password" required="required">
                                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                             </div>
                             <div class="clearfix">
-                                <div class="btn-toolbar login-toolbar pull-right">
-                                    <button class="btn btn-inverse btn-sm btn-login" id="loginButton"
-                                            data-loading-text="Loading..." type="submit">Log In
+                                <div class="login-toolbar pull-right">
+                                    <button type="submit" class="btn btn-inverse btn-sm btn-login" ng-disabled="vm.isLoading">
+                                        <span ng-hide="vm.isLoading">Log In</span>
+                                        <span ng-show="vm.isLoading">Loading...</span>
                                     </button>
-                                    <a id="google-signin" g-signin class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
+                                    <a g-signin on-success="vm.successCallback" class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
                                         <i class="fa fa-google"></i>Sign in with Google
                                     </a>
                                 </div>
@@ -36,10 +41,10 @@
                                         <div class="checkbox widget-login-info pull-right ml-n-lg">
                                             <input type="checkbox" id="checkbox1" value="1">
                                             <label for="checkbox1">Keep me signed in </label>
+                                            <!-- TODO: is it working? -->
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-sm-6 col-sm-pull-6">
                                     <a class="mr-n-lg login-trouble" href="#">Trouble with account?</a>
                                 </div>

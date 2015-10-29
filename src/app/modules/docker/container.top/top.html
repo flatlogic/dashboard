@@ -1,0 +1,25 @@
+<section horizontal-ui-sheet class="qor-sheet-half">
+    <header horizontal-ui-sheet-header title="Top">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="containerTop">
+            <div class="form-group col-xs-2">
+                <input type="text" class="form-control" placeholder="[options] (aux)" ng-model="vm.ps_args">
+            </div>
+            <button type="button" class="btn qor-btn-primary" ng-click="vm.getTop()">Submit</button>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th ng-repeat="title in vm.containerTop.Titles">{{title}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="processInfos in vm.containerTop.Processes">
+                        <td ng-repeat="processInfo in processInfos track by $index">{{processInfo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

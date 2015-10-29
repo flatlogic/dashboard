@@ -1,21 +1,11 @@
-<section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{domain.domain}}">
+<section horizontal-ui-sheet class="qor-sheet-two-three">
+    <header horizontal-ui-sheet-header title="{{vm.domain.domain}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <table class="table" ng-repeat="(serviceName,service) in domain.services">
-            <tr style="text-align: center;">
-                <td>{{service.name}}</td>
-            </tr>
-            <tr>
-                <td>url</td>
-                <td>{{service.url}}</td>
-            </tr>
-            <tr style="text-align: center;">
-                <td>WebHooks</td>
-            </tr>
-            <tr ng-repeat="(hookName, hook) in service.webhooks">
+      <nested-table ng-repeat="(serviceName,service) in vm.domain.services" onchange="vm.dataChanged" class="table auth-table" data="service"></nested-table>
 
-            </tr>
-        </table>
+      <button class="btn btn-warning save-auth-button" ng-click="vm.save()"
+              ng-show="vm.itemsForSave.length !== 0">Save
+      </button>
     </div>
 </section>

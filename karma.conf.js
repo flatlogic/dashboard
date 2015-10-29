@@ -25,12 +25,16 @@ module.exports = function(config) {
             'bower_components/angular-relative-date/angular-relative-date.js',
             'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'bower_components/angular-ui-codemirror/ui-codemirror.js',
+            'bower_components/angular-messages/angular-messages.js',
             'bower_components/angular-ui-notification/src/angular-ui-notification.js',
             'bower_components/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.js',
             'bower_components/oboe/dist/oboe-browser.js',
+            'bower_components/angular-xeditable/dist/js/xeditable.js',
             'bower_components/angular-oboe/dist/angular-oboe.js',
             'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-diff-match-patch/*.js',
+            'bower_components/Chart.js/Chart.min.js',
+            'bower_components/angular-chart.js/angular-chart.js',
             'bower_components/jasmine-jquery/lib/*.js',
             'src/app/index.js',
             'src/app/**/*.module.js',
@@ -49,13 +53,19 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
+          'src/app/**/!(*spec).js': ['coverage']
+        },
+
+        coverageReporter: {
+          type : 'html',
+          dir : 'coverage/'
         },
 
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
 
 
         // web server port

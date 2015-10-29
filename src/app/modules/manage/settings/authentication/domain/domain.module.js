@@ -2,7 +2,7 @@
     'use strict';
 
     var module = angular.module('qorDash.manage.settings.authentication.domain', [
-        'ui.router'
+        'ui.router', 'xeditable'
     ]);
 
     module.config(appConfig);
@@ -14,7 +14,8 @@
             .state('app.manage.settings.authentication.domain', {
                 url: '/:authDomain',
                 templateUrl: 'app/modules/manage/settings/authentication/domain/domain.html',
-                controller: 'AuthenticationDomainController'
+                controller: 'AuthenticationDomainController',
+                controllerAs: 'vm'
             });
     }
 })();

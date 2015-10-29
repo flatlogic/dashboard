@@ -1,0 +1,20 @@
+<table>
+  <tbody>
+    <tr data-ng-repeat="(key, value) in vm.data track by $index">
+      <td class="white-bg" ng-if="!vm.isArray(vm.data)">
+        {{key}} <i class="fa fa-angle-right"></i>
+      </td>
+      <td class="white-bg" ng-if="!vm.isObject(value)" editable-text="value" onbeforesave="vm.updateData(parentKey, $data)" buttons="no">
+        {{value}}
+      </td>
+      <td ng-if="vm.isObject(value)" colspan="100">
+        <nested-table onchange="vm.onchange" parent-key="(parentKey + '/' + key)" data="value"></nested-table>
+      </td>
+    </tr>
+    <tr ng-if="vm.isArray(vm.data)">
+      <td class="white-bg td-plus" ng-click="vm.addElementToArray(parentKey)">
+        +
+      </td>
+    </tr>
+  </tbody>
+</table>
