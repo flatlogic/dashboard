@@ -1,16 +1,11 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.domains.env', [
-        'ui.router',
-        'ui.layout'
-    ]);
+    angular
+        .module('qorDash.domains.env', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.domains.domain.env', {
                 url: '/:env',
