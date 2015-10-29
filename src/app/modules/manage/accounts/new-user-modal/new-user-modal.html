@@ -22,6 +22,9 @@
             </div>
         </div>
       </form>
+      <hr/>
+      <button class="btn btn-success" type="button" ng-click="vm.addGoogleUser(vm.username, vm.email)">Save</button>
+      <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
     </div>
     <div id="github" class="tab-pane fade">
       <form class="form-horizontal">
@@ -36,6 +39,9 @@
           </div>
         </div>
       </form>
+      <hr/>
+      <button class="btn btn-success" type="button" ng-click="vm.addGitHubUser(vm.username, vm.github_username)">Save</button>
+      <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
     </div>
     <div id="email" class="tab-pane fade">
       <form class="form-horizontal">
@@ -56,12 +62,9 @@
             </div>
         </div>
       </form>
+      <hr/>
+      <button class="btn btn-success" type="button" ng-click="vm.addUser(vm.username, vm.password, vm.custom_object)">Save</button>
+      <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
     </div>
   </div>
-
 </div>
-<div class="modal-footer">
-  <button class="btn btn-primary" type="button" ng-click="vm.ok()">Yes</button>
-  <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
-</div>
-

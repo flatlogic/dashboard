@@ -38,18 +38,6 @@ describe('Controller: AccountsController', function() {
             getAccounts: function(token) {
                 deferred = q.defer();
                 return deferred.promise;
-            },
-            createAccount: function(username, password, custom_object, token) {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            createGoogleAccount: function(username, email, token) {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            createGitHubAccount: function(username, githubUsername, token) {
-                deferred = q.defer();
-                return deferred.promise;
             }
         };
 
@@ -134,105 +122,6 @@ describe('Controller: AccountsController', function() {
             });
         });
     });
-
-    describe ('addUser', function() {
-        describe('when called with email', function() {
-            beforeEach(function() {
-                spyOn(accountsService, 'createGoogleAccount').and.callThrough();
-                this.resultPromise = $scope.vm.addUser({
-                    username: username,
-                    email: email,
-                    password: password,
-                    custom_object: custom_object,
-                    token: token
-                });
-            });
-            it ('should call createGoogleAccount', function() {
-                expect(accountsService.createGoogleAccount).toHaveBeenCalledWith(username, email, $scope.vm.token);
-            });
-            it ('should return promise', function() {
-                expect(typeof this.resultPromise.then).toEqual('function');
-            });
-            describe ('when loading completed successfully', function() {
-                beforeEach(function() {
-                    spyOn(notification, 'success');
-                    deferred.resolve(accountsService.createResponse);
-                    rootScope.$digest();
-                });
-                it ('should populate vm.accounts with response', function() {
-                    expect($scope.vm.accounts).toContain({
-                        id: accountsService.createResponse.data.id,
-                        primary: accountsService.createResponse.data
-                    });
-                });
-                it ('should show success message', function() {
-                    expect(notification.success).toHaveBeenCalled();
-                });
-            });
-            describe ('when loading failed', function() {
-                beforeEach(function() {
-                    spyOn(errorHandler, 'showError').and.callThrough();
-                    deferred.reject(serverResponse);
-                    rootScope.$digest();
-                });
-                it ('should show an error and set vm.error', function() {
-                    expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
-                    expect($scope.vm.error).toEqual(serverResponse);
-                });
-            });
-        });
-        describe('when called with github_username', function() {
-            it('calls createGitHubAccount', function() {
-                spyOn(accountsService, 'createGitHubAccount').and.callThrough();
-
-                $scope.vm.addUser({
-                    username: username,
-                    githubUsername: githubUsername
-                });
-
-                expect(accountsService.createGitHubAccount).toHaveBeenCalledWith(username, githubUsername, $scope.vm.token);
-            });
-            describe('when createGitHubAccount resolves', function() {
-                beforeEach(function() {
-                    var deferred = q.defer();
-                    spyOn(accountsService, 'createGitHubAccount').and.returnValue(deferred.promise);
-                    spyOn(notification, 'success');
-
-                    $scope.vm.addUser({
-                        username: username,
-                        githubUsername: githubUsername
-                    });
-                    deferred.resolve(accountsService.createResponse);
-                    rootScope.$digest();
-                });
-                it('populates vm.accounts', function() {
-                    expect($scope.vm.accounts).not.toEqual([]);
-                });
-                it('calls Notification.success', function() {
-                    expect(notification.success).toHaveBeenCalled();
-                });
-            });
-            describe('when createGitHubAccount fails', function() {
-                beforeEach(function() {
-                    spyOn(errorHandler, 'showError').and.callThrough();
-
-                    $scope.vm.addUser({
-                        username: username,
-                        githubUsername: githubUsername
-                    });
-                    deferred.reject(serverResponse);
-                    rootScope.$digest();
-                });
-                it('updates the value of vm.error', function() {
-                    expect($scope.vm.error).toBe(serverResponse);
-                });
-                it('calls errorHandler.showError', function() {
-                    expect(errorHandler.showError).toHaveBeenCalled();
-                });
-            });
-        });
-    });
-
     describe ('newUser', function() {
         beforeEach(function() {
             spyOn(modal, 'open');
