@@ -1,8 +1,16 @@
 <div class="modal-header">
-
+  <h3>Create new account</h3>
 </div>
 <div class="modal-body text-center">
-    <form class="form-horizontal">
+  <ul class="nav nav-pills nav-pills-centered">
+    <li role="presentation" class="active"><a data-toggle="tab" href="#google">Google</a></li>
+    <li role="presentation"><a data-toggle="tab" href="#github">GitHub</a></li>
+    <li role="presentation"><a data-toggle="tab" href="#email">E-mail</a></li>
+  </ul>
+  <hr/>
+  <div class="tab-content">
+    <div id="google" class="tab-pane fade in active">
+      <form class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-12">
                 <input type="text" class="form-control" ng-model="vm.username" placeholder="Username">
@@ -10,7 +18,30 @@
         </div>
         <div class="form-group">
             <div class="col-sm-12">
-                <input type="email" class="form-control" ng-model="vm.email" placeholder="Email">
+                <input type="email" class="form-control" ng-model="vm.email" placeholder="Google Email">
+            </div>
+        </div>
+      </form>
+    </div>
+    <div id="github" class="tab-pane fade">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" ng-model="vm.username" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" ng-model="vm.github_username" placeholder="GitHub Username">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id="email" class="tab-pane fade">
+      <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="text" class="form-control" ng-model="vm.username" placeholder="Username">
             </div>
         </div>
         <div class="form-group">
@@ -24,9 +55,13 @@
                 <textarea id="custom_object" class="form-control" ng-model='vm.custom_object'></textarea>
             </div>
         </div>
-    </form>
+      </form>
+    </div>
+  </div>
+
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" type="button" ng-click="vm.ok()">Yes</button>
   <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
 </div>
+

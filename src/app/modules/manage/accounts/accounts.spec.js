@@ -8,6 +8,7 @@ describe('Controller: AccountsController', function() {
         modal,
         serverResponse = 'serverResponse',
         deferred,
+        githubUsername = 'github_username',
         username = 'username',
         email = 'email',
         password = 'password',
@@ -43,6 +44,10 @@ describe('Controller: AccountsController', function() {
                 return deferred.promise;
             },
             createGoogleAccount: function(username, email, token) {
+                deferred = q.defer();
+                return deferred.promise;
+            },
+            createGitHubAccount: function(username, githubUsername, token) {
                 deferred = q.defer();
                 return deferred.promise;
             }
@@ -134,7 +139,13 @@ describe('Controller: AccountsController', function() {
         describe('when called with email', function() {
             beforeEach(function() {
                 spyOn(accountsService, 'createGoogleAccount').and.callThrough();
-                this.resultPromise = $scope.vm.addUser(username, email, password, custom_object, token);
+                this.resultPromise = $scope.vm.addUser({
+                    username: username,
+                    email: email,
+                    password: password,
+                    custom_object: custom_object,
+                    token: token
+                });
             });
             it ('should call createGoogleAccount', function() {
                 expect(accountsService.createGoogleAccount).toHaveBeenCalledWith(username, email, $scope.vm.token);
@@ -167,6 +178,56 @@ describe('Controller: AccountsController', function() {
                 it ('should show an error and set vm.error', function() {
                     expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
                     expect($scope.vm.error).toEqual(serverResponse);
+                });
+            });
+        });
+        describe('when called with github_username', function() {
+            it('calls createGitHubAccount', function() {
+                spyOn(accountsService, 'createGitHubAccount').and.callThrough();
+
+                $scope.vm.addUser({
+                    username: username,
+                    githubUsername: githubUsername
+                });
+
+                expect(accountsService.createGitHubAccount).toHaveBeenCalledWith(username, githubUsername, $scope.vm.token);
+            });
+            describe('when createGitHubAccount resolves', function() {
+                beforeEach(function() {
+                    var deferred = q.defer();
+                    spyOn(accountsService, 'createGitHubAccount').and.returnValue(deferred.promise);
+                    spyOn(notification, 'success');
+
+                    $scope.vm.addUser({
+                        username: username,
+                        githubUsername: githubUsername
+                    });
+                    deferred.resolve(accountsService.createResponse);
+                    rootScope.$digest();
+                });
+                it('populates vm.accounts', function() {
+                    expect($scope.vm.accounts).not.toEqual([]);
+                });
+                it('calls Notification.success', function() {
+                    expect(notification.success).toHaveBeenCalled();
+                });
+            });
+            describe('when createGitHubAccount fails', function() {
+                beforeEach(function() {
+                    spyOn(errorHandler, 'showError').and.callThrough();
+
+                    $scope.vm.addUser({
+                        username: username,
+                        githubUsername: githubUsername
+                    });
+                    deferred.reject(serverResponse);
+                    rootScope.$digest();
+                });
+                it('updates the value of vm.error', function() {
+                    expect($scope.vm.error).toBe(serverResponse);
+                });
+                it('calls errorHandler.showError', function() {
+                    expect(errorHandler.showError).toHaveBeenCalled();
                 });
             });
         });

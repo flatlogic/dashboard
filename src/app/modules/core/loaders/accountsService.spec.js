@@ -4,6 +4,7 @@ describe('Service: accountsService ', function() {
     var token = 'token',
         serverResponse = 'response',
         accountId = 'accountId',
+        githubUsername = 'githubUsername',
         username = 'username',
         password = 'password',
         custom_object = 'custom_object',
@@ -113,5 +114,18 @@ describe('Service: accountsService ', function() {
             });
 
         httpBackend.flush();
+    });
+    describe('createGitHubAccount', function() {
+        it('should send a request', function() {
+            httpBackend.expectGET('data/permissions.json').respond('');
+            httpBackend.expectPOST(AUTH_API_URL + '/register').respond(serverResponse);
+
+            accountsService.createGitHubAccount(username, githubUsername, token)
+                .then(function(res) {
+                    expect(res.data).toEqual(serverResponse);
+                });
+
+            httpBackend.flush();
+        });
     });
 });
