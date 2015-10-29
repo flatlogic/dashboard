@@ -174,6 +174,7 @@
                                 .attr("height", node.height + node.headerheight);
 
                             g.append("text")
+                                .style("fill", "#476bb8")
                                 .attr("x", node.x + node.width/20)
                                 .attr("y", node.y + node.headerheight / 2)
                                 .attr("dy", ".35em")
