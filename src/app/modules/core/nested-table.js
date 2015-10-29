@@ -58,20 +58,20 @@
          */
         return {
             restrict: "AEC",
-            scope: { data: '=' },
+            scope: { data: '=', parentKey: '=' },
             replace: true,
             template:
                 '<table>' +
                     '<tbody>' +
-                        '<tr data-ng-repeat="(key, value) in data">' +
+                        '<tr data-ng-repeat="(key, value) in data track by $index">' +
                             '<td class="white-bg" ng-if="!isArray(data)">{{key}} <i class="fa fa-angle-right"></i></td>' +
                             '<td class="white-bg" ng-if="!isObject(value)" editable-text="value" buttons="no">{{value}}</td>' +
                             '<td ng-if="isObject(value)" colspan="100">' +
-                                '<nested-table data="value"></nested-table>' +
+                                '<nested-table parent-key="(parentKey + \'/\' + key)" data="value"></nested-table>' +
                             '</td>' +
                         '</tr>' +
                         '<tr ng-if="isArray(data)">' +
-                            '<td class="white-bg">+</td>' +
+                            '<td class="white-bg td-plus" ng-click="addElementToArray(parentKey)">+</td>' +
                         '</tr>' +
                     '</tbody>' +
                 '</table>',
@@ -88,6 +88,27 @@
                 $scope.isArray = function (thing) {
                     return angular.isArray(thing);
                 };
+
+                function pushToArray(obj, path, val) {
+                    var fields = path;
+                    var result = obj;
+                    for (var i = 0, n = fields.length; i < n && result !== undefined; i++) {
+                        var field = fields[i];
+                        if (i === n - 1) {
+                            debugger;
+                            result[field].push(val);
+                        } else {
+                            if (typeof result[field] === 'undefined' || $scope.isObject(result[field])) {
+                                result[field] = {};
+                            }
+                            result = result[field];
+                        }
+                    }
+                }
+
+                $scope.addElementToArray = function(pathToArray) {
+                    $scope.data.push('');
+                }
             }
         };
     }
