@@ -14,7 +14,8 @@
             .state('app.manage.settings.authentication.domain', {
                 url: '/:authDomain',
                 templateUrl: 'app/modules/manage/settings/authentication/domain/domain.html',
-                controller: 'AuthenticationDomainController'
+                controller: 'AuthenticationDomainController',
+                controllerAs: 'vm'
             });
     }
 })();

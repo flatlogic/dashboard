@@ -65,7 +65,7 @@
                     '<tbody>' +
                         '<tr data-ng-repeat="(key, value) in data track by $index">' +
                             '<td class="white-bg" ng-if="!isArray(data)">{{key}} <i class="fa fa-angle-right"></i></td>' +
-                            '<td class="white-bg" ng-if="!isObject(value)" editable-text="value" onaftersave="updateData(parentKey, $data)" buttons="no">{{value}}</td>' +
+                            '<td class="white-bg" ng-if="!isObject(value)" editable-text="value" onbeforesave="updateData(parentKey, $data)" buttons="no">{{value}}</td>' +
                             '<td ng-if="isObject(value)" colspan="100">' +
                                 '<nested-table onchange="onchange" parent-key="(parentKey + \'/\' + key)" data="value"></nested-table>' +
                             '</td>' +
@@ -96,7 +96,7 @@
 
                 $scope.updateData = function(pathToArray, data) {
                     $scope.onchange(pathToArray, data);
-                }
+                };
             }
         };
     }

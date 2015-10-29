@@ -23,7 +23,7 @@
         function loadGlobalPermissions() {
             return $http.get('data/permissions.json')
                 .then(function (result) {
-                    $window.localStorage[this.permissionsJsonKey] = JSON.stringify(result.data);
+                    //$window.localStorage[this.permissionsJsonKey] = JSON.stringify(result.data);
                     return result.data;
                 });
         }
