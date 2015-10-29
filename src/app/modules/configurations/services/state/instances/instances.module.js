@@ -1,20 +1,21 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.configurations.services.state.instances', [
-        'ui.router'
-    ]);
+    angular
+        .module('qorDash.configurations.services.state.instances', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.configurations.services.state.instances', {
                 url: '/instances',
                 templateUrl: 'app/modules/configurations/services/state/instances/instances.html',
                 controller: 'InstancesController',
+                resolve: {
+                    resolvedEnv: function($stateParams, configurationService) {
+                        return configurationService.loadEnv($stateParams.domain);
+                    }
+                },
                 authenticate: true
             })
     }

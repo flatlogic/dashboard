@@ -1,12 +1,13 @@
 (function () {
 
-    angular.module('qorDash.loaders')
+    angular
+        .module('qorDash.loaders')
         .factory('configurationService', configurationService);
 
-    configurationService.$inject = ['$http', 'API_URL'];
     function configurationService ($http, API_URL) {
 
         return {
+            loadPackage : loadPackage,
             loadInstance : loadInstance,
             loadEnv : loadEnv,
             files: {
@@ -22,19 +23,34 @@
             }
         };
 
+        function httpRequestSuccess(response) {
+            return response.data;
+        }
+
+        function httpRequestFailed(response) {
+            errorHandler.showError(response);
+            return $q.reject(response.data ? response.data : response);
+        }
+
+        function loadPackage(domain) {
+            return $http
+                .get(API_URL + '/v1/pkg/' + domain + '/')
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
+        }
+
         function loadInstance(domain) {
-            var instanceRequest = {
-                method: 'GET',
-                url: API_URL + '/v1/conf/' + domain + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-            return $http(instanceRequest);
+            return $http
+                .get(API_URL + '/v1/conf/' + domain + '/')
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function loadEnv(domain) {
-            return $http.get(API_URL + '/v1/env/' + domain + '/');
+            return $http
+                .get(API_URL + '/v1/env/' + domain + '/')
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function createFile(domain, service, fileName, text) {
