@@ -1,7 +1,11 @@
-<section horizontal-ui-sheet class="qor-sheet-half">
+<section horizontal-ui-sheet class="qor-sheet-two-three">
     <header horizontal-ui-sheet-header title="{{domain.domain}}">
     </header>
     <div horizontal-ui-sheet-content>
-      <nested-table ng-repeat="(serviceName,service) in domain.services" class="table auth-table" data="service"></nested-table>
+      <nested-table ng-repeat="(serviceName,service) in domain.services" onchange="dataChanged" class="table auth-table" data="service"></nested-table>
+
+      <button class="btn btn-warning save-auth-button" ng-click="save()"
+              ng-show="itemsForSave.length !== 0">Save
+      </button>
     </div>
 </section>

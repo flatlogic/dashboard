@@ -58,16 +58,16 @@
          */
         return {
             restrict: "AEC",
-            scope: { data: '=', parentKey: '=' },
+            scope: { data: '=', parentKey: '=', onchange: '=' },
             replace: true,
             template:
                 '<table>' +
                     '<tbody>' +
                         '<tr data-ng-repeat="(key, value) in data track by $index">' +
                             '<td class="white-bg" ng-if="!isArray(data)">{{key}} <i class="fa fa-angle-right"></i></td>' +
-                            '<td class="white-bg" ng-if="!isObject(value)" editable-text="value" buttons="no">{{value}}</td>' +
+                            '<td class="white-bg" ng-if="!isObject(value)" editable-text="value" onaftersave="updateData(parentKey, $data)" buttons="no">{{value}}</td>' +
                             '<td ng-if="isObject(value)" colspan="100">' +
-                                '<nested-table parent-key="(parentKey + \'/\' + key)" data="value"></nested-table>' +
+                                '<nested-table onchange="onchange" parent-key="(parentKey + \'/\' + key)" data="value"></nested-table>' +
                             '</td>' +
                         '</tr>' +
                         '<tr ng-if="isArray(data)">' +
@@ -89,25 +89,13 @@
                     return angular.isArray(thing);
                 };
 
-                function pushToArray(obj, path, val) {
-                    var fields = path;
-                    var result = obj;
-                    for (var i = 0, n = fields.length; i < n && result !== undefined; i++) {
-                        var field = fields[i];
-                        if (i === n - 1) {
-                            debugger;
-                            result[field].push(val);
-                        } else {
-                            if (typeof result[field] === 'undefined' || $scope.isObject(result[field])) {
-                                result[field] = {};
-                            }
-                            result = result[field];
-                        }
-                    }
-                }
-
                 $scope.addElementToArray = function(pathToArray) {
                     $scope.data.push('');
+                    $scope.onchange(pathToArray);
+                };
+
+                $scope.updateData = function(pathToArray, data) {
+                    $scope.onchange(pathToArray, data);
                 }
             }
         };

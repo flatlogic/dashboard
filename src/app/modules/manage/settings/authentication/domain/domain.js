@@ -9,6 +9,14 @@
     function authenticationDomainController ($scope, authenticationService, errorHandler, currentUser, $stateParams) {
         $scope.loadDomain = loadDomain;
 
+        $scope.itemsForSave = [];
+
+        $scope.dataChanged = function(pathToArray, data) {
+            var obj = {};
+            obj[pathToArray] = data;
+            $scope.itemsForSave.push(obj);
+        };
+
         loadDomain();
 
         currentUser.then(function () {
