@@ -10,8 +10,8 @@
             });
         });
 
-    editorController.$inject = ['$scope', '$stateParams', '$modal', 'Notification', 'configurationService', 'errorHandler'];
-    function editorController($scope, $stateParams, $modal, Notification, configurationService, errorHandler) {
+    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal', 'Notification', '$timeout', 'errorHandler'];
+    function editorController($scope, $stateParams, API_URL, $http, $modal, Notification, $timeout, errorHandler) {
 
         $scope.selectedVersion = {};
 
@@ -29,12 +29,18 @@
         $scope.liveVersion = {};
 
         $scope.createVersion = function(instance, newVersionName) {
-            return configurationService.env.createVersion($stateParams.domain, instance, $scope.service.service, newVersionName).then(
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + $stateParams.domain + '/'
+                    + instance + '/' + $scope.service.service + '/' + newVersionName
+            };
+
+            return $http(request).then(
                 function(response) {
                     Notification.success('Successfully created');
                 },
                 function(response) {
-                    errorHandler.showError(response);
+                    errorHandler.showError(response.data, response.status);
                 }
             );
         };
@@ -98,9 +104,17 @@
                 var _loadVariables = function(instance) {
                     for (var i in $scope.versions[instance]) {
                         var version = $scope.versions[instance][i];
+                        var request = {
+                            method: 'GET',
+                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            'version': version
+                        };
 
                         $scope.requestsCounter++;
-                        configurationService.env.loadVariables($stateParams.domain, instance, $scope.editorService.service, version).then(
+                        $http(request).then(
                             function (response) {
                                 $scope.requestsCounter--;
                                 $scope.loaded = true;
@@ -148,8 +162,16 @@
                 };
 
                 $scope.editorService.instances.forEach(function (instance) {
+
+                    var loadVersionsRequest = {
+                        method: 'GET',
+                        url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    };
                     $scope.requestsCounter++;
-                    configurationService.env.loadVersions($stateParams.domain, instance, $scope.editorService.service).then(
+                    $http(loadVersionsRequest).then(
                         function(response) {
                             $scope.requestsCounter--;
                             for (var i in response.data) {
@@ -210,10 +232,17 @@
         };
 
         $scope.makeLive = function(instance, version) {
-            //TODO : Remove DOM manipulations
             $('span[instance='+instance+'].set-live-button').addClass('loading').text('Loading...');
 
-            configurationService.env.makeVersionLive($stateParams.domain, instance, $scope.editorService.service, version).then(
+            var postRequest = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            $http(postRequest).then(
                 function(response) {
                     Notification.success('Live version for ' + instance + ' has been changed.');
                     $('span[instance='+instance+'].set-live-button').removeClass('loading').text('Set live');
@@ -293,15 +322,31 @@
                     return;
                 }
 
+                var getRequest = {
+                    method: 'GET',
+                    url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    'version': version
+                };
 
                 var newVars = {};
 
-                // First we need to make get request
-                configurationService.env.loadVariables($stateParams.domain, instance, $scope.editorService.service, version).then(
+                $http(getRequest).then(
                     function(response) {
                         newVars = response.data;
 
-                        configurationService.env.saveToNewTarget($stateParams.domain, targetInstance, $scope.editorService.service, newVersionName, data).then(
+                        var patchRequest = {
+                            method: 'POST',
+                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            data: data
+                        };
+
+                        $http(patchRequest).then(
                             function(response) {
                                 $scope.versions[targetInstance].push(newVersionName);
 
@@ -371,9 +416,17 @@
                 var versions = $scope.itemsForSave[instance];
                 for (var version in versions) {
                     var data = $scope.itemsForSave[instance][version];
-                    if (data.delete) {
-                        configurationService.env.save($scope.domain.id, instance, $scope.editorService.service,
-                            version, $scope.dashVersions[instance] ? $scope.dashVersions[instance][version] || '' : '', data).then(
+                    var request = {
+                        method: 'PATCH',
+                        url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Dash-Version': $scope.dashVersions[instance] ? $scope.dashVersions[instance][version] || '' : ''
+                        },
+                        data: data
+                    };
+                    if (request.data.delete) {
+                        $http(request).then(
                             function (response) {
                                 Notification.success('Saved successfully');
                                 $('#env-save-button').button('reset');

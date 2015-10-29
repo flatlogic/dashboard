@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateInstanceController.$inject = ['$scope', '$stateParams', 'orchestrateService', 'errorHandler'];
-    function orchestrateInstanceController($scope, $stateParams, orchestrateService, errorHandler) {
+    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'orchestrateService', 'errorHandler'];
+    function orchestrateInstanceController($scope, $stateParams, $http, orchestrateService, errorHandler) {
 
         $scope.title = $stateParams.inst;
         $scope.workflows = [];

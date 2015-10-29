@@ -3,8 +3,8 @@
 
     angular.module('qorDash.orchestrate');
 
-    orchestrateDomainController.$inject = ['$scope', '$stateParams', 'errorHandler', 'domainLoader'];
-    function orchestrateDomainController($scope, $stateParams, errorHandler, domainLoader) {
+    orchestrateDomainController.$inject = ['$scope', '$stateParams', '$http', 'API_URL', 'errorHandler', 'domainLoader'];
+    function orchestrateDomainController($scope, $stateParams, $http, API_URL, errorHandler, domainLoader) {
         domainLoader.load($stateParams.id).then(
             function (response) {
                 $scope.domain = response.data;
