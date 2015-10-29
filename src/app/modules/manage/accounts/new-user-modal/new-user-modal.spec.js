@@ -7,7 +7,7 @@ describe('Controller: NewUserController', function() {
         modal,
         serverResponse = 'serverResponse',
         deferred,
-        githubUsername = 'github_username',
+        githubUsername = 'githubUusername',
         username = 'username',
         email = 'email',
         password = 'password',

@@ -18,12 +18,12 @@
         </div>
         <div class="form-group">
             <div class="col-sm-12">
-                <input type="email" class="form-control" ng-model="vm.email" placeholder="Google Email">
+                <input type="email" class="form-control" ng-model="vm.googleEmail" placeholder="Google Email">
             </div>
         </div>
       </form>
       <hr/>
-      <button class="btn btn-success" type="button" ng-click="vm.addGoogleUser(vm.username, vm.email)">Save</button>
+      <button class="btn btn-success" type="button" ng-click="vm.addGoogleUser(vm.username, vm.googleEmail)">Save</button>
       <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
     </div>
     <div id="github" class="tab-pane fade">
@@ -35,12 +35,12 @@
         </div>
         <div class="form-group">
           <div class="col-sm-12">
-            <input type="text" class="form-control" ng-model="vm.github_username" placeholder="GitHub Username">
+            <input type="text" class="form-control" ng-model="vm.githubUsername" placeholder="GitHub Username">
           </div>
         </div>
       </form>
       <hr/>
-      <button class="btn btn-success" type="button" ng-click="vm.addGitHubUser(vm.username, vm.github_username)">Save</button>
+      <button class="btn btn-success" type="button" ng-click="vm.addGitHubUser(vm.username, vm.githubUsername)">Save</button>
       <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
     </div>
     <div id="email" class="tab-pane fade">
