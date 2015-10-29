@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    packagesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
-    function packagesController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
+    packagesController.$inject = ['$scope', '$state', '$stateParams', 'configurationService', 'errorHandler'];
+    function packagesController($scope, $state, $stateParams, configurationService, errorHandler) {
         // TODO Make global
         Object.filter = function( obj, predicate) {
             var key;
@@ -16,7 +16,7 @@
 
         $scope.checked = {};
 
-        $http.get(API_URL + '/v1/pkg/' + $stateParams.domain + '/').then(
+        configurationService.loadPkg($stateParams.domain).then(
             function (response) {
                 $scope.service = response.data[$state.params.service];
                 $scope.instances = $scope.service.instances;

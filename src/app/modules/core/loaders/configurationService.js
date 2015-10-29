@@ -3,12 +3,12 @@
     angular.module('qorDash.loaders')
         .factory('configurationService', configurationService);
 
-    configurationService.$inject = ['$http', 'API_URL'];
     function configurationService ($http, API_URL) {
 
         return {
             loadInstance : loadInstance,
             loadEnv : loadEnv,
+            loadPkg: pkgLoad,
             files: {
                 createFile : createFile,
                 getFileContent : getFileContent,
@@ -19,18 +19,30 @@
                 cloneFile : cloneFile,
                 deleteFile : deleteFile,
                 makeVersionLive : makeVersionLive
+            },
+            env: {
+                createVersion: envCreateVersion,
+                loadVariables: envLoadVariables,
+                loadVersions: envLoadVersions,
+                makeVersionLive: envMakeVersionLive,
+                saveToNewTarget: envSaveToNewTarget,
+                save: envSave
+            },
+            pkg: {
+                loadVariables: pkgLoadVariables,
+                loadVersions: pkgLoadVersions,
+                makeLive: pkgMakeLive,
+                saveToNewTarget: pkgSaveToNewTarget,
+                save: pkgSave
             }
         };
 
         function loadInstance(domain) {
-            var instanceRequest = {
+            var request = {
                 method: 'GET',
-                url: API_URL + '/v1/conf/' + domain + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_URL + '/v1/conf/' + domain + '/'
             };
-            return $http(instanceRequest);
+            return $http(request);
         }
 
         function loadEnv(domain) {
@@ -41,9 +53,6 @@
             var request = {
                 method: 'POST',
                 url: API_URL + '/v1/conf/' + domain + '/' + service + '/' + fileName,
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
                 data: text
             };
 
@@ -53,35 +62,26 @@
         function getFileContent(domain, instance, service, version, fileName) {
             var request = {
                 method: 'GET',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName
             };
 
             return $http(request);
         }
 
         function getVersions(domain, instance, service, fileName) {
-            var versionsRequest = {
+            var request = {
                 method: 'GET',
                 url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' +
-                    service + '/' + fileName + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                    service + '/' + fileName + '/'
             };
-            return $http(versionsRequest);
+            return $http(request);
         }
 
         function getBaseFile(domain, service, fileName) {
             var request = {
                 method: 'GET',
                 url: API_URL + '/v1/conf/' + domain +
-                    '/' + service + '/' + fileName,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                    '/' + service + '/' + fileName
             };
             return $http(request);
         }
@@ -117,9 +117,6 @@
                 url: API_URL + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/'
                     + version + '/' + object,
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
                 data: data
             };
             return $http(request);
@@ -141,12 +138,121 @@
         function makeVersionLive(domain, instance, service, version, fileName) {
             var postRequest = {
                 method: 'POST',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live'
             };
             return $http(postRequest);
+        }
+
+        function envCreateVersion(domain, instance, service, newVersionName) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + domain + '/'
+                + instance + '/' + service + '/' + newVersionName
+            };
+
+            return $http(request);
+        }
+
+        function envLoadVariables(domain, instance, service, version) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version,
+                'version': version
+            };
+
+            return $http(request);
+        }
+
+        function envLoadVersions(domain, instance, service) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/'
+            };
+
+            return $http(request);
+        }
+
+        function envMakeVersionLive(domain, instance, service, version) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + domain + '/' + instance + '/' + service + '/' + version + '/live'
+            };
+
+            return $http(request);
+        }
+
+        function envSaveToNewTarget(domain, targetInstance, service, newVersionName, data) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/env/' + domain + '/' + targetInstance + '/' + service + '/' + newVersionName,
+                data: data
+            };
+
+            return $http(request);
+        }
+
+        function envSave(domainId, instance, service,version, xDashVersion, data) {
+            var request = {
+                method: 'PATCH',
+                url: API_URL + '/v1/env/' + domainId + '/' + instance + '/' + service + '/' + version,
+                headers: {
+                    'X-Dash-Version': xDashVersion
+                },
+                data: data
+            };
+
+            return $http(request);
+        }
+
+        function pkgLoad(domain) {
+            return $http.get(API_URL + '/v1/pkg/' + domain + '/');
+        }
+
+
+        function pkgLoadVariables(domain, instance, service, version) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/' + version
+            };
+
+            return $http(request);
+        }
+
+        function pkgLoadVersions(domain, instance, service) {
+            var request = {
+                method: 'GET',
+                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/'
+            };
+            return $http(request);
+        }
+
+        function pkgMakeLive(domain, instance, service, version) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/pkg/' + domain + '/' + instance + '/' + service + '/' + version + '/live'
+            };
+
+            return $http(request);
+        }
+
+        function pkgSaveToNewTarget(domain, targetInstance, service, newVersionName, data) {
+            var request = {
+                method: 'POST',
+                url: API_URL + '/v1/pkg/' + domain + '/' + targetInstance + '/' + service + '/' + newVersionName,
+                data: data
+            };
+
+            return $http(request);
+        }
+
+        function pkgSave(domainId, instance, service, version, data) {
+            var request = {
+                method: 'PUT',
+                url: API_URL + '/v1/pkg/' + domainId + '/' + instance + '/' + service + '/' + version,
+                data: data
+            };
+
+            return $http(request);
         }
     }
 })();
