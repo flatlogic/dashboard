@@ -1,7 +1,5 @@
 # dashboard
 
-[![Circle CI](https://circleci.com/gh/qoriolabs/dashboard.png?circle-token=23161c70747953c1b0e735cb36028f1faede194e&style=svg)](https://circleci.com/gh/qoriolabs/dashboard)
-
 ### Run
 1. Install node and bower dependencies: `npm install`
 2. Run the application: `gulp serve`
