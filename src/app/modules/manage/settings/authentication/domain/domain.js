@@ -9,7 +9,7 @@
 
         vm.loadDomain = loadDomain;
         vm.dataChanged = dataChanged;
-        vm.cloneObject = cloneObject;
+        vm.createObject = createObject;
         vm.save = save;
 
         vm.itemsForSave = [];
@@ -42,13 +42,14 @@
             });
         }
 
-        function cloneObject(objectName) {
-            var clonedObject = $.extend(true, {}, vm.domain.services[objectName]);
-            clonedObject.name = clonedObject.name + '-new';
-            vm.domain.services[objectName + '-new'] = clonedObject;
+        function createObject() {
+            var clonedObject = $.extend(true, {}, vm.domain.services[Object.keys(vm.domain.services)[0]]);
+            clonedObject.name = 'new-app';
+            vm.domain.services['new-app'] = clonedObject;
         }
 
         function dataChanged(pathToArray, data) {
+            debugger;
             var obj = {};
             obj[pathToArray] = data;
             vm.itemsForSave.push(obj);
