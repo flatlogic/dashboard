@@ -80,7 +80,7 @@
             return RecursionHelper.compile(element);
         }
 
-        function nestedTableController($scope) {
+        function nestedTableController() {
             var vm = this;
 
             vm.isObject = isObject;
@@ -88,16 +88,23 @@
             vm.isEditable = isEditable;
             vm.isPlusAvailable = isPlusAvailable;
 
-            vm.addElementToArray = addElementToArray;
+            vm.addElement = addElement;
             vm.updateData = updateData;
 
             function isEditable(path) {
-                return (config[path] == 'edit');
+                var c = true,
+                    tempPath = path;
+                while (tempPath && tempPath.length > 1) {
+                    if ((tempPath && vm.config[tempPath] && vm.config[tempPath].indexOf('edit') > -1)) {
+                        return true;
+                    }
+                    tempPath = tempPath.split('.').splice(0, tempPath.split('.').length - 1).join('.');
+                }
+                return false;
             }
 
             function isPlusAvailable(path) {
-                debugger;
-                return (path && vm.config[path] == 'add');
+                return (path && vm.config[path] && vm.config[path].indexOf('add') > -1);
             }
 
             function isObject(thing) {
@@ -108,9 +115,21 @@
                 return angular.isArray(thing);
             }
 
-            function addElementToArray(pathToArray) {
-                vm.data.push('');
-                vm.onchange(pathToArray);
+            function addElement(path) {
+                if (vm.isArray(vm.data)) {
+                    vm.data.push('');
+                    vm.onchange(path);
+                } else {
+                    var newObject = {};
+                    var lastKey = Object.keys(vm.data)[Object.keys(vm.data).length - 1],
+                        newKey = lastKey + '-new';
+
+                    newObject[newKey] = vm.data[lastKey];
+
+                    vm.data[newKey] = vm.data[lastKey];
+
+                    vm.onchange(path, newObject);
+                }
             }
 
             function updateData(pathToArray, data) {

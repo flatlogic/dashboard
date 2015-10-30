@@ -1,10 +1,11 @@
 <table>
   <tbody>
     <tr data-ng-repeat="(key, value) in vm.data track by $index">
-      <td class="white-bg" ng-if="!vm.isArray(vm.data)">
+      <td class="white-bg" ng-if="!vm.isArray(vm.data)"
+          edit-disabled="!vm.isEditable(vm.parentKey)" editable-text="key" onbeforesave="vm.updateData(vm.parentKey, $data)" buttons="no">
         {{key}} <i class="fa fa-angle-right"></i>
       </td>
-      <td class="white-bg" ng-if="!vm.isObject(value)" editable-text="value" onbeforesave="vm.updateData(parentKey, $data)" buttons="no">
+      <td class="white-bg" ng-if="!vm.isObject(value)" edit-disabled="!vm.isEditable(vm.parentKey + '.' + key)" editable-text="value" onbeforesave="vm.updateData(vm.parentKey + key, $data)" buttons="no">
         {{value}}
       </td>
       <td ng-if="vm.isObject(value)" colspan="100">
@@ -12,7 +13,7 @@
       </td>
     </tr>
     <tr ng-if="vm.isPlusAvailable(vm.parentKey)">
-      <td class="white-bg td-plus" ng-click="vm.addElementToArray(parentKey)">
+      <td class="white-bg td-plus" ng-click="vm.addElement(vm.parentKey)">
         +
       </td>
     </tr>

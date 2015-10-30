@@ -14,8 +14,9 @@
         vm.itemsForSave = [];
 
         vm.configObject = {
-            ".webhooks"  : "add",
-            ".new_account_presets.scopes" : "add",
+            ".webhooks"  : "add|edit",
+            ".new_account_preset.scopes" : "add|edit",
+            ".url" : "edit",
             "." : "add"
         };
 
