@@ -54,13 +54,16 @@
     function nestedTable(RecursionHelper) {
         /**
          * Data-driven table that auto-rendered from JSON.
-         * example: <nested-table class="table-class" data="dataObject"></nested-table>
+         * @param data Object to render
+         * @param config Object for table configuration. It should be in following format: { path: [add|edit] }
+         * example: <nested-table class="table-class" data="dataObject" config="configObject"></nested-table>
          */
         return {
             restrict: "AEC",
             scope: {
                 data: '=',
                 parentKey: '=',
+                config: '=',
                 onchange: '='
             },
             replace: true,
@@ -82,9 +85,20 @@
 
             vm.isObject = isObject;
             vm.isArray = isArray;
+            vm.isEditable = isEditable;
+            vm.isPlusAvailable = isPlusAvailable;
 
             vm.addElementToArray = addElementToArray;
             vm.updateData = updateData;
+
+            function isEditable(path) {
+                return (config[path] == 'edit');
+            }
+
+            function isPlusAvailable(path) {
+                debugger;
+                return (path && vm.config[path] == 'add');
+            }
 
             function isObject(thing) {
                 return angular.isObject(thing);

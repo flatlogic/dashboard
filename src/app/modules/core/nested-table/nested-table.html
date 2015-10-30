@@ -8,10 +8,10 @@
         {{value}}
       </td>
       <td ng-if="vm.isObject(value)" colspan="100">
-        <nested-table onchange="vm.onchange" parent-key="(parentKey + '/' + key)" data="value"></nested-table>
+        <nested-table onchange="vm.onchange" parent-key="(vm.parentKey + '.' + key)" config="vm.config" data="value"></nested-table>
       </td>
     </tr>
-    <tr ng-if="vm.isArray(vm.data)">
+    <tr ng-if="vm.isPlusAvailable(vm.parentKey)">
       <td class="white-bg td-plus" ng-click="vm.addElementToArray(parentKey)">
         +
       </td>

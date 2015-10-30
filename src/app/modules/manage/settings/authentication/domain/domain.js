@@ -13,6 +13,12 @@
 
         vm.itemsForSave = [];
 
+        vm.configObject = {
+            ".webhooks"  : "add",
+            ".new_account_presets.scopes" : "add",
+            "." : "add"
+        };
+
         loadDomain();
 
         currentUser.then(function (token) {

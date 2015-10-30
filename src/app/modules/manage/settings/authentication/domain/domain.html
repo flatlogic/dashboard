@@ -2,7 +2,7 @@
     <header horizontal-ui-sheet-header title="{{vm.domain.domain}}">
     </header>
     <div horizontal-ui-sheet-content>
-      <nested-table ng-repeat="(serviceName,service) in vm.domain.services" onchange="vm.dataChanged" class="table auth-table" data="service"></nested-table>
+      <nested-table ng-repeat="(serviceName,service) in vm.domain.services" onchange="vm.dataChanged" config="vm.configObject" class="table auth-table" data="service"></nested-table>
 
       <button class="btn btn-warning save-auth-button" ng-click="vm.save()"
               ng-show="vm.itemsForSave.length !== 0">Save
