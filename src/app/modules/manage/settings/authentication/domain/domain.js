@@ -9,6 +9,7 @@
 
         vm.loadDomain = loadDomain;
         vm.dataChanged = dataChanged;
+        vm.cloneObject = cloneObject;
         vm.save = save;
 
         vm.itemsForSave = [];
@@ -17,6 +18,7 @@
             ".webhooks"  : "add|edit",
             ".new_account_preset.scopes" : "add|edit",
             ".url" : "edit",
+            ".name" : "edit",
             "." : "add"
         };
 
@@ -38,6 +40,12 @@
                     }
                 );
             });
+        }
+
+        function cloneObject(objectName) {
+            var clonedObject = $.extend(true, {}, vm.domain.services[objectName]);
+            clonedObject.name = clonedObject.name + '-new';
+            vm.domain.services[objectName + '-new'] = clonedObject;
         }
 
         function dataChanged(pathToArray, data) {

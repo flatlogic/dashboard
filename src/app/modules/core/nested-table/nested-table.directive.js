@@ -4,7 +4,20 @@
     angular
         .module('qorDash.core')
         .factory("RecursionHelper", RecursionHelper)
-        .directive("nestedTable", nestedTable);
+        .directive("nestedTable", nestedTable)
+        .filter('orderObjectBy', function() {
+            return function(items, field, reverse) {
+                var filtered = [];
+                angular.forEach(items, function(item) {
+                    filtered.push(item);
+                });
+                filtered.sort(function (a, b) {
+                    return (a[field] > b[field] ? 1 : -1);
+                });
+                if(reverse) filtered.reverse();
+                return filtered;
+            };
+        });
 
     function RecursionHelper($compile) {
         // This helper allows to create recursive directives
@@ -64,7 +77,8 @@
                 data: '=',
                 parentKey: '=',
                 config: '=',
-                onchange: '='
+                onchange: '=',
+                onclone: '='
             },
             replace: true,
             bindToController: true,
@@ -90,6 +104,11 @@
 
             vm.addElement = addElement;
             vm.updateData = updateData;
+            vm.clone = clone;
+
+            function clone(tableName) {
+                vm.onclone(tableName);
+            }
 
             function isEditable(path) {
                 var c = true,
