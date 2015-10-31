@@ -53,7 +53,7 @@ describe('Controller: DomainsController', function() {
                     next && next()
                 }
             });
-            httpBackend.expectGET('data/permissions.json');
+            httpBackend.expectGET('data/permissions.json').respond('');
             spyOn(domainsLoader, 'load').and.callThrough();
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
@@ -130,7 +130,7 @@ describe('Controller: DomainsController', function() {
             });
             // Нужно вызвать errorHandler и засунуть ошибку в scope.error
             it ('should call errorHandler and populate $scope.error', function() {
-                expect(errorHandler.showError).not.toHaveBeenCalledWith(error);
+                expect(errorHandler.showError).toHaveBeenCalledWith(error);
                 expect($scope.error).toBe(error);
             });
         });
