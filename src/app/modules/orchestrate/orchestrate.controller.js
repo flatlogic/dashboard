@@ -1,8 +1,10 @@
 (function () {
     'use strict';
+    angular
+        .module('qorDash.orchestrate')
+        .controller('OrchestrateController', orchestrateController);
 
-    var orchestrateController = angular.createAuthorizedController('OrchestrateController', ['$scope', '$state', '$stateParams', 'errorHandler', 'domainsLoader', 'resolvedDomains',
-    function ($scope, $state, $stateParams, errorHandler, domainsLoader, resolvedDomains) {
+    function orchestrateController($scope, $state, $stateParams, resolvedDomains) {
         $scope.domains = resolvedDomains;
 
         if($scope.domains.length === 1 && $state.current.name == 'app.orchestrate'){
@@ -12,10 +14,5 @@
         $scope.domain = $scope.domains.filter(function (domain) {
             return domain.id == $stateParams.id;
         })[0];
-    }]);
-
-    angular
-        .module('qorDash.orchestrate')
-        .controller(orchestrateController);
-
+    }
 })();

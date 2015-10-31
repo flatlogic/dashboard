@@ -1,19 +1,16 @@
 (function () {
     'use strict';
 
+    angular
+        .module('qorDash.manage')
+        .controller('ManageController', manageController)
+        .factory('currentUser', currentUser);
 
+    function manageController($scope) {
 
-    var manageController = angular.createAuthorizedController('ManageController', ['$scope', function ($scope) {
+    }
 
-        }]);
-
-
-    currentUser.$inject = ['manageLoader'];
     function currentUser (manageLoader) {
         return manageLoader.load();
     }
-
-    angular.module('qorDash.manage')
-        .controller(manageController)
-        .factory('currentUser', currentUser);
 })();

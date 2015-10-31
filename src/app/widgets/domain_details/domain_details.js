@@ -1,12 +1,11 @@
 (function () {
     'use strict';
 
-    var domainDetailsModule = angular.module('qorDash.widget.domain_details');
+    angular
+        .module('qorDash.widget.domain_details')
+        .controller('DomainDetailsController', domainDetailsController);
 
-    var domainDetailsController = angular.createAuthorizedController('DomainDetailsController', ['$scope', '$rootScope', '$compile' , '$state', function ($scope, $rootScope, $compile, $state) {
+    function domainDetailsController($scope, $rootScope, $compile, $state) {
 
-    }]);
-
-
-    domainDetailsModule.controller(domainDetailsController);
+    }
 })();
