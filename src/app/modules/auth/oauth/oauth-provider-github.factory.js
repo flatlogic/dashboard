@@ -76,22 +76,29 @@
 
         function login() {
             return service.openPopup({
-                clientId    : GITHUB_CLIENT_ID,
-                redirectUri : 'http://localhost:3000/#/login',
-                state       : 'test-state',
-                scope       : ''
+                clientId: GITHUB_CLIENT_ID,
+                redirectUri: 'http://localhost:3000/#/login',
+                state: 'test-state',
+                scope: ''
             });
         }
 
         function exchangeToken(code) {
             var deferred = $q.defer();
 
-            $http.post(AUTH_API_URL + '/auth', {
-                'oauth2_code': code,
-                'oauth2_state': 'test-state',
-                'oauth2_provider': 'github.com'
+            $http({
+                method: 'POST',
+                url: AUTH_API_URL + '/auth',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    'oauth2_code': code,
+                    'oauth2_state': 'test-state',
+                    'oauth2_provider': 'github.com'
+                }
             }).then(function(res){
-                console.log(res);
+                console.warn(res);
             }, function(err){
                 throw err
             });
