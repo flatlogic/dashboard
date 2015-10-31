@@ -8,8 +8,16 @@ describe('Controller: LoginController', function() {
         LOGIN_PAGE_ICON_URL = 'LOGIN_PAGE_ICON_URL',
         serverResponse = 'serverResponse',
         message = 'message;',
-        window;
+        window,
+        $controller,
+        oauthProviderGitHub;
 
+    beforeEach(module('qorDash.auth', function($provide){
+        // Stubbing constants is necessary (for now) because of the way the application
+        // is bootstrapped in index.js.
+        $provide.constant('AUTH_API_URL', 'api url');
+        $provide.constant('GITHUB_CLIENT_ID', 'github client id');
+    }));
     beforeEach(module('qorDash.auth'));
 
     beforeEach(function() {
@@ -36,10 +44,12 @@ describe('Controller: LoginController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state, _oauthProviderGitHub_)  {
             q = $q;
             httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
+            $controller = _$controller_;
+            oauthProviderGitHub = _oauthProviderGitHub_;
             $.fn.button = function() {};
             spyOn(_dataLoader_, 'init').and.returnValue({
                 then: function (next) {
@@ -48,25 +58,43 @@ describe('Controller: LoginController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('LoginController as vm', {$scope: $scope, $state : state, user: user, LOGIN_PAGE_ICON_URL: LOGIN_PAGE_ICON_URL});
             httpBackend.expectGET('data/permissions.json').respond('');
         })
     });
 
+    function createCtrl() {
+        return $controller('LoginController as vm', {$scope: $scope, $state : state, user: user, LOGIN_PAGE_ICON_URL: LOGIN_PAGE_ICON_URL});
+    }
+
     describe('after loading', function() {
         it ('should set ICON_URL to the LOGIN_PAGE_ICON_URL value from injector and init vm.userCredentials & loginButtonState', function() {
+            createCtrl();
+
             expect($scope.vm.ICON_URL).toBe(LOGIN_PAGE_ICON_URL);
             expect($scope.vm.userCredentials).toBeDefined();
             expect($scope.vm.isLoading).toBeDefined();
         });
 
         it ('should check is user authenticated and send her to the dashboard if yes', function() {
+            createCtrl();
+
             expect(user.isAuthed).toHaveBeenCalled();
             expect(state.go).toHaveBeenCalledWith('app.dashboard');
+        });
+
+        it ('should call oauthProviderGitHub.loginWithGitHubIfRedirectedByPopup', function() {
+            spyOn(oauthProviderGitHub, 'loginWithGitHubIfRedirectedByPopup');
+
+            createCtrl();
+
+            expect(oauthProviderGitHub.loginWithGitHubIfRedirectedByPopup).toHaveBeenCalled();
         });
     });
 
     describe('login', function() {
+        beforeEach(function(){
+            createCtrl();
+        });
         beforeEach(function() {
             $scope.vm.loginForm = {
                 $setValidity: function(){}

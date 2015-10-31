@@ -5,11 +5,12 @@
         .module('qorDash.auth')
         .factory('oauthAdapter', oauthAdapter);
 
-    function oauthAdapter($q, auth, errorHandler, oauthProviderGoogle) {
+    function oauthAdapter($q, auth, errorHandler, oauthProviderGoogle, oauthProviderGitHub) {
 
         var selectedProvider = null;
         var providersMap = {
-            'google': oauthProviderGoogle
+            'google': oauthProviderGoogle,
+            'github': oauthProviderGitHub
         };
 
         return {
