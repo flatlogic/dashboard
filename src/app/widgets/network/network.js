@@ -15,8 +15,8 @@
         });
     };
 
-    qlNetwork.$inject = ['d3', '$window', '$stateParams', '$state', '$http', '$timeout'];
-    function qlNetwork(d3, $window, $stateParams, $state, $http, $timeout) {
+    qlNetwork.$inject = ['d3', '$window', '$stateParams', '$state', 'networkViewService', '$timeout'];
+    function qlNetwork(d3, $window, $stateParams, $state, networkViewService, $timeout) {
         return {
             restrict: 'EA',
             replace: true,
@@ -24,7 +24,7 @@
 
                 d3.d3().then(function (d3) {
                     function initJson() {
-                        return $http.get('data/network-data.json')
+                        return networkViewService.load()
                             .then(function (res) {
                                 scope.sourceJson = res.data;
                                 $timeout(function () {
