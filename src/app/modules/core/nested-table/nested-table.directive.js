@@ -106,6 +106,15 @@
             vm.updateData = updateData;
 
             function isEditable(path) {
+                if (!path) {return false;}
+
+                var splitedPath = path.split('.');
+
+                if (splitedPath[1] == 'services') {
+                    splitedPath.splice(2, 1);
+                    path = splitedPath.join('.');
+                }
+
                 var c = true,
                     tempPath = path;
                 while (tempPath && tempPath.length > 1) {
@@ -118,7 +127,17 @@
             }
 
             function isPlusAvailable(path) {
-                return (path && vm.config[path] && vm.config[path].indexOf('add') > -1);
+                if (!path) {return false;}
+
+                var splitedPath = path.split('.');
+
+                if (splitedPath[1] == 'services') {
+                    splitedPath.splice(2, 1);
+                    path = splitedPath.join('.');
+                    return (path && vm.config[path] && vm.config[path].indexOf('add') > -1);
+                } else {
+                    return (path && vm.config[path] && vm.config[path].indexOf('add') > -1);
+                }
             }
 
             function isObject(thing) {

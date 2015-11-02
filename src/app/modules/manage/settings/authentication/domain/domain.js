@@ -9,14 +9,14 @@
 
         vm.loadDomain = loadDomain;
         vm.dataChanged = dataChanged;
-        vm.createObject = createObject;
         vm.save = save;
 
         vm.itemsForSave = [];
 
         vm.configObject = {
-            ".webhooks"  : "add|edit",
-            ".new_account_preset.scopes" : "add|edit",
+            ".services": "add",
+            ".services.webhooks"  : "add|edit",
+            ".services.new_account_preset.scopes" : "add|edit",
             ".url" : "edit",
             ".name" : "edit",
             "." : "add"
@@ -42,24 +42,10 @@
             });
         }
 
-        function createObject() {
-            var clonedObject = $.extend(true, {}, vm.domain.services[Object.keys(vm.domain.services)[0]]);
-            clonedObject.name = 'new-app';
-            vm.domain.services['new-app'] = clonedObject;
-        }
-
         function dataChanged(objectName, pathToArray, data) {
-            if (pathToArray == 'name') {
-                var oldObject = vm.domain.services[objectName];
-                oldObject.name = data;
-
-                delete vm.domain.services[objectName];
-
-                vm.domain.services[data] = oldObject;
-            }
-            //var obj = {};
-            //obj[pathToArray] = data;
-            //vm.itemsForSave.push(obj);
+            var obj = {};
+            obj[pathToArray] = data;
+            vm.itemsForSave.push(obj);
         }
 
         function save() {

@@ -6,14 +6,14 @@
             edit-disabled="!vm.isEditable(vm.parentKey)" editable-text="key" onbeforesave="vm.updateData(vm.parentKey, $data)" buttons="no">
           {{key}} <i class="fa fa-angle-right"></i>
         </td>
-        <td class="white-bg" ng-if="!vm.isObject(value)" edit-disabled="!vm.isEditable(vm.parentKey + '.' + key)" editable-text="value" onbeforesave="vm.updateData(vm.parentKey + key, $data)" buttons="no">
+        <td class="white-bg" ng-if="!vm.isObject(value)" editable-text="value" onbeforesave="vm.updateData(vm.parentKey + key, $data)" buttons="no">
           {{value}}
         </td>
         <td ng-if="vm.isObject(value)" colspan="100">
           <nested-table onchange="vm.onchange" object-name="vm.objectName" parent-key="(vm.parentKey + '.' + key)" config="vm.config" data="value"></nested-table>
         </td>
       </tr>
-      <tr ng-if="vm.isPlusAvailable(vm.parentKey)">
+      <tr ng-if="vm.isArray(vm.data) || vm.isPlusAvailable(vm.parentKey)">
         <td class="white-bg td-plus" ng-click="vm.addElement(vm.parentKey)">
           +
         </td>
