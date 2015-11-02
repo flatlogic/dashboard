@@ -111,7 +111,7 @@
                 var splitedPath = path.split('.');
 
                 if (splitedPath[1] == 'services') {
-                    splitedPath.splice(2, 1);
+                    if (splitedPath[2]) { splitedPath[2] = '*'; }
                     path = splitedPath.join('.');
                 }
 
@@ -132,7 +132,7 @@
                 var splitedPath = path.split('.');
 
                 if (splitedPath[1] == 'services') {
-                    splitedPath.splice(2, 1);
+                    if (splitedPath[2]) { splitedPath[2] = '*'; }
                     path = splitedPath.join('.');
                     return (path && vm.config[path] && vm.config[path].indexOf('add') > -1);
                 } else {
@@ -153,13 +153,14 @@
                     vm.data.push('');
                     vm.onchange(path);
                 } else {
+                    debugger;
                     var newObject = {};
                     var lastKey = Object.keys(vm.data)[Object.keys(vm.data).length - 1],
                         newKey = lastKey + '-new';
 
-                    newObject[newKey] = vm.data[lastKey];
+                    newObject[newKey] = jQuery.extend(true, {}, vm.data[lastKey]);
 
-                    vm.data[newKey] = vm.data[lastKey];
+                    vm.data[newKey] = jQuery.extend(true, {}, vm.data[lastKey]);
 
                     vm.onchange(path, newObject);
                 }

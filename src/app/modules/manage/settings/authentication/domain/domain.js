@@ -15,8 +15,8 @@
 
         vm.configObject = {
             ".services": "add",
-            ".services.webhooks"  : "add|edit",
-            ".services.new_account_preset.scopes" : "add|edit",
+            ".services.*.webhooks"  : "add|edit",
+            ".services.*.new_account_preset.scopes" : "add|edit",
             ".url" : "edit",
             ".name" : "edit",
             "." : "add"
