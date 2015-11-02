@@ -25,8 +25,7 @@
                     _preventAnimation: { value: null, squash: true }
                 },
                 templateUrl: 'app/modules/configurations/services/state/files/files-diff/files-diff.html',
-                controller: 'FilesEditorController',
-                authenticate: true
+                controller: 'FilesEditorController'
             })
     }
 })();

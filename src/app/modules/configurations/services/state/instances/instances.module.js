@@ -15,8 +15,7 @@
                     resolvedEnv: function($stateParams, configurationService) {
                         return configurationService.loadEnv($stateParams.domain);
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

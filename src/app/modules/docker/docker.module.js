@@ -49,8 +49,7 @@
                     resolvedDomains: function(domainService) {
                         return domainService.loadDomains();
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('docker', {

@@ -22,8 +22,7 @@
                     version: { value: null, squash: true } // optional param
                 },
                 templateUrl: 'app/modules/configurations/services/state/files/files-view/files-view.html',
-                controller: 'FilesViewController',
-                authenticate: true
+                controller: 'FilesViewController'
             })
     }
 })();

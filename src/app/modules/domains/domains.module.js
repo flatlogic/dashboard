@@ -35,8 +35,7 @@
                         controller: 'DomainsController',
                         controllerAs: 'vm'
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('domains', {

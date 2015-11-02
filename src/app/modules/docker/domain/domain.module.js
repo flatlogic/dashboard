@@ -11,7 +11,6 @@
                 url: '/:domain',
                 templateUrl: 'app/modules/docker/domain/domain.html',
                 controller: 'DockerDomainController',
-                authenticate: true,
                 controllerAs: 'vm',
                 resolve: {
                     resolvedDomain: function(domainService, $stateParams) {

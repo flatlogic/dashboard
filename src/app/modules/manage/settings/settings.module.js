@@ -15,8 +15,7 @@
             .state('app.manage.settings', {
                 url: '/settings',
                 templateUrl: 'app/modules/manage/settings/settings.html',
-                controller: 'SettingsController',
-                authenticate: true
+                controller: 'SettingsController'
             });
     }
 })();

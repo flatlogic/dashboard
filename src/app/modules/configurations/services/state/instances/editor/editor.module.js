@@ -17,8 +17,7 @@
             .state('app.configurations.services.state.instances.editor', {
                 url: '/:instances',
                 templateUrl: 'app/modules/configurations/services/state/instances/editor/editor.html',
-                controller: 'EditorController',
-                authenticate: true
+                controller: 'EditorController'
             })
     }
 })();

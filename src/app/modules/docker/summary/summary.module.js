@@ -23,8 +23,7 @@
                     resolvedImages: function(Image, Settings) {
                         return Image.query(Settings.urlParams).$promise;
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

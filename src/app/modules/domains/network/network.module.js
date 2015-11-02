@@ -9,8 +9,7 @@
         $stateProvider
             .state('app.domains.domain.env.network', {
                 url: '/network',
-                templateUrl: 'app/modules/domains/network/network.html',
-                authenticate: true
+                templateUrl: 'app/modules/domains/network/network.html'
             })
     }
 })();

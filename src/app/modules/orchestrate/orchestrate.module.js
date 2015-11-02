@@ -25,8 +25,7 @@
                         templateUrl: 'app/modules/orchestrate/orchestrate.html',
                         controller: 'OrchestrateController'
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('orchestrate', {

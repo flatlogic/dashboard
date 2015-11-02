@@ -14,8 +14,7 @@
             .state('app.orchestrate.domain.instance.history', {
                 url: '/:opt',
                 templateUrl: 'app/modules/orchestrate/history/history.html',
-                controller: 'OrchestrateHistoryController',
-                authenticate: true
+                controller: 'OrchestrateHistoryController'
             })
     }
 })();

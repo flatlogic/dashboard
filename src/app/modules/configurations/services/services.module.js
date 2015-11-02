@@ -16,8 +16,7 @@
                     resolvedDomain: function(domainService, $stateParams) {
                         return domainService.loadDomain($stateParams.domain);
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

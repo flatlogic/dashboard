@@ -18,8 +18,7 @@
                         templateUrl: 'app/modules/compose/compose.html',
                         controller: 'ComposeController'
                     }
-                },
-                authenticate: true
+                }
             })
             .state('app.compose.sub', {
                 url: '/sub',

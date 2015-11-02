@@ -11,8 +11,7 @@
                 url: '/:dockerId',
                 templateUrl: 'app/modules/docker/menu/menu.html',
                 controller: 'DockerMenuController',
-                controllerAs: 'vm',
-                authenticate: true
+                controllerAs: 'vm'
             })
     }
 })();

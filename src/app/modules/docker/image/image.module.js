@@ -21,8 +21,7 @@
                         var urlParams = angular.extend({id: $stateParams.imageId}, Settings.urlParams);
                         return Image.history(urlParams).$promise;
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

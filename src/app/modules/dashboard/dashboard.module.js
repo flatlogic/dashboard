@@ -23,8 +23,7 @@
                         templateUrl: 'app/modules/dashboard/dashboard.html',
                         controller: 'DashboardController'
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('dashboard', {

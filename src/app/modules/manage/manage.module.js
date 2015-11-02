@@ -21,8 +21,7 @@
                         templateUrl: 'app/modules/manage/manage.html',
                         controller: 'ManageController'
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('manage', {

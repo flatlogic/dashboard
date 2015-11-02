@@ -14,8 +14,7 @@
         $stateProvider
             .state('app.domains.domain.env.network.node.logs', {
                 url: '/logs',
-                templateUrl: 'app/modules/domains/node-logs/node-logs.html',
-                authenticate: true
+                templateUrl: 'app/modules/domains/node-logs/node-logs.html'
             })
     }
 })();

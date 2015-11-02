@@ -30,8 +30,7 @@
                         templateUrl: 'app/modules/configurations/configurations.html',
                         controller: 'ConfigurationsController'
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('configurations', {

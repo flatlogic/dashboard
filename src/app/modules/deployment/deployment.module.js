@@ -18,8 +18,7 @@
             .state('app.deployment', {
                 url: '/deployment',
                 templateUrl: 'app/modules/deployment/deployment.html',
-                controller: 'DeploymentController',
-                authenticate: true
+                controller: 'DeploymentController'
             })
     }
 })();

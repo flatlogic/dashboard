@@ -10,8 +10,7 @@
             .state('app.domains.domain.env', {
                 url: '/:env',
                 templateUrl: 'app/modules/domains/environment/environment.html',
-                controller: 'DomainEnvironmentController',
-                authenticate: true
+                controller: 'DomainEnvironmentController'
             })
     }
 })();

@@ -15,8 +15,7 @@
                     resolvedInstance: function($stateParams, configurationService) {
                         return configurationService.loadInstance($stateParams.domain);
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();
