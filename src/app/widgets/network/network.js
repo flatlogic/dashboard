@@ -51,7 +51,7 @@
 
                     var margin = {top: 20, right: 0, bottom: 0, left: 0},
                         width = element.width(),
-                        height = $window.innerHeight - margin.top - margin.bottom - 120 - 45,
+                        height = $window.innerHeight - margin.top - margin.bottom - 80,
                         formatNumber = d3.format(",d"),
                         transitioning;
 
@@ -85,12 +85,12 @@
                     queue.push(root);
                     node = queue.shift();
 
-                    node.width = 1200;
-                    node.height = 720;
-                    node.headerheight = 80;
+                    node.width =  (width + margin.left + margin.right) * 9/10;
+                    node.height = (height + margin.bottom + margin.top) * 8/10;
+                    node.headerheight = (node.height) * 1/10;
+                    node.x = (node.width) * 1/20;
+                    node.y = (node.height) * 1/20;
                     node.depth = 1;
-                    node.x = 40;
-                    node.y = 40;
 
                     BFS(node);
 
