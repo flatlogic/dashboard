@@ -15,6 +15,7 @@
     "OrchestrateHistoryController": "my_account",
     "domain_stat": "my_account",
     "InstancesController": "my_account",
+    "DomainsNetworkController": "my_account",
     "domain_details": "my_account",
     "FilesEditorController": "my_account",
     "FilesViewController": "my_account",
