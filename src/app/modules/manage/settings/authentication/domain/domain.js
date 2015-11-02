@@ -48,16 +48,38 @@
             vm.domain.services['new-app'] = clonedObject;
         }
 
-        function dataChanged(pathToArray, data) {
-            debugger;
-            var obj = {};
-            obj[pathToArray] = data;
-            vm.itemsForSave.push(obj);
+        function dataChanged(objectName, pathToArray, data) {
+            if (pathToArray == 'name') {
+                var oldObject = vm.domain.services[objectName];
+                oldObject.name = data;
+
+                delete vm.domain.services[objectName];
+
+                vm.domain.services[data] = oldObject;
+            }
+            //var obj = {};
+            //obj[pathToArray] = data;
+            //vm.itemsForSave.push(obj);
         }
 
         function save() {
             vm.itemsForSave = [];
             alert('Need to save');
+        }
+
+        function deepFind(obj, path) {
+            var paths = path.split('.')
+                , current = obj
+                , i;
+
+            for (i = 0; i < paths.length; ++i) {
+                if (current[paths[i]] == undefined) {
+                    return undefined;
+                } else {
+                    current = current[paths[i]];
+                }
+            }
+            return current;
         }
     }
 

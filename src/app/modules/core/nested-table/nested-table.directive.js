@@ -78,7 +78,7 @@
                 parentKey: '=',
                 config: '=',
                 onchange: '=',
-                onclone: '='
+                objectName: '='
             },
             replace: true,
             bindToController: true,
@@ -104,11 +104,6 @@
 
             vm.addElement = addElement;
             vm.updateData = updateData;
-            vm.clone = clone;
-
-            function clone(tableName) {
-                vm.onclone(tableName);
-            }
 
             function isEditable(path) {
                 var c = true,
@@ -152,7 +147,7 @@
             }
 
             function updateData(pathToArray, data) {
-                vm.onchange(pathToArray, data);
+                vm.onchange(vm.objectName, pathToArray, data);
             }
         }
     }
