@@ -24,11 +24,6 @@
                     return networkViewService.load()
                         .then(function (response) {
                             scope.sourceJson = response.data;
-                            $timeout(function () {
-                                scope.$apply(function () {
-                                    scope.setNetworkData(scope.sourceJson);
-                                });
-                            });
                         });
                 }
 
