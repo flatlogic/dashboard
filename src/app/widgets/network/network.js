@@ -84,9 +84,6 @@
 
                 var g = svg.append('g');
 
-                d3.select(self.frameElement)
-                    .style("height", height + "px");
-
                 queue.push(root);
                 node = queue.shift();
 
@@ -142,6 +139,7 @@
                     }
 
                     drawRect(node);
+                    setLevels(node)
 
                     if(queue.length !== 0) {
                         BFS(queue.shift());
@@ -180,25 +178,15 @@
                         .attr("dy", ".35em")
                         .attr("font-size", node.height / 14  + "px")
                         .text(node.name);
-
-                    setLevels(rect, node);
                 };
 
-                function setLevels(rect, node) {
-
-                    rect.x = node.x;
-                    rect.y = node.y;
-                    rect.width = node.width;
-                    rect.height = node.height;
-                    rect.headerheight = node.headerheight;
-
-                    rect.depth = node.depth;
+                function setLevels(node) {
 
                     if(!levels[node.depth]) {
                         levels[node.depth] = [];
                     }
 
-                    levels[node.depth].push(rect);
+                    levels[node.depth].push(node);
                 };
 
                 function countColumn() {
