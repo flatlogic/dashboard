@@ -221,37 +221,51 @@
                     preScrolLevel = scrolLevel;
 
                     d3.selectAll(".network-body")
-                        .style("fill", "none")
-                        .style("stroke-width", 1.4/scrolLevel)
-                        .attr("rx", 3/scrolLevel + "px");
-
-                    d3.selectAll(".network-title")
-                        .style("stroke-width", 1.4/scrolLevel)
-                        .attr("rx", 3/scrolLevel + "px");
+                        .style("fill", "none");
 
                     removeUnusedRect();
 
                     if(levels[scrolLevel+2]) {
                         levels[scrolLevel + 2].forEach(function (item, i) {
 
-                            var rect = g.append("rect")
+                            var rect = {};
+
+                            rect.body = g.append("rect")
                                 .style("fill", "#fff")
                                 .style("stroke", "#949da5")
-                                .style("stroke-width", 1.4 / scrolLevel)
-                                .attr("rx", 3 / scrolLevel + "px")
+                                .style("stroke-width", 1.4/scrolLevel)
+                                .classed('network-body', true)
+                                .attr("rx", 3/scrolLevel + "px")
                                 .attr("x", item.x)
                                 .attr("y", item.y)
                                 .attr("width", item.width)
                                 .attr("height", item.height + item.headerheight);
 
+                            rect.text = g.append("text")
+                                .style("fill", "#476bb8")
+                                .attr("x", item.x + item.width/20)
+                                .attr("y", item.y + item.headerheight / 2)
+                                .attr("dy", ".35em")
+                                .attr("font-size", item.height / 10  + "px")
+                                .text(node.name);
+
                             unusedRect.push(rect);
                         });
                     }
+
+                    d3.selectAll(".network-body")
+                        .style("stroke-width", 1.4/scrolLevel)
+                        .attr("rx", 3/scrolLevel + "px");
+
+                    d3.selectAll(".network-title")
+                        .style("stroke-width", 1.4/scrolLevel)
+                        .attr("rx", 3/scrolLevel + "px")
                 };
 
                 function removeUnusedRect() {
                     unusedRect.forEach(function(item){
-                        item.remove();
+                        item.body.remove();
+                        item.text.remove();
                     })
                     unusedRect = [];
                 };
