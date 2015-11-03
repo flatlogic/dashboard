@@ -1,4 +1,4 @@
-describe('Controller: DomainController', function() {
+describe('Controller: OrchestrateDomainController', function() {
 
     var $scope;
     var $controller,
@@ -15,7 +15,7 @@ describe('Controller: DomainController', function() {
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module('qorDash.loaders'));
-    beforeEach(module('qorDash.domains'));
+    beforeEach(module('qorDash.orchestrate'));
 
     beforeEach(function() {
         domainLoader = {
@@ -50,7 +50,7 @@ describe('Controller: DomainController', function() {
             spyOn(domainLoader, 'load').and.callThrough();
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('DomainController', {$scope: $scope, errorHandler: errorHandler, $stateParams: $stateParams, domainLoader: domainLoader});
+            _$controller_('OrchestrateDomainController', {$scope: $scope, errorHandler: errorHandler, $stateParams: $stateParams, domainLoader: domainLoader});
         })
     });
 
