@@ -40,6 +40,7 @@
             }
 
             function initSvg($element) {
+                console.log('initSvg');
                 var margin = {top: 20, right: 0, bottom: 0, left: 0},
                     width = $element.width(),
                     height = $window.innerHeight - margin.top - margin.bottom - 80;
@@ -78,6 +79,7 @@
             }
 
             function BFS (node) {
+                console.log('BFS');
                 for (var i in node.children) {
                     node.children[i].parent = node;
                     node.children[i].depth = node.depth + 1;
@@ -122,6 +124,7 @@
             }
 
             function drawRect (node) {
+                console.log('drawRect');
                 nv.g.append("rect")
                     .style("fill", "#ffffff")
                     .style("stroke", "#949da5")
@@ -161,7 +164,7 @@
             }
 
             function setLevels(node) {
-
+                console.log('setLevels');
                 if(!nv.levels[node.depth]) {
                     nv.levels[node.depth] = [];
                 }
@@ -170,12 +173,14 @@
             }
 
             function zoomed() {
+                console.log('zoomed');
                 preventDefaultScroll($element);
                 detalizationRect();
                 nv.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             }
 
             function detalizationRect () {
+                console.log('detalizationRect');
                 var scrollLevel = Math.round(nv.zoom.scale());
 
                 if(nv.preScrollLevel === scrollLevel)    return;
@@ -186,7 +191,6 @@
 
                 if(nv.levels[scrollLevel+2]) {
                     nv.levels[scrollLevel + 2].forEach(function (item, i) {
-
                         var rect = {};
 
                         rect.body = nv.g.append("rect")
@@ -204,13 +208,15 @@
                                 nv.showDetails(item);
                             });
 
+                        var fontSize = (item.width / (item.name.length)) * 4/3;
+
                         rect.text = nv.g.append("text")
                             .style("fill", "#476bb8")
                             .attr("x", item.x + item.width/2)
                             .attr("y", item.y + item.height / 2)
                             .attr("text-anchor", "middle")
                             .attr("dy", ".35em")
-                            .attr("font-size", item.height / 3  + "px")
+                            .attr("font-size", fontSize  + "px")
                             .text(item.name);
 
                         nv.unusedRect.push(rect);
@@ -227,7 +233,7 @@
             }
 
             function countColumn() {
-
+                console.log('countColumn');
                 nv.numColumn = Math.round( Math.sqrt(nv.numChildNode));
 
                 if( nv.numColumn*nv.numColumn < nv.numChildNode) {
@@ -244,6 +250,7 @@
             }
 
             function removeUnusedRect() {
+                console.log('removeUnusedRect');
                 nv.unusedRect.forEach(function(item){
                     item.body.remove();
                     item.text.remove();
@@ -252,6 +259,10 @@
             }
         }
 
+        /**
+         * Prevent page scrolling when zooming network view
+         * @param element parent html element
+         */
         function preventDefaultScroll(element) {
             $(element).on({
                 'mousewheel': function(e) {
