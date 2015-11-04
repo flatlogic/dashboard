@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.orchestrate.domain.instance', [
-        'ui.router'
-    ]);
+    var module = angular.module('qorDash.orchestrate.domain.instance', []);
 
     module.config(appConfig);
 

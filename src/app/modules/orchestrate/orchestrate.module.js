@@ -3,7 +3,6 @@
 
     angular
         .module('qorDash.orchestrate', [
-            'ui.router',
             'qorDash.orchestrate.domain',
             'qorDash.orchestrate.domain.instance',
             'qorDash.orchestrate.domain.instance.history',

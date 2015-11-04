@@ -2,7 +2,6 @@
     'use strict';
 
     var module = angular.module('qorDash.domains.env.network.node', [
-        'ui.router',
         'ui.layout'
     ]);
 

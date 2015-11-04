@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.accounts.account', [
-        'ui.router'
-    ]);
+    var module = angular.module('qorDash.manage.accounts.account', []);
 
     module.config(appConfig);
 

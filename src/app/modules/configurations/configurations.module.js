@@ -3,7 +3,6 @@
 
     angular
         .module('qorDash.configurations', [
-            'ui.router',
             'qorDash.configurations.services',
             'qorDash.configurations.services.state',
             'qorDash.configurations.services.state.files',

@@ -2,7 +2,6 @@
     'use strict';
 
     var module = angular.module('log_details', [
-        'ui.router',
         'ui.layout'
     ]);
 

@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.compose', [
-        'ui.router'
-    ]);
+    var module = angular.module('qorDash.compose', []);
 
     module.config(appConfig);
 

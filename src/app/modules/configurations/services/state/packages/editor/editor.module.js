@@ -2,7 +2,6 @@
     'use strict';
 
     var module = angular.module('qorDash.configurations.services.state.packages.editor', [
-        'ui.router',
         'ui-notification',
         'ui.bootstrap',
         'mwl.confirm'

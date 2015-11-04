@@ -2,7 +2,6 @@
     'use strict';
 
     var module = angular.module('qorDash.configurations.services.state.files.files-view', [
-        'ui.router',
         'ui.codemirror',
         'ui-notification',
         'diff-match-patch'

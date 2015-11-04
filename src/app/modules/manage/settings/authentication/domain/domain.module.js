@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.settings.authentication.domain', [
-        'ui.router'
-    ]);
+    var module = angular.module('qorDash.manage.settings.authentication.domain', []);
 
     module.config(appConfig);
 

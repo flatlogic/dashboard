@@ -3,7 +3,6 @@
 
     angular
         .module('qorDash.core', [
-            'ui.router',
             'ngAnimate',
             'ngSanitize'
         ])
