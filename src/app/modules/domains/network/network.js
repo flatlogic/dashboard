@@ -1,8 +1,10 @@
 (function () {
     'use strict';
 
-    function domainsNetworkController($scope, $timeout, networkViewService) {
+    function domainsNetworkController($scope, $timeout, networkViewService, $state) {
         var vm = this;
+
+        vm.showDetails = showDetails;
 
         networkViewService.load()
             .then(function (response) {
@@ -12,6 +14,15 @@
                     });
                 });
             });
+
+        function showDetails(node) {
+            $state.go('app.domains.domain.env.network.node',
+                {
+                    depth: node.depth,
+                    node: node.name
+                }
+            );
+        }
     }
 
     angular.module('qorDash.domains')

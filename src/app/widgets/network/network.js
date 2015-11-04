@@ -9,7 +9,8 @@
             restrict: 'EA',
             replace: true,
             scope: {
-                networkData: '='
+                networkData: '=',
+                showDetails: '='
             },
             bindToController: true,
             controller: networkViewController,
@@ -122,6 +123,21 @@
 
             function drawRect (node) {
                 vm.g.append("rect")
+                    .style("fill", "#ffffff")
+                    .style("stroke", "#949da5")
+                    .style("stroke-width", "1.4")
+                    .classed('network-body', true)
+                    .attr("rx", "3px")
+                    .attr("x", node.x)
+                    .attr("y", node.y)
+                    .attr("width", node.width)
+                    .attr("height", node.height + node.headerheight)
+                    .on("click", function() {
+                        if (d3.event.defaultPrevented) return;
+                        vm.showDetails(node);
+                    });
+
+                vm.g.append("rect")
                     .style("fill", "#dae0ed")
                     .style("stroke", "none")
                     .style("stroke-width", "1.4")
@@ -134,23 +150,13 @@
                     .append("title")
                     .text(node.name);
 
-                vm.g.append("rect")
-                    .style("fill", "none")
-                    .style("stroke", "#949da5")
-                    .style("stroke-width", "1.4")
-                    .classed('network-body', true)
-                    .attr("rx", "3px")
-                    .attr("x", node.x)
-                    .attr("y", node.y)
-                    .attr("width", node.width)
-                    .attr("height", node.height + node.headerheight);
-
                 vm.g.append("text")
                     .style("fill", "#476bb8")
-                    .attr("x", node.x + node.width/20)
+                    .attr("text-anchor", "middle")
+                    .attr("x", node.x + node.width/2)
                     .attr("y", node.y + node.headerheight / 2)
                     .attr("dy", ".35em")
-                    .attr("font-size", node.height / 14  + "px")
+                    .attr("font-size", (node.height / 14)  + "px")
                     .text(node.name);
             }
 
@@ -170,15 +176,11 @@
             }
 
             function detalizationRect () {
-
                 var scrollLevel = Math.round(vm.zoom.scale());
 
                 if(vm.preScrollLevel === scrollLevel)    return;
 
                 vm.preScrollLevel = scrollLevel;
-
-                d3.selectAll(".network-body")
-                    .style("fill", "none");
 
                 removeUnusedRect();
 
@@ -196,15 +198,20 @@
                             .attr("x", item.x)
                             .attr("y", item.y)
                             .attr("width", item.width)
-                            .attr("height", item.height + item.headerheight);
+                            .attr("height", item.height + item.headerheight)
+                            .on("click", function() {
+                                if (d3.event.defaultPrevented) return;
+                                vm.showDetails(item);
+                            });
 
                         rect.text = vm.g.append("text")
                             .style("fill", "#476bb8")
-                            .attr("x", item.x + item.width/20)
-                            .attr("y", item.y + item.headerheight / 2)
+                            .attr("x", item.x + item.width/2)
+                            .attr("y", item.y + item.height / 2)
+                            .attr("text-anchor", "middle")
                             .attr("dy", ".35em")
-                            .attr("font-size", item.height / 10  + "px")
-                            .text(vm.node.name);
+                            .attr("font-size", item.height / 3  + "px")
+                            .text(item.name);
 
                         vm.unusedRect.push(rect);
                     });
