@@ -1,7 +1,7 @@
 <section horizontal-ui-sheet>
-    <header horizontal-ui-sheet-header title="{{node.name}}">
+    <header horizontal-ui-sheet-header title="{{vm.node.name}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div ql-widget="domain_details"></div>
+        <domain-details node="vm.node"></domain-details>
     </div>
 </section>

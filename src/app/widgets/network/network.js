@@ -4,7 +4,7 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork);
 
-    function qlNetwork($window, $stateParams, $state, $timeout) {
+    function qlNetwork($window) {
         return {
             restrict: 'EA',
             replace: true,
@@ -14,13 +14,13 @@
             },
             bindToController: true,
             controller: networkViewController,
-            controllerAs: 'vm'
+            controllerAs: 'nv'
         };
 
-        function networkViewController($scope, $element, $attrs) {
-            var vm = this;
+        function networkViewController($scope, $element) {
+            var nv = this;
 
-            $scope.$watch('vm.networkData', function(networkData) {
+            $scope.$watch('nv.networkData', function(networkData) {
                 if (networkData && Object.keys(networkData).length !== 0) {
                     render(networkData);
                 }
@@ -29,14 +29,14 @@
             function render(data) {
                 $element.html('');
 
-                vm.root = data;
-                vm.levels = [];
-                vm.queue = [];
-                vm.unusedRect = [];
+                nv.root = data;
+                nv.levels = [];
+                nv.queue = [];
+                nv.unusedRect = [];
 
-                initSvg($element);
-
-                detalizationRect();
+                Promise.resolve()
+                    .then(initSvg($element))
+                    .then(detalizationRect());
             }
 
             function initSvg($element) {
@@ -44,10 +44,10 @@
                     width = $element.width(),
                     height = $window.innerHeight - margin.top - margin.bottom - 80;
 
+                nv.zoom = d3.behavior.zoom();
 
-                vm.zoom = d3.behavior.zoom();
-
-                var svg = d3.select($element[0]).append("svg")
+                var svg = d3.select($element[0])
+                    .append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.bottom + margin.top)
                     .style("margin-left", -margin.left + "px")
@@ -55,25 +55,25 @@
                     .classed('network-svg', true)
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                     .style("shape-rendering", "crispEdges")
-                    .call(vm.zoom);
+                    .call(nv.zoom);
 
-                vm.g = svg.append('g');
+                nv.g = svg.append('g');
 
-                vm.queue.push(vm.root);
-                vm.node = vm.queue.shift();
+                nv.queue.push(nv.root);
+                nv.node = nv.queue.shift();
 
-                vm.node.width =  (width + margin.left + margin.right) * 9/10;
-                vm.node.height = (height + margin.bottom + margin.top) * 8/10;
-                vm.node.headerheight = (vm.node.height) * 1/10;
-                vm.node.x = (vm.node.width) * 1/20;
-                vm.node.y = (vm.node.height) * 1/20;
-                vm.node.depth = 1;
+                nv.node.width =  (width + margin.left + margin.right) * 9/10;
+                nv.node.height = (height + margin.bottom + margin.top) * 8/10;
+                nv.node.headerheight = nv.node.height * 1/10;
+                nv.node.x = nv.node.width * 1/20;
+                nv.node.y = nv.node.height * 1/20;
+                nv.node.depth = 1;
 
-                BFS(vm.node);
+                BFS(nv.node);
 
-                vm.depth = Math.pow(2, vm.levels.length - 1);
+                nv.depth = Math.pow(2, nv.levels.length - 1);
 
-                vm.zoom.scaleExtent([1, vm.depth])
+                nv.zoom.scaleExtent([1, 100])
                     .on("zoom", zoomed);
             }
 
@@ -81,34 +81,34 @@
                 for (var i in node.children) {
                     node.children[i].parent = node;
                     node.children[i].depth = node.depth + 1;
-                    vm.queue.push(node.children[i]);
+                    nv.queue.push(node.children[i]);
                 }
 
                 if('parent' in node) {
 
-                    if (!vm.curParent || vm.curParent !== node.parent) {
-                        vm.curChildNodeRow = 1;
-                        vm.curChildNodeColumn = 0;
-                        vm.numChildNode = 1;
+                    if (!nv.curParent || nv.curParent !== node.parent) {
+                        nv.curChildNodeRow = 1;
+                        nv.curChildNodeColumn = 0;
+                        nv.numChildNode = 1;
 
-                        vm.curParent = node.parent;
+                        nv.curParent = node.parent;
 
-                        if(vm.queue.length !== 0) {
-                            while (vm.queue[vm.numChildNode - 1].parent === vm.curParent) {
-                                vm.numChildNode++;
+                        if(nv.queue.length !== 0) {
+                            while (nv.queue[nv.numChildNode - 1].parent === nv.curParent) {
+                                nv.numChildNode++;
                             }
                         }
                     }
 
                     countColumn();
 
-                    vm.marginWidth = node.parent.width/20;
-                    vm.marginHeight = node.parent.height/20;
+                    nv.marginWidth = node.parent.width/20;
+                    nv.marginHeight = node.parent.height/20;
 
-                    node.width = node.parent.width/vm.numColumn - vm.marginWidth * 1.5;
-                    node.height = node.parent.height/vm.numColumn - vm.marginHeight * 1.5;
-                    node.x = node.parent.x + vm.marginWidth * vm.curChildNodeRow + node.width * (vm.curChildNodeRow - 1) ;
-                    node.y = node.parent.headerheight + node.parent.y + vm.marginHeight * vm.curChildNodeColumn + node.height * (vm.curChildNodeColumn - 1) ;
+                    node.width = node.parent.width/nv.numColumn - nv.marginWidth * 1.5;
+                    node.height = node.parent.height/nv.numColumn - nv.marginHeight * 1.5;
+                    node.x = node.parent.x + nv.marginWidth * nv.curChildNodeRow + node.width * (nv.curChildNodeRow - 1) ;
+                    node.y = node.parent.headerheight + node.parent.y + nv.marginHeight * nv.curChildNodeColumn + node.height * (nv.curChildNodeColumn - 1) ;
                     node.height = node.height * 9/10;
                     node.headerheight = node.height * 1/10;
                 }
@@ -116,13 +116,13 @@
                 drawRect(node);
                 setLevels(node);
 
-                if(vm.queue.length !== 0) {
-                    BFS(vm.queue.shift());
+                if(nv.queue.length !== 0) {
+                    BFS(nv.queue.shift());
                 }
             }
 
             function drawRect (node) {
-                vm.g.append("rect")
+                nv.g.append("rect")
                     .style("fill", "#ffffff")
                     .style("stroke", "#949da5")
                     .style("stroke-width", "1.4")
@@ -134,10 +134,10 @@
                     .attr("height", node.height + node.headerheight)
                     .on("click", function() {
                         if (d3.event.defaultPrevented) return;
-                        vm.showDetails(node);
+                        nv.showDetails(node);
                     });
 
-                vm.g.append("rect")
+                nv.g.append("rect")
                     .style("fill", "#dae0ed")
                     .style("stroke", "none")
                     .style("stroke-width", "1.4")
@@ -150,7 +150,7 @@
                     .append("title")
                     .text(node.name);
 
-                vm.g.append("text")
+                nv.g.append("text")
                     .style("fill", "#476bb8")
                     .attr("text-anchor", "middle")
                     .attr("x", node.x + node.width/2)
@@ -162,34 +162,34 @@
 
             function setLevels(node) {
 
-                if(!vm.levels[node.depth]) {
-                    vm.levels[node.depth] = [];
+                if(!nv.levels[node.depth]) {
+                    nv.levels[node.depth] = [];
                 }
 
-                vm.levels[node.depth].push(node);
+                nv.levels[node.depth].push(node);
             }
 
             function zoomed() {
                 preventDefaultScroll($element);
                 detalizationRect();
-                vm.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+                nv.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             }
 
             function detalizationRect () {
-                var scrollLevel = Math.round(vm.zoom.scale());
+                var scrollLevel = Math.round(nv.zoom.scale());
 
-                if(vm.preScrollLevel === scrollLevel)    return;
+                if(nv.preScrollLevel === scrollLevel)    return;
 
-                vm.preScrollLevel = scrollLevel;
+                nv.preScrollLevel = scrollLevel;
 
                 removeUnusedRect();
 
-                if(vm.levels[scrollLevel+2]) {
-                    vm.levels[scrollLevel + 2].forEach(function (item, i) {
+                if(nv.levels[scrollLevel+2]) {
+                    nv.levels[scrollLevel + 2].forEach(function (item, i) {
 
                         var rect = {};
 
-                        rect.body = vm.g.append("rect")
+                        rect.body = nv.g.append("rect")
                             .style("fill", "#fff")
                             .style("stroke", "#949da5")
                             .style("stroke-width", 1.4/scrollLevel)
@@ -201,10 +201,10 @@
                             .attr("height", item.height + item.headerheight)
                             .on("click", function() {
                                 if (d3.event.defaultPrevented) return;
-                                vm.showDetails(item);
+                                nv.showDetails(item);
                             });
 
-                        rect.text = vm.g.append("text")
+                        rect.text = nv.g.append("text")
                             .style("fill", "#476bb8")
                             .attr("x", item.x + item.width/2)
                             .attr("y", item.y + item.height / 2)
@@ -213,7 +213,7 @@
                             .attr("font-size", item.height / 3  + "px")
                             .text(item.name);
 
-                        vm.unusedRect.push(rect);
+                        nv.unusedRect.push(rect);
                     });
                 }
 
@@ -228,27 +228,27 @@
 
             function countColumn() {
 
-                vm.numColumn = Math.round( Math.sqrt(vm.numChildNode));
+                nv.numColumn = Math.round( Math.sqrt(nv.numChildNode));
 
-                if( vm.numColumn*vm.numColumn < vm.numChildNode) {
-                    vm.numColumn++;
+                if( nv.numColumn*nv.numColumn < nv.numChildNode) {
+                    nv.numColumn++;
                 }
 
-                if(vm.curChildNodeColumn < vm.numColumn) {
-                    vm.curChildNodeColumn++;
+                if(nv.curChildNodeColumn < nv.numColumn) {
+                    nv.curChildNodeColumn++;
                 }
                 else {
-                    vm.curChildNodeColumn = 1;
-                    vm.curChildNodeRow++;
+                    nv.curChildNodeColumn = 1;
+                    nv.curChildNodeRow++;
                 }
             }
 
             function removeUnusedRect() {
-                vm.unusedRect.forEach(function(item){
+                nv.unusedRect.forEach(function(item){
                     item.body.remove();
                     item.text.remove();
                 });
-                vm.unusedRect = [];
+                nv.unusedRect = [];
             }
         }
 

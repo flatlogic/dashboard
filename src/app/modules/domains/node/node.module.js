@@ -16,7 +16,7 @@
                 url: '/:depth/:node',
                 templateUrl: 'app/modules/domains/node/node.html',
                 controller: 'DomainNodeController',
-                authenticate: true
+                controllerAs: 'vm'
             })
     }
 })();
