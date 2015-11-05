@@ -142,7 +142,7 @@
 
                 nv.g.append("rect")
                     .style("fill", "#dae0ed")
-                    .style("stroke", "none")
+                    .style("stroke", "#949da5")
                     .style("stroke-width", "1.4")
                     .classed('network-title', true)
                     .attr("rx", "3px")
@@ -181,55 +181,70 @@
 
             function detalizationRect () {
                 console.log('detalizationRect');
-                var scrollLevel = Math.round(nv.zoom.scale());
+                nv.scrollLevel = Math.round(nv.zoom.scale());
 
-                if(nv.preScrollLevel === scrollLevel)    return;
+                if(nv.preScrollLevel === nv.scrollLevel)    return;
 
-                nv.preScrollLevel = scrollLevel;
+                nv.preScrollLevel = nv.scrollLevel;
 
                 removeUnusedRect();
 
-                if(nv.levels[scrollLevel+2]) {
-                    nv.levels[scrollLevel + 2].forEach(function (item, i) {
-                        var rect = {};
-
-                        rect.body = nv.g.append("rect")
-                            .style("fill", "#fff")
-                            .style("stroke", "#949da5")
-                            .style("stroke-width", 1.4/scrollLevel)
-                            .classed('network-body', true)
-                            .attr("rx", 3/scrollLevel + "px")
-                            .attr("x", item.x)
-                            .attr("y", item.y)
-                            .attr("width", item.width)
-                            .attr("height", item.height + item.headerheight)
-                            .on("click", function() {
-                                if (d3.event.defaultPrevented) return;
-                                nv.showDetails(item);
-                            });
-
-                        var fontSize = (item.width / (item.name.length)) * 4/3;
-
-                        rect.text = nv.g.append("text")
-                            .style("fill", "#476bb8")
-                            .attr("x", item.x + item.width/2)
-                            .attr("y", item.y + item.height / 2)
-                            .attr("text-anchor", "middle")
-                            .attr("dy", ".35em")
-                            .attr("font-size", fontSize  + "px")
-                            .text(item.name);
-
-                        nv.unusedRect.push(rect);
+                if(nv.levels[nv.scrollLevel+2]) {
+                    nv.levels[nv.scrollLevel + 2].forEach(function (item, i) {
+                        drowdetalizationRect(item);
                     });
                 }
 
                 d3.selectAll(".network-body")
-                    .style("stroke-width", 1.4/scrollLevel)
-                    .attr("rx", 3/scrollLevel + "px");
+                    .style("stroke-width", 1.4/nv.scrollLevel)
+                    .attr("rx", 3/nv.scrollLevel + "px");
 
                 d3.selectAll(".network-title")
-                    .style("stroke-width", 1.4/scrollLevel)
-                    .attr("rx", 3/scrollLevel + "px")
+                    .style("stroke-width", 1.4/nv.scrollLevel)
+                    .attr("rx", 3/nv.scrollLevel + "px")
+            }
+
+            function drowdetalizationRect(item) {
+                var rect = {},
+                    textWidth,
+                    fontSize = 18 / Math.round(nv.zoom.scale());
+
+                rect.body = nv.g.append("rect")
+                    .style("fill", "#fff")
+                    .style("stroke", "#949da5")
+                    .style("stroke-width", 1.4/nv.scrollLevel)
+                    .classed('network-body', true)
+                    .attr("rx", 3/nv.scrollLevel + "px")
+                    .attr("x", item.x)
+                    .attr("y", item.y)
+                    .attr("width", item.width)
+                    .attr("height", item.height + item.headerheight)
+                    .on("click", function() {
+                        if (d3.event.defaultPrevented) return;
+                        nv.showDetails(item);
+                    });
+
+                rect.text = nv.g.append("text")
+                    .style("fill", "#476bb8")
+                    .attr("x", item.x + item.width/2)
+                    .attr("y", item.y + item.height / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("dy", ".35em")
+                    .attr("font-size", fontSize  + "px")
+                    .text(item.name)
+                    .each(function(d) {
+                        textWidth = this.getBBox().width;
+                    });
+
+                if(textWidth > item.width) {
+                    rect.body.remove();
+                    rect.text.remove();
+
+                    drowdetalizationRect(item.parent);
+
+                }else {
+                    nv.unusedRect.push(rect);
+                }
             }
 
             function countColumn() {
