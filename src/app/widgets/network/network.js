@@ -150,8 +150,12 @@
                     .attr("y", node.y)
                     .attr("width", node.width)
                     .attr("height", node.headerheight)
-                    .append("title")
-                    .text(node.name);
+                    //.append("title")
+                    //.text(node.name)
+                    .on("click", function() {
+                        if (d3.event.defaultPrevented) return;
+                        nv.showDetails(node);
+                    });
 
                 nv.g.append("text")
                     .style("fill", "#476bb8")
