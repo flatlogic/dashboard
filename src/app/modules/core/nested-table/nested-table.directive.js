@@ -78,7 +78,8 @@
                 parentKey: '=',
                 config: '=',
                 onchange: '=',
-                objectName: '='
+                objectName: '=',
+                displayOptions: '='
             },
             replace: true,
             bindToController: true,
@@ -97,13 +98,40 @@
         function nestedTableController() {
             var vm = this;
 
+            if (!vm.displayOptions) {
+                vm.displayOptions = {};
+            }
+
             vm.isObject = isObject;
             vm.isArray = isArray;
             vm.isEditable = isEditable;
             vm.isPlusAvailable = isPlusAvailable;
+            vm.isVisible = isVisible;
+            vm.changeDisplayState = changeDisplayState;
+            vm.getDisplayState = getDisplayState;
 
             vm.addElement = addElement;
             vm.updateData = updateData;
+
+            function isVisible(path) {
+                if (!path) return true;
+
+                var splitedPath = path.split('.');
+
+                splitedPath.pop();
+                var pathForCheck = splitedPath.join('.');
+                console.log(pathForCheck, '===', vm.displayOptions);
+                return !!(! pathForCheck || vm.displayOptions[pathForCheck]);
+            }
+
+            function changeDisplayState(path) {
+                console.log('Change: ' + path);
+                vm.displayOptions[path] = !vm.displayOptions[path];
+            }
+
+            function getDisplayState(path) {
+                return !!(vm.displayOptions[path]);
+            }
 
             function isEditable(path) {
                 if (!path) {return false;}
