@@ -115,7 +115,13 @@
                     node.headerheight = node.height * 1/10;
                 }
 
-                drawRect(node);
+                if(!node.children) {
+                    drawLastRect(node);
+                }
+                else {
+                    drawRect(node);
+                }
+
                 setLevels(node);
 
                 if(nv.queue.length !== 0) {
@@ -165,6 +171,34 @@
                     .attr("dy", ".35em")
                     .attr("font-size", (node.height / 14)  + "px")
                     .text(node.name);
+
+            }
+
+            function drawLastRect (node) {
+                console.log('drawRect');
+                nv.g.append("rect")
+                    .style("fill", "#f8f8fb")
+                    .style("stroke", "#949da5")
+                    .style("stroke-width", "1.4")
+                    .classed('network-body', true)
+                    .attr("rx", "3px")
+                    .attr("x", node.x)
+                    .attr("y", node.y)
+                    .attr("width", node.width)
+                    .attr("height", node.height + node.headerheight)
+                    .on("click", function() {
+                        if (d3.event.defaultPrevented) return;
+                        nv.showDetails(node);
+                    });
+
+                nv.g.append("text")
+                    .style("fill", "#476bb8")
+                    .attr("text-anchor", "middle")
+                    .attr("x", node.x + node.width/2)
+                    .attr("y", node.y + node.height/2)
+                    .attr("dy", ".35em")
+                    .attr("font-size", (node.height / 14)  + "px")
+                    .text(node.name);
             }
 
             function setLevels(node) {
@@ -172,7 +206,6 @@
                 if(!nv.levels[node.depth]) {
                     nv.levels[node.depth] = [];
                 }
-
                 nv.levels[node.depth].push(node);
             }
 
@@ -231,7 +264,7 @@
                 rect.text = nv.g.append("text")
                     .style("fill", "#476bb8")
                     .attr("x", item.x + item.width/2)
-                    .attr("y", item.y + item.height / 2)
+                    .attr("y", item.y + item.height/2)
                     .attr("text-anchor", "middle")
                     .attr("dy", ".35em")
                     .attr("font-size", fontSize  + "px")
