@@ -17,8 +17,10 @@
             getParsedToken: getParsedToken
         };
 
-        function saveToken(token) {
-            $window.localStorage[self.tokenKey] = token;
+        function saveToken(response) {
+            if (response.data && response.data.token) {
+                $window.localStorage[self.tokenKey] = response.data.token;
+            }
         }
 
         function getToken() {
