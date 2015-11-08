@@ -5,7 +5,7 @@
         .module('qorDash.core')
         .directive('loadingIndicator', loadingIndicator);
 
-        function loadingIndicator($timeout) {
+        function loadingIndicator($rootScope, $timeout) {
             return {
                 restrict: 'E',
                 link: linkFn,
@@ -25,13 +25,13 @@
                 });
             }
 
-            function CtrlFn($scope, $timeout) {
+            function CtrlFn() {
                 var vm = this;
                 vm.isSpinning = false;
 
-                $scope.$on('$stateChangeStart', show);
-                $scope.$on('$stateChangeSuccess', hide);
-                $scope.$on('$stateChangeError', hide);
+                $rootScope.$on('$stateChangeStart', show);
+                $rootScope.$on('$stateChangeSuccess', hide);
+                $rootScope.$on('$stateChangeError', hide);
 
                 function show(event, toState, toParams) {
                     if (toState.resolve) {
@@ -39,8 +39,8 @@
                     }
                 }
 
-                function hide(event, toState, toParams) {
-                    if (toState.resolve) {
+                function hide(event, toState, toParams, fromState, fromParams) {
+                    if (fromState.resolve) {
                         vm.isSpinning = false;
                     }
                 }
