@@ -5,7 +5,6 @@
         .module('qorDash.docker', [
             'ngOboe',
             'dockerui',
-            'ui.router',
             'qorDash.docker',
             'qorDash.docker.domain',
             'qorDash.docker.domain.dockers',
