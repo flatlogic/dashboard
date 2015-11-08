@@ -16,7 +16,7 @@ module.exports = function(options) {
         // .pipe(concat.footer('}();'))
         .pipe($.wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
         .pipe($.uglify())
-        .pipe(gulp.dest('src/app/modules/core/'));
+        .pipe(gulp.dest('src/app/modules/core/config/'));
   });
   gulp.task('scripts', ['config'], function () {
     return gulp.src(options.src + '/app/**/*.js')
