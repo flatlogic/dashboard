@@ -3,6 +3,7 @@ describe('Service: authenticationService', function() {
 
     var token = 'token',
         domain = 'blinker.com',
+        data = 'data',
         serverResponse = 'response',
         AUTH_API_URL = 'AUTH_API_URL';
 
@@ -27,12 +28,13 @@ describe('Service: authenticationService', function() {
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
 
             spyOn($state, 'go').and.returnValue(true);
+
+            httpBackend.expectGET('data/permissions.json').respond('');
         });
     });
 
 
     it("should get a list of domains", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', AUTH_API_URL + '/admin/domain/', undefined,
             {
                 "Accept":"application/json",
@@ -50,10 +52,22 @@ describe('Service: authenticationService', function() {
     });
 
     it("should get domain info by id", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', AUTH_API_URL + '/admin/domain/' + domain, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         authenticationService.getDomainInfo(domain, token)
+            .then(function(response) {
+                expect(response.data).toEqual(serverResponse);
+                done();
+            });
+
+        httpBackend.flush();
+    });
+
+    it("should save domain info", function(done) {
+        httpBackend.expect('POST', AUTH_API_URL + '/admin/domain/' + domain, data,
+            {"Content-Type":"application/json","Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
+
+        authenticationService.saveDomainInfo(domain, data, token)
             .then(function(response) {
                 expect(response.data).toEqual(serverResponse);
                 done();
