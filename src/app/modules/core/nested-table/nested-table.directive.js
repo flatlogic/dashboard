@@ -141,15 +141,7 @@
                     path = splitedPath.join('.');
                 }
 
-                var c = true,
-                    tempPath = path;
-                while (tempPath && tempPath.length > 1) {
-                    if ((tempPath && vm.config[tempPath] && vm.config[tempPath].indexOf('edit') > -1)) {
-                        return true;
-                    }
-                    tempPath = tempPath.split('.').splice(0, tempPath.split('.').length - 1).join('.');
-                }
-                return false;
+                return !!(vm.config[path] && vm.config[path].indexOf('edit') > -1);
             }
 
             function isPlusAvailable(path) {
