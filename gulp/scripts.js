@@ -22,6 +22,7 @@ module.exports = function(options) {
     return gulp.src(options.src + '/app/**/*.js')
       //.pipe($.jshint())
       //.pipe($.jshint.reporter('jshint-stylish'))
+      .pipe($.angularFilesort())
       .pipe($.ngAnnotate())
       .pipe(browserSync.reload({ stream: true }))
       .pipe($.size());
