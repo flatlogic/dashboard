@@ -183,8 +183,12 @@
                 }
             }
 
-            function updateData(pathToArray, data) {
-                vm.onchange('edit-value', pathToArray, data);
+            function updateData(pathToArray, data, oldValue, type) {
+                if (type == 'key') {
+                    vm.onchange('edit-key', pathToArray, data, oldValue);
+                } else {
+                    vm.onchange('edit-value', pathToArray, data);
+                }
             }
         }
     }

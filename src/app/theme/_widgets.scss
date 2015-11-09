@@ -1480,9 +1480,12 @@ width: 20px;
   }
 }
 
-.td-plus:hover {
-  background: #ebeff1 !important;
-  cursor: pointer;
+.td-plus {
+  font-size: 25px;
+  &:hover {
+    background: #ebeff1 !important;
+    cursor: pointer;
+  }
 }
 
 .editable-input {

@@ -4,7 +4,7 @@
       <tr data-ng-repeat="(key, value) in vm.data track by $index" ng-show="vm.isVisible(vm.parentKey + '.' + key)" class="animate-show">
         <td class="white-bg" ng-if="!vm.isArray(vm.data)">
           <div class="td-container">
-            <div edit-disabled="!vm.isEditable(vm.parentKey)" editable-text="key" onbeforesave="vm.updateData(vm.parentKey, $data)" buttons="no">{{key}}</div>
+            <div edit-disabled="!vm.isEditable(vm.parentKey)" editable-text="key" onbeforesave="vm.updateData(vm.parentKey, $data, key, 'key')" buttons="no">{{key}}</div>
             <i class="fa table-angle" ng-class="{'fa-angle-right': !vm.getDisplayState(vm.parentKey + '.' + key), 'fa-angle-left': vm.getDisplayState(vm.parentKey + '.' + key)}"
                           ng-click="vm.changeDisplayState(vm.parentKey + '.' + key)" ng-if="vm.isObject(value)"></i>
           </div>
