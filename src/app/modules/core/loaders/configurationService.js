@@ -4,7 +4,7 @@
         .module('qorDash.loaders')
         .factory('configurationService', configurationService);
 
-    function configurationService ($http, API_URL) {
+    function configurationService ($http, API_URL, errorHandler) {
 
         return {
             loadPackage : loadPackage,
