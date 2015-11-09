@@ -14,12 +14,12 @@
         vm.isDataChanged = false;
 
         vm.configObject = {
-            ".services": "add",
+            ".services": "add|edit",
             ".services.*.webhooks"  : "add|edit",
             ".services.*.new_account_preset.scopes" : "add|edit",
             ".url" : "edit",
             ".name" : "edit",
-            "." : "add"
+            "." : "add|edit"
         };
 
         loadDomain();
