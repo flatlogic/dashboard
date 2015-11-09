@@ -11,7 +11,7 @@
         vm.dataChanged = dataChanged;
         vm.save = save;
 
-        vm.itemsForSave = [];
+        vm.isDataChanged = false;
 
         vm.configObject = {
             ".services": "add",
@@ -42,14 +42,64 @@
             });
         }
 
-        function dataChanged(objectName, pathToArray, data) {
-            var obj = {};
-            obj[pathToArray] = data;
-            vm.itemsForSave.push(obj);
+        function dataChanged(type, pathToArray, data, key) {
+            switch (type) {
+                case 'edit-value':
+                    updateObject(vm.domain, data, pathToArray);
+                    break;
+                case 'add-value':
+                    addValueToArray(vm.domain, pathToArray);
+                    break;
+                case 'add-object':
+                    addNewObject(vm.domain, pathToArray, data, key);
+                    break;
+                default:
+                    throw 'unknown type';
+            }
+
+            vm.isDataChanged = true;
+        }
+
+        function addNewObject(object, path, newObject, key) {
+            var stack = path.split('.');
+            if (stack[0] === '') {
+                stack.splice(0, 1);
+            }
+
+            while(stack.length > 1){
+                object = object[stack.shift()];
+            }
+            object[stack.shift()][key] = jQuery.extend(true, {}, newObject);
+        }
+
+        function updateObject(object, newValue, path){
+            var stack = path.split('.');
+            if (stack[0] === '') {
+                stack.splice(0, 1);
+            }
+
+            while(stack.length > 1){
+                object = object[stack.shift()];
+            }
+
+            object[stack.shift()] = newValue;
+        }
+
+        function addValueToArray(object, path) {
+            var stack = path.split('.');
+            if (stack[0] === '') {
+                stack.splice(0, 1);
+            }
+
+            while(stack.length > 1){
+                object = object[stack.shift()];
+            }
+
+            object[stack.shift()].push('');
         }
 
         function save() {
-            vm.itemsForSave = [];
+            vm.isDataChanged = false;
             alert('Need to save');
         }
 

@@ -120,12 +120,10 @@
 
                 splitedPath.pop();
                 var pathForCheck = splitedPath.join('.');
-                console.log(pathForCheck, '===', vm.displayOptions);
                 return !!(! pathForCheck || vm.displayOptions[pathForCheck]);
             }
 
             function changeDisplayState(path) {
-                console.log('Change: ' + path);
                 vm.displayOptions[path] = !vm.displayOptions[path];
             }
 
@@ -178,24 +176,15 @@
 
             function addElement(path) {
                 if (vm.isArray(vm.data)) {
-                    vm.data.push('');
-                    vm.onchange(path);
+                    vm.onchange('add-value', path);
                 } else {
-                    debugger;
-                    var newObject = {};
-                    var lastKey = Object.keys(vm.data)[Object.keys(vm.data).length - 1],
-                        newKey = lastKey + '-new';
-
-                    newObject[newKey] = jQuery.extend(true, {}, vm.data[lastKey]);
-
-                    vm.data[newKey] = jQuery.extend(true, {}, vm.data[lastKey]);
-
-                    vm.onchange(path, newObject);
+                    var lastKey = Object.keys(vm.data)[Object.keys(vm.data).length - 1];
+                    vm.onchange('add-object', path, vm.data[lastKey], lastKey + '-new');
                 }
             }
 
             function updateData(pathToArray, data) {
-                vm.onchange(vm.objectName, pathToArray, data);
+                vm.onchange('edit-value', pathToArray, data);
             }
         }
     }
