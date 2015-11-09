@@ -2,7 +2,9 @@
     'use strict';
 
     angular
-      .module('qorDash.auth', [])
+      .module('qorDash.auth', [
+          'qorDash.auth.permissions'
+      ])
       .config(config)
       .run(run);
 
