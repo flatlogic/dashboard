@@ -2,15 +2,11 @@
     'use strict';
 
     angular
-      .module('qorDash.auth', [
-        'qorDash.core',
-        'ui.router',
-        'ngMessages'
-      ])
-      .config(appConfig)
-      .run(runAuth);
+      .module('qorDash.auth', [])
+      .config(config)
+      .run(run);
 
-    function appConfig($stateProvider, $httpProvider, $qorSidebarProvider) {
+    function config($stateProvider, $httpProvider, $qorSidebarProvider) {
         $httpProvider.interceptors.push('authInterceptor');
         $stateProvider
             .state('login', {
@@ -34,18 +30,13 @@
         });
     }
 
-    function runAuth($rootScope, $state, user) {
-        $rootScope.$on("$stateChangeStart", function (event, toState) {
+    function run($rootScope, $state, user) {
+        $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
             // Go to login page if user is not authorized
-            if (toState.authenticate && !user.isAuthed()) {
+            if (toState.name!=='login' && !user.isAuthed()) {
                 $state.transitionTo("login");
                 event.preventDefault();
                 return;
-            }
-            // Go to 404 if user has no access to page controller
-            if (toState.authenticate && toState.controller && !user.hasAccessTo(toState.controller)) {
-                $state.transitionTo('error');
-                event.preventDefault();
             }
         });
     }
