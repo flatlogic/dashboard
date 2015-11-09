@@ -149,7 +149,7 @@
 
                 var splitedPath = path.split('.');
 
-                if (splitedPath[1] == 'services') {
+                if (splitedPath[1] === 'services') {
                     if (splitedPath[2]) { splitedPath[2] = '*'; }
                     path = splitedPath.join('.');
                     return (path && vm.config[path] && vm.config[path].indexOf('add') > -1);

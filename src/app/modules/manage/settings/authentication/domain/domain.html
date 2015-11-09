@@ -5,8 +5,9 @@
       <nested-table object-name="a"
                     onclone="vm.cloneObject" onchange="vm.dataChanged" config="vm.configObject" class="table auth-table" data="vm.domain"></nested-table>
 
-      <button class="btn btn-warning save-auth-button" ng-click="vm.save()"
-              ng-show="vm.isDataChanged">Save
+      <button class="btn btn-warning save-auth-button" ng-disabled="vm.isSaveLoading" ng-click="vm.save()" ng-show="vm.isDataChanged">
+        <span ng-hide="vm.isSaveLoading">Save</span>
+        <span ng-show="vm.isSaveLoading">Loading...</span>
       </button>
     </div>
 </section>
