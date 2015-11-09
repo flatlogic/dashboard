@@ -40,9 +40,7 @@
                 }
 
                 function hide(event, toState, toParams, fromState, fromParams) {
-                    if (fromState.resolve) {
-                        vm.isSpinning = false;
-                    }
+                    vm.isSpinning = false;
                 }
             }
 
