@@ -17,13 +17,17 @@
             controllerAs: 'nv'
         };
 
-        function networkViewController($scope, $element) {
+        function networkViewController($scope, $element, $window) {
             var nv = this;
 
             $scope.$watch('nv.networkData', function(networkData) {
                 if (networkData && Object.keys(networkData).length !== 0) {
                     render(networkData);
                 }
+            });
+
+            angular.element($window).bind('resize', function() {
+                render(nv.networkData);
             });
 
             function render(data) {
