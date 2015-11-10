@@ -7,7 +7,9 @@
     function accountController ($scope, accountsService, $stateParams, errorHandler, currentUser) {
         var vm = this;
 
-        vm.config = {};
+        vm.config = {
+            ".services": "add"
+        };
         vm.isDataChanged = false;
         vm.dataChanged = dataChanged;
         vm.save = save;
@@ -70,7 +72,13 @@
                     object[stack.shift()].push('');
                     break;
                 case 'add-object':
-                    object[stack.shift()][newKey] = jQuery.extend(true, {}, newValue);
+                    debugger;
+                    object = object[stack.shift()];
+                    if (angular.isArray(object)) {
+                        object.push(jQuery.extend(true, {}, newValue));
+                    } else {
+                        object[newKey] = jQuery.extend(true, {}, newValue);
+                    }
                     break;
                 default:
                     throw 'unknown type';
