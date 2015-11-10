@@ -7,6 +7,7 @@
 
     function oauthProviderGitHub($http, $q, AUTH_API_URL, GITHUB_CLIENT_ID, $window) {
         var GITHUB_AUTH_API_URL = 'https://github.com/login/oauth/authorize';
+        var GITHUB_REDIRECT_URI = 'https://sterlingw.github.io/dashboard'; // http://localhost:3000/#/login
 
         var service = {
             login                              : login,
@@ -77,7 +78,7 @@
         function login() {
             return service.openPopup({
                 clientId: GITHUB_CLIENT_ID,
-                redirectUri: 'http://localhost:3000/#/login',
+                redirectUri: GITHUB_REDIRECT_URI,
                 state: 'test-state',
                 scope: ''
             });
