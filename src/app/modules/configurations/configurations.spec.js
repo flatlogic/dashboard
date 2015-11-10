@@ -65,10 +65,7 @@ describe('Controller: ConfigurationsController', function() {
     });
 
 
-    describe('after loding', function(){
-        beforeEach(function() {
-
-        });
+    describe('after loading', function(){
         it ('should load domains', function() {
             expect(domainsLoader.load).toHaveBeenCalled();
         });

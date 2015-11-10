@@ -1,26 +1,37 @@
-describe('Controller: DomainsController', function() {
+describe('Controller: ServicesController', function() {
 
     var $scope;
     var $controller,
         httpBackend,
         q,
         deferred,
-        $stateParams,
+        $stateParams = {
+            domain: 1
+        },
         $state,
-        domains = [{id: 1}],
+        data = {
+            services: [{id: 1}]
+        },
         error = 'error',
-        domainsLoader,
-        errorHandler;
+        domainLoader,
+        domain = {id:1},
+        errorHandler,
+        obj = {id: 1, name: 'name'};
+
+    it('Object.size()', function(){
+        expect(Object.size(obj)).toBe(2);
+    });
+
 
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module('qorDash.loaders'));
-    beforeEach(module('qorDash.domains'));
+    beforeEach(module('qorDash.configurations'));
 
 
 
     beforeEach(function() {
-        domainsLoader = {
+        domainLoader = {
             load: function() {
                 deferred = q.defer();
                 return deferred.promise;
@@ -55,47 +66,56 @@ describe('Controller: DomainsController', function() {
                 }
             });
             httpBackend.expectGET('data/permissions.json').respond('');
-            spyOn(domainsLoader, 'load').and.callThrough();
+            spyOn(domainLoader, 'load').and.callThrough();
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn(_$state_, 'go').and.returnValue(true);
             spyOn($state,'go').and.callThrough();
-            _$controller_('DomainsController', {$scope: $scope, errorHandler: errorHandler, $state: $state, $stateParams: $stateParams, domainsLoader: domainsLoader});
+            _$controller_('ServicesController', {$scope: $scope, errorHandler: errorHandler, $state: $state, $stateParams: $stateParams, domainLoader: domainLoader});
         })
     });
 
-
     describe('after loading', function(){
-        it ('should load domains', function() {
-            expect(domainsLoader.load).toHaveBeenCalled();
+        describe('',function(){
+            it('', function(){
+                $scope.domains = [{id:1}, {id:2}];
+                $scope.$apply();
+                expect($scope.domain).toEqual(domain);
+            });
+        });
+
+
+        it ('should load domain', function() {
+            expect(domainLoader.load).toHaveBeenCalledWith($stateParams.domain);
         });
 
 
         describe("after successful loading", function () {
             beforeEach(function() {
-                deferred.resolve({data: domains});
+                deferred.resolve({data: data});
+
             });
             it ('should populate $scope.domains with response.data', function() {
                 $scope.$root.$digest();
-                expect($scope.domains).toBe(domains);
+                expect($scope.services).toBe(data.services);
             });
 
-            describe ('should redirect if domain length == 1 and state == app.domains', function() {
+            describe ('should redirect if services length == 1 and state == app.configurations.services', function() {
                 beforeEach(function() {
-                    $state.current.name = 'app.domains';
+                    $state.current.name = 'app.configurations.services';
                 });
-                it('should redirect to app.domains.domain',function(){
+                it('should redirect to app.configurations.domain',function(){
                     $scope.$root.$digest();
-                    expect($state.go).toHaveBeenCalledWith('app.domains.domain', {id: 1});
+                    expect($state.go).toHaveBeenCalledWith('.state', {service: $scope.services[0]});
                 });
 
             });
 
-            describe ('should not redirect if domain length !== 1 or state == app.domains', function() {
+            describe ('should not redirect if services length !== 1 or state == app.configurations.services.service', function() {
                 beforeEach(function() {
-                    $state.current.name = 'app.domain';
+                    $state.current.name = 'app.configurations.services.service';
                 });
 
-                it ('should not redirect to app.domains', function() {
+                it ('should not redirect to app.configurations.services', function() {
                     $scope.$root.$digest();
                     expect($state.go).not.toHaveBeenCalled();
                 });
