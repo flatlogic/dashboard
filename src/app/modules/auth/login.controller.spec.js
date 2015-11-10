@@ -10,7 +10,7 @@ describe('Controller: LoginController', function() {
         message = 'message;',
         window,
         $controller,
-        oauthProviderGitHub;
+        githubOauth;
 
     beforeEach(module('qorDash.auth', function($provide){
         // Stubbing constants is necessary (for now) because of the way the application
@@ -44,12 +44,12 @@ describe('Controller: LoginController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state, _oauthProviderGitHub_)  {
+        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state, _githubOauth_)  {
             q = $q;
             httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
             $controller = _$controller_;
-            oauthProviderGitHub = _oauthProviderGitHub_;
+            githubOauth = _githubOauth_;
             $.fn.button = function() {};
             spyOn(_dataLoader_, 'init').and.returnValue({
                 then: function (next) {
@@ -82,12 +82,12 @@ describe('Controller: LoginController', function() {
             expect(state.go).toHaveBeenCalledWith('app.dashboard');
         });
 
-        it ('should call oauthProviderGitHub.loginWithGitHubIfRedirectedByPopup', function() {
-            spyOn(oauthProviderGitHub, 'loginWithGitHubIfRedirectedByPopup');
+        it ('should call githubOauth.loginWithGitHubIfRedirectedByPopup', function() {
+            spyOn(githubOauth, 'loginWithGitHubIfRedirectedByPopup');
 
             createCtrl();
 
-            expect(oauthProviderGitHub.loginWithGitHubIfRedirectedByPopup).toHaveBeenCalled();
+            expect(githubOauth.loginWithGitHubIfRedirectedByPopup).toHaveBeenCalled();
         });
     });
 
