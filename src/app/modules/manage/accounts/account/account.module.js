@@ -15,6 +15,7 @@
                 url: '/:id',
                 templateUrl: 'app/modules/manage/accounts/account/account.html',
                 controller: 'AccountController',
+                controllerAs: 'vm',
                 authenticate: true
             });
     }

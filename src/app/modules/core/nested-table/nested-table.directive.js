@@ -163,7 +163,15 @@
             }
 
             function isArray(thing) {
-                return angular.isArray(thing);
+                if (angular.isArray(thing)) {
+                    if (!isObject(thing[0])) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
             }
 
             function addElement(path) {

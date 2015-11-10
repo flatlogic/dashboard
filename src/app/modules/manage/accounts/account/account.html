@@ -1,52 +1,20 @@
-<section horizontal-ui-sheet class="qor-sheet-xs">
-  <header horizontal-ui-sheet-header title="{{ account.primary.username }}">
+<section horizontal-ui-sheet class="qor-sheet-full">
+  <header horizontal-ui-sheet-header title="{{ vm.account.primary.username }}">
   </header>
   <div horizontal-ui-sheet-content>
-    <div class="list-group text-left ng-scope" ng-show="account">
-        <div class="row">
-            <div class="col-md-4 user-info-titles">
-                <p>ID: </p>
-                <p ng-show="account.primary.username">Username: </p>
-                <p ng-show="account.primary.email">Email: </p>
-                <p ng-show="account.primary.phone">Phone: </p>
-                <p ng-show="account.primary.oauth2_provider">OAuth2 Provider: </p>
-                <p ng-show="account.primary.oauth2_account_id">Oauth2 Account ID: </p>
-            </div>
-            <div class="col-md-8">
-                <p>{{ account.id}}</p>
-                <p ng-show="account.primary.username">{{account.primary.username}}</p>
-                <p ng-show="account.primary.email">{{ account.primary.email }}</p>
-                <p ng-show="account.primary.phone">{{ account.primary.phone }}</p>
-                <p ng-show="account.primary.oauth2_provider">{{account.primary.oauth2_provider}}</p>
-                <p ng-show="account.primary.oauth2_account_id">{{account.primary.oauth2_account_id}}</p>
-            </div>
-        </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Scopes</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="service in account.services">
-                    <td>{{service.id}}</td>
-                    <td>
-                        <li ng-repeat="scope in service.scopes">
-                            {{ scope }}
-                        </li>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <nested-table data="vm.account" class="table auth-table account-table" config="vm.config" onchange="vm.dataChanged"></nested-table>
 
+    <button class="btn btn-warning save-auth-button" ng-disabled="vm.isSaveLoading" ng-click="vm.save()" ng-show="vm.isDataChanged">
+      <span ng-hide="vm.isSaveLoading">Save</span>
+      <span ng-show="vm.isSaveLoading">Loading...</span>
+    </button>
 
-    </div>
-    <div id="env-loader" ng-hide="account || error">
+    <div id="env-loader" ng-hide="vm.account || vm.error">
       <img src="assets/images/cube.gif">
     </div>
-    <div id="reload" ng-hide="!error">
-      <a ui-sref="app.manage.accounts.account'" data-ui-sref-opts="{reload: true}">
+
+    <div id="reload" ng-hide="!vm.error">
+      <a ui-sref="." data-ui-sref-opts="{reload: true}">
         <i class="fa fa-refresh reload-button"></i>
       </a>
     </div>

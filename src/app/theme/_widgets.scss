@@ -1480,6 +1480,14 @@ width: 20px;
   }
 }
 
+.account-table {
+  tbody>tr>td {
+    min-width: 200px;
+    width: 200px;
+    height: 30px;
+  }
+}
+
 .td-plus {
   font-size: 25px;
   &:hover {
