@@ -5,9 +5,10 @@ describe('Controller: OrchestrateController', function() {
         httpBackend,
         q,
         deferred,
-        $stateParams,
+        $stateParams = {id: 1},
         $state,
-        domains = {1: 2},
+        domains = [{id: 2}, {id: 3}, {id: 1}],
+        domain = {},
         error = 'error',
         domainsLoader,
         errorHandler;
@@ -99,7 +100,10 @@ describe('Controller: OrchestrateController', function() {
                 });
             });
 
-
+            it('should populate $scope.domain if domain.id == stateParams.id', function(){
+                domain.id = $stateParams.id;
+                expect($scope.domain).toEqual(domain);
+            });
         });
 
         describe('after failed response', function() {
