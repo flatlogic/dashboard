@@ -50,10 +50,11 @@
 
                 nv.width = width + margin.left + margin.right;
                 nv.height =  height + margin.bottom + margin.top;
+
                 nv.svg = d3.select($element[0])
                     .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.bottom + margin.top)
+                    .attr("width", nv.width)
+                    .attr("height", nv.height)
                     .style("margin-left", -margin.left + "px")
                     .style("margin-right", -margin.right + "px")
                     .classed('network-svg', true)
@@ -66,8 +67,8 @@
                 nv.queue.push(nv.root);
                 node = nv.queue.shift();
 
-                node.width =  (width + margin.left + margin.right) * 9/10;
-                node.height = (height + margin.bottom + margin.top) * 8/10;
+                node.width =  nv.width * 9/10;
+                node.height = nv.height * 8/10;
                 node.headerheight = node.height * 1/10;
                 node.x = node.width * 1/20;
                 node.y = node.height * 1/20;
@@ -82,6 +83,9 @@
             }
 
             function BFS (node) {
+                var marginWidth,
+                    marginHeight;
+
                 for (var i in node.children) {
                     node.children[i].parent = node;
                     node.children[i].depth = node.depth + 1;
@@ -106,13 +110,13 @@
 
                     countColumn();
 
-                    nv.marginWidth = node.parent.width/20;
-                    nv.marginHeight = node.parent.height/20;
+                    marginWidth = node.parent.width/20;
+                    marginHeight = node.parent.height/20;
 
-                    node.width = node.parent.width/nv.numColumn - nv.marginWidth * 1.5;
-                    node.height = node.parent.height/nv.numColumn - nv.marginHeight * 1.5;
-                    node.x = node.parent.x + nv.marginWidth * nv.curChildNodeRow + node.width * (nv.curChildNodeRow - 1) ;
-                    node.y = node.parent.headerheight + node.parent.y + nv.marginHeight * nv.curChildNodeColumn + node.height * (nv.curChildNodeColumn - 1) ;
+                    node.width = node.parent.width/nv.numColumn - marginWidth * 1.5;
+                    node.height = node.parent.height/nv.numColumn - marginHeight * 1.5;
+                    node.x = node.parent.x + marginWidth * nv.curChildNodeRow + node.width * (nv.curChildNodeRow - 1) ;
+                    node.y = node.parent.headerheight + node.parent.y + marginHeight * nv.curChildNodeColumn + node.height * (nv.curChildNodeColumn - 1) ;
                     node.height = node.height * 9/10;
                     node.headerheight = node.height * 1/10;
                 }
@@ -145,6 +149,7 @@
                     .on("click", function() {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
+                        focusOnNode(node);
                     });
 
                 nv.g.append("rect")
@@ -174,6 +179,20 @@
                     .text(node.name);
 
             }
+
+            function focusOnNode(node) {
+
+                var gWidth = 9*nv.width/10,
+                    gHeight = 9*nv.height/10,
+                    gX = nv.width/20,
+                    gY = nv.height/20,
+                    translate = [gWidth/2 - node.x - node.width/2 + gX, gHeight/2 - node.y - (node.height + node.headerheight)/ 2 + gY];
+
+                nv.svg.transition()
+                    .duration(750)
+                    .call(nv.zoom.translate(translate).scale(1).event);
+            }
+
 
             function drawLastRect (node) {
                 console.log('drawRect');
