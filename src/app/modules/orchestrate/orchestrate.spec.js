@@ -7,10 +7,10 @@ describe('Controller: OrchestrateController', function() {
         deferred,
         $stateParams = {id: 1},
         $state,
-        domains = [{id: 2}, {id: 3}, {id: 1}],
-        domain = {},
+        domains = [{id: 1}],
         error = 'error',
         domainsLoader,
+        domain = {},
         errorHandler;
 
     beforeEach(module('qorDash.core'));
@@ -18,9 +18,7 @@ describe('Controller: OrchestrateController', function() {
     beforeEach(module('qorDash.loaders'));
     beforeEach(module('qorDash.orchestrate'));
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("API_URL", "https://ops-dev.blinker.com");
-    }));
+
 
     beforeEach(function() {
         domainsLoader = {
@@ -37,6 +35,9 @@ describe('Controller: OrchestrateController', function() {
         $state = {
             go: function(path) {
                 return path;
+            },
+            current: {
+                name: ''
             }
         };
     });
@@ -44,7 +45,7 @@ describe('Controller: OrchestrateController', function() {
 
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, _$state_)  {
             q = $q;
             $controller = _$controller_;
             httpBackend = $httpBackend;
@@ -57,51 +58,56 @@ describe('Controller: OrchestrateController', function() {
             httpBackend.expectGET('data/permissions.json').respond('');
             spyOn(domainsLoader, 'load').and.callThrough();
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
-            spyOn($state, 'go').and.returnValue(true);
-            _$controller_('OrchestrateController', {$scope: $scope, errorHandler: errorHandler, $state: state, $stateParams: $stateParams, domainsLoader: domainsLoader});
+            spyOn(_$state_, 'go').and.returnValue(true);
+            spyOn($state,'go').and.callThrough();
+            _$controller_('OrchestrateController', {$scope: $scope, errorHandler: errorHandler, $state: $state, $stateParams: $stateParams, domainsLoader: domainsLoader});
         })
     });
 
+
     describe('after loding', function(){
+        beforeEach(function() {
+
+        });
         it ('should load domains', function() {
             expect(domainsLoader.load).toHaveBeenCalled();
         });
 
+
         describe("after successful loading", function () {
             beforeEach(function() {
                 deferred.resolve({data: domains});
-                $scope.$root.$digest();
             });
             it ('should populate $scope.domains with response.data', function() {
+                $scope.$root.$digest();
                 expect($scope.domains).toBe(domains);
             });
 
-            it ('should redirect if domain length == 1 and state == app.orchestrate', function() {
+            describe ('should redirect if domain length == 1 and state == app.orchestrate', function() {
                 beforeEach(function() {
-                    $scope.domains = [{id: 1}];
-                    $state.current = {};
                     $state.current.name = 'app.orchestrate';
                 });
-
-                it ('should not redirect to app.domains', function() {
+                it('should redirect to app.orchestrate.domain',function(){
+                    $scope.$root.$digest();
                     expect($state.go).toHaveBeenCalledWith('app.orchestrate.domain', {id: 1});
                 });
+
             });
 
-            it ('should not redirect if domain length !== 1 or state == app.orchestrate', function() {
+            describe ('should not redirect if domain length !== 1 or state == app.orchestrate.domain', function() {
                 beforeEach(function() {
-                    $scope.domains = [{id: 1}];
-                    $state.current = {};
-                    $state.current.name = 'app.orchestrate';
+                    $state.current.name = 'app.orchestrate.domain';
                 });
 
                 it ('should not redirect to app.orchestrate', function() {
+                    $scope.$root.$digest();
                     expect($state.go).not.toHaveBeenCalled();
                 });
             });
 
             it('should populate $scope.domain if domain.id == stateParams.id', function(){
                 domain.id = $stateParams.id;
+                $scope.$root.$digest();
                 expect($scope.domain).toEqual(domain);
             });
         });
