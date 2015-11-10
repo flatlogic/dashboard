@@ -32,22 +32,25 @@
                 nv.root = data;
                 nv.levels = [];
                 nv.queue = [];
-                nv.unusedRect = [];
+                nv.close = [];
 
                 Promise.resolve()
                     .then(initSvg($element))
-                    .then(detalizationRect());
+                    .then(firstCloseRect());
             }
 
             function initSvg($element) {
-                console.log('initSvg');
-                var margin = {top: 20, right: 0, bottom: 0, left: 0},
+
+                var node,
+                    margin = {top: 20, right: 0, bottom: 0, left: 0},
                     width = $element.width(),
                     height = $window.innerHeight - margin.top - margin.bottom - 80;
 
                 nv.zoom = d3.behavior.zoom();
 
-                var svg = d3.select($element[0])
+                nv.width = width + margin.left + margin.right;
+                nv.height =  height + margin.bottom + margin.top;
+                nv.svg = d3.select($element[0])
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.bottom + margin.top)
@@ -58,19 +61,19 @@
                     .style("shape-rendering", "crispEdges")
                     .call(nv.zoom);
 
-                nv.g = svg.append('g');
+                nv.g = nv.svg.append('g');
 
                 nv.queue.push(nv.root);
-                nv.node = nv.queue.shift();
+                node = nv.queue.shift();
 
-                nv.node.width =  (width + margin.left + margin.right) * 9/10;
-                nv.node.height = (height + margin.bottom + margin.top) * 8/10;
-                nv.node.headerheight = nv.node.height * 1/10;
-                nv.node.x = nv.node.width * 1/20;
-                nv.node.y = nv.node.height * 1/20;
-                nv.node.depth = 1;
+                node.width =  (width + margin.left + margin.right) * 9/10;
+                node.height = (height + margin.bottom + margin.top) * 8/10;
+                node.headerheight = node.height * 1/10;
+                node.x = node.width * 1/20;
+                node.y = node.height * 1/20;
+                node.depth = 1;
 
-                BFS(nv.node);
+                BFS(node);
 
                 nv.depth = Math.pow(2, nv.levels.length - 1);
 
@@ -79,7 +82,6 @@
             }
 
             function BFS (node) {
-                console.log('BFS');
                 for (var i in node.children) {
                     node.children[i].parent = node;
                     node.children[i].depth = node.depth + 1;
@@ -130,7 +132,6 @@
             }
 
             function drawRect (node) {
-                console.log('drawRect');
                 nv.g.append("rect")
                     .style("fill", "#ffffff")
                     .style("stroke", "#949da5")
@@ -210,27 +211,74 @@
             }
 
             function zoomed() {
-                console.log('zoomed');
                 preventDefaultScroll($element);
                 detalizationRect();
                 nv.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             }
 
+            function firstCloseRect() {
+                nv.levels[3].forEach(function (item, i) {
+                    item.rect = drowCloseRect(item);
+                    nv.close.push(item);
+                });
+
+                nv.preScrollLevel = 1;
+            }
+
             function detalizationRect () {
-                console.log('detalizationRect');
-                nv.scrollLevel = Math.round(nv.zoom.scale());
+                nv.scrollLevel = nv.zoom.scale();
 
                 if(nv.preScrollLevel === nv.scrollLevel)    return;
 
-                nv.preScrollLevel = nv.scrollLevel;
+                var preparent;
 
-                removeUnusedRect();
+                for(var i in nv.close) {
+                    var item = nv.close[i];
+                    var remove = false;
+                    if(nv.preScrollLevel < nv.scrollLevel) {
+                        if(item.children) {
+                            item.children.forEach(function (child) {
+                                if (item.headerheight * nv.scrollLevel > 15) {
+                                    child.rect = drowCloseRect(child);
+                                    nv.close.push(child);
+                                } else {
+                                    remove = true;
+                                }
+                            });
+                            if(!remove){
+                                item.rect.body.remove();
+                                item.rect.text.remove();
+                                delete nv.close[i];
+                                remove = true;
+                            }
 
-                if(nv.levels[nv.scrollLevel+2]) {
-                    nv.levels[nv.scrollLevel + 2].forEach(function (item, i) {
-                        drowdetalizationRect(item);
-                    });
+                        }else {
+                            item.rect.body.remove();
+                            item.rect.text.remove();
+                            //delete nv.close[i];
+                        }
+
+                    }else {
+                        var parent = item.parent;
+                        if (preparent !== parent) {
+                            preparent = parent;
+                            if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
+                                item.rect.body.remove();
+                                item.rect.text.remove();
+                                delete nv.close[i];
+                                parent.rect = drowCloseRect(parent);
+                                nv.close.push(parent);
+                            }
+                        } else {
+                            if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
+                                item.rect.body.remove();
+                                item.rect.text.remove();
+                                delete nv.close[i];
+                            }
+                        }
+                    }
                 }
+                nv.preScrollLevel = nv.scrollLevel;
 
                 d3.selectAll(".network-body")
                     .style("stroke-width", 1.4/nv.scrollLevel)
@@ -241,47 +289,39 @@
                     .attr("rx", 3/nv.scrollLevel + "px")
             }
 
-            function drowdetalizationRect(item) {
+            function drowCloseRect(item) {
                 var rect = {},
                     textWidth,
-                    fontSize = 18 / Math.round(nv.zoom.scale());
+                    fontSize = 16 / Math.round(nv.zoom.scale());
 
                 rect.body = nv.g.append("rect")
                     .style("fill", "#fff")
                     .style("stroke", "#949da5")
-                    .style("stroke-width", 1.4/nv.scrollLevel)
+                    .style("stroke-width", 1.4 / nv.scrollLevel)
                     .classed('network-body', true)
-                    .attr("rx", 3/nv.scrollLevel + "px")
+                    .attr("rx", 3 / nv.scrollLevel + "px")
                     .attr("x", item.x)
                     .attr("y", item.y)
                     .attr("width", item.width)
                     .attr("height", item.height + item.headerheight)
-                    .on("click", function() {
+                    .on("click", function () {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(item);
                     });
 
                 rect.text = nv.g.append("text")
                     .style("fill", "#476bb8")
-                    .attr("x", item.x + item.width/2)
-                    .attr("y", item.y + item.height/2)
+                    .attr("x", item.x + item.width / 2)
+                    .attr("y", item.y + item.height / 2)
                     .attr("text-anchor", "middle")
                     .attr("dy", ".35em")
-                    .attr("font-size", fontSize  + "px")
+                    .attr("font-size", fontSize + "px")
                     .text(item.name)
-                    .each(function(d) {
+                    .each(function (d) {
                         textWidth = this.getBBox().width;
                     });
 
-                if(textWidth > item.width) {
-                    rect.body.remove();
-                    rect.text.remove();
-
-                    drowdetalizationRect(item.parent);
-
-                }else {
-                    nv.unusedRect.push(rect);
-                }
+                return rect;
             }
 
             function countColumn() {
@@ -299,15 +339,6 @@
                     nv.curChildNodeColumn = 1;
                     nv.curChildNodeRow++;
                 }
-            }
-
-            function removeUnusedRect() {
-                console.log('removeUnusedRect');
-                nv.unusedRect.forEach(function(item){
-                    item.body.remove();
-                    item.text.remove();
-                });
-                nv.unusedRect = [];
             }
         }
 
