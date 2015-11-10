@@ -19,13 +19,13 @@
             _buildPopupUrl                     : _buildPopupUrl,
             _setReferer                        : _setReferer,
             _isGitHubPopup                     : _isGitHubPopup,
-            _parseCodeFromHref                 : _parseCodeFromHref
+            _parseCode                         : _parseCode
         };
 
-        function _parseCodeFromHref(hrefString) {
-            var match = hrefString.match(/\?code=(.*)#/);
+        function _parseCode() {
+            var match = $window.location.href.match(/\?code=(.*)&state/);
 
-            return (match) ? match[1] : '';
+            return (match) ? match[1] : null;
         }
 
         function _isGitHubPopup() {
@@ -59,7 +59,7 @@
 
         function loginWithGitHubIfRedirectedByPopup() {
             if (service._isGitHubPopup()) {
-                $window.opener.oAuthCallbackGitHub(service._parseCodeFromHref($window.location.href));
+                $window.opener.oAuthCallbackGitHub(service._parseCode());
             }
         }
 
@@ -85,9 +85,7 @@
         }
 
         function exchangeToken(code) {
-            var deferred = $q.defer();
-
-            $http({
+            return $http({
                 method: 'POST',
                 url: AUTH_API_URL + '/auth',
                 headers: {
@@ -98,13 +96,7 @@
                     'oauth2_state': 'test-state',
                     'oauth2_provider': 'github.com'
                 }
-            }).then(function(res){
-                console.warn(res);
-            }, function(err){
-                throw err
             });
-
-            return deferred.promise;
         }
 
         return service;

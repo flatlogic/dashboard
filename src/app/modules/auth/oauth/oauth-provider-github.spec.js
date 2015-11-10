@@ -69,7 +69,7 @@ describe('Factory: oauthProviderGitHub', function() {
                 $window.opener.oAuthCallbackGitHub = jasmine.createSpy('oAuthCallbackGitHub');
                 $window.opener.isGitHubPopupReferer = true;
 
-                oauthProviderGitHub.loginWithGitHubIfRedirectedByPopup($window.location.href);
+                oauthProviderGitHub.loginWithGitHubIfRedirectedByPopup();
 
                 expect($window.opener.oAuthCallbackGitHub).toHaveBeenCalled();
 
