@@ -72,7 +72,6 @@
                     object[stack.shift()].push('');
                     break;
                 case 'add-object':
-                    debugger;
                     object = object[stack.shift()];
                     if (angular.isArray(object)) {
                         object.push(jQuery.extend(true, {}, newValue));

@@ -86,7 +86,12 @@
                     object[stack.shift()].push('');
                     break;
                 case 'add-object':
-                    object[stack.shift()][newKey] = jQuery.extend(true, {}, newValue);
+                    object = object[stack.shift()];
+                    if (angular.isArray(object)) {
+                        object.push(jQuery.extend(true, {}, newValue));
+                    } else {
+                        object[newKey] = jQuery.extend(true, {}, newValue);
+                    }
                     break;
                 default:
                     throw 'unknown type';
