@@ -1,7 +1,7 @@
 {
     "AUTH_API_URL" : "https://accounts.qor.io/v1",
-    "API_URL" : "https://ops-dev.blinker.com",
-    "WS_URL" : "wss://ops-dev.blinker.com",
+    "API_URL" : "https://redpill.qoriolabs.com",
+    "WS_URL" : "wss://redpill.qoriolabs.com",
     "ICON_URL" : "assets/images/logo-without-text.png",
     "LOGIN_PAGE_ICON_URL" : "assets/images/logo-white.png",
     "AUTH_API_USER" : "501f0c0390301655982bf6ba5581f95d",
