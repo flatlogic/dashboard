@@ -7,7 +7,7 @@
 
     function oauthProviderGitHub($http, $q, AUTH_API_URL, GITHUB_CLIENT_ID, $window) {
         var GITHUB_AUTH_API_URL = 'https://github.com/login/oauth/authorize';
-        var GITHUB_REDIRECT_URI = 'https://sterlingw.github.io/dashboard'; // http://localhost:3000/#/login
+        var GITHUB_REDIRECT_URI = 'http://dashboard.qoriolabs.com';
 
         var service = {
             login                              : login,
