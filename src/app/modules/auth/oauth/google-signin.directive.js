@@ -3,9 +3,9 @@
 
     angular
         .module('qorDash.auth')
-        .directive('gSignin', gSignin);
+        .directive('googleSignin', googleSignin);
 
-    function gSignin(oauthAdapter, errorHandler) {
+    function googleSignin(oauthAdapter, errorHandler) {
         return {
             scope: {
                 onSuccess: '='
