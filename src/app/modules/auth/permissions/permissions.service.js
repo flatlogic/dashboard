@@ -8,28 +8,7 @@
     function permissionsService($q, auth, USER_HAS_NO_ACCESS) {
 
         var userPermissions = (function createPermissionsMap() {
-            //var token = auth.getParsedToken();
-            var permissionsObj = {
-                'dashboard/@scopes':[
-                    'read', 'update'
-                ],
-                'domains/@scopes':[
-                    'read', 'update'
-                ],
-                'compose/@scopes':[
-                    'read'
-                ],
-                'configurations/@scopes':[
-                    'read'
-                ],
-                'orchestrate/@scopes':[
-                    'read'
-                ],
-                'docker/@scopes':[
-                    'read'
-                ]
-            };
-            var token = permissionsObj;
+            var token = auth.getParsedToken();
             var permissions = {};
             for (var prop in token) {
                 if ((/^((?!passport|redpill).)*\/@scopes$/i).test(prop)){
@@ -38,6 +17,7 @@
                     permissions[app] = scopes;
                 }
             }
+            console.log(permissions);
             return permissions;
         })();
 
