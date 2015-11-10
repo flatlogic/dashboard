@@ -2,11 +2,6 @@ machine:
   node:
     version: 0.12
 
-general:
-  branches:
-    only:
-      - master
-
 dependencies:
   cache_directories:
       - node_modules
@@ -27,6 +22,7 @@ deployment:
     commands:
       - git config --global user.name "Circle CI"
       - git config --global user.email "sdgaykov@gmail.com"
+      - cd dist && echo "ops-dash.blinker.com" > CNAME
       - cd dist && git init
       - cd dist && git add .
       - cd dist && git commit -m "Deploy to GitHub Pages [ci skip]"
