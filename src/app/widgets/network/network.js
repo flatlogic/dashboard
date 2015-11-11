@@ -199,7 +199,6 @@
 
 
             function drawLastRect (node) {
-                console.log('drawRect');
                 nv.g.append("rect")
                     .style("fill", "#f8f8fb")
                     .style("stroke", "#949da5")
@@ -221,12 +220,11 @@
                     .attr("x", node.x + node.width/2)
                     .attr("y", node.y + node.height/2)
                     .attr("dy", ".35em")
-                    .attr("font-size", (node.height / 14)  + "px")
+                    .attr("font-size", (node.height / 8)  + "px")
                     .text(node.name);
             }
 
             function setLevels(node) {
-                console.log('setLevels');
                 if(!nv.levels[node.depth]) {
                     nv.levels[node.depth] = [];
                 }
@@ -309,13 +307,18 @@
 
                 d3.selectAll(".network-title")
                     .style("stroke-width", 1.4/nv.scrollLevel)
-                    .attr("rx", 3/nv.scrollLevel + "px")
+                    .attr("rx", 3/nv.scrollLevel + "px");
+
+                d3.selectAll(".network-text")
+                    .attr("font-size", 16/nv.scrollLevel + "px");
+
             }
 
             function drowCloseRect(item) {
                 var rect = {},
                     textWidth,
-                    fontSize = 16 / Math.round(nv.zoom.scale());
+                    fontSize = 16 / nv.zoom.scale();
+
 
                 rect.body = nv.g.append("rect")
                     .style("fill", "#fff")
@@ -334,6 +337,7 @@
 
                 rect.text = nv.g.append("text")
                     .style("fill", "#476bb8")
+                    .classed('network-text', true)
                     .attr("x", item.x + item.width / 2)
                     .attr("y", item.y + item.height / 2)
                     .attr("text-anchor", "middle")
