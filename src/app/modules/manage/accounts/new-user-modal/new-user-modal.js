@@ -4,7 +4,6 @@
     angular.module('qorDash.manage.accounts')
         .controller('NewUserController', newUserController);
 
-    newUserController.$inject = ['accounts', 'token', 'accountsService', 'errorHandler', 'Notification', '$modalInstance'];
     function newUserController (accounts, token, accountsService, errorHandler, Notification, $modalInstance) {
         var vm = this;
 
