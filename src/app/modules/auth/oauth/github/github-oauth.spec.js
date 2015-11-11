@@ -60,6 +60,11 @@ describe('Factory: githubOauth', function() {
             });
         });
     });
+    describe('generateState', function() {
+        it('returns a string', function(){
+            expect(typeof githubOauth.generateState()).toBe('string');
+        });
+    });
     describe('_openPopupWindow', function() {
         it('calls _setReferer', function(){
             spyOn(githubOauth, '_setReferer');

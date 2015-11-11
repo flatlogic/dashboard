@@ -10,6 +10,7 @@
             loginWithGitHubIfRedirectedByPopup : loginWithGitHubIfRedirectedByPopup,
             openPopup                          : openPopup,
             GITHUB_AUTH_API_URL                : 'https://github.com/login/oauth/authorize',
+            generateState                      : generateState,
             _openPopupWindow                   : _openPopupWindow,
             _buildPopupUrl                     : _buildPopupUrl,
             _setReferer                        : _setReferer,
@@ -65,6 +66,15 @@
         function _openPopupWindow(options) {
             service._setReferer();
             return $window.open(service._buildPopupUrl(options), '', "top=100,left=100,width=500,height=500");
+        }
+
+        /**
+         * @return {string} state
+         */
+        function generateState() {
+            return (Math.floor((1 + Math.random()) * 0x10000)) + new Date().getTime()
+                .toString(16)
+                .substring(1);
         }
 
         /**
