@@ -8,10 +8,6 @@
     function oauthAdapter($q, auth, errorHandler, oauthProviderGoogle, oauthProviderGitHub) {
 
         var selectedProvider = null;
-        var providersMap = {
-            'google': oauthProviderGoogle,
-            'github': oauthProviderGitHub
-        };
 
         return {
             init: init,
@@ -20,8 +16,8 @@
             exchangeToken: exchangeToken
         };
 
-        function init(providerName) {
-            selectedProvider = providersMap[providerName];
+        function init(provider) {
+            selectedProvider = provider;
             var deferred = $q.defer();
             deferred.resolve(selectedProvider);
             return deferred.promise;
