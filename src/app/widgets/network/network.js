@@ -200,7 +200,7 @@
 
             function drawLastRect (node) {
                 nv.g.append("rect")
-                    .style("fill", "#f8f8fb")
+                    .style("fill", "#d3d3e6")
                     .style("stroke", "#949da5")
                     .style("stroke-width", "1.4")
                     .classed('network-body', true)
@@ -251,8 +251,6 @@
 
                 if(nv.preScrollLevel === nv.scrollLevel)    return;
 
-                var preparent;
-
                 for(var i in nv.close) {
                     var item = nv.close[i];
                     var remove = false;
@@ -261,6 +259,7 @@
                             item.children.forEach(function (child) {
                                 if (item.headerheight * nv.scrollLevel > 15) {
                                     child.rect = drowCloseRect(child);
+                                    child.draw = true;
                                     nv.close.push(child);
                                 } else {
                                     remove = true;
@@ -269,6 +268,7 @@
                             if(!remove){
                                 item.rect.body.remove();
                                 item.rect.text.remove();
+                                item.draw = false;
                                 delete nv.close[i];
                                 remove = true;
                             }
@@ -276,24 +276,26 @@
                         }else {
                             item.rect.body.remove();
                             item.rect.text.remove();
-                            //delete nv.close[i];
                         }
 
                     }else {
                         var parent = item.parent;
-                        if (preparent !== parent) {
-                            preparent = parent;
+                        if (!parent.draw) {
                             if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
                                 item.rect.body.remove();
                                 item.rect.text.remove();
+                                item.draw = false;
                                 delete nv.close[i];
+
                                 parent.rect = drowCloseRect(parent);
+                                parent.draw = true;
                                 nv.close.push(parent);
                             }
                         } else {
                             if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
                                 item.rect.body.remove();
                                 item.rect.text.remove();
+                                item.draw = false;
                                 delete nv.close[i];
                             }
                         }
@@ -352,7 +354,6 @@
             }
 
             function countColumn() {
-                console.log('countColumn');
                 nv.numColumn = Math.round( Math.sqrt(nv.numChildNode));
 
                 if( nv.numColumn*nv.numColumn < nv.numChildNode) {
