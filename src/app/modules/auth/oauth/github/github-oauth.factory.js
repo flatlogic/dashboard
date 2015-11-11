@@ -7,10 +7,10 @@
 
     function githubOauth($q, $window) {
         var service = {
-            loginWithGitHubIfRedirectedByPopup : loginWithGitHubIfRedirectedByPopup,
-            openPopup                          : openPopup,
             GITHUB_AUTH_API_URL                : 'https://github.com/login/oauth/authorize',
             state                              : _generateState(),
+            loginWithGitHubIfRedirectedByPopup : loginWithGitHubIfRedirectedByPopup,
+            openPopup                          : openPopup,
             _openPopupWindow                   : _openPopupWindow,
             _buildPopupUrl                     : _buildPopupUrl,
             _setReferer                        : _setReferer,
@@ -23,18 +23,16 @@
         /**
          * @return code (string) or null if the code wasn't found
          */
-        function _parseCode() {
-            var match = $window.location.href.match(/\?code=(.*)&state/);
-
+        function _parseCode(url) {
+            var match = url.match(/\?code=(.*)&state/);
             return match ? match[1] : null;
         }
 
         /**
          * @return state (string) or null if the state wasn't found
          */
-        function _parseState() {
-            var match = window.location.href.match(/\&state=(.*)*/);
-
+        function _parseState(url) {
+            var match = url.match(/\&state=(.*)*/);
             return match ? match[1] : null;
         }
 
@@ -89,13 +87,20 @@
         }
 
         /**
+         * @return {string} url
+         */
+        function getUrl() {
+            return $window.location.href;
+        }
+
+        /**
          * Continues the auth flow if the user was redirected by the github popup.
          * This function should be called when the page specified as the redirect_uri
          * is loaded.
          */
         function loginWithGitHubIfRedirectedByPopup() {
             if (service._isGitHubPopup()) {
-                return $window.opener.oAuthCallbackGitHub(service._parseCode(), service._parseState());
+                return $window.opener.oAuthCallbackGitHub(service._parseCode(getUrl()), service._parseState(getUrl()));
             }
         }
 

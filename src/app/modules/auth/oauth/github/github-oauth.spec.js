@@ -50,16 +50,32 @@ describe('Factory: githubOauth', function() {
     });
     describe('loginWithGitHubIfRedirectedByPopup', function() {
         describe('when _isGitHubPopup returns true', function(){
-            it('calls $window.opener.oAuthCallbackGitHub', function(){
+            beforeEach(function(){
                 $window.opener = {};
                 $window.opener.oAuthCallbackGitHub = jasmine.createSpy('oAuthCallbackGitHub');
                 $window.opener.isGitHubPopupReferer = true;
-
+            });
+            afterEach(function(){
+                delete $window.opener.isGitHubPopupReferer;
+            });
+            it('calls $window.opener.oAuthCallbackGitHub', function(){
                 githubOauth.loginWithGitHubIfRedirectedByPopup();
 
                 expect($window.opener.oAuthCallbackGitHub).toHaveBeenCalled();
+            });
+            it('calls _parseCode', function(){
+                spyOn(githubOauth, '_parseCode');
 
-                delete $window.opener.isGitHubPopupReferer;
+                githubOauth.loginWithGitHubIfRedirectedByPopup();
+
+                expect(githubOauth._parseCode).toHaveBeenCalled();
+            });
+            it('calls _parseState', function(){
+                spyOn(githubOauth, '_parseState');
+
+                githubOauth.loginWithGitHubIfRedirectedByPopup();
+
+                expect(githubOauth._parseState).toHaveBeenCalled();
             });
         });
     });
@@ -95,6 +111,30 @@ describe('Factory: githubOauth', function() {
             it('returns false', function(){
                 expect(githubOauth._isGitHubPopup()).toBe(false);
             });
+        });
+    });
+    describe('_parseCode', function() {
+        it('returns the code', function(){
+            var code = 'test123456';
+            var state = '4321test';
+            var url = 'http://example.com?code=' + code + '&state=' + state;
+
+            expect(githubOauth._parseCode(url)).toBe(code);
+        });
+        it('returns null', function(){
+            expect(githubOauth._parseCode('http://example.com')).toBe(null);
+        });
+    });
+    describe('_parseState', function() {
+        it('returns the state', function(){
+            var code = 'test123456';
+            var state = '4321test';
+            var url = 'http://example.com?code=' + code + '&state=' + state;
+
+            expect(githubOauth._parseState(url)).toBe(state);
+        });
+        it('returns null', function(){
+            expect(githubOauth._parseState('http://example.com')).toBe(null);
         });
     });
 });
