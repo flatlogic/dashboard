@@ -94,6 +94,8 @@ module.exports = function(config) {
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: false,
 
+        browserNoActivityTimeout: 100000,
+
         proxies: {
             "/data/": "http://localhost:9876/base/src/data/",
             "/app/": "http://localhost:9876/base/src/app/"
