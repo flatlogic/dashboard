@@ -3,25 +3,27 @@
 
     angular
         .module('qorDash.auth')
-        .directive('githubSignin', githubSignin);
+        .directive('googleSigninButton', googleSigninButton);
 
-    function githubSignin(oauthAdapter, errorHandler) {
+    function googleSigninButton(oauthAdapter, errorHandler) {
         return {
             scope: {
                 onSuccess: '='
             },
-            restrict: 'A',
+            restrict: 'E',
+            replace: true,
             link: linkFn,
             controller: CtrlFn,
             controllerAs: 'vm',
-            bindToController: true
+            bindToController: true,
+            templateUrl: 'app/modules/auth/oauth/google/google-signin-button.html'
         };
 
         function linkFn(scope, $element) {
 
             function login() {
                 oauthAdapter
-                    .init('github')
+                    .init('google')
                     .then(oauthAdapter.login)
                     .then(scope.vm.successLogin)
                     .catch(scope.vm.failedLogin);
