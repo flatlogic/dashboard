@@ -37,7 +37,6 @@ module.exports = function(config) {
             'bower_components/jasmine-jquery/lib/*.js',
             'src/app/index.js',
             'src/app/**/*.module.js',
-            'src/app/**/**/*.module.js',
             'src/app/**/*.js',
             {pattern: 'src/data/*.json', included: false},
             {pattern: 'src/app/**/*.html', included: false},
