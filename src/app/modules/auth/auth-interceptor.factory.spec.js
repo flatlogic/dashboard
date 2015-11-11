@@ -4,7 +4,9 @@ describe('Factory: authInterceptor ', function() {
     var token = 'token',
         config = {headers: {}};
 
-
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.constants'));
+    beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
 
     beforeEach(function() {

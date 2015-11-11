@@ -9,27 +9,19 @@ describe('Service: accountsService ', function() {
         custom_object = 'custom_object',
         token = 'token',
         email = 'email',
-        AUTH_API_URL = 'AUTH_API_URL';
+        AUTH_API_URL;
 
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.constants'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("AUTH_API_URL", AUTH_API_URL);
-    }));
-
     beforeEach(function() {
-        inject(function (_accountsService_, $httpBackend, _dataLoader_, _user_, $state) {
+        inject(function (_accountsService_, $httpBackend, _user_, _AUTH_API_URL_, $state) {
             accountsService = _accountsService_;
             httpBackend = $httpBackend;
-
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+            AUTH_API_URL = _AUTH_API_URL_;
 
             spyOn($state, 'go').and.returnValue(true);
         });
@@ -37,7 +29,6 @@ describe('Service: accountsService ', function() {
 
 
     it("should get all accounts", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         accountsService.getAccounts(token)
@@ -50,7 +41,6 @@ describe('Service: accountsService ', function() {
     });
 
     it ('should get account by id', function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', AUTH_API_URL + '/account/' + accountId, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         accountsService.getAccountById(accountId, token)
@@ -63,7 +53,6 @@ describe('Service: accountsService ', function() {
     });
 
     it ('should create an account', function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', AUTH_API_URL + '/register',
             {
                 "identity": {
@@ -89,8 +78,6 @@ describe('Service: accountsService ', function() {
     });
 
     it ('should create Google account', function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
-
         httpBackend.expect('POST', AUTH_API_URL + '/register',
             {
                 "identity": {

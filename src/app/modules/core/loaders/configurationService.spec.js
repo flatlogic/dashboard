@@ -10,27 +10,21 @@ describe('Service: configurationService', function() {
         version = 'version',
         newVersionName = 'newVersion',
         fileVersion = 'fileVersion',
-        API_URL = 'API_URL';
+        errorHandler = errorHandler,
+        API_URL;
 
+    beforeEach(module('ui.router'));
+    beforeEach(module('ui-notification'));
+    beforeEach(module('qorDash.constants'));
     beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("API_URL", API_URL);
-    }));
-
     beforeEach(function() {
-        inject(function (_configurationService_, $httpBackend, _dataLoader_, _user_, $state) {
+        inject(function (_configurationService_, $httpBackend, _user_, _API_URL_, _errorHandler_, $state) {
             configurationService = _configurationService_;
             httpBackend = $httpBackend;
-
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+            errorHandler = _errorHandler_;
+            API_URL = _API_URL_;
 
             spyOn($state, 'go').and.returnValue(true);
         });
@@ -38,11 +32,10 @@ describe('Service: configurationService', function() {
 
 
     it("should load instance by domain id", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/').respond(serverResponse);
 
         configurationService.loadInstance(domain).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -50,11 +43,10 @@ describe('Service: configurationService', function() {
     });
 
     it("should load env", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/env/' + domain + '/').respond(serverResponse);
 
         configurationService.loadEnv(domain).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -62,7 +54,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should create file", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + service + '/' + fileName, data).respond(serverResponse);
 
         configurationService.files.createFile(domain, service, fileName, data).then(function(response) {
@@ -74,7 +65,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should get file content", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName).respond(serverResponse);
 
         configurationService.files.getFileContent(domain, instance, service, version, fileName).then(function(response) {
@@ -86,7 +76,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should get file versions", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + fileName + '/').respond(serverResponse);
 
         configurationService.files.getVersions(domain, instance, service, fileName).then(function(response) {
@@ -98,7 +87,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should get base file", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/' + service + '/' + fileName).respond(serverResponse);
 
         configurationService.files.getBaseFile(domain, service, fileName).then(function(response) {
@@ -110,7 +98,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should create file version", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + newVersionName + '/' + fileName,
         undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
@@ -123,7 +110,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should save file", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('PUT', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName, data, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
@@ -136,7 +122,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should clone file", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName, data).respond(serverResponse);
 
@@ -149,7 +134,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should delete file", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('DELETE', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName, undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
@@ -162,7 +146,6 @@ describe('Service: configurationService', function() {
     });
 
     it("should make file version live", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName +  '/live').respond(serverResponse);
 

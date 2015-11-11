@@ -3,31 +3,23 @@ describe('Service: manageLoader', function() {
 
     var resultToken = 'token',
         serverResponse = { token: resultToken },
-        AUTH_API_URL = 'AUTH_API_URL',
-        AUTH_API_USER = 'AUTH_API_USER',
-        AUTH_API_SECRET = 'AUTH_API_SECRET';
+        AUTH_API_URL,
+        AUTH_API_USER,
+        AUTH_API_SECRET;
 
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.constants'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("AUTH_API_URL", AUTH_API_URL);
-        $provide.constant("AUTH_API_USER", AUTH_API_USER);
-        $provide.constant("AUTH_API_SECRET", AUTH_API_SECRET);
-    }));
-
     beforeEach(function() {
-        inject(function (_manageLoader_, $httpBackend, _dataLoader_, _user_, $state) {
+        inject(function (_manageLoader_, $httpBackend, _user_, $state, _AUTH_API_URL_, _AUTH_API_USER_, _AUTH_API_SECRET_) {
             manageLoader = _manageLoader_;
             httpBackend = $httpBackend;
-
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+            AUTH_API_URL = _AUTH_API_URL_;
+            AUTH_API_USER = _AUTH_API_USER_;
+            AUTH_API_SECRET = _AUTH_API_SECRET_;
 
             spyOn($state, 'go').and.returnValue(true);
         });
@@ -35,7 +27,6 @@ describe('Service: manageLoader', function() {
 
 
     it("should get token", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', AUTH_API_URL + '/auth', {
             'username': AUTH_API_USER,
             'password': AUTH_API_SECRET

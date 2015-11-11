@@ -17,7 +17,6 @@
                     permissions[app] = scopes;
                 }
             }
-            console.log(permissions);
             return permissions;
         })();
 

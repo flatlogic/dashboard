@@ -10,6 +10,9 @@ describe('Controller: LoginController', function() {
         message = 'message;',
         window;
 
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.constants'));
+    beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
 
     beforeEach(function() {
@@ -36,20 +39,13 @@ describe('Controller: LoginController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, _user_, $httpBackend, $q, $state)  {
             q = $q;
             httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
             $.fn.button = function() {};
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
             _$controller_('LoginController as vm', {$scope: $scope, $state : state, user: user, LOGIN_PAGE_ICON_URL: LOGIN_PAGE_ICON_URL});
-            httpBackend.expectGET('data/permissions.json').respond('');
         })
     });
 

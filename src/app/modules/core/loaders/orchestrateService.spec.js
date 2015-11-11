@@ -7,28 +7,20 @@ describe('Service: orchestrateService', function() {
         optionId = 'optionId',
         serverResponse = 'response',
         activateUrl = 'activateUrl',
-        data = 'data',
-        API_URL = 'API_URL';
+        data = 'data';
 
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.constants'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("API_URL", API_URL);
-    }));
 
     beforeEach(function() {
-        inject(function (_orchestrateService_, $httpBackend, _dataLoader_, _user_, $state) {
+        inject(function (_orchestrateService_, $httpBackend, _API_URL_, _user_, $state) {
             orchestrateService = _orchestrateService_;
             httpBackend = $httpBackend;
-
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+            API_URL = _API_URL_;
 
             spyOn($state, 'go').and.returnValue(true);
         });
@@ -36,7 +28,6 @@ describe('Service: orchestrateService', function() {
 
 
     it("should load history", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/')
             .respond(serverResponse);
 
@@ -50,7 +41,6 @@ describe('Service: orchestrateService', function() {
     });
 
     it("should load instances", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/orchestrate/'+ domain +'/'+ instance +'/')
             .respond(serverResponse);
 
@@ -64,7 +54,6 @@ describe('Service: orchestrateService', function() {
     });
 
     it("should load option by id", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId)
             .respond(serverResponse);
 
@@ -78,7 +67,6 @@ describe('Service: orchestrateService', function() {
     });
 
     it("should load log url", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', API_URL + activateUrl, data)
             .respond(serverResponse);
 
