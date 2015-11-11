@@ -78,6 +78,8 @@
         }
 
         /**
+         * Generate the state token used in the GitHub oauth flow. More
+         * info: https://developer.github.com/v3/oauth/#web-application-flow
          * @return {string} state
          */
         function _generateState() {
