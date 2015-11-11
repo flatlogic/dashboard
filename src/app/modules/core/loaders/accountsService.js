@@ -9,7 +9,8 @@
             getAccounts : getAccounts,
             getAccountById : getAccountById,
             createAccount : createAccount,
-            createGoogleAccount : createGoogleAccount
+            createGoogleAccount : createGoogleAccount,
+            createGitHubAccount : createGitHubAccount
         };
 
         function getAccounts(token){
@@ -49,6 +50,26 @@
                         "username": username,
                         "oauth2_provider" :"google.com",
                         "oauth2_account_id" : email
+                    }
+                }
+            };
+
+            return $http(request);
+        }
+
+        function createGitHubAccount(username, githubUsername, token) {
+            var request = {
+                method: 'POST',
+                url: AUTH_API_URL + '/register',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                data: {
+                    "identity": {
+                        "username": username,
+                        "oauth2_provider" :"github.com",
+                        "oauth2_account_id" : githubUsername
                     }
                 }
             };
