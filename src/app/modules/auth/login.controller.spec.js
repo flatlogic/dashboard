@@ -9,8 +9,7 @@ describe('Controller: LoginController', function() {
         serverResponse = 'serverResponse',
         message = 'message;',
         window,
-        $controller,
-        githubOauth;
+        $controller;
 
     beforeEach(module('qorDash.auth', function($provide){
         // Stubbing constants is necessary (for now) because of the way the application
@@ -44,12 +43,11 @@ describe('Controller: LoginController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state, _githubOauth_)  {
+        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
             q = $q;
             httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
             $controller = _$controller_;
-            githubOauth = _githubOauth_;
             $.fn.button = function() {};
             spyOn(_dataLoader_, 'init').and.returnValue({
                 then: function (next) {
@@ -80,14 +78,6 @@ describe('Controller: LoginController', function() {
 
             expect(user.isAuthed).toHaveBeenCalled();
             expect(state.go).toHaveBeenCalledWith('app.dashboard');
-        });
-
-        it ('should call githubOauth.loginWithGitHubIfRedirectedByPopup', function() {
-            spyOn(githubOauth, 'loginWithGitHubIfRedirectedByPopup');
-
-            createCtrl();
-
-            expect(githubOauth.loginWithGitHubIfRedirectedByPopup).toHaveBeenCalled();
         });
     });
 
