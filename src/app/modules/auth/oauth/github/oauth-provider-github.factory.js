@@ -21,17 +21,10 @@
         }
 
         function exchangeToken(code) {
-            return $http({
-                method: 'POST',
-                url: AUTH_API_URL + '/auth',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    'oauth2_code': code,
-                    'oauth2_state': githubOauth.state,
-                    'oauth2_provider': 'github.com'
-                }
+            return $http.post(AUTH_API_URL + '/auth', {
+                'oauth2_code': code,
+                'oauth2_state': githubOauth.state,
+                'oauth2_provider': 'github.com'
             });
         }
 
