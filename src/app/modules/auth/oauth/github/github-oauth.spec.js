@@ -27,6 +27,9 @@ describe('Factory: githubOauth', function() {
         it('defines property GITHUB_AUTH_API_URL', function(){
             expect(githubOauth.GITHUB_AUTH_API_URL).toBeDefined();
         });
+        it('defines state', function(){
+            expect(githubOauth.state).toBeDefined();
+        });
     });
     describe('openPopup', function() {
         it('returns a promise', function(){
@@ -60,9 +63,9 @@ describe('Factory: githubOauth', function() {
             });
         });
     });
-    describe('generateState', function() {
+    describe('_generateState', function() {
         it('returns a string', function(){
-            expect(typeof githubOauth.generateState()).toBe('string');
+            expect(typeof githubOauth._generateState()).toBe('string');
         });
     });
     describe('_openPopupWindow', function() {

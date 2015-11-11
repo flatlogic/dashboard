@@ -10,12 +10,14 @@
             loginWithGitHubIfRedirectedByPopup : loginWithGitHubIfRedirectedByPopup,
             openPopup                          : openPopup,
             GITHUB_AUTH_API_URL                : 'https://github.com/login/oauth/authorize',
-            generateState                      : generateState,
+            state                              : _generateState(),
             _openPopupWindow                   : _openPopupWindow,
             _buildPopupUrl                     : _buildPopupUrl,
             _setReferer                        : _setReferer,
             _isGitHubPopup                     : _isGitHubPopup,
-            _parseCode                         : _parseCode
+            _parseCode                         : _parseCode,
+            _parseState                        : _parseState,
+            _generateState                     : _generateState
         };
 
         /**
@@ -24,7 +26,16 @@
         function _parseCode() {
             var match = $window.location.href.match(/\?code=(.*)&state/);
 
-            return (match) ? match[1] : null;
+            return match ? match[1] : null;
+        }
+
+        /**
+         * @return state (string) or null if the state wasn't found
+         */
+        function _parseState() {
+            var match = window.location.href.match(/\&state=(.*)*/);
+
+            return match ? match[1] : null;
         }
 
         /**
@@ -71,7 +82,7 @@
         /**
          * @return {string} state
          */
-        function generateState() {
+        function _generateState() {
             return (Math.floor((1 + Math.random()) * 0x10000)) + new Date().getTime()
                 .toString(16)
                 .substring(1);
@@ -84,7 +95,7 @@
          */
         function loginWithGitHubIfRedirectedByPopup() {
             if (service._isGitHubPopup()) {
-                $window.opener.oAuthCallbackGitHub(service._parseCode());
+                return $window.opener.oAuthCallbackGitHub(service._parseCode(), service._parseState());
             }
         }
 
@@ -95,9 +106,14 @@
             var deferred = $q.defer();
             var popup = service._openPopupWindow(options);
 
-            $window.oAuthCallbackGitHub = function(code){
-                popup.close();
-                deferred.resolve(code);
+            $window.oAuthCallbackGitHub = function(code, state){
+                if (state == service.state) {
+                    popup.close();
+                    deferred.resolve(code);
+                } else {
+                    popup.close();
+                    deferred.reject('state mismatch error');
+                }
             };
 
             return deferred.promise;

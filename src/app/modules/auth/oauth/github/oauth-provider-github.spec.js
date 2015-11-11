@@ -24,11 +24,6 @@ describe('Factory: oauthProviderGitHub', function() {
         spyOn($window, 'open').and.returnValue({});
     });
 
-    describe('init', function() {
-        it('defines _state', function(){
-            expect(oauthProviderGitHub._state).toBeDefined();
-        });
-    });
     describe('login', function() {
         it('returns a promise', function(){
             expect(typeof oauthProviderGitHub.login().then).toBe('function');

@@ -8,23 +8,20 @@
     function oauthProviderGitHub($http, $q, AUTH_API_URL, GITHUB_CLIENT_ID, githubOauth) {
         var service = {
             login         : login,
-            exchangeToken : exchangeToken,
-            _state        : githubOauth.generateState()
+            exchangeToken : exchangeToken
         };
 
         function login() {
             return githubOauth.openPopup({
                 clientId    : GITHUB_CLIENT_ID,
                 redirectUri : 'http://dashboard.qoriolabs.com',
-                state       : service._state,
+                state       : githubOauth.state,
                 scope       : ''
             });
         }
 
         function exchangeToken(code) {
-            var deferred = $q.defer();
-
-            $http({
+            return $http({
                 method: 'POST',
                 url: AUTH_API_URL + '/auth',
                 headers: {
@@ -32,18 +29,10 @@
                 },
                 data: {
                     'oauth2_code': code,
-                    'oauth2_state': service._state,
+                    'oauth2_state': githubOauth.state,
                     'oauth2_provider': 'github.com'
                 }
-            }).then(function(res){
-                if (res.data.state == service._state) {
-                    deferred.resolve(res);
-                } else {
-                    deferred.reject({error: 'state mismatch error'});
-                }
-            }, deferred.reject);
-
-            return deferred.promise;
+            });
         }
 
         return service;
