@@ -5,7 +5,7 @@
         .module('qorDash.auth')
         .controller('LoginController', loginController);
 
-    function loginController($state, user, LOGIN_PAGE_ICON_URL, githubOauth) {
+    function loginController($state, user, LOGIN_PAGE_ICON_URL) {
         var vm = this;
 
         vm.login = login;
@@ -15,8 +15,6 @@
 
         vm.ICON_URL = LOGIN_PAGE_ICON_URL;
         vm.userCredentials = {};
-
-        githubOauth.loginWithGitHubIfRedirectedByPopup();
 
         if (user.isAuthed()) {
             $state.go('app.dashboard');

@@ -20,6 +20,8 @@
             _generateState                     : _generateState
         };
 
+        loginWithGitHubIfRedirectedByPopup();
+
         /**
          * @return code (string) or null if the code wasn't found
          */
