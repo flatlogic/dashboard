@@ -3,11 +3,13 @@
 
     angular
         .module('qorDash.auth.permissions')
-        .service('permissions', permissionsService);
+        .factory('permissions', permissionsService);
 
     function permissionsService($q, auth, USER_HAS_NO_ACCESS) {
 
-        var userPermissions = (function createPermissionsMap() {
+        var _userPermissions = _createPermissionsMap();
+
+        function _createPermissionsMap() {
             var token = auth.getParsedToken();
             var permissions = {};
             for (var prop in token) {
@@ -18,12 +20,15 @@
                 }
             }
             return permissions;
-        })();
+        };
 
         function hasAccess(state, action) {
+            if (!state){
+                return false;
+            }
             var app = state.split('.')[1];
             action = action || 'read';
-            var hasPermission = userPermissions[app] && userPermissions[app].indexOf(action) >= 0;
+            var hasPermission = _userPermissions[app] && _userPermissions[app].indexOf(action) >= 0;
             return !!hasPermission;
         }
 
@@ -32,7 +37,8 @@
         }
 
         return {
-            userPermissions: userPermissions,
+            _userPermissions: _userPermissions,
+            _createPermissionsMap: _createPermissionsMap,
             resolveState: resolveState,
             hasAccess: hasAccess
         };
