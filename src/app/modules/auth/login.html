@@ -30,9 +30,8 @@
                                         <span ng-hide="vm.isLoading">Log In</span>
                                         <span ng-show="vm.isLoading">Loading...</span>
                                     </button>
-                                    <a g-signin on-success="vm.successCallback" class="btn btn-block btn-social btn-google btn-default btn-sm btn-signup g-signin2">
-                                        <i class="fa fa-google"></i>Sign in with Google
-                                    </a>
+                                    <oauth-signin-button on-success="vm.successCallback" provider="google"></oauth-signin-button>
+                                    <oauth-signin-button on-success="vm.successCallback" provider="github"></oauth-signin-button>
                                 </div>
                             </div>
                             <div class="row widget-login-footer">

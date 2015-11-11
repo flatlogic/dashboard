@@ -5,12 +5,9 @@
         .module('qorDash.auth')
         .factory('oauthAdapter', oauthAdapter);
 
-    function oauthAdapter($q, auth, errorHandler, oauthProviderGoogle) {
+    function oauthAdapter($q, auth, errorHandler, oauthProviderGoogle, oauthProviderGitHub) {
 
         var selectedProvider = null;
-        var providersMap = {
-            'google': oauthProviderGoogle
-        };
 
         return {
             init: init,
@@ -19,8 +16,8 @@
             exchangeToken: exchangeToken
         };
 
-        function init(providerName) {
-            selectedProvider = providersMap[providerName];
+        function init(provider) {
+            selectedProvider = provider;
             var deferred = $q.defer();
             deferred.resolve(selectedProvider);
             return deferred.promise;

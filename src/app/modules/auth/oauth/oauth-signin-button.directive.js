@@ -3,25 +3,42 @@
 
     angular
         .module('qorDash.auth')
-        .directive('gSignin', gSingin);
+        .directive('oauthSigninButton', oauthSigninButton);
 
-    function gSingin(oauthAdapter, errorHandler) {
+    function oauthSigninButton(oauthAdapter, errorHandler, oauthProviderGoogle, oauthProviderGitHub) {
         return {
             scope: {
-                onSuccess: '='
+                onSuccess: '=',
+                provider: '@'
             },
-            restrict: 'A',
+            restrict: 'E',
+            replace: true,
             link: linkFn,
             controller: CtrlFn,
             controllerAs: 'vm',
-            bindToController: true
+            bindToController: true,
+            templateUrl: 'app/modules/auth/oauth/oauth-signin-button.html'
         };
 
-        function linkFn(scope, $element) {
+        function linkFn(scope, $element, attrs) {
+            var providersMap = {
+                'google': {
+                    oauthProvider: oauthProviderGoogle,
+                    name: 'Google',
+                    iconClass: 'fa fa-google'
+                },
+                'github': {
+                    oauthProvider: oauthProviderGitHub,
+                    name: 'GitHub',
+                    iconClass: 'fa fa-github'
+                }
+            };
+
+            scope.provider = providersMap[attrs.provider];
 
             function login() {
                 oauthAdapter
-                    .init('google')
+                    .init(scope.provider.oauthProvider)
                     .then(oauthAdapter.login)
                     .then(scope.vm.successLogin)
                     .catch(scope.vm.failedLogin);

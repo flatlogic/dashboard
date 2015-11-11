@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h3>Create new account</h3>
+</div>
+<div class="modal-body text-center">
+  <ul class="nav nav-pills nav-pills-centered">
+    <li role="presentation" class="active"><a data-toggle="tab" href="#google">Google</a></li>
+    <li role="presentation"><a data-toggle="tab" href="#github">GitHub</a></li>
+    <li role="presentation"><a data-toggle="tab" href="#email">E-mail</a></li>
+  </ul>
+  <hr/>
+  <div class="tab-content">
+    <div id="google" class="tab-pane fade in active">
+      <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="text" class="form-control" ng-model="vm.username" placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="email" class="form-control" ng-model="vm.googleEmail" placeholder="Google Email">
+            </div>
+        </div>
+      </form>
+      <hr/>
+      <button class="btn btn-success" type="button" ng-click="vm.addGoogleUser(vm.username, vm.googleEmail)">Save</button>
+      <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+    <div id="github" class="tab-pane fade">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" ng-model="vm.username" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" ng-model="vm.githubUsername" placeholder="GitHub Username">
+          </div>
+        </div>
+      </form>
+      <hr/>
+      <button class="btn btn-success" type="button" ng-click="vm.addGitHubUser(vm.username, vm.githubUsername)">Save</button>
+      <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+    <div id="email" class="tab-pane fade">
+      <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="text" class="form-control" ng-model="vm.username" placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="password" class="form-control" ng-model="vm.password" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="custom_object" class="col-sm-2 control-label">Custom JSON</label>
+            <div class="col-sm-10">
+                <textarea id="custom_object" class="form-control" ng-model='vm.custom_object'></textarea>
+            </div>
+        </div>
+      </form>
+      <hr/>
+      <button class="btn btn-success" type="button" ng-click="vm.addUser(vm.username, vm.password, vm.custom_object)">Save</button>
+      <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+  </div>
+</div>

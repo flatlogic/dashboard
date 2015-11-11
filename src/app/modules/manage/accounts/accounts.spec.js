@@ -7,6 +7,7 @@ describe('Controller: AccountsController', function() {
         modal,
         serverResponse = 'serverResponse',
         deferred,
+        githubUsername = 'github_username',
         username = 'username',
         email = 'email',
         password = 'password',
@@ -36,14 +37,6 @@ describe('Controller: AccountsController', function() {
                 }
             },
             getAccounts: function(token) {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            createAccount: function(username, password, custom_object, token) {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            createGoogleAccount: function(username, email, token) {
                 deferred = q.defer();
                 return deferred.promise;
             }
@@ -123,49 +116,6 @@ describe('Controller: AccountsController', function() {
             });
         });
     });
-
-    describe ('addUser', function() {
-        describe('when called with email', function() {
-            beforeEach(function() {
-                spyOn(accountsService, 'createGoogleAccount').and.callThrough();
-                this.resultPromise = $scope.vm.addUser(username, email, password, custom_object, token);
-            });
-            it ('should call createGoogleAccount', function() {
-                expect(accountsService.createGoogleAccount).toHaveBeenCalledWith(username, email, $scope.vm.token);
-            });
-            it ('should return promise', function() {
-                expect(typeof this.resultPromise.then).toEqual('function');
-            });
-            describe ('when loading completed successfully', function() {
-                beforeEach(function() {
-                    spyOn(notification, 'success');
-                    deferred.resolve(accountsService.createResponse);
-                    rootScope.$digest();
-                });
-                it ('should populate vm.accounts with response', function() {
-                    expect($scope.vm.accounts).toContain({
-                        id: accountsService.createResponse.data.id,
-                        primary: accountsService.createResponse.data
-                    });
-                });
-                it ('should show success message', function() {
-                    expect(notification.success).toHaveBeenCalled();
-                });
-            });
-            describe ('when loading failed', function() {
-                beforeEach(function() {
-                    spyOn(errorHandler, 'showError').and.callThrough();
-                    deferred.reject(serverResponse);
-                    rootScope.$digest();
-                });
-                it ('should show an error and set vm.error', function() {
-                    expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
-                    expect($scope.vm.error).toEqual(serverResponse);
-                });
-            });
-        });
-    });
-
     describe ('newUser', function() {
         beforeEach(function() {
             spyOn(modal, 'open');
