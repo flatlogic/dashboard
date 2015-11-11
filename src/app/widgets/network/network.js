@@ -36,25 +36,29 @@
                 nv.root = data;
                 nv.levels = [];
                 nv.queue = [];
-                nv.unusedRect = [];
+                nv.close = [];
 
                 Promise.resolve()
                     .then(initSvg($element))
-                    .then(detalizationRect());
+                    .then(firstCloseRect());
             }
 
             function initSvg($element) {
-                console.log('initSvg');
-                var margin = {top: 20, right: 0, bottom: 0, left: 0},
+
+                var node,
+                    margin = {top: 20, right: 0, bottom: 0, left: 0},
                     width = $element.width(),
                     height = $window.innerHeight - margin.top - margin.bottom - 80;
 
                 nv.zoom = d3.behavior.zoom();
 
-                var svg = d3.select($element[0])
+                nv.width = width + margin.left + margin.right;
+                nv.height =  height + margin.bottom + margin.top;
+
+                nv.svg = d3.select($element[0])
                     .append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.bottom + margin.top)
+                    .attr("width", nv.width)
+                    .attr("height", nv.height)
                     .style("margin-left", -margin.left + "px")
                     .style("margin-right", -margin.right + "px")
                     .classed('network-svg', true)
@@ -62,19 +66,19 @@
                     .style("shape-rendering", "crispEdges")
                     .call(nv.zoom);
 
-                nv.g = svg.append('g');
+                nv.g = nv.svg.append('g');
 
                 nv.queue.push(nv.root);
-                nv.node = nv.queue.shift();
+                node = nv.queue.shift();
 
-                nv.node.width =  (width + margin.left + margin.right) * 9/10;
-                nv.node.height = (height + margin.bottom + margin.top) * 8/10;
-                nv.node.headerheight = nv.node.height * 1/10;
-                nv.node.x = nv.node.width * 1/20;
-                nv.node.y = nv.node.height * 1/20;
-                nv.node.depth = 1;
+                node.width =  nv.width * 9/10;
+                node.height = nv.height * 8/10;
+                node.headerheight = node.height * 1/10;
+                node.x = node.width * 1/20;
+                node.y = node.height * 1/20;
+                node.depth = 1;
 
-                BFS(nv.node);
+                BFS(node);
 
                 nv.depth = Math.pow(2, nv.levels.length - 1);
 
@@ -83,7 +87,9 @@
             }
 
             function BFS (node) {
-                console.log('BFS');
+                var marginWidth,
+                    marginHeight;
+
                 for (var i in node.children) {
                     node.children[i].parent = node;
                     node.children[i].depth = node.depth + 1;
@@ -108,13 +114,13 @@
 
                     countColumn();
 
-                    nv.marginWidth = node.parent.width/20;
-                    nv.marginHeight = node.parent.height/20;
+                    marginWidth = node.parent.width/20;
+                    marginHeight = node.parent.height/20;
 
-                    node.width = node.parent.width/nv.numColumn - nv.marginWidth * 1.5;
-                    node.height = node.parent.height/nv.numColumn - nv.marginHeight * 1.5;
-                    node.x = node.parent.x + nv.marginWidth * nv.curChildNodeRow + node.width * (nv.curChildNodeRow - 1) ;
-                    node.y = node.parent.headerheight + node.parent.y + nv.marginHeight * nv.curChildNodeColumn + node.height * (nv.curChildNodeColumn - 1) ;
+                    node.width = node.parent.width/nv.numColumn - marginWidth * 1.5;
+                    node.height = node.parent.height/nv.numColumn - marginHeight * 1.5;
+                    node.x = node.parent.x + marginWidth * nv.curChildNodeRow + node.width * (nv.curChildNodeRow - 1) ;
+                    node.y = node.parent.headerheight + node.parent.y + marginHeight * nv.curChildNodeColumn + node.height * (nv.curChildNodeColumn - 1) ;
                     node.height = node.height * 9/10;
                     node.headerheight = node.height * 1/10;
                 }
@@ -134,7 +140,6 @@
             }
 
             function drawRect (node) {
-                console.log('drawRect');
                 nv.g.append("rect")
                     .style("fill", "#ffffff")
                     .style("stroke", "#949da5")
@@ -148,6 +153,7 @@
                     .on("click", function() {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
+                        focusOnNode(node);
                     });
 
                 nv.g.append("rect")
@@ -178,8 +184,21 @@
 
             }
 
+            function focusOnNode(node) {
+
+                var gWidth = 9*nv.width/10,
+                    gHeight = 9*nv.height/10,
+                    gX = nv.width/20,
+                    gY = nv.height/20,
+                    translate = [gWidth/2 - node.x - node.width/2 + gX, gHeight/2 - node.y - (node.height + node.headerheight)/ 2 + gY];
+
+                nv.svg.transition()
+                    .duration(750)
+                    .call(nv.zoom.translate(translate).scale(1).event);
+            }
+
+
             function drawLastRect (node) {
-                console.log('drawRect');
                 nv.g.append("rect")
                     .style("fill", "#f8f8fb")
                     .style("stroke", "#949da5")
@@ -201,12 +220,11 @@
                     .attr("x", node.x + node.width/2)
                     .attr("y", node.y + node.height/2)
                     .attr("dy", ".35em")
-                    .attr("font-size", (node.height / 14)  + "px")
+                    .attr("font-size", (node.height / 8)  + "px")
                     .text(node.name);
             }
 
             function setLevels(node) {
-                console.log('setLevels');
                 if(!nv.levels[node.depth]) {
                     nv.levels[node.depth] = [];
                 }
@@ -214,27 +232,74 @@
             }
 
             function zoomed() {
-                console.log('zoomed');
                 preventDefaultScroll($element);
                 detalizationRect();
                 nv.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             }
 
+            function firstCloseRect() {
+                nv.levels[3].forEach(function (item, i) {
+                    item.rect = drowCloseRect(item);
+                    nv.close.push(item);
+                });
+
+                nv.preScrollLevel = 1;
+            }
+
             function detalizationRect () {
-                console.log('detalizationRect');
-                nv.scrollLevel = Math.round(nv.zoom.scale());
+                nv.scrollLevel = nv.zoom.scale();
 
                 if(nv.preScrollLevel === nv.scrollLevel)    return;
 
-                nv.preScrollLevel = nv.scrollLevel;
+                var preparent;
 
-                removeUnusedRect();
+                for(var i in nv.close) {
+                    var item = nv.close[i];
+                    var remove = false;
+                    if(nv.preScrollLevel < nv.scrollLevel) {
+                        if(item.children) {
+                            item.children.forEach(function (child) {
+                                if (item.headerheight * nv.scrollLevel > 15) {
+                                    child.rect = drowCloseRect(child);
+                                    nv.close.push(child);
+                                } else {
+                                    remove = true;
+                                }
+                            });
+                            if(!remove){
+                                item.rect.body.remove();
+                                item.rect.text.remove();
+                                delete nv.close[i];
+                                remove = true;
+                            }
 
-                if(nv.levels[nv.scrollLevel+2]) {
-                    nv.levels[nv.scrollLevel + 2].forEach(function (item, i) {
-                        drowdetalizationRect(item);
-                    });
+                        }else {
+                            item.rect.body.remove();
+                            item.rect.text.remove();
+                            //delete nv.close[i];
+                        }
+
+                    }else {
+                        var parent = item.parent;
+                        if (preparent !== parent) {
+                            preparent = parent;
+                            if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
+                                item.rect.body.remove();
+                                item.rect.text.remove();
+                                delete nv.close[i];
+                                parent.rect = drowCloseRect(parent);
+                                nv.close.push(parent);
+                            }
+                        } else {
+                            if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
+                                item.rect.body.remove();
+                                item.rect.text.remove();
+                                delete nv.close[i];
+                            }
+                        }
+                    }
                 }
+                nv.preScrollLevel = nv.scrollLevel;
 
                 d3.selectAll(".network-body")
                     .style("stroke-width", 1.4/nv.scrollLevel)
@@ -242,50 +307,48 @@
 
                 d3.selectAll(".network-title")
                     .style("stroke-width", 1.4/nv.scrollLevel)
-                    .attr("rx", 3/nv.scrollLevel + "px")
+                    .attr("rx", 3/nv.scrollLevel + "px");
+
+                d3.selectAll(".network-text")
+                    .attr("font-size", 16/nv.scrollLevel + "px");
+
             }
 
-            function drowdetalizationRect(item) {
+            function drowCloseRect(item) {
                 var rect = {},
                     textWidth,
-                    fontSize = 18 / Math.round(nv.zoom.scale());
+                    fontSize = 16 / nv.zoom.scale();
+
 
                 rect.body = nv.g.append("rect")
                     .style("fill", "#fff")
                     .style("stroke", "#949da5")
-                    .style("stroke-width", 1.4/nv.scrollLevel)
+                    .style("stroke-width", 1.4 / nv.scrollLevel)
                     .classed('network-body', true)
-                    .attr("rx", 3/nv.scrollLevel + "px")
+                    .attr("rx", 3 / nv.scrollLevel + "px")
                     .attr("x", item.x)
                     .attr("y", item.y)
                     .attr("width", item.width)
                     .attr("height", item.height + item.headerheight)
-                    .on("click", function() {
+                    .on("click", function () {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(item);
                     });
 
                 rect.text = nv.g.append("text")
                     .style("fill", "#476bb8")
-                    .attr("x", item.x + item.width/2)
-                    .attr("y", item.y + item.height/2)
+                    .classed('network-text', true)
+                    .attr("x", item.x + item.width / 2)
+                    .attr("y", item.y + item.height / 2)
                     .attr("text-anchor", "middle")
                     .attr("dy", ".35em")
-                    .attr("font-size", fontSize  + "px")
+                    .attr("font-size", fontSize + "px")
                     .text(item.name)
-                    .each(function(d) {
+                    .each(function (d) {
                         textWidth = this.getBBox().width;
                     });
 
-                if(textWidth > item.width) {
-                    rect.body.remove();
-                    rect.text.remove();
-
-                    drowdetalizationRect(item.parent);
-
-                }else {
-                    nv.unusedRect.push(rect);
-                }
+                return rect;
             }
 
             function countColumn() {
@@ -303,15 +366,6 @@
                     nv.curChildNodeColumn = 1;
                     nv.curChildNodeRow++;
                 }
-            }
-
-            function removeUnusedRect() {
-                console.log('removeUnusedRect');
-                nv.unusedRect.forEach(function(item){
-                    item.body.remove();
-                    item.text.remove();
-                });
-                nv.unusedRect = [];
             }
         }
 
