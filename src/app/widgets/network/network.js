@@ -199,6 +199,13 @@
 
 
             function drawLastRect (node) {
+
+                node.x += node.width/6;
+                node.y += node.height/6;
+
+                node.width = 2/3 * node.width;
+                node.height = 2/3 * node.height;
+
                 nv.g.append("rect")
                     .style("fill", "#d3d3e6")
                     .style("stroke", "#949da5")
