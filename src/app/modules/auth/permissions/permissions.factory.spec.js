@@ -36,7 +36,7 @@ describe('Factory: permissions', function() {
 
     describe('_createPermissionsMap', function() {
         it ('should get permissions from the token and create permissions map', function() {
-            expect(permissions._createPermissionsMap()).toEqual({ dashboard: 'update', docker: 'read' });
+            expect(permissions._createPermissionsMap()).toEqual({ dashboard: ['update'], docker: ['read'] });
         });
     });
 
@@ -46,6 +46,9 @@ describe('Factory: permissions', function() {
         });
         it ('should return false if state is root', function() {
             expect(permissions.hasAccess('app')).toBe(false);
+        });
+        it ('should return true if state is in white list', function() {
+            expect(permissions.hasAccess('login')).toBe(true);
         });
         it ('should return true if user has read permissions for selected state', function() {
             expect(permissions.hasAccess('app.docker')).toBe(true);

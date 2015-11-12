@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.core')
+    angular
+        .module('qorDash.core')
         .controller('QorSidebarController', $QorSidebarController)
         .controller('SidebarStubController', function () {
         })
@@ -12,7 +13,6 @@
         .directive('propertyController', $PropertyController)
         .directive('bindHtmlCompile', $BindHtmlCompile);
 
-    $QorSidebarController.$inject = ['$scope', '$rootScope', '$qorSidebar', '$controller'];
     function $QorSidebarController($scope, $rootScope, $qorSidebar) {
         var groups = this.groups = $scope.groups = $qorSidebar.sortedGroups();
 
@@ -63,7 +63,6 @@
         $rootScope.$on('$stateChangeSuccess', resetStates);
     }
 
-    $QorSidebar.$inject = ['$rootScope', 'ICON_URL'];
     function $QorSidebar($rootScope, ICON_URL) {
         return {
             restrict: 'EA',
@@ -75,9 +74,10 @@
                 '<div class="qor-logo">' +
                 '<a href="/"><img src="'+ ICON_URL +'" height="50" width="50"></a>' +
                 '</div>' +
+                // TODO: create a template for sidebar
                 '<loading-indicator></loading-indicator>' +
                 '<ul class="qor-sidebar-nav">' +
-                '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'User\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
+                '<li ng-repeat="group in groups" has-permission="{{group.id}}.read" ng-class="{\'user-label\' : group.title==\'Logout\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
                 '</ul>' +
                 '</header>' +
                 '</nav>'
@@ -99,7 +99,6 @@
         };
     }
 
-    $BindHtmlCompile.$inject = ['$compile'];
     function $BindHtmlCompile($compile) {
         return {
             restrict: 'A',
@@ -143,7 +142,6 @@
             });
         }
 
-        $QorSidebarService.$inject = ['$rootScope'];
         function $QorSidebarService($rootScope) {
             var expanded = true;
             return {
@@ -198,7 +196,6 @@
         };
     }
 
-    $PropertyController.$inject = ['$controller'];
     function $PropertyController($controller) {
         return {
             restrict: 'A',

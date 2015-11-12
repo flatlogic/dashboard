@@ -6,7 +6,8 @@
         .factory('permissions', permissionsService);
 
     function permissionsService($q, auth, USER_HAS_NO_ACCESS) {
-
+        // TODO: log_details is unknown state. maybe we should remove it
+        var statesWhiteList = ['login', 'logout', 'log_details'];
         var _userPermissions = _createPermissionsMap();
 
         function _createPermissionsMap() {
@@ -15,7 +16,7 @@
             for (var prop in token) {
                 if ((/^((?!passport|redpill).)*\/@scopes$/i).test(prop)){
                     var app = prop.split('/')[0];
-                    var scopes = token[prop];
+                    var scopes = token[prop].split(',');
                     permissions[app] = scopes;
                 }
             }
@@ -26,8 +27,11 @@
             if (!state){
                 return false;
             }
-            var app = state.split('.')[1];
+            if (statesWhiteList.indexOf(state) >= 0){
+                return true;
+            }
             action = action || 'read';
+            var app = /\./.test(state) ? state.split('.')[1] : state;
             var hasPermission = _userPermissions[app] && _userPermissions[app].indexOf(action) >= 0;
             return !!hasPermission;
         }

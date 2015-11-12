@@ -13,8 +13,11 @@
             priority: ngIf.priority - 1,
             terminal: ngIf.terminal,
             restrict: ngIf.restrict,
+            scope: {
+                hasPermission: '@'
+            },
             link: function(scope, element, attributes) {
-                var permissionString = attributes.hasPermission,
+                var permissionString = scope.hasPermission,
                     state,
                     action;
 
