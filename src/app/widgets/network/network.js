@@ -51,6 +51,7 @@
                     height = $window.innerHeight - margin.top - margin.bottom - 80;
 
                 nv.zoom = d3.behavior.zoom();
+                nv.scrollLevel = 1;
 
                 nv.width = width + margin.left + margin.right;
                 nv.height =  height + margin.bottom + margin.top;
@@ -91,13 +92,15 @@
                     marginHeight;
 
                 for (var i in node.children) {
-                    node.children[i].parent = node;
-                    node.children[i].depth = node.depth + 1;
-                    nv.queue.push(node.children[i]);
+                //for(var i = 0, l = node.children; i < l; i++){
+                    if(node.children.hasOwnProperty(i)) {
+                        node.children[i].parent = node;
+                        node.children[i].depth = node.depth + 1;
+                        nv.queue.push(node.children[i]);
+                    }
                 }
 
                 if('parent' in node) {
-
                     if (!nv.curParent || nv.curParent !== node.parent) {
                         nv.curChildNodeRow = 1;
                         nv.curChildNodeColumn = 0;
@@ -197,7 +200,6 @@
                     .call(nv.zoom.translate(translate).scale(1).event);
             }
 
-
             function drawLastRect (node) {
 
                 node.x += node.width/6;
@@ -245,7 +247,7 @@
             }
 
             function firstCloseRect() {
-                nv.levels[3].forEach(function (item, i) {
+                nv.levels[3].forEach(function (item) {
                     item.rect = drowCloseRect(item);
                     nv.close.push(item);
                 });
@@ -259,51 +261,54 @@
                 if(nv.preScrollLevel === nv.scrollLevel)    return;
 
                 for(var i in nv.close) {
-                    var item = nv.close[i];
-                    var remove = false;
-                    if(nv.preScrollLevel < nv.scrollLevel) {
-                        if(item.children) {
-                            item.children.forEach(function (child) {
-                                if (item.headerheight * nv.scrollLevel > 15) {
-                                    child.rect = drowCloseRect(child);
-                                    child.draw = true;
-                                    nv.close.push(child);
-                                } else {
+                    //for(var i = 0, l = nv.close.length; i < l; i++){
+                    if (nv.close.hasOwnProperty(i)) {
+                        var item = nv.close[i];
+                        var remove = false;
+                        if (nv.preScrollLevel < nv.scrollLevel) {
+                            if (item.children) {
+                                item.children.forEach(function (child) {
+                                    if (item.headerheight * nv.scrollLevel > 15) {
+                                        child.rect = drowCloseRect(child);
+                                        child.draw = true;
+                                        nv.close.push(child);
+                                    } else {
+                                        remove = true;
+                                    }
+                                });
+                                if (!remove) {
+                                    item.rect.body.remove();
+                                    item.rect.text.remove();
+                                    item.draw = false;
+                                    delete nv.close[i];
                                     remove = true;
                                 }
-                            });
-                            if(!remove){
+
+                            } else {
                                 item.rect.body.remove();
                                 item.rect.text.remove();
-                                item.draw = false;
-                                delete nv.close[i];
-                                remove = true;
                             }
 
-                        }else {
-                            item.rect.body.remove();
-                            item.rect.text.remove();
-                        }
-
-                    }else {
-                        var parent = item.parent;
-                        if (!parent.draw) {
-                            if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
-                                item.rect.body.remove();
-                                item.rect.text.remove();
-                                item.draw = false;
-                                delete nv.close[i];
-
-                                parent.rect = drowCloseRect(parent);
-                                parent.draw = true;
-                                nv.close.push(parent);
-                            }
                         } else {
-                            if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
-                                item.rect.body.remove();
-                                item.rect.text.remove();
-                                item.draw = false;
-                                delete nv.close[i];
+                            var parent = item.parent;
+                            if (!parent.draw) {
+                                if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
+                                    item.rect.body.remove();
+                                    item.rect.text.remove();
+                                    item.draw = false;
+                                    delete nv.close[i];
+
+                                    parent.rect = drowCloseRect(parent);
+                                    parent.draw = true;
+                                    nv.close.push(parent);
+                                }
+                            } else {
+                                if (parent.headerheight * nv.scrollLevel < 15 /*&& nv.scrollLevel + 2 < item.depth*/) {
+                                    item.rect.body.remove();
+                                    item.rect.text.remove();
+                                    item.draw = false;
+                                    delete nv.close[i];
+                                }
                             }
                         }
                     }
