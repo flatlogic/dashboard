@@ -7,7 +7,7 @@ describe('Service: authenticationService', function() {
         AUTH_API_URL;
 
     beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.constants'));
+    beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));

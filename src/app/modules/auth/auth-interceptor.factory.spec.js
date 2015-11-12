@@ -5,7 +5,7 @@ describe('Factory: authInterceptor ', function() {
         config = {headers: {}};
 
     beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.constants'));
+    beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
 

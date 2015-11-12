@@ -15,7 +15,7 @@ describe('Service: configurationService', function() {
 
     beforeEach(module('ui.router'));
     beforeEach(module('ui-notification'));
-    beforeEach(module('qorDash.constants'));
+    beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module("qorDash.loaders"));
 

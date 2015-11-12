@@ -15,7 +15,7 @@ describe('Controller: LoginController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.constants');
+        module('qorDash.config');
         module('qorDash.core');
         module('qorDash.auth');
         module(function($provide){

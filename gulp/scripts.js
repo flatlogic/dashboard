@@ -10,7 +10,7 @@ module.exports = function(options) {
       gulp
         .src('src/data/global-config.json')
         .pipe($.ngConstant({
-            name: 'qorDash.constants'
+            name: 'qorDash.config'
         }))
         // .pipe(concat.header('!function(){'))
         // .pipe(concat.footer('}();'))

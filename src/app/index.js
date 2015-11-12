@@ -6,7 +6,7 @@
             'ui.router',
             'chart.js',
             'ngMessages',
-            'qorDash.constants',
+            'qorDash.config',
             'qorDash.loaders',
             'qorDash.core',
             'qorDash.auth',
