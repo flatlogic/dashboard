@@ -3,7 +3,6 @@
 
     angular
         .module('qorDash.domains', [
-            'ui.layout',
             'qorDash.widget',
             'qorDash.widget.domain_stat',
             'qorDash.widget.network',
@@ -40,8 +39,7 @@
         $qorSidebarProvider.config('domains', {
             title: 'Environments',
             nav: 2,
-            content: '<span ui-sref="app.domains" qor-sidebar-group-heading="Domains" data-icon-class="fa fa-cloud"></span>',
-            controller: 'DomainsSidebarController'
+            content: '<span ui-sref="app.domains" qor-sidebar-group-heading="Domains" data-icon-class="fa fa-cloud"></span>'
         });
     }
 })();

@@ -4,6 +4,7 @@
     angular
         .module('qorDash', [
             'ui.router',
+            'ui.layout',
             'chart.js',
             'ngMessages',
             'qorDash.config',

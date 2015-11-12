@@ -12,7 +12,6 @@
                 templateUrl: 'app/modules/domains/domain/domain.html',
                 controller: 'DomainController',
                 controllerAs: 'vm',
-                authenticate: true,
                 resolve: {
                     resolvedDomain: function(domainService, $stateParams) {
                         return domainService.loadDomain($stateParams.domain);

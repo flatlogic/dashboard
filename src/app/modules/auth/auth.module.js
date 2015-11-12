@@ -25,8 +25,8 @@
                 }
             });
 
-        $qorSidebarProvider.config('User', {
-            title: 'User',
+        $qorSidebarProvider.config('logout', {
+            title: 'Logout',
             nav: 20,
             content: '<span id="user-actions" ui-sref="logout" qor-sidebar-group-heading="Logout" data-icon-class="fa fa-sign-out"></span>'
         });
