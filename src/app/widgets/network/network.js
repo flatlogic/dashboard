@@ -193,11 +193,12 @@
                     gHeight = 9*nv.height/10,
                     gX = nv.width/20,
                     gY = nv.height/20,
-                    translate = [gWidth/2 - node.x - node.width/2 + gX, gHeight/2 - node.y - (node.height + node.headerheight)/ 2 + gY];
+                    scale = .9 / Math.max(node.width / nv.width, node.height / nv.height),
+                    translate = [gWidth/2 - ( node.x + node.width/2) * scale + gX, gHeight/2 - (node.y  + (node.height + node.headerheight)/ 2) * scale + gY];
 
                 nv.svg.transition()
                     .duration(750)
-                    .call(nv.zoom.translate(translate).scale(1).event);
+                    .call(nv.zoom.translate(translate).scale(scale).event);
             }
 
             function drawLastRect (node) {
