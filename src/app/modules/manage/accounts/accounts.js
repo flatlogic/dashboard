@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.manage.accounts')
+    angular
+        .module('qorDash.manage.accounts')
         .controller('AccountsController',accountsController)
         .controller('NewUserController', newUserController);
 

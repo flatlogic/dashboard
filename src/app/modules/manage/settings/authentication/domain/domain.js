@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.manage.settings.authentication.domain')
+    angular
+        .module('qorDash.manage.settings.authentication.domain')
         .controller('AuthenticationDomainController', authenticationDomainController);
 
     function authenticationDomainController($scope, authenticationService, errorHandler, currentUser, Notification, $stateParams) {

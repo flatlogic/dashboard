@@ -74,9 +74,9 @@
                 case 'add-object':
                     object = object[stack.shift()];
                     if (angular.isArray(object)) {
-                        object.push(jQuery.extend(true, {}, newValue));
+                        object.push(angular.copy(newValue));
                     } else {
-                        object[newKey] = jQuery.extend(true, {}, newValue);
+                        object[newKey] = angular.copy(newValue);
                     }
                     break;
                 default:

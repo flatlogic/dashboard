@@ -1,15 +1,12 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.settings.authentication.domain', [
-        'ui.router', 'xeditable'
-    ]);
+    angular
+        .module('qorDash.manage.settings.authentication.domain', [
+            'ui.router', 'xeditable'
+        ]).config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.manage.settings.authentication.domain', {
                 url: '/:authDomain',

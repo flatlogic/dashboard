@@ -16,7 +16,6 @@
                 method: 'GET',
                 url: AUTH_API_URL + '/admin/domain/',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
             };
@@ -28,7 +27,6 @@
                 method: 'GET',
                 url: AUTH_API_URL + '/admin/domain/' + domainId,
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
             };
@@ -40,7 +38,6 @@
                 method: 'POST',
                 url: AUTH_API_URL + '/admin/domain/' + domainId,
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
                 data: data

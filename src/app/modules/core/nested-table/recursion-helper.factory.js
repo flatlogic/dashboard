@@ -1,7 +1,8 @@
 (function() {
     'use strict';
 
-    angular.module('qorDash.core')
+    angular
+        .module('qorDash.core')
         .factory("RecursionHelper", RecursionHelper);
 
     function RecursionHelper($compile) {

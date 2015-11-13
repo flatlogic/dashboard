@@ -95,10 +95,8 @@
             if (splitedPath[1] === 'services') {
                 if (splitedPath[2]) { splitedPath[2] = '*'; }
                 path = splitedPath.join('.');
-                return !!(path && vm.config[path] && vm.config[path].indexOf('add') > -1);
-            } else {
-                return !!(path && vm.config[path] && vm.config[path].indexOf('add') > -1);
             }
+            return !!(path && vm.config[path] && vm.config[path].indexOf('add') > -1);
         }
 
         function isObject(thing) {
