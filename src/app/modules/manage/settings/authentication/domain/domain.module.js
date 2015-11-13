@@ -1,18 +1,27 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.settings.authentication.domain', []);
+    angular
+        .module('qorDash.manage.settings.authentication.domain', [
+            'xeditable'
+        ])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.manage.settings.authentication.domain', {
                 url: '/:authDomain',
                 templateUrl: 'app/modules/manage/settings/authentication/domain/domain.html',
-                controller: 'AuthenticationDomainController'
+                controller: 'AuthenticationDomainController',
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedToken: function(manageLoader) {
+                        return manageLoader.load();
+                    },
+                    resolvedDomain: function(authenticationService, resolvedToken, $stateParams) {
+                        return authenticationService.getDomainInfo($stateParams.authDomain, resolvedToken);
+                    }
+                }
             });
     }
 })();

@@ -80,7 +80,6 @@ describe('Controller: NewUserController', function() {
             AUTH_API_URL = _AUTH_API_URL_;
             spyOn($state, 'go').and.returnValue(true);
             _$controller_('NewUserController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, accounts: [], token: '123'});
-            httpBackend.expectGET('data/permissions.json').respond('');
         })
     });
 

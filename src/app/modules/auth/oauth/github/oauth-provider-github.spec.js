@@ -22,7 +22,6 @@ describe('Factory: oauthProviderGitHub', function() {
         githubOauth = _githubOauth_;
 
         spyOn($state, 'go').and.returnValue(true);
-        $httpBackend.expectGET('data/permissions.json').respond('');
     }));
     beforeEach(function(){
         spyOn($window, 'open').and.returnValue({});

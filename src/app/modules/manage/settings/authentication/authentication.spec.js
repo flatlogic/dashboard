@@ -63,24 +63,7 @@ describe('Controller: AuthenticationSettingsController', function() {
             $scope = _$rootScope_.$new();
 
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
+            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser, resolvedToken: 'token', resolvedAccounts: []});
         })
-    });
-
-
-    it('should populate the domains array with domains when loadDomains is called', function() {
-        spyOn(authenticationService, 'getDomains').and.callThrough();
-
-        $scope.loadDomains();
-
-        $scope.token = 'token';
-        $scope.$apply();
-
-        deferred.resolve(authenticationService.response);
-
-        $scope.$root.$digest();
-
-        expect(authenticationService.getDomains).toHaveBeenCalled();
-        expect($scope.domains).toBe(authenticationService.response.data);
     });
 });

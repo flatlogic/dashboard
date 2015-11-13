@@ -1,20 +1,17 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.settings', [
-        'qorDash.manage.settings.authentication'
-    ]);
+    angular
+        .module('qorDash.manage.settings', [
+            'qorDash.manage.settings.authentication'
+        ])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.manage.settings', {
                 url: '/settings',
-                templateUrl: 'app/modules/manage/settings/settings.html',
-                controller: 'SettingsController'
+                templateUrl: 'app/modules/manage/settings/settings.html'
             });
     }
 })();

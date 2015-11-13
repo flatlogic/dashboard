@@ -85,6 +85,10 @@ $qor-select-color: #000000;
   width: calc((100vw - #{$qor-sidebar-width}) / 3);
 }
 
+.qor-sheet-two-three {
+  width: calc(((100vw - #{$qor-sidebar-width})) - ((100vw - #{$qor-sidebar-width}) / 3));
+}
+
 .qor-sheet-half {
   width: calc((100vw - #{$qor-sidebar-width}) / 2);
 }

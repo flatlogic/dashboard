@@ -1,32 +1,49 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.manage.settings.authentication.domain')
+    angular
+        .module('qorDash.manage.settings.authentication.domain')
         .controller('AuthenticationDomainController', authenticationDomainController);
 
+    function authenticationDomainController(authenticationService, resolvedDomain, resolvedToken, Notification, $stateParams, objectEdit) {
+        var vm = this;
 
-    authenticationDomainController.$inject = ['$scope', 'authenticationService', 'errorHandler', 'currentUser', '$stateParams'];
-    function authenticationDomainController ($scope, authenticationService, errorHandler, currentUser, $stateParams) {
-        $scope.loadDomain = loadDomain;
+        vm.dataChanged = dataChanged;
+        vm.save = save;
 
-        loadDomain();
+        vm.token = resolvedToken;
+        vm.domain = resolvedDomain;
 
-        currentUser.then(function () {
-            $scope.token = currentUser.$$state.value;
-        });
+        vm.isDataChanged = false;
 
-        function loadDomain() {
-            $scope.$watch('token', function (token) {
-                if (!token) return;
+        vm.configObject = {
+            ".services": "add|edit",
+            ".services.*.webhooks"  : "add|edit",
+            ".services.*.new_account_preset.scopes" : "add|edit",
+            ".url" : "edit",
+            ".name" : "edit",
+            "." : "add|edit"
+        };
 
-                authenticationService.getDomainInfo($stateParams.authDomain, token).then(
-                    function(response) {
-                        $scope.domain = response.data;
-                    }, function(response) {
-                        errorHandler.showError(response);
-                    }
-                );
-            });
+        function dataChanged(type, path, data, key) {
+            objectEdit.dataChanged(vm.domain, type, path, data, key);
+
+            vm.isDataChanged = true;
+        }
+
+        function save() {
+            vm.isSaveLoading = true;
+            //TODO: Remove after changing security policies
+            if ($stateParams.authDomain === 'blinker.com') {
+                authenticationService.saveDomainInfo($stateParams.authDomain, vm.domain, vm.token)
+                    .then(function() {
+                        vm.isDataChanged = false;
+                        vm.isSaveLoading = false;
+                        Notification.success('All changes saved');
+                    });
+            } else {
+                alert('Save is only available for blinker.com');
+            }
         }
     }
 

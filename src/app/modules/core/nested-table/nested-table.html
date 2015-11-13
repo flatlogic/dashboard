@@ -1,0 +1,26 @@
+<div>
+  <table>
+    <tbody>
+      <tr data-ng-repeat="(key, value) in vm.data track by $index" ng-show="vm.isVisible(vm.parentKey + '.' + key)" class="animate-show">
+        <td class="white-bg" ng-if="!vm.isArray(vm.data)">
+          <div class="td-container">
+            <div edit-disabled="!vm.isEditable(vm.parentKey)" editable-text="key" onbeforesave="vm.updateData(vm.parentKey, $data, key, 'key')" buttons="no">{{key}}</div>
+            <i class="fa table-angle" ng-class="{'fa-angle-right': !vm.getDisplayState(vm.parentKey + '.' + key), 'fa-angle-left': vm.getDisplayState(vm.parentKey + '.' + key)}"
+                          ng-click="vm.changeDisplayState(vm.parentKey + '.' + key)" ng-if="vm.isObject(value)"></i>
+          </div>
+        </td>
+        <td class="white-bg value-td" ng-if="!vm.isObject(value)" editable-text="value" onbeforesave="vm.updateData(vm.parentKey + '.' + key, $data)" buttons="no">
+          {{value}}
+        </td>
+        <td ng-if="vm.isObject(value)" colspan="100">
+          <nested-table display-options="vm.displayOptions" onchange="vm.onchange" object-name="vm.objectName" parent-key="(vm.parentKey + '.' + key)" config="vm.config" data="value"></nested-table>
+        </td>
+      </tr>
+      <tr ng-show="(vm.isArray(vm.data) || vm.isPlusAvailable(vm.parentKey)) && vm.isVisible(vm.parentKey + '.' + key)">
+        <td class="white-bg td-plus" ng-click="vm.addElement(vm.parentKey)">
+          +
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

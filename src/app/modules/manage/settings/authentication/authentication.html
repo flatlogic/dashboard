@@ -4,18 +4,10 @@
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
             <a class="list-group-item"
-               ui-sref-active="active"
-               ui-sref="app.manage.settings.authentication.domain({authDomain: domain.domain})"
-                    ng-repeat="domain in domains">
+                ui-sref-active="active"
+                ui-sref=".domain({authDomain: domain.domain})"
+                ng-repeat="domain in vm.domains">
                 {{domain.domain}}
-            </a>
-        </div>
-        <div id="env-loader" ng-hide="domains || error">
-            <img src="assets/images/cube.gif">
-        </div>
-        <div id="reload" ng-hide="!error">
-            <a ui-sref="." data-ui-sref-opts="{reload: true}">
-                <i class="fa fa-refresh reload-button"></i>
             </a>
         </div>
     </div>
