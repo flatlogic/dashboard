@@ -1,22 +1,22 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.domains.domain', [
-        'ui.router',
-        'ui.layout'
-    ]);
+    angular
+        .module('qorDash.domains.domain', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.domains.domain', {
-                url: '/:id',
+                url: '/:domain',
                 templateUrl: 'app/modules/domains/domain/domain.html',
                 controller: 'DomainController',
-                authenticate: true
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedDomain: function(domainService, $stateParams) {
+                        return domainService.loadDomain($stateParams.domain);
+                    }
+                }
             })
     }
 })();

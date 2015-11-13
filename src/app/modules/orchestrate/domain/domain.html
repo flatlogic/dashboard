@@ -1,21 +1,13 @@
 <section horizontal-ui-sheet class="qor-sheet-half">
-    <header horizontal-ui-sheet-header title="{{domain.name}}">
+    <header horizontal-ui-sheet-header title="{{vm.domain.name}}">
     </header>
     <div horizontal-ui-sheet-content>
-        <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="environment in domain.instances | orderBy:''"
+        <div class="list-group text-left">
+            <a class="list-group-item" ng-repeat="environment in vm.domain.instances | orderBy:''"
                ui-sref-active="active"
-               ui-sref="app.orchestrate.domain.instance({inst : environment})">
+               ui-sref=".instance({inst : environment})">
                 {{environment}}
             </a>
-        </div>
-        <div id="env-loader" ng-hide="domain || error">
-            <img src="assets/images/cube.gif">
-        </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.orchestrate.domain'" data-ui-sref-opts="{reload: true}">
-            <i class="fa fa-refresh reload-button"></i>
-          </a>
         </div>
     </div>
 </section>

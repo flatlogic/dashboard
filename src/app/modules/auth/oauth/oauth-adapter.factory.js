@@ -34,14 +34,8 @@
         function exchangeToken(user) {
             return selectedProvider
                 .exchangeToken(user)
-                .then(requestSuccess)
+                .then(auth.saveToken)
                 .catch(requestFailed);
-        }
-
-        function requestSuccess(response) {
-            if (response.data.token) {
-                auth.saveToken(response.data.token);
-            }
         }
 
         function requestFailed(error) {

@@ -21,8 +21,7 @@
                         var urlParams = angular.extend({id: $stateParams.containerId}, Settings.urlParams);
                         return Container.changes(urlParams).$promise;
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

@@ -1,7 +1,11 @@
 (function () {
     'use strict';
 
-    qlEvents.$inject = ['$timeout', '$window'];
+    angular
+        .module('qorDash.widget.events')
+        .directive('qlEvents', qlEvents)
+        .controller('EventsController', eventsController);
+
     function qlEvents($timeout, $window) {
         var adaptHeight = function (element) {
             element.height(element.parent().parent().parent().height());
@@ -22,7 +26,7 @@
         }
     }
 
-    var eventsController = angular.createAuthorizedController('EventsController', ['$scope', '$rootScope', '$timeout', function ($scope, $rootScope, $timeout) {
+    function eventsController ($scope, $rootScope, $timeout) {
         $scope.events = [];
 
         /**
@@ -103,9 +107,5 @@
             }
         });
 
-    }]);
-
-    angular.module('qorDash.widget.events')
-        .directive('qlEvents', qlEvents)
-        .controller(eventsController);
+    }
 })();

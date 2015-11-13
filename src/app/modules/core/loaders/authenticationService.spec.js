@@ -7,6 +7,7 @@ describe('Service: authenticationService', function() {
         serverResponse = 'response',
         AUTH_API_URL = 'AUTH_API_URL';
 
+    beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
@@ -17,20 +18,10 @@ describe('Service: authenticationService', function() {
     }));
 
     beforeEach(function() {
-        inject(function (_authenticationService_, $httpBackend, _dataLoader_, _user_, $state) {
+        inject(function (_authenticationService_, $httpBackend, $state) {
             authenticationService = _authenticationService_;
             httpBackend = $httpBackend;
-
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
-
             spyOn($state, 'go').and.returnValue(true);
-
-            httpBackend.expectGET('data/permissions.json').respond('');
         });
     });
 

@@ -3,7 +3,7 @@ describe('Controller: NewUserController', function() {
     var $controller,
         httpBackend,
         accountsService,
-        AUTH_API_URL = 'AUTH_API_URL',
+        AUTH_API_URL,
         modal,
         serverResponse = 'serverResponse',
         deferred,
@@ -18,6 +18,9 @@ describe('Controller: NewUserController', function() {
         rootScope,
         notification;
 
+    // Stubbing modules is necessary (for now) because of the way the unit test has been written.
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module('qorDash.loaders'));
@@ -68,21 +71,15 @@ describe('Controller: NewUserController', function() {
         };
     });
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, $httpBackend, $q, $state, _AUTH_API_URL_)  {
             q = $q;
             $controller = _$controller_;
             httpBackend = $httpBackend;
             rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+            AUTH_API_URL = _AUTH_API_URL_;
             spyOn($state, 'go').and.returnValue(true);
             _$controller_('NewUserController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, accounts: [], token: '123'});
-            httpBackend.expectGET('data/permissions.json').respond('');
         })
     });
 

@@ -1,49 +1,31 @@
 (function () {
     'use strict';
 
-    packagesController.$inject = ['$scope', '$state', '$stateParams', '$http', 'API_URL', 'errorHandler'];
-    function packagesController($scope, $state, $stateParams, $http, API_URL, errorHandler) {
-        // TODO Make global
-        Object.filter = function( obj, predicate) {
-            var key;
+    angular
+        .module('qorDash.configurations.services.state.packages')
+        .controller('PackagesController', packagesController);
 
-            for (key in obj) {
-                if (obj.hasOwnProperty(key) && predicate(key)) {
-                    return obj[key];
-                }
-            }
-        };
-
+    function packagesController($scope, $state, resolvedPackage) {
         $scope.checked = {};
-
-        $http.get(API_URL + '/v1/pkg/' + $stateParams.domain + '/').then(
-            function (response) {
-                $scope.service = response.data[$state.params.service];
-                $scope.instances = $scope.service.instances;
-                $scope.instances.forEach(function(instance) {
-                    $scope.saveAvailableHelper++;
-                    $scope.checked[instance] = true;
-                });
-
-                if ($state.params.instances) {
-                    for (var i in $scope.checked) {
-                        $scope.checked[i] = false;
-                    }
-                    $state.params.instances.split(',').forEach(function(instance){
-                        if ($scope.checked[instance] != 'undefined') {
-                            $scope.checked[instance] = true;
-                            $scope.saveAvailableHelper++;
-                        }
-                    });
-                }
-
-            },
-            function (responce) {
-                $scope.error = errorHandler.showError(response.data, responce.status);
-            }
-        );
-
         $scope.saveAvailableHelper = 0;
+        $scope.service = resolvedPackage[$state.params.service];
+        $scope.instances = $scope.service.instances;
+        $scope.instances.forEach(function(instance) {
+            $scope.saveAvailableHelper++;
+            $scope.checked[instance] = true;
+        });
+
+        if ($state.params.instances) {
+            for (var i in $scope.checked) {
+                $scope.checked[i] = false;
+            }
+            $state.params.instances.split(',').forEach(function(instance){
+                if ($scope.checked[instance] != 'undefined') {
+                    $scope.checked[instance] = true;
+                    $scope.saveAvailableHelper++;
+                }
+            });
+        }
 
         $scope.changeState = function(val) {
             if (val) {
@@ -61,11 +43,8 @@
                 }
             }
             if (selectedInstances.length > 0) {
-                $state.go('app.configurations.services.state.packages.editor', {instances: selectedInstances});
+                $state.go('.editor', {instances: selectedInstances});
             }
         }
     }
-
-    angular.module('qorDash.configurations.services.state.packages')
-        .controller('PackagesController', packagesController);
 })();

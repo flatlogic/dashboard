@@ -4,6 +4,10 @@ describe('Factory: oauthProviderGitHub', function() {
     $q,
     $window,
     githubOauth;
+
+    // Stubbing modules is necessary (for now) because of the way the unit test has been written.
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth', function($provide){
         // Stubbing constants is necessary (for now) because of the way the application
         // is bootstrapped in index.js.
@@ -18,7 +22,6 @@ describe('Factory: oauthProviderGitHub', function() {
         githubOauth = _githubOauth_;
 
         spyOn($state, 'go').and.returnValue(true);
-        $httpBackend.expectGET('data/permissions.json').respond('');
     }));
     beforeEach(function(){
         spyOn($window, 'open').and.returnValue({});

@@ -29,8 +29,7 @@
                             stderr: 1
                         });
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

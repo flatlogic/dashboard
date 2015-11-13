@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.manage.settings', [
-            'ui.router',
+    angular
+        .module('qorDash.manage.settings', [
             'qorDash.manage.settings.authentication'
         ])
         .config(config);
@@ -11,8 +11,7 @@
         $stateProvider
             .state('app.manage.settings', {
                 url: '/settings',
-                templateUrl: 'app/modules/manage/settings/settings.html',
-                authenticate: true
+                templateUrl: 'app/modules/manage/settings/settings.html'
             });
     }
 })();

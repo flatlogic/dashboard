@@ -1,10 +1,10 @@
 describe("Controller: NestedTableController", function () {
     var element, controller, scope;
 
+    beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
 
     beforeEach(inject(function($rootScope, $compile, $httpBackend, $controller) {
-        $httpBackend.expectGET('data/permissions.json').respond('');
         $httpBackend.expectGET('app/modules/core/nested-table/nested-table.html').respond('');
 
         scope = $rootScope.$new();

@@ -3,7 +3,6 @@
 
     angular
         .module('qorDash.manage', [
-            'ui.router',
             'qorDash.manage.accounts',
             'qorDash.manage.settings',
             'qorDash.manage.accounts.account'
@@ -18,8 +17,7 @@
                     'main@': {
                         templateUrl: 'app/modules/manage/manage.html'
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('manage', {

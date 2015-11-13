@@ -17,8 +17,7 @@
                         var urlParams = Settings.urlParams;
                         return Container.query(urlParams).$promise;
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

@@ -3,8 +3,9 @@
 
     angular
         .module('qorDash.manage.settings.authentication.domain', [
-            'ui.router', 'xeditable'
-        ]).config(config);
+            'xeditable'
+        ])
+        .config(config);
 
     function config($stateProvider) {
         $stateProvider

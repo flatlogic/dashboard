@@ -1,11 +1,12 @@
 {
-    "auth-url" : "https://accounts.qor.io/v1",
-    "api-url" : "https://redpill.qoriolabs.com",
-    "ws-url" : "wss://redpill.qoriolabs.com",
-    "icon-url" : "assets/images/logo-without-text.png",
-    "login-page-icon-url" : "assets/images/logo-white.png",
-    "auth_api_user" : "501f0c0390301655982bf6ba5581f95d",
-    "auth_api_secret" : "fd2c94f3f2c88d25649334017a25f900",
-    "google_client_id" : "138766960114-ikj7ignimooj54qabses3cc857l1a8h4.apps.googleusercontent.com",
-    "github_client_id" : "7284146c5831ac4ec98c"
+    "AUTH_API_URL" : "https://accounts.qor.io/v1",
+    "API_URL" : "https://redpill.qoriolabs.com",
+    "WS_URL" : "wss://redpill.qoriolabs.com",
+    "ICON_URL" : "assets/images/logo-without-text.png",
+    "LOGIN_PAGE_ICON_URL" : "assets/images/logo-white.png",
+    "AUTH_API_USER" : "501f0c0390301655982bf6ba5581f95d",
+    "DOCKER_ENDPOINT": "https://ops-dev.blinker.com/v1/dockerapi",
+    "AUTH_API_SECRET" : "fd2c94f3f2c88d25649334017a25f900",
+    "GOOGLE_CLIENT_ID" : "138766960114-ikj7ignimooj54qabses3cc857l1a8h4.apps.googleusercontent.com",
+    "GITHUB_CLIENT_ID" : "7284146c5831ac4ec98c"
 }

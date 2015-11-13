@@ -2,7 +2,6 @@
     'use strict';
 
     var module = angular.module('qorDash.configurations.services.state.files.files-view.diff', [
-        'ui.router',
         'ui.codemirror',
         'ui-notification',
         'diff-match-patch'
@@ -25,8 +24,7 @@
                     _preventAnimation: { value: null, squash: true }
                 },
                 templateUrl: 'app/modules/configurations/services/state/files/files-diff/files-diff.html',
-                controller: 'FilesEditorController',
-                authenticate: true
+                controller: 'FilesEditorController'
             })
     }
 })();

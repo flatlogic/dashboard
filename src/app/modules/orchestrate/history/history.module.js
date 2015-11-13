@@ -1,9 +1,7 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.orchestrate.domain.instance.history', [
-        'ui.router'
-    ]);
+    var module = angular.module('qorDash.orchestrate.domain.instance.history', []);
 
     module.config(appConfig);
 
@@ -14,8 +12,7 @@
             .state('app.orchestrate.domain.instance.history', {
                 url: '/:opt',
                 templateUrl: 'app/modules/orchestrate/history/history.html',
-                controller: 'OrchestrateHistoryController',
-                authenticate: true
+                controller: 'OrchestrateHistoryController'
             })
     }
 })();

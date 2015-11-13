@@ -1,21 +1,21 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.configurations.services.state.files', [
-        'ui.router'
-    ]);
+    angular
+        .module('qorDash.configurations.services.state.files', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.configurations.services.state.files', {
                 url: '/files',
                 templateUrl: 'app/modules/configurations/services/state/files/files.html',
                 controller: 'FilesController',
-                authenticate: true
+                resolve: {
+                    resolvedInstance: function($stateParams, configurationService) {
+                        return configurationService.loadInstance($stateParams.domain);
+                    }
+                }
             })
     }
 })();

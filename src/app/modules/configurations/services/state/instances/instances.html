@@ -21,14 +21,5 @@
         <button ng-show="saveAvailableHelper > 0" type="button" ng-click="show()" id="sendMessageButton" class="btn btn-warning config-instances-button">
             Show
         </button>
-
-        <div id="env-loader" ng-hide="services || error">
-            <img src="assets/images/cube.gif">
-        </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.configurations.services.state.instances" data-ui-sref-opts="{reload: true}">
-            <i class="fa fa-refresh reload-button"></i>
-          </a>
-        </div>
     </div>
 </section>

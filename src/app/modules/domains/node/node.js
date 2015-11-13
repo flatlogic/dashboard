@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-    domainNodeController.$inject = ['$scope', '$stateParams'];
     function domainNodeController($scope, $stateParams) {
         $scope.$watch('networkData', function (networkData) {
             if (!networkData) return;

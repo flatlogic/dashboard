@@ -3,7 +3,6 @@
 
     angular
         .module('qorDash.manage.settings.authentication', [
-            'ui.router',
             'qorDash.manage.settings.authentication.domain'
         ])
         .config(config);
