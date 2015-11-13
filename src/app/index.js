@@ -9,7 +9,6 @@
         'qorDash.auth',
         'qorDash.dashboard',
         'qorDash.domains',
-        'qorDash.deployment',
         'qorDash.compose',
         'qorDash.configurations',
         'qorDash.orchestrate',

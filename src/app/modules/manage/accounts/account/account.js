@@ -5,7 +5,7 @@
         .module('qorDash.manage.accounts')
         .controller('AccountController',accountController);
 
-    function accountController (resolvedAccount,objectEdit) {
+    function accountController (resolvedAccount, objectEdit) {
         var vm = this;
 
         vm.config = {
@@ -27,6 +27,6 @@
             vm.isDataChanged = false;
             alert('Need to save');
         }
-}
+    }
 
 })();
