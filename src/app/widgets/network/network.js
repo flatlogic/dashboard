@@ -174,6 +174,7 @@
                     .on("click", function() {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
+                        focusOnNode(node);
                     });
 
                 nv.g.append("text")
@@ -249,7 +250,7 @@
 
             function firstCloseRect() {
                 nv.levels[3].forEach(function (item) {
-                    item.rect = drowCloseRect(item);
+                    item.rect = drawClosedRect(item);
                     nv.close.push(item);
                 });
 
@@ -270,7 +271,7 @@
                             if (item.children) {
                                 item.children.forEach(function (child) {
                                     if (item.headerheight * nv.scrollLevel > 15) {
-                                        child.rect = drowCloseRect(child);
+                                        child.rect = drawClosedRect(child);
                                         child.draw = true;
                                         nv.close.push(child);
                                     } else {
@@ -299,7 +300,7 @@
                                     item.draw = false;
                                     delete nv.close[i];
 
-                                    parent.rect = drowCloseRect(parent);
+                                    parent.rect = drawClosedRect(parent);
                                     parent.draw = true;
                                     nv.close.push(parent);
                                 }
@@ -329,7 +330,7 @@
 
             }
 
-            function drowCloseRect(item) {
+            function drawClosedRect(node) {
                 var rect = {},
                     textWidth,
                     fontSize = 16 / nv.zoom.scale();
@@ -341,24 +342,25 @@
                     .style("stroke-width", 1.4 / nv.scrollLevel)
                     .classed('network-body', true)
                     .attr("rx", 3 / nv.scrollLevel + "px")
-                    .attr("x", item.x)
-                    .attr("y", item.y)
-                    .attr("width", item.width)
-                    .attr("height", item.height + item.headerheight)
+                    .attr("x", node.x)
+                    .attr("y", node.y)
+                    .attr("width", node.width)
+                    .attr("height", node.height + node.headerheight)
                     .on("click", function () {
                         if (d3.event.defaultPrevented) return;
-                        nv.showDetails(item);
+                        nv.showDetails(node);
+                        focusOnNode(node);
                     });
 
                 rect.text = nv.g.append("text")
                     .style("fill", "#476bb8")
                     .classed('network-text', true)
-                    .attr("x", item.x + item.width / 2)
-                    .attr("y", item.y + item.height / 2)
+                    .attr("x", node.x + node.width / 2)
+                    .attr("y", node.y + node.height / 2)
                     .attr("text-anchor", "middle")
                     .attr("dy", ".35em")
                     .attr("font-size", fontSize + "px")
-                    .text(item.name)
+                    .text(node.name)
                     .each(function (d) {
                         textWidth = this.getBBox().width;
                     });
