@@ -8,7 +8,6 @@ describe('Controller: AccountsController', function() {
         modal,
         serverResponse = 'serverResponse',
         deferred,
-        githubUsername = 'github_username',
         username = 'username',
         email = 'email',
         password = 'password',
@@ -36,6 +35,14 @@ describe('Controller: AccountsController', function() {
                 }
             },
             getAccounts: function(token) {
+                deferred = q.defer();
+                return deferred.promise;
+            },
+            createAccount: function(username, password, custom_object, token) {
+                deferred = q.defer();
+                return deferred.promise;
+            },
+            createGoogleAccount: function(username, email, token) {
                 deferred = q.defer();
                 return deferred.promise;
             }
@@ -81,47 +88,42 @@ describe('Controller: AccountsController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AccountsController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, currentUser: currentUser, $modal: modal});
+            _$controller_('AccountsController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, currentUser: currentUser, $modal: modal, resolvedToken: token, resolvedAccounts: []});
             httpBackend.expectGET('data/permissions.json').respond('');
         })
     });
 
-    describe('after loading token', function() {
-        beforeEach(function(){
-            spyOn(accountsService, 'getAccounts').and.callThrough();
-            spyOn(errorHandler, 'showError').and.callThrough();
-
-            $scope.vm.token = 'token';
-            $scope.$apply();
-        });
-
-        it ('should call getAccounts from accountService', function() {
-            expect(accountsService.getAccounts).toHaveBeenCalled();
-        });
-
-        describe ('if account loaded successfully', function() {
+    describe ('addUser', function() {
+        describe('when called with email', function() {
             beforeEach(function() {
-                deferred.resolve(accountsService.accounts);
-                $scope.$root.$digest();
+                spyOn(accountsService, 'createGoogleAccount').and.callThrough();
+                this.resultPromise = $scope.vm.addUser(username, email, password, custom_object, token);
             });
-
-            it ('should populate accounts array with response', function() {
-                expect($scope.vm.accounts).toBe(accountsService.accounts.data);
+            it ('should call createGoogleAccount', function() {
+                expect(accountsService.createGoogleAccount).toHaveBeenCalledWith(username, email, $scope.vm.token);
             });
-        });
-
-        describe ('if accounts loading failed', function() {
-            beforeEach(function() {
-                deferred.reject(serverResponse);
-                $scope.$root.$digest();
+            it ('should return promise', function() {
+                expect(typeof this.resultPromise.then).toEqual('function');
             });
-
-            it ('should show error and save response to the vm.error', function() {
-                expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
-                expect($scope.vm.error).toBe(serverResponse);
+            describe ('when loading completed successfully', function() {
+                beforeEach(function() {
+                    spyOn(notification, 'success');
+                    deferred.resolve(accountsService.createResponse);
+                    rootScope.$digest();
+                });
+                it ('should populate vm.accounts with response', function() {
+                    expect($scope.vm.accounts).toContain({
+                        id: accountsService.createResponse.id,
+                        primary: accountsService.createResponse
+                    });
+                });
+                it ('should show success message', function() {
+                    expect(notification.success).toHaveBeenCalled();
+                });
             });
         });
     });
+
     describe ('newUser', function() {
         beforeEach(function() {
             spyOn(modal, 'open');

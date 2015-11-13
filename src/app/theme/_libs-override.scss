@@ -545,3 +545,21 @@ iframe.ui-layout-mask {
   border: 1px solid #eee;
   height: auto;
 }
+
+
+// angular-xeditable
+.editable-wrap {
+  height: $table-cell-height;
+  width: 100%;
+
+  .editable-controls>input {
+    height: 100%;
+    width: $table-cell-width;
+    display: table;
+  }
+}
+
+.editable-click:hover, a.editable-click:hover {
+  color: #464C64 !important;
+  box-shadow: 0 -2px 0 #464C64 inset;
+}

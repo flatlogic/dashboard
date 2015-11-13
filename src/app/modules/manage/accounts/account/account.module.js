@@ -1,13 +1,11 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.accounts.account', [
-        'ui.router'
-    ]);
-
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
+    angular
+        .module('qorDash.manage.accounts.account', [
+            'ui.router'
+        ])
+        .config(appConfig);
 
     function appConfig($stateProvider) {
         $stateProvider
@@ -15,7 +13,16 @@
                 url: '/:id',
                 templateUrl: 'app/modules/manage/accounts/account/account.html',
                 controller: 'AccountController',
-                authenticate: true
+                controllerAs: 'vm',
+                authenticate: true,
+                resolve: {
+                    resolvedToken: function(manageLoader) {
+                        return manageLoader.load();
+                    },
+                    resolvedAccount: function(accountsService, resolvedToken, $stateParams) {
+                        return accountsService.getAccountById($stateParams.id, resolvedToken);
+                    }
+                }
             });
     }
 })();

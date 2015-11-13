@@ -1,25 +1,22 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage', [
-        'ui.router',
-        'qorDash.manage.accounts',
-        'qorDash.manage.settings',
-        'qorDash.manage.accounts.account'
-    ]);
+    angular
+        .module('qorDash.manage', [
+            'ui.router',
+            'qorDash.manage.accounts',
+            'qorDash.manage.settings',
+            'qorDash.manage.accounts.account'
+        ])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider', '$qorSidebarProvider'];
-
-    function appConfig($stateProvider, $qorSidebarProvider) {
+    function config($stateProvider, $qorSidebarProvider) {
         $stateProvider
             .state('app.manage', {
                 url: '/manage',
                 views: {
                     'main@': {
-                        templateUrl: 'app/modules/manage/manage.html',
-                        controller: 'ManageController'
+                        templateUrl: 'app/modules/manage/manage.html'
                     }
                 },
                 authenticate: true

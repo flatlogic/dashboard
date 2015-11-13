@@ -67,25 +67,8 @@ describe('Controller: AuthenticationSettingsController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
+            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser, resolvedToken: 'token', resolvedAccounts: []});
         })
     });
 
-
-    it('should populate the domains array with domains when loadDomains is called', function() {
-        httpBackend.expectGET('data/permissions.json').respond('');
-        spyOn(authenticationService, 'getDomains').and.callThrough();
-
-        $scope.loadDomains();
-
-        $scope.token = 'token';
-        $scope.$apply();
-
-        deferred.resolve(authenticationService.response);
-
-        $scope.$root.$digest();
-
-        expect(authenticationService.getDomains).toHaveBeenCalled();
-        expect($scope.domains).toBe(authenticationService.response.data);
-    });
 });

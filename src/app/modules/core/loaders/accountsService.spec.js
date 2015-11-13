@@ -4,7 +4,6 @@ describe('Service: accountsService ', function() {
     var token = 'token',
         serverResponse = 'response',
         accountId = 'accountId',
-        githubUsername = 'githubUsername',
         username = 'username',
         password = 'password',
         custom_object = 'custom_object',
@@ -18,7 +17,14 @@ describe('Service: accountsService ', function() {
 
     beforeEach(module('qorDash.loaders', function($provide) {
         $provide.constant("AUTH_API_URL", AUTH_API_URL);
+        $provide.constant("Notification", {error: function(){}});
     }));
+
+    var errorHandler = {
+        showError: function(e) {
+            return e;
+        }
+    };
 
     beforeEach(function() {
         inject(function (_accountsService_, $httpBackend, _dataLoader_, _user_, $state) {
@@ -43,7 +49,7 @@ describe('Service: accountsService ', function() {
 
         accountsService.getAccounts(token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -56,14 +62,14 @@ describe('Service: accountsService ', function() {
 
         accountsService.getAccountById(accountId, token)
             .then(function(response){
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
         httpBackend.flush();
     });
 
-    it ('should create an account', function(done) {
+    it ('should create an account', function() {
         httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('POST', AUTH_API_URL + '/register',
             {
@@ -74,7 +80,7 @@ describe('Service: accountsService ', function() {
                 "custom_object": custom_object
             },
             {
-                'Content-Type': 'application/json',
+                "Content-Type":"application/json;charset=utf-8",
                 'Authorization': 'Bearer ' + token,
                 "Accept":"application/json"
             }
@@ -82,14 +88,13 @@ describe('Service: accountsService ', function() {
 
         accountsService.createAccount(username, password, custom_object, token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
-                done();
+                expect(response).toEqual(serverResponse);
             });
 
         httpBackend.flush();
     });
 
-    it ('should create Google account', function(done) {
+    it ('should create Google account', function() {
         httpBackend.expectGET('data/permissions.json').respond('');
 
         httpBackend.expect('POST', AUTH_API_URL + '/register',
@@ -101,7 +106,7 @@ describe('Service: accountsService ', function() {
                 }
             },
             {
-                'Content-Type': 'application/json',
+                "Content-Type":"application/json;charset=utf-8",
                 'Authorization': 'Bearer ' + token,
                 "Accept":"application/json"
             }
@@ -109,23 +114,9 @@ describe('Service: accountsService ', function() {
 
         accountsService.createGoogleAccount(username, email, token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
-                done();
+                expect(response).toEqual(serverResponse);
             });
 
         httpBackend.flush();
-    });
-    describe('createGitHubAccount', function() {
-        it('should send a request', function() {
-            httpBackend.expectGET('data/permissions.json').respond('');
-            httpBackend.expectPOST(AUTH_API_URL + '/register').respond(serverResponse);
-
-            accountsService.createGitHubAccount(username, githubUsername, token)
-                .then(function(res) {
-                    expect(res.data).toEqual(serverResponse);
-                });
-
-            httpBackend.flush();
-        });
     });
 });

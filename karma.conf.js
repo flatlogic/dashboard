@@ -29,6 +29,7 @@ module.exports = function(config) {
             'bower_components/angular-ui-notification/src/angular-ui-notification.js',
             'bower_components/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.js',
             'bower_components/oboe/dist/oboe-browser.js',
+            'bower_components/angular-xeditable/dist/js/xeditable.js',
             'bower_components/angular-oboe/dist/angular-oboe.js',
             'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-diff-match-patch/*.js',
@@ -91,6 +92,8 @@ module.exports = function(config) {
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: false,
+
+        browserNoActivityTimeout: 100000,
 
         proxies: {
             "/data/": "http://localhost:9876/base/src/data/",

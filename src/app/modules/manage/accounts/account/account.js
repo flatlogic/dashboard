@@ -1,29 +1,33 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.manage.accounts')
+    angular
+        .module('qorDash.manage.accounts')
         .controller('AccountController',accountController);
 
+    function accountController (resolvedAccount, objectEdit) {
+        var vm = this;
 
-    accountController.$inject = ['$scope', 'accountsService', '$stateParams', 'errorHandler', 'currentUser'];
-    function accountController ($scope, accountsService, $stateParams, errorHandler, currentUser) {
-        currentUser.then(function () {
-            $scope.token = currentUser.$$state.value;
-        });
+        vm.config = {
+            ".services": "add"
+        };
+        vm.isDataChanged = false;
+        vm.dataChanged = dataChanged;
+        vm.save = save;
 
-        var accountId = $stateParams.id;
+        vm.account = resolvedAccount;
 
-        $scope.$watch('token', function (token) {
-            if (!token) return;
+        function dataChanged(type, path, data, key) {
+            objectEdit.dataChanged(vm.account, type, path, data, key);
 
-            accountsService.getAccountById(accountId, token).then(function(data) {
-                $scope.account = data.data;
-            }, function(response) {
-                $scope.error = errorHandler.showError(response);
-            });
-    })
+            vm.isDataChanged = true;
+        }
 
-
-}
+        function save() {
+            vm.isDataChanged = false;
+            //TODO: Change when endpoint description will be provided
+            alert('Need to save');
+        }
+    }
 
 })();
