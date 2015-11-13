@@ -8,7 +8,8 @@
             getAccounts : getAccounts,
             getAccountById : getAccountById,
             createAccount : createAccount,
-            createGoogleAccount : createGoogleAccount
+            createGoogleAccount : createGoogleAccount,
+            createGitHubAccount : createGitHubAccount
         };
 
         function httpRequestSuccess(response) {
@@ -65,6 +66,26 @@
             return $http(request)
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
+        }
+
+        function createGitHubAccount(username, githubUsername, token) {
+            var request = {
+                method: 'POST',
+                url: AUTH_API_URL + '/register',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                data: {
+                    "identity": {
+                        "username": username,
+                        "oauth2_provider" :"github.com",
+                        "oauth2_account_id" : githubUsername
+                    }
+                }
+            };
+
+            return $http(request);
         }
 
         function createAccount(username, password, custom_object, token) {
