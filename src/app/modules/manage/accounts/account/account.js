@@ -25,6 +25,7 @@
 
         function save() {
             vm.isDataChanged = false;
+            //TODO: Change when endpoint description will be provided
             alert('Need to save');
         }
     }

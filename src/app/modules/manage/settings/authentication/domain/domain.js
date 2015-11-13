@@ -33,6 +33,7 @@
 
         function save() {
             vm.isSaveLoading = true;
+            //TODO: Remove after changing security policies
             if ($stateParams.authDomain === 'blinker.com') {
                 authenticationService.saveDomainInfo($stateParams.authDomain, vm.domain, vm.token)
                     .then(function() {

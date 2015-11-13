@@ -6,7 +6,7 @@
         .controller('AccountsController',accountsController)
         .controller('NewUserController', newUserController);
 
-    function accountsController (accountsService, errorHandler, Notification, $modal, resolvedToken, resolvedAccounts) {
+    function accountsController (accountsService, Notification, $modal, resolvedToken, resolvedAccounts) {
         var vm = this;
 
         vm.newUser = newUser;

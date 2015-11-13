@@ -106,7 +106,7 @@
 
             return $http(request)
                 .then(httpRequestSuccess)
-                .then(httpRequestFailed);
+                .catch(httpRequestFailed);
         }
     }
 })();
