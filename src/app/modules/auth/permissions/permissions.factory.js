@@ -20,7 +20,7 @@
                     permissions[app] = scopes;
                 }
             }
-            return permissions;
+            return Object.keys(permissions).length > 0 ? permissions : null;
         };
 
         function hasAccess(state, action) {
@@ -30,6 +30,7 @@
             if (statesWhiteList.indexOf(state) >= 0){
                 return true;
             }
+            _userPermissions = _userPermissions || _createPermissionsMap();
             action = action || 'read';
             var app = /\./.test(state) ? state.split('.')[1] : state;
             var hasPermission = _userPermissions[app] && _userPermissions[app].indexOf(action) >= 0;
