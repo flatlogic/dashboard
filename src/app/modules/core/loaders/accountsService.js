@@ -3,8 +3,7 @@
     angular.module('qorDash.loaders')
         .factory('accountsService', accountsService);
 
-    accountsService.$inject = ['$http', 'AUTH_API_URL'];
-    function accountsService ($http, AUTH_API_URL) {
+    function accountsService ($http, AUTH_API_URL, errorHandler) {
         return {
             getAccounts : getAccounts,
             getAccountById : getAccountById,
@@ -12,16 +11,26 @@
             createGoogleAccount : createGoogleAccount
         };
 
+        function httpRequestSuccess(response) {
+            return response.data ? response.data : response;
+        }
+
+        function httpRequestFailed(response) {
+            errorHandler.showError(response);
+            return $q.reject(response.data ? response.data : response);
+        }
+
         function getAccounts(token){
             var request = {
                 method: 'GET',
                 url: AUTH_API_URL + '/account/',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getAccountById(accountId, token) {
@@ -29,11 +38,12 @@
                 method: 'GET',
                 url: AUTH_API_URL + '/account/' + accountId,
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function createGoogleAccount(username, email, token) {
@@ -41,7 +51,6 @@
                 method: 'POST',
                 url: AUTH_API_URL + '/register',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
                 data: {
@@ -53,7 +62,9 @@
                 }
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function createAccount(username, password, custom_object, token) {
@@ -61,7 +72,6 @@
                 method: 'POST',
                 url: AUTH_API_URL + '/register',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
                 data: {
@@ -73,7 +83,9 @@
                 }
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .then(httpRequestFailed);
         }
     }
 })();

@@ -5,7 +5,7 @@
         .module('qorDash.manage.accounts')
         .controller('AccountController',accountController);
 
-    function accountController ($scope, accountsService, $stateParams, errorHandler, resolvedToken) {
+    function accountController ($scope, accountsService, $stateParams, errorHandler, resolvedToken, resolvedAccount) {
         var vm = this;
 
         vm.config = {
@@ -15,13 +15,7 @@
         vm.dataChanged = dataChanged;
         vm.save = save;
 
-        vm.token = resolvedToken;
-
-        accountsService.getAccountById($stateParams.id, vm.token).then(function(response) {
-            vm.account = response.data;
-        }, function(response) {
-            vm.error = errorHandler.showError(response);
-        });
+        vm.account = resolvedAccount;
 
         function dataChanged(type, path, data, key) {
             switch (type) {

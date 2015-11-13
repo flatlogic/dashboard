@@ -71,7 +71,7 @@
         }
 
         function getDisplayState(path) {
-            return !!(vm.displayOptions[path]);
+            return !!vm.displayOptions[path];
         }
 
         function isEditable(path) {

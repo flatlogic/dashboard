@@ -19,6 +19,9 @@
                 resolve: {
                     resolvedToken: function(manageLoader) {
                         return manageLoader.load();
+                    },
+                    resolvedAccounts: function(accountsService, resolvedToken) {
+                        return accountsService.getAccounts(resolvedToken);
                     }
                 }
             });

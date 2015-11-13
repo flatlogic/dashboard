@@ -65,7 +65,7 @@ describe('Service: authenticationService', function() {
 
     it("should save domain info", function(done) {
         httpBackend.expect('POST', AUTH_API_URL + '/admin/domain/' + domain, data,
-            {"Content-Type":"application/json","Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
+            {"Content-Type":"application/json;charset=utf-8","Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
 
         authenticationService.saveDomainInfo(domain, data, token)
             .then(function(response) {

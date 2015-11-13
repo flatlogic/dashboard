@@ -60,7 +60,7 @@ describe('Controller: AuthenticationDomainController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AuthenticationDomainController as vm', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
+            _$controller_('AuthenticationDomainController as vm', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser, resolvedToken : 'token'});
         })
     });
 

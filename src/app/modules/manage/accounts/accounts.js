@@ -6,16 +6,14 @@
         .controller('AccountsController',accountsController)
         .controller('NewUserController', newUserController);
 
-    function accountsController ($scope, accountsService, errorHandler, Notification, $modal, resolvedToken) {
+    function accountsController ($scope, accountsService, errorHandler, Notification, $modal, resolvedToken, resolvedAccounts) {
         var vm = this;
 
         vm.newUser = newUser;
         vm.addUser = addUser;
-        vm.accounts = [];
 
         vm.token = resolvedToken;
-
-        loadAccounts();
+        vm.accounts = resolvedAccounts;
 
         function addUser(username, email, password, custom_object){
             if (!email) {
@@ -51,17 +49,8 @@
                 }
             });
         }
-
-        function loadAccounts() {
-            accountsService.getAccounts(vm.token).then(function(response) {
-                vm.accounts = response.data;
-            }, function(response) {
-                vm.error = errorHandler.showError(response);
-            });
-        }
     }
 
-    newUserController.$inject = ['accounts', 'addUser', '$modalInstance'];
     function newUserController (accounts, addUser, $modalInstance) {
         var vm = this;
 

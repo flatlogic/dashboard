@@ -88,46 +88,9 @@ describe('Controller: AccountsController', function() {
             });
             spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AccountsController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, currentUser: currentUser, $modal: modal});
+            _$controller_('AccountsController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, currentUser: currentUser, $modal: modal, resolvedToken: token, resolvedAccounts: []});
             httpBackend.expectGET('data/permissions.json').respond('');
         })
-    });
-
-    describe('after loading token', function() {
-        beforeEach(function(){
-            spyOn(accountsService, 'getAccounts').and.callThrough();
-            spyOn(errorHandler, 'showError').and.callThrough();
-
-            $scope.vm.token = 'token';
-            $scope.$apply();
-        });
-
-        it ('should call getAccounts from accountService', function() {
-            expect(accountsService.getAccounts).toHaveBeenCalled();
-        });
-
-        describe ('if account loaded successfully', function() {
-            beforeEach(function() {
-                deferred.resolve(accountsService.accounts);
-                $scope.$root.$digest();
-            });
-
-            it ('should populate accounts array with response', function() {
-                expect($scope.vm.accounts).toBe(accountsService.accounts.data);
-            });
-        });
-
-        describe ('if accounts loading failed', function() {
-            beforeEach(function() {
-                deferred.reject(serverResponse);
-                $scope.$root.$digest();
-            });
-
-            it ('should show error and save response to the vm.error', function() {
-                expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
-                expect($scope.vm.error).toBe(serverResponse);
-            });
-        });
     });
 
     describe ('addUser', function() {

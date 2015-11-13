@@ -20,6 +20,9 @@
                 resolve: {
                     resolvedToken: function(manageLoader) {
                         return manageLoader.load();
+                    },
+                    resolvedAccount: function(accountsService, resolvedToken, $stateParams) {
+                        return accountsService.getAccountById($stateParams.id, resolvedToken);
                     }
                 }
             });
