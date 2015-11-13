@@ -16,6 +16,9 @@
                 resolve: {
                     resolvedToken: function(manageLoader) {
                         return manageLoader.load();
+                    },
+                    resolvedDomain: function(authenticationService, resolvedToken, $stateParams) {
+                        return authenticationService.getDomainInfo($stateParams.authDomain, resolvedToken);
                     }
                 }
             });

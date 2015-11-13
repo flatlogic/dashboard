@@ -3,13 +3,21 @@
     angular.module('qorDash.loaders')
         .factory('authenticationService', authenticationService);
 
-    authenticationService.$inject = ['$http', 'AUTH_API_URL'];
-    function authenticationService ($http, AUTH_API_URL) {
+    function authenticationService ($http, AUTH_API_URL, errorHandler, $q) {
         return {
             getDomains : getDomains,
             getDomainInfo: getDomainInfo,
             saveDomainInfo: saveDomainInfo
         };
+
+        function httpRequestSuccess(response) {
+            return response.data ? response.data : response;
+        }
+
+        function httpRequestFailed(response) {
+            errorHandler.showError(response);
+            return $q.reject(response.data ? response.data : response);
+        }
 
         function getDomains(token) {
             var request = {
@@ -19,7 +27,9 @@
                     'Authorization': 'Bearer ' + token
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getDomainInfo(domainId, token) {
@@ -30,7 +40,9 @@
                     'Authorization': 'Bearer ' + token
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function saveDomainInfo(domainId, data, token) {
@@ -42,7 +54,9 @@
                 },
                 data: data
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
     }
 })();

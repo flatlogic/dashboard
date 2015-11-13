@@ -13,6 +13,7 @@ describe('Service: authenticationService', function() {
 
     beforeEach(module('qorDash.loaders', function($provide) {
         $provide.constant("AUTH_API_URL", AUTH_API_URL);
+        $provide.constant("Notification", "");
     }));
 
     beforeEach(function() {
@@ -44,7 +45,7 @@ describe('Service: authenticationService', function() {
 
         authenticationService.getDomains(token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -56,7 +57,7 @@ describe('Service: authenticationService', function() {
 
         authenticationService.getDomainInfo(domain, token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -69,7 +70,7 @@ describe('Service: authenticationService', function() {
 
         authenticationService.saveDomainInfo(domain, data, token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 

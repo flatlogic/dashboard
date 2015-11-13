@@ -1,16 +1,13 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.settings', [
-        'ui.router',
-        'qorDash.manage.settings.authentication'
-    ]);
+    angular.module('qorDash.manage.settings', [
+            'ui.router',
+            'qorDash.manage.settings.authentication'
+        ])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.manage.settings', {
                 url: '/settings',

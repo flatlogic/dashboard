@@ -5,12 +5,14 @@
         .module('qorDash.manage.settings.authentication.domain')
         .controller('AuthenticationDomainController', authenticationDomainController);
 
-    function authenticationDomainController($scope, authenticationService, errorHandler, resolvedToken, Notification, $stateParams) {
+    function authenticationDomainController(authenticationService, resolvedDomain, resolvedToken, Notification, $stateParams) {
         var vm = this;
 
-        vm.loadDomain = loadDomain;
         vm.dataChanged = dataChanged;
         vm.save = save;
+
+        vm.token = resolvedToken;
+        vm.domain = resolvedDomain;
 
         vm.isDataChanged = false;
 
@@ -22,19 +24,6 @@
             ".name" : "edit",
             "." : "add|edit"
         };
-
-        vm.token = resolvedToken;
-
-        loadDomain();
-        function loadDomain() {
-            authenticationService.getDomainInfo($stateParams.authDomain, vm.token).then(
-                function(response) {
-                    vm.domain = response.data;
-                }, function(response) {
-                    errorHandler.showError(response);
-                }
-            );
-        }
 
         function dataChanged(type, path, data, key) {
             switch (type) {
@@ -100,9 +89,6 @@
                         vm.isDataChanged = false;
                         vm.isSaveLoading = false;
                         Notification.success('All changes saved');
-                    })
-                    .then(null, function(response) {
-                        vm.error = errorHandler.showError(response);
                     });
             } else {
                 alert('Save is only available for blinker.com');

@@ -17,6 +17,7 @@ describe('Controller: AuthenticationDomainController', function() {
     beforeEach(module('qorDash.loaders', function($provide) {
         $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
         $provide.constant("Notification", "1");
+        $provide.constant("resolvedDomain", "1");
     }));
 
     beforeEach(function() {
@@ -62,23 +63,5 @@ describe('Controller: AuthenticationDomainController', function() {
             spyOn($state, 'go').and.returnValue(true);
             _$controller_('AuthenticationDomainController as vm', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser, resolvedToken : 'token'});
         })
-    });
-
-
-    it('should populate the domain var when loadDomain is called', function() {
-        httpBackend.expectGET('data/permissions.json').respond('');
-        spyOn(authenticationService, 'getDomainInfo').and.callThrough();
-
-        $scope.vm.loadDomain();
-
-        $scope.vm.token = 'token';
-        $scope.$apply();
-
-        deferred.resolve(authenticationService.response);
-
-        $scope.$root.$digest();
-
-        expect(authenticationService.getDomainInfo).toHaveBeenCalled();
-        expect($scope.vm.domain).toBe(authenticationService.response.data);
     });
 });

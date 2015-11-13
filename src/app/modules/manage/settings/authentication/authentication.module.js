@@ -1,16 +1,14 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.settings.authentication', [
-        'ui.router',
-        'qorDash.manage.settings.authentication.domain'
-    ]);
+    angular
+        .module('qorDash.manage.settings.authentication', [
+            'ui.router',
+            'qorDash.manage.settings.authentication.domain'
+        ])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.manage.settings.authentication', {
                 url: '/authentication',
@@ -20,6 +18,9 @@
                 resolve: {
                     resolvedToken: function(manageLoader) {
                         return manageLoader.load();
+                    },
+                    resolvedDomains: function(authenticationService, resolvedToken) {
+                        return authenticationService.getDomains(resolvedToken);
                     }
                 }
             });
