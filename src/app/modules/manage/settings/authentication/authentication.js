@@ -1,37 +1,30 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.manage.settings.authentication')
+    angular
+        .module('qorDash.manage.settings.authentication')
         .controller('AuthenticationSettingsController', authenticationSettingsController);
 
+    function authenticationSettingsController (authenticationService, errorHandler, resolvedToken) {
+        var vm = this;
 
-    authenticationSettingsController.$inject = ['$scope', 'authenticationService', 'errorHandler', 'currentUser'];
-    function authenticationSettingsController ($scope, authenticationService, errorHandler, currentUser) {
-        $scope.loadDomains = loadDomains;
+        vm.token = resolvedToken;
 
         loadDomains();
 
-        currentUser.then(function () {
-            $scope.token = currentUser.$$state.value;
-        });
-
         function loadDomains() {
-            $scope.$watch('token', function (token) {
-                if (!token) return;
-
-                authenticationService.getDomains(token).then(
-                    function(response){
-                        if (!response || response.data.error) {
-                            $scope.error = errorHandler.showError(response);
-                            return;
-                        }
-                        $scope.domains = response.data;
-                    },
-                    function(response){
-                        $scope.error = errorHandler.showError(response);
+            authenticationService.getDomains(vm.token).then(
+                function(response){
+                    if (!response || response.data.error) {
+                        vm.error = errorHandler.showError(response);
+                        return;
                     }
-                )
-            });
+                    vm.domains = response.data;
+                },
+                function(response){
+                    vm.error = errorHandler.showError(response);
+                }
+            )
         }
     }
 

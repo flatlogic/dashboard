@@ -1,10 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.manage.accounts')
+    angular
+        .module('qorDash.manage.accounts')
         .controller('AccountController',accountController);
 
-    function accountController ($scope, accountsService, $stateParams, errorHandler, currentUser) {
+    function accountController ($scope, accountsService, $stateParams, errorHandler, resolvedToken) {
         var vm = this;
 
         vm.config = {
@@ -14,18 +15,12 @@
         vm.dataChanged = dataChanged;
         vm.save = save;
 
-        currentUser.then(function (token) {
-            vm.token = token;
-        });
+        vm.token = resolvedToken;
 
-        $scope.$watch('vm.token', function (token) {
-            if (!token) return;
-
-            accountsService.getAccountById($stateParams.id, token).then(function(response) {
-                vm.account = response.data;
-            }, function(response) {
-                vm.error = errorHandler.showError(response);
-            });
+        accountsService.getAccountById($stateParams.id, vm.token).then(function(response) {
+            vm.account = response.data;
+        }, function(response) {
+            vm.error = errorHandler.showError(response);
         });
 
         function dataChanged(type, path, data, key) {

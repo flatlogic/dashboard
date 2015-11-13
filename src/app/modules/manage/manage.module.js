@@ -18,8 +18,7 @@
                 url: '/manage',
                 views: {
                     'main@': {
-                        templateUrl: 'app/modules/manage/manage.html',
-                        controller: 'ManageController'
+                        templateUrl: 'app/modules/manage/manage.html'
                     }
                 },
                 authenticate: true

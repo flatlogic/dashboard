@@ -12,7 +12,12 @@
                 url: '/:authDomain',
                 templateUrl: 'app/modules/manage/settings/authentication/domain/domain.html',
                 controller: 'AuthenticationDomainController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedToken: function(manageLoader) {
+                        return manageLoader.load();
+                    }
+                }
             });
     }
 })();

@@ -16,7 +16,12 @@
                 templateUrl: 'app/modules/manage/accounts/account/account.html',
                 controller: 'AccountController',
                 controllerAs: 'vm',
-                authenticate: true
+                authenticate: true,
+                resolve: {
+                    resolvedToken: function(manageLoader) {
+                        return manageLoader.load();
+                    }
+                }
             });
     }
 })();

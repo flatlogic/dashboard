@@ -5,7 +5,7 @@
         .module('qorDash.manage.settings.authentication.domain')
         .controller('AuthenticationDomainController', authenticationDomainController);
 
-    function authenticationDomainController($scope, authenticationService, errorHandler, currentUser, Notification, $stateParams) {
+    function authenticationDomainController($scope, authenticationService, errorHandler, resolvedToken, Notification, $stateParams) {
         var vm = this;
 
         vm.loadDomain = loadDomain;
@@ -23,24 +23,17 @@
             "." : "add|edit"
         };
 
+        vm.token = resolvedToken;
+
         loadDomain();
-
-        currentUser.then(function (token) {
-            vm.token = token;
-        });
-
         function loadDomain() {
-            $scope.$watch('vm.token', function (token) {
-                if (!token) return;
-
-                authenticationService.getDomainInfo($stateParams.authDomain, token).then(
-                    function(response) {
-                        vm.domain = response.data;
-                    }, function(response) {
-                        errorHandler.showError(response);
-                    }
-                );
-            });
+            authenticationService.getDomainInfo($stateParams.authDomain, vm.token).then(
+                function(response) {
+                    vm.domain = response.data;
+                }, function(response) {
+                    errorHandler.showError(response);
+                }
+            );
         }
 
         function dataChanged(type, path, data, key) {

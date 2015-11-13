@@ -15,7 +15,13 @@
             .state('app.manage.settings.authentication', {
                 url: '/authentication',
                 templateUrl: 'app/modules/manage/settings/authentication/authentication.html',
-                controller: 'AuthenticationSettingsController'
+                controller: 'AuthenticationSettingsController',
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedToken: function(manageLoader) {
+                        return manageLoader.load();
+                    }
+                }
             });
     }
 })();
