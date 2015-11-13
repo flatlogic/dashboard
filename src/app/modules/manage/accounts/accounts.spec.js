@@ -113,23 +113,12 @@ describe('Controller: AccountsController', function() {
                 });
                 it ('should populate vm.accounts with response', function() {
                     expect($scope.vm.accounts).toContain({
-                        id: accountsService.createResponse.data.id,
-                        primary: accountsService.createResponse.data
+                        id: accountsService.createResponse.id,
+                        primary: accountsService.createResponse
                     });
                 });
                 it ('should show success message', function() {
                     expect(notification.success).toHaveBeenCalled();
-                });
-            });
-            describe ('when loading failed', function() {
-                beforeEach(function() {
-                    spyOn(errorHandler, 'showError').and.callThrough();
-                    deferred.reject(serverResponse);
-                    rootScope.$digest();
-                });
-                it ('should show an error and set vm.error', function() {
-                    expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
-                    expect($scope.vm.error).toEqual(serverResponse);
                 });
             });
         });

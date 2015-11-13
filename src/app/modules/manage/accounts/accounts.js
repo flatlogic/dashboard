@@ -6,7 +6,7 @@
         .controller('AccountsController',accountsController)
         .controller('NewUserController', newUserController);
 
-    function accountsController ($scope, accountsService, errorHandler, Notification, $modal, resolvedToken, resolvedAccounts) {
+    function accountsController (accountsService, errorHandler, Notification, $modal, resolvedToken, resolvedAccounts) {
         var vm = this;
 
         vm.newUser = newUser;
@@ -18,17 +18,13 @@
         function addUser(username, email, password, custom_object){
             if (!email) {
                 return accountsService.createAccount(username, password, custom_object, vm.token).then(function (response) {
-                    vm.accounts.push({id: response.data.id, primary: response.data});
+                    vm.accounts.push({id: response.id, primary: response});
                     Notification.success('Successfully created');
-                }, function (response) {
-                    vm.error = errorHandler.showError(response);
                 });
             } else {
                 return accountsService.createGoogleAccount(username, email, vm.token).then(function (response) {
-                    vm.accounts.push({id: response.data.id, primary: response.data});
+                    vm.accounts.push({id: response.id, primary: response});
                     Notification.success('Successfully created');
-                }, function (response) {
-                    vm.error = errorHandler.showError(response);
                 });
             }
         }
