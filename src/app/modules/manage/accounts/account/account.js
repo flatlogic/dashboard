@@ -5,7 +5,7 @@
         .module('qorDash.manage.accounts')
         .controller('AccountController',accountController);
 
-    function accountController ($scope, accountsService, $stateParams, errorHandler, resolvedToken, resolvedAccount) {
+    function accountController (resolvedAccount) {
         var vm = this;
 
         vm.config = {

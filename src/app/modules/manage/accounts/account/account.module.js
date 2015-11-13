@@ -1,13 +1,11 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.accounts.account', [
-        'ui.router'
-    ]);
-
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
+    angular
+        .module('qorDash.manage.accounts.account', [
+            'ui.router'
+        ])
+        .config(appConfig);
 
     function appConfig($stateProvider) {
         $stateProvider
