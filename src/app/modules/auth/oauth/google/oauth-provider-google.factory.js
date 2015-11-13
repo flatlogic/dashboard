@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('qorDash.auth')
+        .module('qorDash.auth.oauth')
         .factory('oauthProviderGoogle', oauthProviderGoogle);
 
     function oauthProviderGoogle($http, $q, AUTH_API_URL, GOOGLE_CLIENT_ID) {

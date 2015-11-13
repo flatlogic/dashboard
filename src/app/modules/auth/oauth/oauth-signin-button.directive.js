@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('qorDash.auth')
+        .module('qorDash.auth.oauth')
         .directive('oauthSigninButton', oauthSigninButton);
 
     function oauthSigninButton(oauthAdapter, errorHandler, oauthProviderGoogle, oauthProviderGitHub) {

@@ -7,7 +7,7 @@ describe('Factory: githubOauth', function() {
     // Stubbing modules is necessary (for now) because of the way the unit test has been written.
     beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth', function($provide){
+    beforeEach(module('qorDash.auth.oauth', function($provide){
         // Stubbing constants is necessary (for now) because of the way the application
         // is bootstrapped in index.js.
         $provide.constant('AUTH_API_URL', 'api url');
