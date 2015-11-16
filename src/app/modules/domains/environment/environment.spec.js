@@ -9,25 +9,22 @@ describe('Controller: DomainEnvironmentController', function() {
         networkData = {},
         WS_URL = "wss://ops-dev.blinker.com";
 
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.loaders'));
     beforeEach(module('qorDash.domains'));
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, $httpBackend, $q, $state)  {
             q = $q;
             $controller = _$controller_;
             httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
-            $stateParams = {env: env};
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            httpBackend.expectGET('data/permissions.json').respond('');
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+            $stateParams = {
+                env: env,
+                domain: {id:1}
+            };
             spyOn($state, 'go').and.returnValue(true);
             _$controller_('DomainEnvironmentController', {$scope: $scope, $stateParams: $stateParams, WS_URL: WS_URL});
         })
@@ -37,6 +34,11 @@ describe('Controller: DomainEnvironmentController', function() {
         it ('should define $scope.environment', function() {
             expect($scope.environment).toBeDefined();
         });
+
+        it ('should populate $scope.domain with $stateParams.domain', function() {
+            expect($scope.domain).toBe($stateParams.domain);
+        });
+
         it ('should populate $scope.environment.name with $stateParams.env', function() {
             expect($scope.environment.name).toBe($stateParams.env);
         });

@@ -7,7 +7,6 @@
 
     function configurationsController($scope, $state, $stateParams, resolvedDomains) {
         $scope.domains = resolvedDomains;
-
         if($scope.domains.length === 1 && $state.current.name == 'app.configurations'){
             $state.go('.services', {domain:$scope.domains[0].id});
         }

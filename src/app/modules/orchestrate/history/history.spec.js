@@ -11,6 +11,8 @@ describe('Controller: OrchestrateHistoryController', function() {
         orchestrateService,
         errorHandler;
 
+    beforeEach(module('ui.router'));
+    beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module('qorDash.loaders'));
@@ -34,7 +36,7 @@ describe('Controller: OrchestrateHistoryController', function() {
 
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, $httpBackend, $q, $state)  {
             q = $q;
             $controller = _$controller_;
             httpBackend = $httpBackend;
@@ -44,14 +46,7 @@ describe('Controller: OrchestrateHistoryController', function() {
                 inst: 'inst',
                 opt: 'opt'
             };
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            httpBackend.expectGET('data/permissions.json').respond('');
             spyOn(orchestrateService, 'loadHistory').and.callThrough();
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
             _$controller_('OrchestrateHistoryController', {$scope: $scope, errorHandler: errorHandler, $stateParams: $stateParams, orchestrateService: orchestrateService});
         })
