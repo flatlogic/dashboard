@@ -1,15 +1,11 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.compose', [
-        'ui.router'
-    ]);
+    angular
+        .module('qorDash.compose', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider', '$qorSidebarProvider'];
-
-    function appConfig($stateProvider, $qorSidebarProvider) {
+    function config($stateProvider, $qorSidebarProvider) {
         $stateProvider
             .state('app.compose', {
                 url: '/compose',
@@ -18,8 +14,7 @@
                         templateUrl: 'app/modules/compose/compose.html',
                         controller: 'ComposeController'
                     }
-                },
-                authenticate: true
+                }
             })
             .state('app.compose.sub', {
                 url: '/sub',

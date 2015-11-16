@@ -1152,3 +1152,12 @@ input[type=search], input.search {
 .list-group-item{
   @include border-radius($list-group-border-radius)
 }
+/***********************************/
+/**          Pills                **/
+/***********************************/
+.nav-pills-centered {
+  display: flex;
+  justify-content: center;
+}
+
+

@@ -9,6 +9,7 @@ describe('Controller: AuthenticationSettingsController', function() {
         errorHandler,
         currentUser;
 
+    beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module('qorDash.loaders'));
@@ -55,37 +56,14 @@ describe('Controller: AuthenticationSettingsController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, _user_, $httpBackend, $q, $state)  {
             q = $q;
             $controller = _$controller_;
             httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
+            _$controller_('AuthenticationSettingsController', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser, resolvedToken: 'token', resolvedAccounts: []});
         })
-    });
-
-
-    it('should populate the domains array with domains when loadDomains is called', function() {
-        httpBackend.expectGET('data/permissions.json').respond('');
-        spyOn(authenticationService, 'getDomains').and.callThrough();
-
-        $scope.loadDomains();
-
-        $scope.token = 'token';
-        $scope.$apply();
-
-        deferred.resolve(authenticationService.response);
-
-        $scope.$root.$digest();
-
-        expect(authenticationService.getDomains).toHaveBeenCalled();
-        expect($scope.domains).toBe(authenticationService.response.data);
     });
 });

@@ -3,65 +3,25 @@
 
     angular
         .module('qorDash.core')
-        .factory("RecursionHelper", RecursionHelper)
-        .directive("nestedTable", nestedTable);
-
-    function RecursionHelper($compile) {
-        // This helper allows to create recursive directives
-        return {
-            compile: compile
-        };
-
-        /**
-         * Manually compiles the element, fixing the recursion loop.
-         * @param element
-         * @param [link] A post-link function, or an object with function(s) registered via pre and post properties.
-         * @returns An object containing the linking functions.
-         */
-        function compile(element, link) {
-            // Normalize the link parameter
-            if (angular.isFunction(link)) {
-                link = {post: link};
-            }
-
-            // Break the recursion loop by removing the contents
-            var contents = element.contents().remove();
-            var compiledContents;
-            return {
-                pre: (link && link.pre) ? link.pre : null,
-                /**
-                 * Compiles and re-adds the contents
-                 */
-                post: function (scope, element) {
-                    // Compile the contents
-                    if (!compiledContents) {
-                        compiledContents = $compile(contents);
-                    }
-                    // Re-add the compiled contents to the element
-                    compiledContents(scope, function (clone) {
-                        element.append(clone);
-                    });
-
-                    // Call the post-linking function, if any
-                    if (link && link.post) {
-                        link.post.apply(null, arguments);
-                    }
-                }
-            };
-        }
-    }
+        .directive("nestedTable", nestedTable)
+        .controller("NestedTableController", nestedTableController);
 
     function nestedTable(RecursionHelper) {
         /**
          * Data-driven table that auto-rendered from JSON.
-         * example: <nested-table class="table-class" data="dataObject"></nested-table>
+         * @param data Object to render
+         * @param config Object for table configuration. It should be in following format: { path: [add|edit] }
+         * example: <nested-table class="table-class" data="dataObject" config="configObject"></nested-table>
          */
         return {
             restrict: "AEC",
             scope: {
                 data: '=',
                 parentKey: '=',
-                onchange: '='
+                config: '=',
+                onchange: '=',
+                objectName: '=',
+                displayOptions: '='
             },
             replace: true,
             bindToController: true,
@@ -76,34 +36,97 @@
             // And return the linking function(s) which it returns
             return RecursionHelper.compile(element);
         }
+    }
 
-        function nestedTableController($scope) {
-            var vm = this;
+    function nestedTableController() {
+        var vm = this;
 
-            vm.isObject = isObject;
-            vm.isArray = isArray;
+        if (!vm.displayOptions) {
+            vm.displayOptions = {};
+        }
 
-            vm.addElementToArray = addElementToArray;
-            vm.updateData = updateData;
+        vm.isObject = isObject;
+        vm.isArray = isArray;
+        vm.isEditable = isEditable;
+        vm.isPlusAvailable = isPlusAvailable;
+        vm.isVisible = isVisible;
+        vm.changeDisplayState = changeDisplayState;
+        vm.getDisplayState = getDisplayState;
 
-            function isObject(thing) {
-                return angular.isObject(thing);
+        vm.addElement = addElement;
+        vm.updateData = updateData;
+
+        function isVisible(path) {
+            if (!path) return true;
+
+            var splitedPath = path.split('.');
+
+            splitedPath.pop();
+            var pathForCheck = splitedPath.join('.');
+            return !!(! pathForCheck || vm.displayOptions[pathForCheck]);
+        }
+
+        function changeDisplayState(path) {
+            vm.displayOptions[path] = !vm.displayOptions[path];
+        }
+
+        function getDisplayState(path) {
+            return !!vm.displayOptions[path];
+        }
+
+        function isEditable(path) {
+            if (!path) {return false;}
+
+            var splitedPath = path.split('.');
+
+            if (splitedPath[1] == 'services') {
+                if (splitedPath[2]) { splitedPath[2] = '*'; }
+                path = splitedPath.join('.');
             }
 
-            function isArray(thing) {
-                return angular.isArray(thing);
-            }
+            return !!(vm.config[path] && vm.config[path].indexOf('edit') > -1);
+        }
 
-            function addElementToArray(pathToArray) {
-                vm.data.push('');
-                vm.onchange(pathToArray);
-            }
+        function isPlusAvailable(path) {
+            if (!path) {return false;}
 
-            function updateData(pathToArray, data) {
-                vm.onchange(pathToArray, data);
+            var splitedPath = path.split('.');
+
+            if (splitedPath[1] === 'services') {
+                if (splitedPath[2]) { splitedPath[2] = '*'; }
+                path = splitedPath.join('.');
+            }
+            return !!(path && vm.config[path] && vm.config[path].indexOf('add') > -1);
+        }
+
+        function isObject(thing) {
+            return angular.isObject(thing);
+        }
+
+        function isArray(thing) {
+            if (angular.isArray(thing)) {
+                return !isObject(thing[0]);
+            } else {
+                return false;
+            }
+        }
+
+        function addElement(path) {
+            if (vm.isArray(vm.data)) {
+                vm.onchange('add-value', path);
+            } else {
+                var lastKey = Object.keys(vm.data)[Object.keys(vm.data).length - 1];
+                vm.onchange('add-object', path, vm.data[lastKey], lastKey + '-new');
+            }
+        }
+
+        function updateData(pathToArray, data, oldValue, type) {
+            if (type == 'key') {
+                vm.onchange('edit-key', pathToArray, data, oldValue);
+            } else {
+                vm.onchange('edit-value', pathToArray, data);
             }
         }
     }
 
 })();
-

@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    var timelineModule = angular.module('qorDash.widget.timeline')
-            .directive('qlTimeline', qlTimeline)
-        ;
+    angular
+        .module('qorDash.widget.timeline')
+        .controller('TimelineController', timelineController)
+        .directive('qlTimeline', qlTimeline);
 
-    qlTimeline.$inject = ['$timeout', '$window'];
     function qlTimeline($timeout, $window) {
         var adaptHeight = function (element) {
             element.height(element.parent().parent().parent().height());
@@ -26,7 +26,7 @@
         }
     }
 
-    var timelineController = angular.createAuthorizedController('TimelineController', ['$scope', '$rootScope', '$timeout', 'terminal', function ($scope, $rootScope, $timeout, terminal) {
+    function timelineController ($scope, $rootScope, $timeout, terminal) {
         // List of all events
         $scope.events = [];
 
@@ -166,8 +166,6 @@
                 event.isInfoCollapsed = !event.isInfoCollapsed;
             });
         };
-    }]);
-
-    timelineModule.controller(timelineController);
+    }
 
 })();

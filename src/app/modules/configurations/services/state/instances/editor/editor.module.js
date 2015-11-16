@@ -2,7 +2,6 @@
     'use strict';
 
     var module = angular.module('qorDash.configurations.services.state.instances.editor', [
-        'ui.router',
         'ui-notification',
         'ui.bootstrap',
         'mwl.confirm'
@@ -17,8 +16,7 @@
             .state('app.configurations.services.state.instances.editor', {
                 url: '/:instances',
                 templateUrl: 'app/modules/configurations/services/state/instances/editor/editor.html',
-                controller: 'EditorController',
-                authenticate: true
+                controller: 'EditorController'
             })
     }
 })();

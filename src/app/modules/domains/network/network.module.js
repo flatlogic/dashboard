@@ -1,17 +1,15 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.domains.env.network', [
-        'ui.router',
-        'ui.layout',
-        'qorDash.loaders'
-    ]);
+    angular
+        .module('qorDash.domains.env.network', [
+            'ui.router',
+            'ui.layout',
+            'qorDash.loaders'
+        ])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.domains.domain.env.network', {
                 url: '/network',

@@ -39,7 +39,6 @@ module.exports = function(config) {
             'src/app/index.js',
             'src/app/**/*.module.js',
             'src/app/**/*.js',
-            'src/app/**/*.spec.js',
             {pattern: 'src/data/*.json', included: false},
             {pattern: 'src/app/**/*.html', included: false},
         ],
@@ -93,6 +92,8 @@ module.exports = function(config) {
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: false,
+
+        browserNoActivityTimeout: 100000,
 
         proxies: {
             "/data/": "http://localhost:9876/base/src/data/",

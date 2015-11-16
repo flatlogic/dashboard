@@ -19,9 +19,12 @@ describe('Controller: AccountsController', function() {
         rootScope,
         notification;
 
+    beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.loaders'));
+    beforeEach(module('qorDash.loaders', function($provide) {
+        $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
+    }));
     beforeEach(module('qorDash.manage.accounts'));
 
 
@@ -75,59 +78,15 @@ describe('Controller: AccountsController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, $httpBackend, $q, $state)  {
             q = $q;
             $controller = _$controller_;
             httpBackend = $httpBackend;
             rootScope = _$rootScope_;
             $scope = _$rootScope_.$new();
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AccountsController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, currentUser: currentUser, $modal: modal});
-            httpBackend.expectGET('data/permissions.json').respond('');
+            _$controller_('AccountsController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, currentUser: currentUser, $modal: modal, resolvedToken: token, resolvedAccounts: []});
         })
-    });
-
-    describe('after loading token', function() {
-        beforeEach(function(){
-            spyOn(accountsService, 'getAccounts').and.callThrough();
-            spyOn(errorHandler, 'showError').and.callThrough();
-
-            $scope.vm.token = 'token';
-            $scope.$apply();
-        });
-
-        it ('should call getAccounts from accountService', function() {
-            expect(accountsService.getAccounts).toHaveBeenCalled();
-        });
-
-        describe ('if account loaded successfully', function() {
-            beforeEach(function() {
-                deferred.resolve(accountsService.accounts);
-                $scope.$root.$digest();
-            });
-
-            it ('should populate accounts array with response', function() {
-                expect($scope.vm.accounts).toBe(accountsService.accounts.data);
-            });
-        });
-
-        describe ('if accounts loading failed', function() {
-            beforeEach(function() {
-                deferred.reject(serverResponse);
-                $scope.$root.$digest();
-            });
-
-            it ('should show error and save response to the vm.error', function() {
-                expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
-                expect($scope.vm.error).toBe(serverResponse);
-            });
-        });
     });
 
     describe ('addUser', function() {
@@ -150,23 +109,12 @@ describe('Controller: AccountsController', function() {
                 });
                 it ('should populate vm.accounts with response', function() {
                     expect($scope.vm.accounts).toContain({
-                        id: accountsService.createResponse.data.id,
-                        primary: accountsService.createResponse.data
+                        id: accountsService.createResponse.id,
+                        primary: accountsService.createResponse
                     });
                 });
                 it ('should show success message', function() {
                     expect(notification.success).toHaveBeenCalled();
-                });
-            });
-            describe ('when loading failed', function() {
-                beforeEach(function() {
-                    spyOn(errorHandler, 'showError').and.callThrough();
-                    deferred.reject(serverResponse);
-                    rootScope.$digest();
-                });
-                it ('should show an error and set vm.error', function() {
-                    expect(errorHandler.showError).toHaveBeenCalledWith(serverResponse);
-                    expect($scope.vm.error).toEqual(serverResponse);
                 });
             });
         });

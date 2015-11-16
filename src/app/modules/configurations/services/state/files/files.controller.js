@@ -1,17 +1,11 @@
 (function () {
     'use strict';
 
-    filesController.$inject = ['$scope', 'configurationService', '$stateParams', 'errorHandler', '$modal', 'Notification'];
-    function filesController($scope, configurationService,$stateParams, errorHandler, $modal, Notification) {
+    function filesController($scope, configurationService, resolvedInstance, $stateParams, errorHandler, $modal, Notification) {
 
-        $scope.$watch('domains', function() {
-            if (!$scope.domains) {
-                return;
-            }
-            $scope.domain = $scope.domains.filter(function (domain) {
-                return domain.id == $stateParams.domain;
-            })[0];
-        });
+        $scope.instance = resolvedInstance[$stateParams.service];
+        $scope.service = $stateParams.service;
+        $scope.domain = $stateParams.domain;
 
         $scope.openNewFileModal = function() {
             $modal.open({
@@ -28,7 +22,7 @@
         };
 
         $scope.createFile = function(fileName, text) {
-            return configurationService.files.createFile($stateParams.domain, $stateParams.service, fileName, text)
+            return configurationService.files.createFile($scope.domain, $stateParams.service, fileName, text)
                 .success(function(response) {
                     $scope.instance.objects.push(fileName);
                     Notification.success('Successfully created');
@@ -37,22 +31,8 @@
                     errorHandler.showError(e, code);
                 });
         };
-
-        $scope.loadInstance = function () {
-            configurationService.loadInstance($stateParams.domain)
-                .success(function(response) {
-                    $scope.instance = response[$stateParams.service];
-                    $scope.service = $stateParams.service;
-                },
-                function (response) {
-                    $scope.error = errorHandler.showError(response.data, response.status);
-                });
-            };
-
-        $scope.loadInstance();
     }
 
-    newFileController.$inject = ['$scope', 'createFile', '$modalInstance'];
     function newFileController($scope, createFile, $modalInstance) {
         $scope.ok = function ($event) {
             if (!$scope.fileName || !$scope.fileContent) {

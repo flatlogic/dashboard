@@ -2,7 +2,6 @@
     'use strict';
 
     var module = angular.module('qorDash.deployment', [
-        'ui.router',
         'ui.layout',
         'qorDash.widget',
         'qorDash.widget.terminal',
@@ -18,8 +17,7 @@
             .state('app.deployment', {
                 url: '/deployment',
                 templateUrl: 'app/modules/deployment/deployment.html',
-                controller: 'DeploymentController',
-                authenticate: true
+                controller: 'DeploymentController'
             })
     }
 })();

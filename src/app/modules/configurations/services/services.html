@@ -3,20 +3,11 @@
     </header>
     <div horizontal-ui-sheet-content>
         <div class="list-group text-left ng-scope">
-            <a class="list-group-item" ng-repeat="service in services | orderBy:''"
+            <a class="list-group-item" ng-repeat="service in vm.services | orderBy:''"
                ui-sref-active="active"
-               ui-sref=".state({service: service})"
-                    >
+               ui-sref=".state({service: service})">
                 {{service}}
             </a>
-        </div>
-        <div id="env-loader" ng-hide="services || error">
-            <img src="assets/images/cube.gif">
-        </div>
-        <div id="reload" ng-hide="!error">
-          <a ui-sref="app.configurations.services" data-ui-sref-opts="{reload: true}">
-            <i class="fa fa-refresh reload-button"></i>
-          </a>
         </div>
     </div>
 </section>

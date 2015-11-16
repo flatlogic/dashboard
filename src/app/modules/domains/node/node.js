@@ -19,7 +19,6 @@
             function findNodeInner(currentNode, name, depth) {
                 var i, currentChild, result;
                 _depth++;
-                //debugger;
                 if (name == currentNode.name && (depth == _depth)) {
                     return currentNode;
                 } else if (currentNode.children) {
@@ -37,4 +36,7 @@
             }
         }
     }
+
+    angular.module('qorDash.domains')
+        .controller('DomainNodeController', domainNodeController);
 })();

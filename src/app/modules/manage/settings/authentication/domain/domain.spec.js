@@ -9,6 +9,7 @@ describe('Controller: AuthenticationDomainController', function() {
         errorHandler,
         currentUser;
 
+    beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module('qorDash.loaders'));
@@ -17,6 +18,7 @@ describe('Controller: AuthenticationDomainController', function() {
     beforeEach(module('qorDash.loaders', function($provide) {
         $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
         $provide.constant("Notification", "1");
+        $provide.constant("resolvedDomain", "1");
     }));
 
     beforeEach(function() {
@@ -48,37 +50,15 @@ describe('Controller: AuthenticationDomainController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _dataLoader_, _user_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, _user_, $httpBackend, $q, $state)  {
             q = $q;
             $controller = _$controller_;
             httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
+
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('AuthenticationDomainController as vm', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser});
+            _$controller_('AuthenticationDomainController as vm', {$scope: $scope, authenticationService: authenticationService, errorHandler: errorHandler, currentUser: currentUser, resolvedToken : 'token'});
         })
     });
 
-
-    it('should populate the domain var when loadDomain is called', function() {
-        httpBackend.expectGET('data/permissions.json').respond('');
-        spyOn(authenticationService, 'getDomainInfo').and.callThrough();
-
-        $scope.vm.loadDomain();
-
-        $scope.vm.token = 'token';
-        $scope.$apply();
-
-        deferred.resolve(authenticationService.response);
-
-        $scope.$root.$digest();
-
-        expect(authenticationService.getDomainInfo).toHaveBeenCalled();
-        expect($scope.vm.domain).toBe(authenticationService.response.data);
-    });
 });

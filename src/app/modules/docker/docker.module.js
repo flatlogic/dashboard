@@ -5,7 +5,6 @@
         .module('qorDash.docker', [
             'ngOboe',
             'dockerui',
-            'ui.router',
             'qorDash.docker',
             'qorDash.docker.domain',
             'qorDash.docker.domain.dockers',
@@ -49,8 +48,7 @@
                     resolvedDomains: function(domainService) {
                         return domainService.loadDomains();
                     }
-                },
-                authenticate: true
+                }
             });
 
         $qorSidebarProvider.config('docker', {

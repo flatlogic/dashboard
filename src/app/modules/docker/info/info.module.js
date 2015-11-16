@@ -19,8 +19,7 @@
                     resolvedSystemInfo: function(System, Settings) {
                         return System.get(Settings.urlParams).$promise;
                     }
-                },
-                authenticate: true
+                }
             })
     }
 })();

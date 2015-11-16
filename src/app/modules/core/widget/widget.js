@@ -1,12 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.widget')
-        .directive('qlWidget', qlWidget)
-    ;
+    angular
+        .module('qorDash.widget')
+        .directive('qlWidget', qlWidget);
 
-    qlWidget.$inject = ['user', '$templateRequest', '$compile'];
-    function qlWidget(user, $templateRequest, $compile) {
+    function qlWidget($templateRequest, $compile) {
         return {
             replace: true,
             link: function ($scope, $element, $attr) {
@@ -24,15 +23,7 @@
                     });
                 };
 
-                var value = $attr.qlWidget;
-                if (value) {
-                    if (!user.hasAccessTo(value)) {
-                        $element.remove();
-                        $element = null;
-                    } else {
-                        loadWidget(value, $element);
-                    }
-                }
+                loadWidget($attr.qlWidget, $element);
             }
         }
     }

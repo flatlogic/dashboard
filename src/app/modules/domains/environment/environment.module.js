@@ -1,22 +1,16 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.domains.env', [
-        'ui.router',
-        'ui.layout'
-    ]);
+    angular
+        .module('qorDash.domains.env', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.domains.domain.env', {
                 url: '/:env',
                 templateUrl: 'app/modules/domains/environment/environment.html',
-                controller: 'DomainEnvironmentController',
-                authenticate: true
+                controller: 'DomainEnvironmentController'
             })
     }
 })();

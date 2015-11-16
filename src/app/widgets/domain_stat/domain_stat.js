@@ -1,9 +1,11 @@
 (function () {
     'use strict';
 
-    var domainStatModule = angular.module('qorDash.widget.domain_stat');
+    angular
+        .module('qorDash.widget.domain_stat')
+        .controller('DomainStatController', domainStatController);
 
-    var domainStatController = angular.createAuthorizedController('DomainStatController', ['$scope', '$rootScope', '$filter', function ($scope, $rootScope, $filter) {
+    function domainStatController($scope, $rootScope, $filter) {
         // TODO Load data from api
         var jsonInput = {
             "services": {
@@ -137,7 +139,5 @@
         $scope.applyFilter = function (variable, filter, params) {
             return $filter(filter)(variable, params);
         };
-    }]);
-
-    domainStatModule.controller(domainStatController);
+    }
 })();

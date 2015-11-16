@@ -1,21 +1,22 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.orchestrate.domain', [
-        'ui.router'
-    ]);
+    angular
+        .module('qorDash.orchestrate.domain', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.orchestrate.domain', {
                 url: '/:id',
                 templateUrl: 'app/modules/orchestrate/domain/domain.html',
                 controller: 'OrchestrateDomainController',
-                authenticate: true
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedDomain: function(domainService, $stateParams) {
+                        return domainService.loadDomain($stateParams.id);
+                    }
+                }
             })
     }
 })();

@@ -3,25 +3,35 @@
     angular.module('qorDash.loaders')
         .factory('accountsService', accountsService);
 
-    accountsService.$inject = ['$http', 'AUTH_API_URL'];
-    function accountsService ($http, AUTH_API_URL) {
+    function accountsService ($http, AUTH_API_URL, errorHandler, $q) {
         return {
             getAccounts : getAccounts,
             getAccountById : getAccountById,
             createAccount : createAccount,
-            createGoogleAccount : createGoogleAccount
+            createGoogleAccount : createGoogleAccount,
+            createGitHubAccount : createGitHubAccount
         };
+
+        function httpRequestSuccess(response) {
+            return response.data ? response.data : response;
+        }
+
+        function httpRequestFailed(response) {
+            errorHandler.showError(response);
+            return $q.reject(response.data ? response.data : response);
+        }
 
         function getAccounts(token){
             var request = {
                 method: 'GET',
                 url: AUTH_API_URL + '/account/',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getAccountById(accountId, token) {
@@ -29,14 +39,36 @@
                 method: 'GET',
                 url: AUTH_API_URL + '/account/' + accountId,
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function createGoogleAccount(username, email, token) {
+            var request = {
+                method: 'POST',
+                url: AUTH_API_URL + '/register',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                data: {
+                    "identity": {
+                        "username": username,
+                        "oauth2_provider" :"google.com",
+                        "oauth2_account_id" : email
+                    }
+                }
+            };
+
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
+        }
+
+        function createGitHubAccount(username, githubUsername, token) {
             var request = {
                 method: 'POST',
                 url: AUTH_API_URL + '/register',
@@ -47,8 +79,8 @@
                 data: {
                     "identity": {
                         "username": username,
-                        "oauth2_provider" :"google.com",
-                        "oauth2_account_id" : email
+                        "oauth2_provider" :"github.com",
+                        "oauth2_account_id" : githubUsername
                     }
                 }
             };
@@ -61,7 +93,6 @@
                 method: 'POST',
                 url: AUTH_API_URL + '/register',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
                 data: {
@@ -73,7 +104,9 @@
                 }
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
     }
 })();

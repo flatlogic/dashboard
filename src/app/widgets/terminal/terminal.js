@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    var terminalModule = angular.module('qorDash.widget.terminal')
-            .directive('qlTerminal', qlTerminal)
-            .service('terminal', terminalService)
-        ;
+    angular
+        .module('qorDash.widget.terminal')
+        .directive('qlTerminal', qlTerminal)
+        .service('terminal', terminalService)
+        .controller('TerminalController', terminalController);
 
-    qlTerminal.$inject = ['$timeout', '$window'];
     function qlTerminal($timeout, $window) {
         var adaptHeight = function (element) {
             var height = element.parent().parent().parent().height() - 20;
@@ -38,7 +38,6 @@
         }
     }
 
-    terminalService.$inject = [];
     function terminalService() {
         var self = this;
 
@@ -54,7 +53,7 @@
         };
     }
 
-    var terminalController = angular.createAuthorizedController('TerminalController', ['$scope', '$rootScope', '$timeout', 'terminal', function ($scope, $rootScope, $timeout, terminal) {
+    function terminalController($scope, $rootScope, $timeout, terminal) {
 
         // Initialize terminal
         var terminal = terminal.initTerminalById('terminal', {greetings: false});
@@ -113,8 +112,6 @@
             }
         }
 
-    }]);
-
-    terminalModule.controller(terminalController);
+    }
 
 })();

@@ -8,7 +8,7 @@
 3. go to [http://localhost:3000](http://localhost:3000)
 
 ### Build
-1. Install node and bower dependencies: `npm install`
+1. Install node and bower dependencies: `npm install && bower install`
 2. Run the application: `gulp build`
 3. Upload `dist` content to the server
 

@@ -1445,14 +1445,57 @@ width: 20px;
     height: $table-cell-height;
   }
 
+  .value-td {
+    padding: 5px 10px 5px 10px !important;
+  }
+
+  .td-container {
+    height: $table-cell-height;
+    line-height: $table-cell-height;
+    display: inline-block;
+    width: 100%;
+
+    >div {
+      display: inline;
+    }
+  }
+
   .fa {
+    height: $table-cell-height;
+    line-height: $table-cell-height;
+    padding-right: 5px;
     float: right;
-    margin-top: 3px;
-    margin-right: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+
+  .animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+    transition: all linear 0.2s;
+  }
+
+  .animate-show.ng-hide {
+    opacity: 0;
+    width: 0px;
   }
 }
 
-.td-plus:hover {
-  background: #ebeff1 !important;
-  cursor: pointer;
+.account-table {
+  tbody>tr>td {
+    min-width: 200px;
+    width: 200px;
+    height: 30px;
+  }
+}
+
+.td-plus {
+  font-size: 25px;
+  &:hover {
+    background: #ebeff1 !important;
+    cursor: pointer;
+  }
+}
+
+.editable-input {
+  width: 100% !important;
 }

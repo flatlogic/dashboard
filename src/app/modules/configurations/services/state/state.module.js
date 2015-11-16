@@ -1,15 +1,11 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.configurations.services.state', [
-        'ui.router'
-    ]);
+    angular
+        .module('qorDash.configurations.services.state', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.configurations.services.state', {
                 url: '/:service',
