@@ -4,7 +4,7 @@
     var networkModule = angular.module('qorDash.widget.network')
             .directive('qlNetwork', qlNetwork);
 
-    function qlNetwork($window) {
+    function qlNetwork() {
         return {
             restrict: 'EA',
             replace: true,
@@ -38,9 +38,8 @@
                 nv.queue = [];
                 nv.close = [];
 
-                Promise.resolve()
-                    .then(initSvg($element))
-                    .then(firstCloseRect());
+                initSvg($element);
+                drawFirstClosedRect();
             }
 
             function initSvg($element) {
@@ -189,7 +188,6 @@
             }
 
             function focusOnNode(node) {
-
                 var gWidth = 9*nv.width/10,
                     gHeight = 9*nv.height/10,
                     gX = nv.width/20,
@@ -248,7 +246,7 @@
                 nv.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             }
 
-            function firstCloseRect() {
+            function drawFirstClosedRect() {
                 nv.levels[3].forEach(function (item) {
                     item.rect = drawClosedRect(item);
                     nv.close.push(item);
@@ -263,7 +261,6 @@
                 if(nv.preScrollLevel === nv.scrollLevel)    return;
 
                 for(var i in nv.close) {
-                    //for(var i = 0, l = nv.close.length; i < l; i++){
                     if (nv.close.hasOwnProperty(i)) {
                         var item = nv.close[i];
                         var remove = false;
