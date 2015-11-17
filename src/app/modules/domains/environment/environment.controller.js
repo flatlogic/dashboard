@@ -4,7 +4,7 @@
     angular
         .module('qorDash.domains')
         .controller('DomainEnvironmentController', domainEnvironmentController);
-        
+
     function domainEnvironmentController($scope, $stateParams, WS_URL) {
         $scope.environment = {};
         $scope.domain = $stateParams.domain;

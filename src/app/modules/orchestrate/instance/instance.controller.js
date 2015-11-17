@@ -1,10 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular
+        .module('qorDash.orchestrate')
+        .controller('OrchestrateInstanceController', orchestrateInstanceController);
 
-    orchestrateInstanceController.$inject = ['$scope', '$stateParams', '$http', 'orchestrateService', 'errorHandler'];
-    function orchestrateInstanceController($scope, $stateParams, $http, orchestrateService, errorHandler) {
+    function orchestrateInstanceController($scope, $stateParams, orchestrateService, errorHandler) {
 
         $scope.title = $stateParams.inst;
         $scope.workflows = [];
@@ -18,7 +19,4 @@
             }
         );
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateInstanceController', orchestrateInstanceController);
 })();

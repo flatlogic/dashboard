@@ -1,9 +1,9 @@
 (function () {
 
-    angular.module('qorDash.loaders')
+    angular
+        .module('qorDash.loaders')
         .factory('orchestrateService', orchestrateService);
 
-    orchestrateService.$inject = ['$http', 'API_URL'];
     function orchestrateService ($http, API_URL) {
         return {
             loadHistory : loadHistory,
@@ -12,8 +12,20 @@
             loadLogUrl: loadLogUrl
         };
 
+        function httpRequestSuccess(response) {
+            return response.data;
+        }
+
+        function httpRequestFailed(response) {
+            errorHandler.showError(response);
+            return $q.reject(response.data ? response.data : response);
+        }
+
         function loadHistory(domain, instance, option) {
-            return $http.get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/');
+            return $http
+                .get(API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/')
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function loadInstances(domain, instance) {
