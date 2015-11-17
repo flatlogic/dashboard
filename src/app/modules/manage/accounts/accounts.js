@@ -32,7 +32,7 @@
         function newUser() {
             $modal.open({
                 animation: true,
-                templateUrl: 'app/modules/manage/accounts/new-user-modal.html',
+                templateUrl: 'app/modules/manage/accounts/new-user-modal/new-user-modal.html',
                 controller: 'NewUserController',
                 controllerAs: 'vm',
                 resolve: {
