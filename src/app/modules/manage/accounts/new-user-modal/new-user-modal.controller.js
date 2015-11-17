@@ -14,30 +14,25 @@
         vm.addGoogleUser = addGoogleUser;
         vm.addGitHubUser = addGitHubUser;
         vm._addUserResolve = _addUserResolve;
-        vm._addUserReject = _addUserReject;
 
-        function _addUserResolve(response) {
-            vm.accounts.push({id: response.data.id, primary: response.data});
+        function _addUserResolve(res) {
+            vm.accounts.push({id: res.id, primary: res});
             Notification.success('Successfully created');
-        }
-
-        function _addUserReject(response) {
-            vm.error = errorHandler.showError(response);
         }
 
         function addUser(username, password, custom_object) {
             return accountsService.createAccount(username, password, custom_object, vm.token)
-                .then(vm._addUserResolve, vm._addUserReject);
+                .then(vm._addUserResolve);
         }
 
         function addGoogleUser(username, email) {
             return accountsService.createGoogleAccount(username, email, vm.token)
-                .then(vm._addUserResolve, vm._addUserReject);
+                .then(vm._addUserResolve);
         }
 
         function addGitHubUser(username, githubUsername) {
             return accountsService.createGitHubAccount(username, githubUsername, vm.token)
-                .then(vm._addUserResolve, vm._addUserReject);
+                .then(vm._addUserResolve);
         }
 
         function cancel() {
