@@ -45,7 +45,7 @@ describe('Service: orchestrateService', function() {
 
         orchestrateService.loadInstances(domain, instance)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
