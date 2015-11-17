@@ -36,7 +36,4 @@
             }
         }
     }
-
-    angular.module('qorDash.domains')
-        .controller('DomainNodeController', domainNodeController);
 })();

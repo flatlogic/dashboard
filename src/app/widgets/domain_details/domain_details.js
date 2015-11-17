@@ -1,11 +1,20 @@
 (function () {
     'use strict';
 
-    angular
-        .module('qorDash.widget.domain_details')
-        .controller('DomainDetailsController', domainDetailsController);
+    angular.module('qorDash.widget.domain_details')
+        .directive('domainDetails', domainDetailsDirective);
 
-    function domainDetailsController($scope, $rootScope, $compile, $state) {
-
+    function domainDetailsDirective() {
+        return {
+            restrict: "AE",
+            scope: {
+                node: '='
+            },
+            replace: true,
+            bindToController: true,
+            templateUrl: 'app/widgets/domain_details/domain_details.html',
+            controller: function() {},
+            controllerAs: 'vm'
+        };
     }
 })();
