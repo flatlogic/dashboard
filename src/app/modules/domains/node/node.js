@@ -4,14 +4,11 @@
     angular.module('qorDash.domains')
         .controller('DomainNodeController', domainNodeController);
 
-    function domainNodeController($scope, $stateParams) {
+    function domainNodeController($scope, $stateParams, resolvedNetworkData) {
         var vm = this;
         vm.node = {};
 
-        $scope.$watch('$parent.vm.networkData', function (networkData) {
-            if (!networkData) return;
-            vm.node = findNode(networkData, $stateParams.node, parseInt($stateParams.depth));
-        });
+        vm.node = findNode(resolvedNetworkData, $stateParams.node, parseInt($stateParams.depth));
 
         function findNode(currentNode, name, depth) {
             var _depth = 0;

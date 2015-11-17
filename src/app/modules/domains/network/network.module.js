@@ -3,7 +3,6 @@
 
     angular
         .module('qorDash.domains.env.network', [
-            'ui.router',
             'ui.layout',
             'qorDash.loaders'
         ])
@@ -15,7 +14,12 @@
                 url: '/network',
                 controller: 'DomainsNetworkController',
                 controllerAs: 'vm',
-                templateUrl: 'app/modules/domains/network/network.html'
+                templateUrl: 'app/modules/domains/network/network.html',
+                resolve: {
+                    resolvedNetworkData: function(networkViewService) {
+                        return networkViewService.load();
+                    }
+                }
             })
     }
 })();

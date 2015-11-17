@@ -5,10 +5,11 @@
         .module('qorDash.domains')
         .controller('DomainsNetworkController', domainsNetworkController);
 
-    function domainsNetworkController($scope, $timeout, networkViewService, $state) {
+    function domainsNetworkController($scope, $timeout, networkViewService, $state, resolvedNetworkData) {
         var vm = this;
 
         vm.showDetails = showDetails;
+        vm.networkData = resolvedNetworkData;
 
         networkViewService.load()
             .then(function (response) {
