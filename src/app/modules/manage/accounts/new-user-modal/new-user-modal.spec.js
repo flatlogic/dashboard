@@ -1,4 +1,4 @@
-describe('Controller: NewUserController', function() {
+describe('Controller: NewUserModalController', function() {
     var $scope;
     var $controller,
         httpBackend,
@@ -79,7 +79,7 @@ describe('Controller: NewUserController', function() {
             $scope = _$rootScope_.$new();
             AUTH_API_URL = _AUTH_API_URL_;
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('NewUserController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, accounts: [], token: '123'});
+            _$controller_('NewUserModalController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, accounts: [], token: '123'});
         })
     });
 

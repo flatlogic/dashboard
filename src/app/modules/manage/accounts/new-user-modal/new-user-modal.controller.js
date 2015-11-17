@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('qorDash.manage.accounts')
-        .controller('NewUserController', newUserController);
+        .controller('NewUserModalController', newUserModalController);
 
-    function newUserController (accounts, token, accountsService, errorHandler, Notification, $modalInstance) {
+    function newUserModalController (accounts, token, accountsService, errorHandler, Notification, $modalInstance) {
         var vm = this;
 
         vm.accounts = accounts;
