@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    angular
+        .module('qorDash.domains')
+        .controller('DomainsNetworkController', domainsNetworkController);
+
     function domainsNetworkController($scope, $timeout, networkViewService, $state) {
         var vm = this;
 
@@ -24,7 +28,4 @@
             );
         }
     }
-
-    angular.module('qorDash.domains')
-        .controller('DomainsNetworkController', domainsNetworkController);
 })();

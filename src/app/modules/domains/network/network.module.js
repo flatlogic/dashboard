@@ -15,8 +15,7 @@
                 url: '/network',
                 controller: 'DomainsNetworkController',
                 controllerAs: 'vm',
-                templateUrl: 'app/modules/domains/network/network.html',
-                authenticate: true
+                templateUrl: 'app/modules/domains/network/network.html'
             })
     }
 })();

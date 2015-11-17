@@ -6,3 +6,4 @@ bower_components/
 dist/
 .idea/
 coverage
+.DS_Store

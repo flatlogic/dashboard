@@ -2,21 +2,20 @@ describe('Service: networkViewService', function() {
     var networkViewService, httpBackend,
         serverResponse = 'response';
 
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module("qorDash.loaders"));
+    beforeEach(function() {
+        module('ui.router');
+        module('qorDash.core');
+        module('qorDash.auth');
+        module("qorDash.loaders");
+        module(function($provide){
+            $provide.constant('AUTH_API_URL', 'api url');
+        });
+    });
 
     beforeEach(function() {
-        inject(function (_networkViewService_, $httpBackend, _dataLoader_, _user_, $state) {
+        inject(function (_networkViewService_, $httpBackend, $state, AUTH_API_URL) {
             networkViewService = _networkViewService_;
             httpBackend = $httpBackend;
-
-            spyOn(_dataLoader_, 'init').and.returnValue({
-                then: function (next) {
-                    next && next()
-                }
-            });
-            spyOn(_user_, 'hasAccessTo').and.returnValue(true);
 
             spyOn($state, 'go').and.returnValue(true);
         });
@@ -24,7 +23,6 @@ describe('Service: networkViewService', function() {
 
 
     it("should load data for network view", function(done) {
-        httpBackend.expectGET('data/permissions.json').respond('');
         httpBackend.expect('GET', 'data/network-data.json').respond(serverResponse);
 
         networkViewService.load()
