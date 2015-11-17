@@ -29,7 +29,10 @@
         }
 
         function loadInstances(domain, instance) {
-            return $http.get(API_URL + '/v1/orchestrate/'+ domain +'/'+ instance +'/');
+            return $http
+                .get(API_URL + '/v1/orchestrate/'+ domain +'/'+ instance +'/')
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);;
         }
 
         function loadOption(domain, instance, option, optionId) {
