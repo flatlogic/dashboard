@@ -9,6 +9,8 @@ describe('Service: networkViewService', function() {
         module("qorDash.loaders");
         module(function($provide){
             $provide.constant('AUTH_API_URL', 'api url');
+            $provide.constant('resolvedNetworkData', '');
+            $provide.constant('Notification', '');
         });
     });
 
@@ -27,7 +29,7 @@ describe('Service: networkViewService', function() {
 
         networkViewService.load()
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 

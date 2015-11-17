@@ -16,6 +16,7 @@ describe('Controller: DomainsNetworkController', function() {
         module('qorDash.domains');
         module('qorDash.loaders', function($provide) {
             $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
+            $provide.constant("resolvedNetworkData", "https://accounts.qor.io/v1");
         });
     });
 
