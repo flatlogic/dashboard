@@ -12,7 +12,6 @@ describe('Service: orchestrateService', function() {
     beforeEach(module('ui.router'));
     beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
 
@@ -33,7 +32,7 @@ describe('Service: orchestrateService', function() {
 
         orchestrateService.loadHistory(domain, instance, option)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
