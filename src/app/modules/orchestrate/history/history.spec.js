@@ -1,9 +1,7 @@
 describe('Controller: OrchestrateHistoryController', function() {
 
     var $scope;
-    var $controller,
-        httpBackend,
-        q,
+    var q,
         deferred,
         $stateParams,
         previousCalls = {1: 2},
@@ -11,12 +9,14 @@ describe('Controller: OrchestrateHistoryController', function() {
         orchestrateService,
         errorHandler;
 
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.config'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.loaders'));
-    beforeEach(module('qorDash.orchestrate'));
+    beforeEach(function(){
+        module('ui.router');
+        module('qorDash.config');
+        module('qorDash.core');
+        module('qorDash.auth');
+        module('qorDash.loaders');
+        module('qorDash.orchestrate');
+    });
 
     beforeEach(function() {
         orchestrateService = {
@@ -36,10 +36,8 @@ describe('Controller: OrchestrateHistoryController', function() {
 
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, $httpBackend, $q, $state)  {
+        inject(function(_$rootScope_, _$controller_, $q, $state)  {
             q = $q;
-            $controller = _$controller_;
-            httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
             $stateParams = {
                 id: 'id',

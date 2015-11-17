@@ -1,9 +1,10 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular
+        .module('qorDash.orchestrate')
+        .controller('OrchestrateHistoryController', orchestrateHistoryController);
 
-    orchestrateHistoryController.$inject = ['$scope', '$stateParams', 'orchestrateService', 'errorHandler'];
     function orchestrateHistoryController($scope, $stateParams, orchestrateService, errorHandler) {
         orchestrateService.loadHistory($stateParams.id, $stateParams.inst, $stateParams.opt).then(
             function (response) {
@@ -15,7 +16,4 @@
         );
 
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateHistoryController', orchestrateHistoryController);
 })();

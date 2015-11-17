@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    currentUser.$inject = ['manageLoader'];
+    angular
+        .module('qorDash.manage')
+        .factory('currentUser', currentUser);
+
     function currentUser (manageLoader) {
         return manageLoader.load();
     }
-
-    angular.module('qorDash.manage')
-        .factory('currentUser', currentUser);
 })();

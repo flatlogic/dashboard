@@ -1,6 +1,9 @@
 (function () {
     'use strict';
 
+    angular.module('qorDash.domains')
+        .controller('DomainNodeController', domainNodeController);
+
     function domainNodeController($scope, $stateParams) {
         $scope.$watch('networkData', function (networkData) {
             if (!networkData) return;
@@ -30,7 +33,4 @@
             }
         }
     }
-
-    angular.module('qorDash.domains')
-        .controller('DomainNodeController', domainNodeController);
 })();

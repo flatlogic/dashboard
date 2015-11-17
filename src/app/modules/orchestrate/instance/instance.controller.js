@@ -1,9 +1,10 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular
+        .module('qorDash.orchestrate')
+        .controller('OrchestrateInstanceController', orchestrateInstanceController);
 
-    orchestrateInstanceController.$inject = ['$scope', '$stateParams', 'orchestrateService', 'errorHandler'];
     function orchestrateInstanceController($scope, $stateParams, orchestrateService, errorHandler) {
 
         $scope.title = $stateParams.inst;
@@ -18,7 +19,4 @@
             }
         );
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateInstanceController', orchestrateInstanceController);
 })();

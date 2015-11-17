@@ -1,9 +1,7 @@
 describe('Controller: OrchestrateInstanceController', function() {
 
     var $scope;
-    var $controller,
-        httpBackend,
-        q,
+    var q,
         deferred,
         $stateParams,
         workflows = {1: 2},
@@ -11,12 +9,14 @@ describe('Controller: OrchestrateInstanceController', function() {
         orchestrateService,
         errorHandler;
 
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.config'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.loaders'));
-    beforeEach(module('qorDash.orchestrate'));
+    beforeEach(function(){
+        module('ui.router');
+        module('qorDash.config');
+        module('qorDash.core');
+        module('qorDash.auth');
+        module('qorDash.loaders');
+        module('qorDash.orchestrate');
+    });
 
     beforeEach(function() {
         orchestrateService = {
@@ -38,8 +38,6 @@ describe('Controller: OrchestrateInstanceController', function() {
     beforeEach(function () {
         inject(function(_$rootScope_, _$controller_, $httpBackend, $q, $state)  {
             q = $q;
-            $controller = _$controller_;
-            httpBackend = $httpBackend;
             $scope = _$rootScope_.$new();
             $stateParams = {
                 id: 'id',

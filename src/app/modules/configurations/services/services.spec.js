@@ -1,21 +1,18 @@
 describe('Controller: ServicesController', function() {
 
     var $scope;
-    var $controller,
-        httpBackend,
-        q,
-        $state,
+    var $state,
         resolvedDomain = {
             services: [{id:1}]
         };
 
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.config'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.configurations'));
-
-
+    beforeEach(function(){
+        module('ui.router');
+        module('qorDash.config');
+        module('qorDash.core');
+        module('qorDash.auth');
+        module('qorDash.configurations.services');
+    });
 
     beforeEach(function() {
 
@@ -32,10 +29,7 @@ describe('Controller: ServicesController', function() {
 
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, $httpBackend, $q, _$state_)  {
-            q = $q;
-            $controller = _$controller_;
-            httpBackend = $httpBackend;
+        inject(function(_$rootScope_, _$state_, _$controller_)  {
             $scope = _$rootScope_.$new();
             spyOn(_$state_, 'go').and.returnValue(true);
             spyOn($state,'go').and.callThrough();
