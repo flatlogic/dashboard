@@ -67,6 +67,9 @@ describe('Controller: NewUserModalController', function() {
         modal = {
             open: function() {
                 return true;
+            },
+            dismiss: function() {
+                return true;
             }
         };
     });

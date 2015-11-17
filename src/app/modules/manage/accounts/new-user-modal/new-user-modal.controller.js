@@ -18,6 +18,7 @@
         function _addUserResolve(res) {
             vm.accounts.push({id: res.id, primary: res});
             Notification.success('Successfully created');
+            vm.cancel();
         }
 
         function addUser(username, password, custom_object) {
