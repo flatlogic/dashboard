@@ -1,4 +1,4 @@
-describe('Controller: NewUserController', function() {
+describe('Controller: NewUserModalController', function() {
     var $scope;
     var $controller,
         httpBackend,
@@ -67,6 +67,9 @@ describe('Controller: NewUserController', function() {
         modal = {
             open: function() {
                 return true;
+            },
+            dismiss: function() {
+                return true;
             }
         };
     });
@@ -79,7 +82,7 @@ describe('Controller: NewUserController', function() {
             $scope = _$rootScope_.$new();
             AUTH_API_URL = _AUTH_API_URL_;
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('NewUserController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, accounts: [], token: '123'});
+            _$controller_('NewUserModalController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, accounts: [], token: '123'});
         })
     });
 
@@ -104,19 +107,6 @@ describe('Controller: NewUserController', function() {
             expect(notification.success).toHaveBeenCalled();
         });
     });
-    describe('_addUserReject', function() {
-        it('updates the value of vm.error', function() {
-            $scope.vm._addUserReject(accountsService.createResponse);
-            expect($scope.vm.error).toBe(accountsService.createResponse);
-        });
-        it('calls errorHandler.showError', function() {
-            spyOn(errorHandler, 'showError');
-
-            $scope.vm._addUserReject(accountsService.createResponse);
-
-            expect(errorHandler.showError).toHaveBeenCalled();
-        });
-    });
     describe('addUser', function() {
         it('calls accountsService.createAccount', function() {
             spyOn(accountsService, 'createAccount').and.callThrough();
@@ -136,19 +126,6 @@ describe('Controller: NewUserController', function() {
                 rootScope.$digest();
 
                 expect($scope.vm._addUserResolve).toHaveBeenCalledWith(accountsService.createResponse);
-            });
-        });
-        describe('when the promise is rejected', function() {
-            it('calls _addUserReject', function() {
-                var deferred = q.defer();
-                spyOn(accountsService, 'createAccount').and.returnValue(deferred.promise);
-                spyOn($scope.vm, '_addUserReject');
-
-                $scope.vm.addUser(username, password, custom_object);
-                deferred.reject(accountsService.createResponse);
-                rootScope.$digest();
-
-                expect($scope.vm._addUserReject).toHaveBeenCalledWith(accountsService.createResponse);
             });
         });
     });
@@ -173,19 +150,6 @@ describe('Controller: NewUserController', function() {
                 expect($scope.vm._addUserResolve).toHaveBeenCalledWith(accountsService.createResponse);
             });
         });
-        describe('when the promise is rejected', function() {
-            it('calls _addUserReject', function() {
-                var deferred = q.defer();
-                spyOn(accountsService, 'createAccount').and.returnValue(deferred.promise);
-                spyOn($scope.vm, '_addUserReject');
-
-                $scope.vm.addUser(username, password);
-                deferred.reject(accountsService.createResponse);
-                rootScope.$digest();
-
-                expect($scope.vm._addUserReject).toHaveBeenCalledWith(accountsService.createResponse);
-            });
-        });
     });
     describe('addGitHubUser', function() {
         it('calls accountsService.createGitHubAccount', function() {
@@ -206,19 +170,6 @@ describe('Controller: NewUserController', function() {
                 rootScope.$digest();
 
                 expect($scope.vm._addUserResolve).toHaveBeenCalled();
-            });
-        });
-        describe('when the promise is rejected', function() {
-            it('calls _addUserReject', function() {
-                var deferred = q.defer();
-                spyOn(accountsService, 'createAccount').and.returnValue(deferred.promise);
-                spyOn($scope.vm, '_addUserReject');
-
-                $scope.vm.addUser(username, password);
-                deferred.reject(accountsService.createResponse);
-                rootScope.$digest();
-
-                expect($scope.vm._addUserReject).toHaveBeenCalledWith(accountsService.createResponse);
             });
         });
     });
