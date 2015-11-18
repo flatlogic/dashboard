@@ -1,18 +1,21 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.orchestrate.domain.instance', []);
+    angular
+        .module('qorDash.orchestrate.domain.instance', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.orchestrate.domain.instance', {
                 url: '/:inst',
                 templateUrl: 'app/modules/orchestrate/instance/instance.html',
-                controller: 'OrchestrateInstanceController'
+                controller: 'OrchestrateInstanceController',
+                resolve: {
+                    resolvedInstances: function($stateParams, orchestrateService) {
+                        return orchestrateService.loadInstances($stateParams.id, $stateParams.inst);
+                    }
+                }
             })
     }
 })();

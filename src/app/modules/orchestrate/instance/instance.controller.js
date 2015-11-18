@@ -5,18 +5,8 @@
         .module('qorDash.orchestrate')
         .controller('OrchestrateInstanceController', orchestrateInstanceController);
 
-    function orchestrateInstanceController($scope, $stateParams, orchestrateService, errorHandler) {
-
+    function orchestrateInstanceController($scope, $stateParams, resolvedInstances) {
         $scope.title = $stateParams.inst;
-        $scope.workflows = [];
-
-        orchestrateService.loadInstances($stateParams.id, $stateParams.inst).then(
-            function (response) {
-                $scope.workflows = response.data;
-            },
-            function (response) {
-                $scope.error = errorHandler.showError(response);
-            }
-        );
+        $scope.workflows = resolvedInstances;
     }
 })();
