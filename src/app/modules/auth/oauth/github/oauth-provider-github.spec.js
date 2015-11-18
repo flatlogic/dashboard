@@ -5,15 +5,14 @@ describe('Factory: oauthProviderGitHub', function() {
     $window,
     githubOauth;
 
-    // Stubbing modules is necessary (for now) because of the way the unit test has been written.
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth.oauth', function($provide){
-        // Stubbing constants is necessary (for now) because of the way the application
-        // is bootstrapped in index.js.
-        $provide.constant('AUTH_API_URL', 'api url');
-        $provide.constant('GITHUB_CLIENT_ID', 'github client id');
-    }));
+    beforeEach(function(){
+        module(function($provide){
+            $provide.constant('AUTH_API_URL', 'api url');
+            $provide.constant('GITHUB_CLIENT_ID', 'github client id');
+        });
+        module('ui.router');
+        module('qorDash.auth.oauth');
+    });
     beforeEach(inject(function(_oauthProviderGitHub_, _$httpBackend_, _$q_, _$window_, $state, _githubOauth_){
         oauthProviderGitHub = _oauthProviderGitHub_;
         $httpBackend = _$httpBackend_;
