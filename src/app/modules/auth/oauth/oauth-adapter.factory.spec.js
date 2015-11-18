@@ -1,11 +1,11 @@
 describe('Factory: oauth adapter', function() {
     var $timeout,
-        $q,
-        oauthAdapter,
-        auth,
-        errorHandler,
-        oauthProviderGoogle,
-        oauthProviderGitHub;
+    $q,
+    oauthAdapter,
+    auth,
+    errorHandler,
+    oauthProviderGoogle,
+    oauthProviderGitHub;
 
     var oauthProviderGoogleMock = {
         login: jasmine.createSpy('login'),
@@ -13,21 +13,21 @@ describe('Factory: oauth adapter', function() {
     };
 
     beforeEach(function(){
-      module('qorDash.auth.oauth');
-      module(function($provide){
-        $provide.service('auth', function(){
-          this.saveToken = jasmine.createSpy('saveToken');
+        module('qorDash.auth.oauth');
+        module(function($provide){
+            $provide.service('auth', function(){
+                this.saveToken = jasmine.createSpy('saveToken');
+            });
+            $provide.service('errorHandler', function(){
+                this.showError = jasmine.createSpy('showError');
+            });
+            $provide.factory('oauthProviderGoogle', function(){
+                return oauthProviderGoogleMock;
+            });
+            $provide.factory('oauthProviderGitHub', function(){
+                return {};
+            });
         });
-        $provide.service('errorHandler', function(){
-          this.showError = jasmine.createSpy('showError');
-        });
-        $provide.factory('oauthProviderGoogle', function(){
-            return oauthProviderGoogleMock;
-        });
-        $provide.factory('oauthProviderGitHub', function(){
-            return {};
-        });
-      });
     });
 
     beforeEach(function() {
@@ -71,13 +71,13 @@ describe('Factory: oauth adapter', function() {
             });
         });
         describe('exchangeToken', function() {
-            it ('should call exchangeToken function of selected provider', function() {
+            it ('should call exchangeToken function of selected provider and resolve the promise', function() {
                 oauthAdapter.init(oauthProviderGoogleMock).then(oauthAdapter.exchangeToken);
                 $timeout.flush();
                 expect(oauthProviderGoogleMock.exchangeToken).toHaveBeenCalled();
                 expect(auth.saveToken).toHaveBeenCalled();
             });
-            it ('should call exchangeToken function of selected provider and reject promise', function() {
+            it ('should call exchangeToken function of selected provider and reject the promise', function() {
                 oauthProviderGoogle.exchangeToken = jasmine.createSpy('exchangeToken').and.callFake(function(){
                     return $q.reject('error');
                 });

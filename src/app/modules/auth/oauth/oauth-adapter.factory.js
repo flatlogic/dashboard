@@ -9,9 +9,17 @@
 
         var _selectedProvider = null;
 
+        return {
+            _selectedProvider: _selectedProvider,
+            init: init,
+            login: login,
+            logout: logout,
+            exchangeToken: exchangeToken
+        };
+
         function init(provider) {
-            _selectedProvider = provider;
             var deferred = $q.defer();
+            _selectedProvider = provider;
             deferred.resolve(_selectedProvider);
             return deferred.promise;
         }
@@ -34,13 +42,5 @@
         function requestFailed(error) {
             errorHandler.showError(error);
         }
-
-        return {
-            _selectedProvider: _selectedProvider,
-            init: init,
-            login: login,
-            logout: logout,
-            exchangeToken: exchangeToken
-        };
     }
 })();
