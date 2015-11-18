@@ -4,7 +4,7 @@
         .module('qorDash.loaders')
         .factory('configurationService', configurationService);
 
-    function configurationService ($http, API_URL, errorHandler) {
+    function configurationService ($http, API_HOST, errorHandler) {
 
         return {
             loadPackage : loadPackage,
@@ -34,21 +34,21 @@
 
         function loadPackage(domain) {
             return $http
-                .get(API_URL + '/v1/pkg/' + domain + '/')
+                .get(API_HOST + '/v1/pkg/' + domain + '/')
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }
 
         function loadInstance(domain) {
             return $http
-                .get(API_URL + '/v1/conf/' + domain + '/')
+                .get(API_HOST + '/v1/conf/' + domain + '/')
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }
 
         function loadEnv(domain) {
             return $http
-                .get(API_URL + '/v1/env/' + domain + '/')
+                .get(API_HOST + '/v1/env/' + domain + '/')
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }
@@ -56,7 +56,7 @@
         function createFile(domain, service, fileName, text) {
             var request = {
                 method: 'POST',
-                url: API_URL + '/v1/conf/' + domain + '/' + service + '/' + fileName,
+                url: API_HOST + '/v1/conf/' + domain + '/' + service + '/' + fileName,
                 headers: {
                     'Content-Type': 'text/plain'
                 },
@@ -69,7 +69,7 @@
         function getFileContent(domain, instance, service, version, fileName) {
             var request = {
                 method: 'GET',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName,
+                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName,
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -81,7 +81,7 @@
         function getVersions(domain, instance, service, fileName) {
             var versionsRequest = {
                 method: 'GET',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' +
+                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' +
                     service + '/' + fileName + '/',
                 headers: {
                     'Content-Type': 'application/json'
@@ -93,7 +93,7 @@
         function getBaseFile(domain, service, fileName) {
             var request = {
                 method: 'GET',
-                url: API_URL + '/v1/conf/' + domain +
+                url: API_HOST + '/v1/conf/' + domain +
                     '/' + service + '/' + fileName,
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,7 +105,7 @@
         function createVersion(domain, instance, service, newVersionName, fileName, fileVersion) {
             var request = {
                 method: 'POST',
-                url: API_URL + '/v1/conf/' + domain + '/'
+                url: API_HOST + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/' + newVersionName + '/' + fileName,
                 headers: {
                     'X-Dash-Version': fileVersion
@@ -117,7 +117,7 @@
         function saveFile(domain, instance, service, version, fileName, fileVersion, data) {
             var request = {
                 method: 'PUT',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
+                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
                     + version + '/' + fileName,
                 headers: {
                     'X-Dash-Version': fileVersion
@@ -130,7 +130,7 @@
         function cloneFile(domain, instance, service, version, object, data) {
             var request = {
                 method: 'POST',
-                url: API_URL + '/v1/conf/' + domain + '/'
+                url: API_HOST + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/'
                     + version + '/' + object,
                 headers: {
@@ -144,7 +144,7 @@
         function deleteFile(domain, instance, service, version, fileName, fileVersion) {
             var request = {
                 method: 'DELETE',
-                url: API_URL + '/v1/conf/' + domain + '/'
+                url: API_HOST + '/v1/conf/' + domain + '/'
                     + instance + '/' + service + '/'
                     + version + '/' + fileName,
                 headers: {
@@ -157,7 +157,7 @@
         function makeVersionLive(domain, instance, service, version, fileName) {
             var postRequest = {
                 method: 'POST',
-                url: API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live',
+                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live',
                 headers: {
                     'Content-Type': 'application/json'
                 }

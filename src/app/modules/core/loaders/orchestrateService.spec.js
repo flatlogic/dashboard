@@ -16,10 +16,10 @@ describe('Service: orchestrateService', function() {
 
 
     beforeEach(function() {
-        inject(function (_orchestrateService_, $httpBackend, _API_URL_, _user_, $state) {
+        inject(function (_orchestrateService_, $httpBackend, _API_HOST_, _user_, $state) {
             orchestrateService = _orchestrateService_;
             httpBackend = $httpBackend;
-            API_URL = _API_URL_;
+            API_HOST = _API_HOST_;
 
             spyOn($state, 'go').and.returnValue(true);
         });
@@ -27,7 +27,7 @@ describe('Service: orchestrateService', function() {
 
 
     it("should load history", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/')
+        httpBackend.expect('GET', API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/')
             .respond(serverResponse);
 
         orchestrateService.loadHistory(domain, instance, option)
@@ -40,7 +40,7 @@ describe('Service: orchestrateService', function() {
     });
 
     it("should load instances", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/orchestrate/'+ domain +'/'+ instance +'/')
+        httpBackend.expect('GET', API_HOST + '/v1/orchestrate/'+ domain +'/'+ instance +'/')
             .respond(serverResponse);
 
         orchestrateService.loadInstances(domain, instance)
@@ -53,7 +53,7 @@ describe('Service: orchestrateService', function() {
     });
 
     it("should load option by id", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId)
+        httpBackend.expect('GET', API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId)
             .respond(serverResponse);
 
         orchestrateService.loadOption(domain, instance, option, optionId)
@@ -66,7 +66,7 @@ describe('Service: orchestrateService', function() {
     });
 
     it("should load log url", function(done) {
-        httpBackend.expect('POST', API_URL + activateUrl, data)
+        httpBackend.expect('POST', API_HOST + activateUrl, data)
             .respond(serverResponse);
 
         orchestrateService.loadLogUrl(activateUrl, data)
