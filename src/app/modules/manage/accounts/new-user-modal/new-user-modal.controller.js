@@ -4,11 +4,11 @@
     angular.module('qorDash.manage.accounts')
         .controller('NewUserModalController', newUserModalController);
 
-    function newUserModalController (accounts, token, accountsService, errorHandler, Notification, $modalInstance) {
+    function newUserModalController (resolvedAccounts, resolvedToken, accountsService, Notification, $modalInstance) {
         var vm = this;
 
-        vm.accounts = accounts;
-        vm.token = token;
+        vm.accounts = resolvedAccounts;
+        vm.token = resolvedToken;
         vm.cancel = cancel;
         vm.addUser = addUser;
         vm.addGoogleUser = addGoogleUser;

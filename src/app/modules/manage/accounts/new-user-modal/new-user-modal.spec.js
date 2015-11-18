@@ -18,7 +18,6 @@ describe('Controller: NewUserModalController', function() {
         rootScope,
         notification;
 
-    // Stubbing modules is necessary (for now) because of the way the unit test has been written.
     beforeEach(module('ui.router'));
     beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
@@ -82,7 +81,7 @@ describe('Controller: NewUserModalController', function() {
             $scope = _$rootScope_.$new();
             AUTH_API_URL = _AUTH_API_URL_;
             spyOn($state, 'go').and.returnValue(true);
-            _$controller_('NewUserModalController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, accounts: [], token: '123'});
+            _$controller_('NewUserModalController as vm', {$scope: $scope, accountsService: accountsService, errorHandler: errorHandler, Notification: notification, $modalInstance: modal, resolvedAccounts: [], resolvedToken: '123'});
         })
     });
 
