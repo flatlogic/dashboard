@@ -5,10 +5,12 @@
         .module('qorDash.domains')
         .controller('DomainEnvironmentController', domainEnvironmentController);
 
-    function domainEnvironmentController($scope, $stateParams, WS_URL) {
-        $scope.environment = {};
-        $scope.environment.name = $stateParams.env;
+    function domainEnvironmentController($stateParams, WS_URL) {
+        var vm = this;
 
-        $scope.eventsWsUrl = WS_URL + '/v1/events';
+        vm.environment = {};
+        vm.environment.name = $stateParams.env;
+
+        vm.eventsWsUrl = WS_URL + '/v1/events';
     }
 })();
