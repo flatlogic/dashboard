@@ -11,7 +11,7 @@ describe('Service: configurationService', function() {
         newVersionName = 'newVersion',
         fileVersion = 'fileVersion',
         errorHandler = errorHandler,
-        API_URL;
+        API_HOST;
 
     beforeEach(module('ui.router'));
     beforeEach(module('ui-notification'));
@@ -20,11 +20,11 @@ describe('Service: configurationService', function() {
     beforeEach(module("qorDash.loaders"));
 
     beforeEach(function() {
-        inject(function (_configurationService_, $httpBackend, _user_, _API_URL_, _errorHandler_, $state) {
+        inject(function (_configurationService_, $httpBackend, _user_, _API_HOST_, _errorHandler_, $state) {
             configurationService = _configurationService_;
             httpBackend = $httpBackend;
             errorHandler = _errorHandler_;
-            API_URL = _API_URL_;
+            API_HOST = _API_HOST_;
 
             spyOn($state, 'go').and.returnValue(true);
         });
@@ -32,7 +32,7 @@ describe('Service: configurationService', function() {
 
 
     it("should load instance by domain id", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/').respond(serverResponse);
+        httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/').respond(serverResponse);
 
         configurationService.loadInstance(domain).then(function(response) {
             expect(response).toEqual(serverResponse);
@@ -43,7 +43,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should load env", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/env/' + domain + '/').respond(serverResponse);
+        httpBackend.expect('GET', API_HOST + '/v1/env/' + domain + '/').respond(serverResponse);
 
         configurationService.loadEnv(domain).then(function(response) {
             expect(response).toEqual(serverResponse);
@@ -54,7 +54,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should create file", function(done) {
-        httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + service + '/' + fileName, data).respond(serverResponse);
+        httpBackend.expect('POST', API_HOST + '/v1/conf/' + domain + '/' + service + '/' + fileName, data).respond(serverResponse);
 
         configurationService.files.createFile(domain, service, fileName, data).then(function(response) {
             expect(response.data).toEqual(serverResponse);
@@ -65,7 +65,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should get file content", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName).respond(serverResponse);
+        httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName).respond(serverResponse);
 
         configurationService.files.getFileContent(domain, instance, service, version, fileName).then(function(response) {
             expect(response.data).toEqual(serverResponse);
@@ -76,7 +76,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should get file versions", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + fileName + '/').respond(serverResponse);
+        httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + fileName + '/').respond(serverResponse);
 
         configurationService.files.getVersions(domain, instance, service, fileName).then(function(response) {
             expect(response.data).toEqual(serverResponse);
@@ -87,7 +87,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should get base file", function(done) {
-        httpBackend.expect('GET', API_URL + '/v1/conf/' + domain + '/' + service + '/' + fileName).respond(serverResponse);
+        httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/' + service + '/' + fileName).respond(serverResponse);
 
         configurationService.files.getBaseFile(domain, service, fileName).then(function(response) {
             expect(response.data).toEqual(serverResponse);
@@ -98,7 +98,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should create file version", function(done) {
-        httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + newVersionName + '/' + fileName,
+        httpBackend.expect('POST', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + newVersionName + '/' + fileName,
         undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.createVersion(domain, instance, service, newVersionName, fileName, fileVersion).then(function(response) {
@@ -110,7 +110,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should save file", function(done) {
-        httpBackend.expect('PUT', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
+        httpBackend.expect('PUT', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName, data, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.saveFile(domain, instance, service, version, fileName, fileVersion, data).then(function(response) {
@@ -122,7 +122,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should clone file", function(done) {
-        httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
+        httpBackend.expect('POST', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName, data).respond(serverResponse);
 
         configurationService.files.cloneFile(domain, instance, service, version, fileName, data).then(function(response) {
@@ -134,7 +134,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should delete file", function(done) {
-        httpBackend.expect('DELETE', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
+        httpBackend.expect('DELETE', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName, undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.deleteFile(domain, instance, service, version, fileName, fileVersion).then(function(response) {
@@ -146,7 +146,7 @@ describe('Service: configurationService', function() {
     });
 
     it("should make file version live", function(done) {
-        httpBackend.expect('POST', API_URL + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
+        httpBackend.expect('POST', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/'
             + version + '/' + fileName +  '/live').respond(serverResponse);
 
         configurationService.files.makeVersionLive(domain, instance, service, version, fileName).then(function(response) {

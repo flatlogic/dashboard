@@ -10,8 +10,8 @@
             });
         });
 
-    editorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal', 'Notification', '$timeout', 'errorHandler'];
-    function editorController($scope, $stateParams, API_URL, $http, $modal, Notification, $timeout, errorHandler) {
+    editorController.$inject = ['$scope', '$stateParams', 'API_HOST', '$http', '$modal', 'Notification', '$timeout', 'errorHandler'];
+    function editorController($scope, $stateParams, API_HOST, $http, $modal, Notification, $timeout, errorHandler) {
 
         $scope.selectedVersion = {};
 
@@ -31,7 +31,7 @@
         $scope.createVersion = function(instance, newVersionName) {
             var request = {
                 method: 'POST',
-                url: API_URL + '/v1/env/' + $stateParams.domain + '/'
+                url: API_HOST + '/v1/env/' + $stateParams.domain + '/'
                     + instance + '/' + $scope.service.service + '/' + newVersionName
             };
 
@@ -106,7 +106,7 @@
                         var version = $scope.versions[instance][i];
                         var request = {
                             method: 'GET',
-                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                            url: API_HOST + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                             headers: {
                                 'Content-Type': 'application/json'
                             },
@@ -165,7 +165,7 @@
 
                     var loadVersionsRequest = {
                         method: 'GET',
-                        url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/',
+                        url: API_HOST + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/',
                         headers: {
                             'Content-Type': 'application/json'
                         }
@@ -236,7 +236,7 @@
 
             var postRequest = {
                 method: 'POST',
-                url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
+                url: API_HOST + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -324,7 +324,7 @@
 
                 var getRequest = {
                     method: 'GET',
-                    url: API_URL + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                    url: API_HOST + '/v1/env/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -339,7 +339,7 @@
 
                         var patchRequest = {
                             method: 'POST',
-                            url: API_URL + '/v1/env/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
+                            url: API_HOST + '/v1/env/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
                             headers: {
                                 'Content-Type': 'application/json'
                             },
@@ -418,7 +418,7 @@
                     var data = $scope.itemsForSave[instance][version];
                     var request = {
                         method: 'PATCH',
-                        url: API_URL + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                        url: API_HOST + '/v1/env/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Dash-Version': $scope.dashVersions[instance] ? $scope.dashVersions[instance][version] || '' : ''

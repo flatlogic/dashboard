@@ -763,7 +763,14 @@ $stat-blue-color: #7986CB;
   margin-top: -4px;
   position: absolute;
   bottom: 10px;
-  left: 30px;
+  left: 20px;
+}
+
+.save-auth-button {
+  margin-top: -4px;
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
 }
 
 .config-table-th {
@@ -1418,4 +1425,77 @@ width: 20px;
 
 .containers-stat {
   margin-top: 30px;
+}
+
+
+.auth-table {
+
+  >tbody>tr>td {
+    background: none;
+  }
+
+  tbody>tr>td {
+    vertical-align: middle;
+    padding: 0;
+    box-shadow: 0 0 0 1px #F0F0F0 inset;
+    border: none;
+    min-width: $table-cell-width;
+    width: $table-cell-width;
+    text-align: center;
+    height: $table-cell-height;
+  }
+
+  .value-td {
+    padding: 5px 10px 5px 10px !important;
+  }
+
+  .td-container {
+    height: $table-cell-height;
+    line-height: $table-cell-height;
+    display: inline-block;
+    width: 100%;
+
+    >div {
+      display: inline;
+    }
+  }
+
+  .fa {
+    height: $table-cell-height;
+    line-height: $table-cell-height;
+    padding-right: 5px;
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+
+  .animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+    transition: all linear 0.2s;
+  }
+
+  .animate-show.ng-hide {
+    opacity: 0;
+    width: 0px;
+  }
+}
+
+.account-table {
+  tbody>tr>td {
+    min-width: 200px;
+    width: 200px;
+    height: 30px;
+  }
+}
+
+.td-plus {
+  font-size: 25px;
+  &:hover {
+    background: #ebeff1 !important;
+    cursor: pointer;
+  }
+}
+
+.editable-input {
+  width: 100% !important;
 }

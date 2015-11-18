@@ -3,14 +3,9 @@
 
     angular
         .module('qorDash.manage')
-        .controller('ManageController', manageController)
-        .factory('currentUser', currentUser);
+        .controller('ManageController', manageController);
 
     function manageController($scope) {
 
-    }
-
-    function currentUser (manageLoader) {
-        return manageLoader.load();
     }
 })();

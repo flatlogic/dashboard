@@ -1,9 +1,10 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.orchestrate');
+    angular
+        .module('qorDash.orchestrate')
+        .controller('OrchestrateOptionController', orchestrateOptionController);
 
-    orchestrateOptionController.$inject = ['$scope', '$stateParams', 'orchestrateService', '$compile', 'WS_URL', 'errorHandler'];
     function orchestrateOptionController($scope, $stateParams, orchestrateService, $compile, WS_URL, errorHandler) {
 
         $scope.title = $stateParams.opt;
@@ -107,7 +108,4 @@
             }
         }
     }
-
-    angular.module('qorDash.orchestrate')
-        .controller('OrchestrateOptionController', orchestrateOptionController);
 })();

@@ -1,18 +1,25 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.manage.accounts.account', []);
+    angular
+        .module('qorDash.manage.accounts.account', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.manage.accounts.account', {
                 url: '/:id',
                 templateUrl: 'app/modules/manage/accounts/account/account.html',
-                controller: 'AccountController'
+                controller: 'AccountController',
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedToken: function(manageLoader) {
+                        return manageLoader.load();
+                    },
+                    resolvedAccount: function(accountsService, resolvedToken, $stateParams) {
+                        return accountsService.getAccountById($stateParams.id, resolvedToken);
+                    }
+                }
             });
     }
 })();

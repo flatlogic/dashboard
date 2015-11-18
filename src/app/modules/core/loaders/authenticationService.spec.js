@@ -3,20 +3,24 @@ describe('Service: authenticationService', function() {
 
     var token = 'token',
         domain = 'blinker.com',
+        data = 'data',
         serverResponse = 'response',
-        AUTH_API_URL;
+        AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
     beforeEach(module("qorDash.loaders"));
 
+    beforeEach(module('qorDash.loaders', function($provide) {
+        $provide.constant("AUTH_API_URL", AUTH_API_URL);
+        $provide.constant("Notification", "");
+    }));
+
     beforeEach(function() {
-        inject(function (_authenticationService_, $httpBackend, _user_, _AUTH_API_URL_, $state) {
+        inject(function (_authenticationService_, $httpBackend, $state) {
             authenticationService = _authenticationService_;
             httpBackend = $httpBackend;
-            AUTH_API_URL = _AUTH_API_URL_;
             spyOn($state, 'go').and.returnValue(true);
         });
     });
@@ -32,7 +36,7 @@ describe('Service: authenticationService', function() {
 
         authenticationService.getDomains(token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -44,7 +48,20 @@ describe('Service: authenticationService', function() {
 
         authenticationService.getDomainInfo(domain, token)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
+                done();
+            });
+
+        httpBackend.flush();
+    });
+
+    it("should save domain info", function(done) {
+        httpBackend.expect('POST', AUTH_API_URL + '/admin/domain/' + domain, data,
+            {"Content-Type":"application/json;charset=utf-8","Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
+
+        authenticationService.saveDomainInfo(domain, data, token)
+            .then(function(response) {
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
