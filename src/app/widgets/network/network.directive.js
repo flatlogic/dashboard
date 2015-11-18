@@ -1,8 +1,9 @@
 (function () {
     'use strict';
 
-    var networkModule = angular.module('qorDash.widget.network')
-            .directive('qlNetwork', qlNetwork);
+    angular
+        .module('qorDash.widget.network')
+        .directive('qlNetwork', qlNetwork);
 
     function qlNetwork() {
         return {

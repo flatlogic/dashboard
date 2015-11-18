@@ -11,15 +11,6 @@
         vm.showDetails = showDetails;
         vm.networkData = resolvedNetworkData;
 
-        networkViewService.load()
-            .then(function (response) {
-                $timeout(function() {
-                    $scope.$apply(function() {
-                        vm.networkData = response.data;
-                    });
-                });
-            });
-
         function showDetails(node) {
             $state.go('app.domains.domain.env.network.node',
                 {

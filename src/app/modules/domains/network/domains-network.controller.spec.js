@@ -3,12 +3,10 @@ describe('Controller: DomainsNetworkController', function() {
     var $scope;
     var $controller,
         q,
-        networkViewService,
-        deferred,
+        resolvedDomains=[1,2],
         response={data: 'response'},
         node={depth: 1, name: 1},
-        state,
-        httpBackend;
+        state;
 
     beforeEach(function() {
         module('ui.router');
@@ -16,18 +14,12 @@ describe('Controller: DomainsNetworkController', function() {
         module('qorDash.domains');
         module('qorDash.loaders', function($provide) {
             $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
+            $provide.constant("Notification", "");
             $provide.constant("resolvedNetworkData", "https://accounts.qor.io/v1");
         });
     });
 
     beforeEach(function() {
-        networkViewService = {
-            load: function(login, password) {
-                deferred = q.defer();
-                return deferred.promise;
-            }
-        };
-
         state = {
             go: function(path) {
                 return path;
@@ -41,7 +33,7 @@ describe('Controller: DomainsNetworkController', function() {
             q = $q;
             $controller = _$controller_;
             $scope = _$rootScope_.$new();
-            _$controller_('DomainsNetworkController as vm', {$scope: $scope, networkViewService: networkViewService, $state: state});
+            _$controller_('DomainsNetworkController as vm', {$scope: $scope, resolvedDomains: resolvedDomains, $state: state});
         });
     });
 

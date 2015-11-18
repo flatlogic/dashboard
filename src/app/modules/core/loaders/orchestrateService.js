@@ -1,6 +1,7 @@
 (function () {
 
-    angular.module('qorDash.loaders')
+    angular
+        .module('qorDash.loaders')
         .factory('orchestrateService', orchestrateService);
 
     orchestrateService.$inject = ['$http', 'API_URL'];

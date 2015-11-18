@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.domains')
+    angular
+        .module('qorDash.domains')
         .controller('DomainNodeController', domainNodeController);
 
     function domainNodeController($scope, $stateParams, resolvedNetworkData) {

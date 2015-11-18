@@ -1,7 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.widget.domain_details')
+    angular
+        .module('qorDash.widget.domain_details')
         .directive('domainDetails', domainDetailsDirective);
 
     function domainDetailsDirective() {
