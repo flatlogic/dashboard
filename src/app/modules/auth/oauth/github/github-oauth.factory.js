@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('qorDash.auth')
+        .module('qorDash.auth.oauth')
         .factory('githubOauth', githubOauth);
 
     function githubOauth($q, $window) {

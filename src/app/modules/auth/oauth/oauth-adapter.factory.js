@@ -2,14 +2,15 @@
     'use strict';
 
     angular
-        .module('qorDash.auth')
+        .module('qorDash.auth.oauth')
         .factory('oauthAdapter', oauthAdapter);
 
     function oauthAdapter($q, auth, errorHandler, oauthProviderGoogle, oauthProviderGitHub) {
 
-        var selectedProvider = null;
+        var _selectedProvider = null;
 
         return {
+            _selectedProvider: _selectedProvider,
             init: init,
             login: login,
             logout: logout,
@@ -17,22 +18,22 @@
         };
 
         function init(provider) {
-            selectedProvider = provider;
             var deferred = $q.defer();
-            deferred.resolve(selectedProvider);
+            _selectedProvider = provider;
+            deferred.resolve(_selectedProvider);
             return deferred.promise;
         }
 
         function login() {
-            return selectedProvider.login();
+            return _selectedProvider.login();
         }
 
         function logout() {
-            return selectedProvider.logout();
+            return _selectedProvider.logout();
         }
 
         function exchangeToken(user) {
-            return selectedProvider
+            return _selectedProvider
                 .exchangeToken(user)
                 .then(auth.saveToken)
                 .catch(requestFailed);
