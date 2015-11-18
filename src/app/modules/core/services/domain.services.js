@@ -3,8 +3,8 @@
     angular.module('qorDash.loaders')
         .factory('domainService', domainService);
 
-    function domainService ($http, $q, API_URL, errorHandler) {
-        var _URL = API_URL;
+    function domainService ($http, $q, API_HOST, errorHandler) {
+        var _URL = API_HOST;
 
         return {
             loadDomains: loadDomains,

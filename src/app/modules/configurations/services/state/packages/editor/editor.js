@@ -10,8 +10,8 @@
             });
         });
 
-    packagesEditorController.$inject = ['$scope', '$stateParams', 'API_URL', '$http', '$modal', 'Notification'];
-    function packagesEditorController($scope, $stateParams, API_URL, $http, $modal, Notification) {
+    packagesEditorController.$inject = ['$scope', '$stateParams', 'API_HOST', '$http', '$modal', 'Notification'];
+    function packagesEditorController($scope, $stateParams, API_HOST, $http, $modal, Notification) {
 
         $scope.selectedVersion = {};
 
@@ -101,7 +101,7 @@
                         var version = $scope.versions[instance][i];
                         var request = {
                             method: 'GET',
-                            url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                            url: API_HOST + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                             headers: {
                                 'Content-Type': 'application/json'
                             }
@@ -144,7 +144,7 @@
                 $scope.editorService.instances.forEach(function (instance) {
                     var loadVersionsRequest = {
                         method: 'GET',
-                        url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/',
+                        url: API_HOST + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/',
                         headers: {
                             'Content-Type': 'application/json'
                         }
@@ -216,7 +216,7 @@
 
             var postRequest = {
                 method: 'POST',
-                url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
+                url: API_HOST + '/v1/pkg/' + $stateParams.domain + '/' + instance + '/' + $scope.editorService.service + '/' + version + '/live',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -313,7 +313,7 @@
 
                 var postRequest = {
                     method: 'POST',
-                    url: API_URL + '/v1/pkg/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
+                    url: API_HOST + '/v1/pkg/' + $stateParams.domain + '/' + targetInstance + '/' + $scope.editorService.service + '/' + newVersionName,
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -357,7 +357,7 @@
                     var data = $scope.itemsForSave[instance][version];
                     var request = {
                         method: 'PUT',
-                        url: API_URL + '/v1/pkg/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
+                        url: API_HOST + '/v1/pkg/' + $scope.domain.id + '/' + instance + '/' + $scope.editorService.service + '/' + version,
                         headers: {
                             'Content-Type': 'application/json'
                         },
