@@ -14,12 +14,12 @@
         };
 
         function httpRequestSuccess(response) {
-            return response.data ? response.data : response;
+            return response.data || response;
         }
 
         function httpRequestFailed(response) {
             errorHandler.showError(response);
-            return $q.reject(response.data ? response.data : response);
+            return response.data || response;
         }
 
         function getAccounts(token){
@@ -86,7 +86,9 @@
                 }
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function createAccount(username, password, custom_object, token) {

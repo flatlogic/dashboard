@@ -1,0 +1,32 @@
+(function () {
+    'use strict';
+
+    angular
+        .module('qorDash.manage.accounts')
+        .controller('AccountsController', accountsController)
+
+    function accountsController (accountsService, Notification, $modal, resolvedToken, resolvedAccounts) {
+        var vm = this;
+
+        vm.newUser = newUser;
+        vm.token = resolvedToken;
+        vm.accounts = resolvedAccounts;
+
+        function newUser() {
+            $modal.open({
+                animation: true,
+                templateUrl: 'app/modules/manage/accounts/new-user-modal/new-user-modal.html',
+                controller: 'NewUserModalController',
+                controllerAs: 'vm',
+                resolve: {
+                    accounts: function() {
+                        return vm.accounts;
+                    },
+                    token: function() {
+                        return vm.token;
+                    }
+                }
+            });
+        }
+    }
+})();

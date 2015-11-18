@@ -89,37 +89,6 @@ describe('Controller: AccountsController', function() {
         })
     });
 
-    describe ('addUser', function() {
-        describe('when called with email', function() {
-            beforeEach(function() {
-                spyOn(accountsService, 'createGoogleAccount').and.callThrough();
-                this.resultPromise = $scope.vm.addUser(username, email, password, custom_object, token);
-            });
-            it ('should call createGoogleAccount', function() {
-                expect(accountsService.createGoogleAccount).toHaveBeenCalledWith(username, email, $scope.vm.token);
-            });
-            it ('should return promise', function() {
-                expect(typeof this.resultPromise.then).toEqual('function');
-            });
-            describe ('when loading completed successfully', function() {
-                beforeEach(function() {
-                    spyOn(notification, 'success');
-                    deferred.resolve(accountsService.createResponse);
-                    rootScope.$digest();
-                });
-                it ('should populate vm.accounts with response', function() {
-                    expect($scope.vm.accounts).toContain({
-                        id: accountsService.createResponse.id,
-                        primary: accountsService.createResponse
-                    });
-                });
-                it ('should show success message', function() {
-                    expect(notification.success).toHaveBeenCalled();
-                });
-            });
-        });
-    });
-
     describe ('newUser', function() {
         beforeEach(function() {
             spyOn(modal, 'open');

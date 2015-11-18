@@ -11,9 +11,9 @@
             views = parent(state);
             angular.forEach(views, function(config, name) {
                 config.resolve = config.resolve || {};
-                config.resolve.resolvedPermissions = function(permissions) {
+                config.resolve.resolvedPermissions = ['permissions', function(permissions) {
                     return permissions.resolveState(state.name);
-                };
+                }];
                 result[name] = config;
             });
             return result;

@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('qorDash.manage.accounts')
-        .controller('NewUserController', newUserController);
+        .controller('NewUserModalController', newUserModalController);
 
-    function newUserController (accounts, token, accountsService, errorHandler, Notification, $modalInstance) {
+    function newUserModalController (accounts, token, accountsService, errorHandler, Notification, $modalInstance) {
         var vm = this;
 
         vm.accounts = accounts;
@@ -14,30 +14,26 @@
         vm.addGoogleUser = addGoogleUser;
         vm.addGitHubUser = addGitHubUser;
         vm._addUserResolve = _addUserResolve;
-        vm._addUserReject = _addUserReject;
 
-        function _addUserResolve(response) {
-            vm.accounts.push({id: response.data.id, primary: response.data});
+        function _addUserResolve(res) {
+            vm.accounts.push({id: res.id, primary: res});
             Notification.success('Successfully created');
-        }
-
-        function _addUserReject(response) {
-            vm.error = errorHandler.showError(response);
+            vm.cancel();
         }
 
         function addUser(username, password, custom_object) {
             return accountsService.createAccount(username, password, custom_object, vm.token)
-                .then(vm._addUserResolve, vm._addUserReject);
+                .then(vm._addUserResolve);
         }
 
         function addGoogleUser(username, email) {
             return accountsService.createGoogleAccount(username, email, vm.token)
-                .then(vm._addUserResolve, vm._addUserReject);
+                .then(vm._addUserResolve);
         }
 
         function addGitHubUser(username, githubUsername) {
             return accountsService.createGitHubAccount(username, githubUsername, vm.token)
-                .then(vm._addUserResolve, vm._addUserReject);
+                .then(vm._addUserResolve);
         }
 
         function cancel() {
