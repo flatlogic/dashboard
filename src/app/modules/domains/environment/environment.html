@@ -1,5 +1,5 @@
 <section horizontal-ui-sheet class="qor-sheet-full">
-    <header horizontal-ui-sheet-header title="{{domain}} > {{environment.name}}"></header>
+    <header horizontal-ui-sheet-header title="{{vm.domain}} > {{vm.environment.name}}"></header>
     <div horizontal-ui-sheet-content class="no-padding">
         <div ui-layout="{ flow : 'column' }" class="domains-layout">
             <div ui-layout-container size="80%">
@@ -9,7 +9,7 @@
                 <div class="row">
                     <div ui-layout="{flow : 'row'}">
                         <div ui-layout-container class="col-lg-9" auto-scroll style="width: 100%;">
-                            <div ql-widget="Events" ws-url="eventsWsUrl"></div>
+                            <div ql-widget="Events" ws-url="vm.eventsWsUrl"></div>
                         </div>
                         <div ui-layout-container class="col-lg-9" size="30%" style="overflow-x: hidden; width: 100%;">
                             <button type="button" ui-sref="app.domains.domain.env.network" ui-sref-active="active"

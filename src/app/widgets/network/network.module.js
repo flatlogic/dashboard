@@ -1,9 +1,6 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.widget.network', [
-
-    ]);
-
-
+    angular
+        .module('qorDash.widget.network', []);
 })();
