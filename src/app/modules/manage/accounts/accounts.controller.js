@@ -5,7 +5,7 @@
         .module('qorDash.manage.accounts')
         .controller('AccountsController', accountsController)
 
-    function accountsController (accountsService, Notification, $modal, resolvedToken, resolvedAccounts) {
+    function accountsController (resolvedAccounts, resolvedToken, $modal) {
         var vm = this;
 
         vm.newUser = newUser;
@@ -19,10 +19,10 @@
                 controller: 'NewUserModalController',
                 controllerAs: 'vm',
                 resolve: {
-                    accounts: function() {
+                    resolvedAccounts: function() {
                         return vm.accounts;
                     },
-                    token: function() {
+                    resolvedToken: function() {
                         return vm.token;
                     }
                 }
