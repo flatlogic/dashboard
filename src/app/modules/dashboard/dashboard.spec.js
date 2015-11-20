@@ -7,7 +7,6 @@ describe('Controller: DashboardController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.core');
         module('qorDash.dashboard');
     });
 

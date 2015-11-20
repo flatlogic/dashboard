@@ -3,6 +3,7 @@
 
     angular
         .module('qorDash.dashboard', [
+            'qorDash.core',
             'qorDash.widget',
             'qorDash.widget.terminal',
             'qorDash.widget.timeline',

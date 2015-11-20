@@ -9,26 +9,22 @@ describe('Controller: ServicesController', function() {
     beforeEach(function(){
         module('ui.router');
         module('qorDash.configurations.services');
+        module(function($provide) {
+            $provide.service('$state', function() {
+                this.go = jasmine.createSpy('go').and.callFake(function(smth) {
+                    return smth;
+                });
+                this.current = {
+                    name: 'app.configurations.services'
+                }
+            });
+        });
     });
-
-    beforeEach(function() {
-
-        $state = {
-            go: function(path) {
-                return path;
-            },
-            current: {
-                name: 'app.configurations.services'
-            }
-        };
-    });
-
-
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_)  {
+        inject(function(_$rootScope_, _$controller_, _$state_)  {
+            $state = _$state_;
             $scope = _$rootScope_.$new();
-            spyOn($state,'go').and.callThrough();
             _$controller_('ServicesController as vm', {$scope: $scope, $state: $state, resolvedDomain: resolvedDomain});
 
         })

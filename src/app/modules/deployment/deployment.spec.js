@@ -7,7 +7,6 @@ describe('Controller: DeploymentController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.core');
         module('qorDash.deployment');
     });
 
