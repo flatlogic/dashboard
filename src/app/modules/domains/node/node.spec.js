@@ -1,7 +1,11 @@
 describe('Controller: DomainNodeController', function() {
 
     var $scope;
-    var $stateParams = {};
+    var $stateParams = {
+            node: 'name',
+            depth: 1
+        },
+        resolvedNetworkData = {name: 'name'};
 
     beforeEach(function(){
         module('ui.router');
@@ -15,19 +19,13 @@ describe('Controller: DomainNodeController', function() {
         inject(function(_$rootScope_, _$controller_, _$state_)  {
             $scope = _$rootScope_.$new();
             spyOn(_$state_, 'go').and.returnValue(true);
-            _$controller_('DomainNodeController', {$scope: $scope, $stateParams: $stateParams});
+            _$controller_('DomainNodeController as vm', {$scope: $scope, $stateParams: $stateParams, resolvedNetworkData: resolvedNetworkData});
 
         })
     });
 
-    describe('when $scope.networkData changes && is defined', function(){
-
-        it('should populate $scope.node with findNode(networkData, $stateParams.node, parseInt($stateParams.depth))',function(){
-            $stateParams.node = 'name';
-            $stateParams.depth = 0;
-            $scope.networkData = {name: 'name'};
-            $scope.$apply();
-            expect($scope.node).toBe($scope.networkData);
-        });
+    it('should populate $scope.node with findNode(resolvedNetworkData, $stateParams.node, parseInt($stateParams.depth))',function(){
+        expect($scope.vm.node).toBe(resolvedNetworkData);
     });
+
 });
