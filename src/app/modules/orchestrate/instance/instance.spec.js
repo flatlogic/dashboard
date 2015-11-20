@@ -6,10 +6,7 @@ describe('Controller: OrchestrateInstanceController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.loaders');
-        module('qorDash.orchestrate');
+        module('qorDash.orchestrate.domain.instance');
     });
 
     beforeEach(function () {
