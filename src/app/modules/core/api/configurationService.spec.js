@@ -13,7 +13,7 @@ describe('Service: configurationService', function() {
         API_HOST = 'API_HOST';
 
     beforeEach(function(){
-        module("qorDash.loaders");
+        module("qorDash.api");
         module(function($provide) {
             $provide.constant("API_HOST", API_HOST);
             $provide.service('errorHandler', function(){
@@ -56,7 +56,7 @@ describe('Service: configurationService', function() {
         httpBackend.expect('POST', API_HOST + '/v1/conf/' + domain + '/' + service + '/' + fileName, data).respond(serverResponse);
 
         configurationService.files.createFile(domain, service, fileName, data).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -67,7 +67,7 @@ describe('Service: configurationService', function() {
         httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName).respond(serverResponse);
 
         configurationService.files.getFileContent(domain, instance, service, version, fileName).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -78,7 +78,7 @@ describe('Service: configurationService', function() {
         httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + fileName + '/').respond(serverResponse);
 
         configurationService.files.getVersions(domain, instance, service, fileName).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -89,7 +89,7 @@ describe('Service: configurationService', function() {
         httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/' + service + '/' + fileName).respond(serverResponse);
 
         configurationService.files.getBaseFile(domain, service, fileName).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -101,7 +101,7 @@ describe('Service: configurationService', function() {
         undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.createVersion(domain, instance, service, newVersionName, fileName, fileVersion).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -113,7 +113,7 @@ describe('Service: configurationService', function() {
             + version + '/' + fileName, data, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.saveFile(domain, instance, service, version, fileName, fileVersion, data).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -125,7 +125,7 @@ describe('Service: configurationService', function() {
             + version + '/' + fileName, data).respond(serverResponse);
 
         configurationService.files.cloneFile(domain, instance, service, version, fileName, data).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -137,7 +137,7 @@ describe('Service: configurationService', function() {
             + version + '/' + fileName, undefined, function(headers) { return headers['X-Dash-Version'] == fileVersion; }).respond(serverResponse);
 
         configurationService.files.deleteFile(domain, instance, service, version, fileName, fileVersion).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 
@@ -149,7 +149,7 @@ describe('Service: configurationService', function() {
             + version + '/' + fileName +  '/live').respond(serverResponse);
 
         configurationService.files.makeVersionLive(domain, instance, service, version, fileName).then(function(response) {
-            expect(response.data).toEqual(serverResponse);
+            expect(response).toEqual(serverResponse);
             done();
         });
 

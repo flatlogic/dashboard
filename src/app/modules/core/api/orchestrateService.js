@@ -1,7 +1,7 @@
 (function () {
 
     angular
-        .module('qorDash.loaders')
+        .module('qorDash.api')
         .factory('orchestrateService', orchestrateService);
 
     function orchestrateService ($http, API_HOST) {
@@ -36,20 +36,21 @@
         }
 
         function loadOption(domain, instance, option, optionId) {
-            return $http.get(API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId);
+            return $http.get(API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function loadLogUrl(activateUrl, data) {
             var request = {
                 method: 'POST',
                 url: API_HOST + activateUrl,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 data: data
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
     }
 })();

@@ -3,25 +3,27 @@ describe('Service: manageLoader', function() {
 
     var resultToken = 'token',
         serverResponse = { token: resultToken },
-        AUTH_API_URL,
-        AUTH_API_USER,
-        AUTH_API_SECRET;
-
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.config'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module("qorDash.loaders"));
+        AUTH_API_URL = 'AUTH_API_URL',
+        AUTH_API_USER = 'AUTH_API_USER',
+        AUTH_API_SECRET = 'AUTH_API_SECRET',
+        errorHandler = 'errorHandler';
 
     beforeEach(function() {
-        inject(function (_manageLoader_, $httpBackend, _user_, $state, _AUTH_API_URL_, _AUTH_API_USER_, _AUTH_API_SECRET_) {
+        module('ui.router');
+        module('qorDash.api');
+
+        module(function($provide) {
+            $provide.constant('AUTH_API_URL', AUTH_API_URL);
+            $provide.constant('AUTH_API_USER', AUTH_API_USER);
+            $provide.constant('AUTH_API_SECRET', AUTH_API_SECRET);
+            $provide.constant('errorHandler', errorHandler);
+        });
+    });
+
+    beforeEach(function() {
+        inject(function (_manageLoader_, $httpBackend) {
             manageLoader = _manageLoader_;
             httpBackend = $httpBackend;
-            AUTH_API_URL = _AUTH_API_URL_;
-            AUTH_API_USER = _AUTH_API_USER_;
-            AUTH_API_SECRET = _AUTH_API_SECRET_;
-
-            spyOn($state, 'go').and.returnValue(true);
         });
     });
 

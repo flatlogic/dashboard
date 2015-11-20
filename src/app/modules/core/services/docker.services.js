@@ -1,6 +1,6 @@
 (function () {
 
-    angular.module('qorDash.loaders')
+    angular.module('qorDash.api')
         .factory('dockerService', dockerService);
 
     function dockerService ($http, $q, Settings, errorHandler) {

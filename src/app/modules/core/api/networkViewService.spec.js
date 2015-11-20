@@ -4,22 +4,19 @@ describe('Service: networkViewService', function() {
 
     beforeEach(function() {
         module('ui.router');
-        module('qorDash.core');
-        module('qorDash.auth');
-        module("qorDash.loaders");
+        module('qorDash.api');
         module(function($provide){
-            $provide.constant('AUTH_API_URL', 'api url');
             $provide.constant('resolvedNetworkData', '');
             $provide.constant('Notification', '');
+            $provide.constant('AUTH_API_URL', 'AUTH_API_URL');
+            $provide.constant('errorHandler', 'AUTH_API_URL');
         });
     });
 
     beforeEach(function() {
-        inject(function (_networkViewService_, $httpBackend, $state, AUTH_API_URL) {
+        inject(function (_networkViewService_, $httpBackend) {
             networkViewService = _networkViewService_;
             httpBackend = $httpBackend;
-
-            spyOn($state, 'go').and.returnValue(true);
         });
     });
 

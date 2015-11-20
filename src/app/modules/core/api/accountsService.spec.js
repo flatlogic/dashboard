@@ -1,4 +1,4 @@
-describe('Service: accountsService ', function() {
+describe('Service: accountsService', function() {
     var accountsService, httpBackend;
 
     var token = 'token',
@@ -7,19 +7,21 @@ describe('Service: accountsService ', function() {
         username = 'username',
         password = 'password',
         custom_object = 'custom_object',
-        token = 'token',
         email = 'email',
         AUTH_API_URL = 'AUTH_API_URL';
 
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module("qorDash.loaders"));
+    beforeEach(function() {
+        module('ui.router');
+        module('qorDash.api');
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("AUTH_API_URL", AUTH_API_URL);
-        $provide.constant("Notification", {error: function(){}});
-    }));
+        module(function($provide) {
+            $provide.constant("AUTH_API_URL", AUTH_API_URL);
+            $provide.constant("Notification", {error: function(){}});
+            $provide.service('errorHandler', function(){
+                this.showError = jasmine.createSpy('showError');
+            });
+        });
+    });
 
     var errorHandler = {
         showError: function(e) {
@@ -28,16 +30,16 @@ describe('Service: accountsService ', function() {
     };
 
     beforeEach(function() {
-        inject(function (_accountsService_, $httpBackend, $state) {
+        inject(function (_accountsService_, $httpBackend, _errorHandler_) {
             accountsService = _accountsService_;
             httpBackend = $httpBackend;
-            spyOn($state, 'go').and.returnValue(true);
+            errorHandler = _errorHandler_;
         });
     });
 
-
     it("should get all accounts", function(done) {
-        httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
+        httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined,
+            {"Authorization":"Bearer " + token,"Accept":"application/json, text/plain, */*"}).respond(serverResponse);
 
         accountsService.getAccounts(token)
             .then(function(response) {
@@ -49,7 +51,8 @@ describe('Service: accountsService ', function() {
     });
 
     it ('should get account by id', function(done) {
-        httpBackend.expect('GET', AUTH_API_URL + '/account/' + accountId, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
+        httpBackend.expect('GET', AUTH_API_URL + '/account/' + accountId, undefined,
+            {"Authorization":"Bearer " + token,"Accept":"application/json, text/plain, */*"}).respond(serverResponse);
 
         accountsService.getAccountById(accountId, token)
             .then(function(response){
@@ -72,7 +75,7 @@ describe('Service: accountsService ', function() {
             {
                 "Content-Type":"application/json;charset=utf-8",
                 'Authorization': 'Bearer ' + token,
-                "Accept":"application/json"
+                "Accept":"application/json, text/plain, */*"
             }
         ).respond(serverResponse);
 
@@ -96,7 +99,7 @@ describe('Service: accountsService ', function() {
             {
                 "Content-Type":"application/json;charset=utf-8",
                 'Authorization': 'Bearer ' + token,
-                "Accept":"application/json"
+                "Accept":"application/json, text/plain, */*"
             }
         ).respond(serverResponse);
 

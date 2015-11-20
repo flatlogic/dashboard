@@ -10,16 +10,12 @@ describe('Service: orchestrateService', function() {
         data = 'data',
         API_HOST = 'API_HOST';
 
-        beforeEach(function(){
-            module("qorDash.loaders");
-            module(function($provide) {
-                $provide.constant("API_HOST", API_HOST);
-                $provide.service('errorHandler', function(){
-                    this.showError = jasmine.createSpy('showError');
-                });
-            });
+    beforeEach(function(){
+        module("qorDash.api");
+        module(function($provide) {
+            $provide.constant("API_HOST", API_HOST);
         });
-
+    });
 
     beforeEach(function() {
         inject(function (_orchestrateService_, $httpBackend) {
@@ -61,7 +57,7 @@ describe('Service: orchestrateService', function() {
 
         orchestrateService.loadOption(domain, instance, option, optionId)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -74,7 +70,7 @@ describe('Service: orchestrateService', function() {
 
         orchestrateService.loadLogUrl(activateUrl, data)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 

@@ -1,11 +1,10 @@
 describe('Controller: OrchestrateInstanceController', function() {
 
-    var $scope;
-    var $stateParams,
+    var $scope,
+        $stateParams,
         resolvedInstances = {1: 2};
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.orchestrate.domain.instance');
     });
 

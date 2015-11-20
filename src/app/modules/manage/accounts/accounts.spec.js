@@ -22,7 +22,7 @@ describe('Controller: AccountsController', function() {
     beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.loaders', function($provide) {
+    beforeEach(module('qorDash.api', function($provide) {
         $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
     }));
     beforeEach(module('qorDash.manage.accounts'));

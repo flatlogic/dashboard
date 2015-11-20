@@ -1,7 +1,7 @@
 (function () {
 
     angular
-        .module('qorDash.loaders')
+        .module('qorDash.api')
         .factory('accountsService', accountsService);
 
     function accountsService ($http, AUTH_API_URL, errorHandler, $q) {
@@ -74,7 +74,6 @@
                 method: 'POST',
                 url: AUTH_API_URL + '/register',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
                 data: {
