@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('qorDash.orchestrate')
+        .module('qorDash.orchestrate.domain.instance.history.option')
         .controller('OrchestrateOptionController', orchestrateOptionController);
 
     function orchestrateOptionController($scope, $stateParams, orchestrateService, $compile, WS_URL, errorHandler) {
@@ -49,8 +49,8 @@
                     break;
             }
         };
-
         if (optId == 'new') {
+
             $scope.$watch('workflows', function() {
                 if (!$scope.$parent.$parent.workflows) {
                     return;
