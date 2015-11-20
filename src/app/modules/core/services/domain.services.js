@@ -1,6 +1,6 @@
 (function () {
 
-    angular.module('qorDash.loaders')
+    angular.module('qorDash.api')
         .factory('domainService', domainService);
 
     function domainService ($http, $q, API_HOST, errorHandler) {

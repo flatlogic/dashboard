@@ -1,7 +1,7 @@
 (function () {
 
     angular
-        .module('qorDash.loaders')
+        .module('qorDash.api')
         .factory('networkViewService', networkViewService);
 
     function networkViewService ($http, errorHandler) {

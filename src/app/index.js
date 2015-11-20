@@ -8,7 +8,7 @@
             'chart.js',
             'ngMessages',
             'qorDash.config',
-            'qorDash.loaders',
+            'qorDash.api',
             'qorDash.core',
             'qorDash.auth',
             'qorDash.dashboard',

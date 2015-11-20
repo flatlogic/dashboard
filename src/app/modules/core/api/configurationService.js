@@ -1,7 +1,7 @@
 (function () {
 
     angular
-        .module('qorDash.loaders')
+        .module('qorDash.api')
         .factory('configurationService', configurationService);
 
     function configurationService ($http, API_HOST, errorHandler) {
@@ -57,49 +57,45 @@
             var request = {
                 method: 'POST',
                 url: API_HOST + '/v1/conf/' + domain + '/' + service + '/' + fileName,
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
                 data: text
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getFileContent(domain, instance, service, version, fileName) {
             var request = {
                 method: 'GET',
-                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getVersions(domain, instance, service, fileName) {
             var versionsRequest = {
                 method: 'GET',
                 url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' +
-                    service + '/' + fileName + '/',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                    service + '/' + fileName + '/'
             };
-            return $http(versionsRequest);
+            return $http(versionsRequest)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getBaseFile(domain, service, fileName) {
             var request = {
                 method: 'GET',
                 url: API_HOST + '/v1/conf/' + domain +
-                    '/' + service + '/' + fileName,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                    '/' + service + '/' + fileName
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function createVersion(domain, instance, service, newVersionName, fileName, fileVersion) {
@@ -111,7 +107,9 @@
                     'X-Dash-Version': fileVersion
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function saveFile(domain, instance, service, version, fileName, fileVersion, data) {
@@ -124,7 +122,9 @@
                 },
                 data: data
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function cloneFile(domain, instance, service, version, object, data) {
@@ -138,7 +138,9 @@
                 },
                 data: data
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function deleteFile(domain, instance, service, version, fileName, fileVersion) {
@@ -151,18 +153,19 @@
                     'X-Dash-Version': fileVersion
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function makeVersionLive(domain, instance, service, version, fileName) {
             var postRequest = {
                 method: 'POST',
-                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live'
             };
-            return $http(postRequest);
+            return $http(postRequest)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
     }
 })();

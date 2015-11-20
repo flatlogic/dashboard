@@ -4,7 +4,7 @@
     angular
         .module('qorDash.domains.env.network', [
             'ui.layout',
-            'qorDash.loaders'
+            'qorDash.api'
         ])
         .config(config);
 

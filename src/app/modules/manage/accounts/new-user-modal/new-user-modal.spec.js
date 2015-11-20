@@ -22,7 +22,7 @@ describe('Controller: NewUserModalController', function() {
     beforeEach(module('qorDash.config'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.loaders'));
+    beforeEach(module('qorDash.api'));
     beforeEach(module('qorDash.manage.accounts'));
 
     beforeEach(function() {
