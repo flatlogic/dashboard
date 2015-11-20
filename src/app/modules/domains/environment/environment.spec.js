@@ -3,25 +3,24 @@ describe('Controller: DomainEnvironmentController', function() {
     var $scope;
     var $stateParams,
         env = 'env',
-        networkData = {},
-        WS_URL = "wss://ops-dev.blinker.com";
+        WS_URL = "wss://ops-dev.blinker.com",
+        AUTH_API_URL;
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.auth');
         module('qorDash.domains');
+        module(function ($provide) {
+            $provide.value("AUTH_API_URL", AUTH_API_URL);
+        })
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, $state)  {
+        inject(function(_$rootScope_, _$controller_)  {
             $scope = _$rootScope_.$new();
             $stateParams = {
                 env: env,
                 domain: {id:1}
             };
-            spyOn($state, 'go').and.returnValue(true);
             _$controller_('DomainEnvironmentController as vm', {$scope: $scope, $stateParams: $stateParams, WS_URL: WS_URL});
         })
     });
@@ -33,6 +32,10 @@ describe('Controller: DomainEnvironmentController', function() {
 
         it ('should populate vm.environment.name with $stateParams.env', function() {
             expect($scope.vm.environment.name).toBe($stateParams.env);
+        });
+
+        it ('should populate vm.eventsWsUrl with WS_URL + "/v1/events"', function() {
+            expect($scope.vm.eventsWsUrl).toBe(WS_URL + "/v1/events");
         });
     });
 });

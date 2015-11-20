@@ -7,17 +7,14 @@ describe('Controller: DashboardController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
         module('qorDash.core');
-        module('qorDash.auth');
         module('qorDash.dashboard');
     });
 
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, $state)  {
+        inject(function(_$rootScope_, _$controller_)  {
             $scope = _$rootScope_.$new();
-            spyOn($state, 'go').and.returnValue(true);
             _$controller_('DashboardController', {$scope: $scope, $rootScope: $rootScope, $location: $location, API_HOST: API_HOST});
         })
     });

@@ -8,9 +8,6 @@ describe('Controller: ServicesController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.auth');
         module('qorDash.configurations.services');
     });
 
@@ -29,21 +26,21 @@ describe('Controller: ServicesController', function() {
 
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$state_, _$controller_)  {
+        inject(function(_$rootScope_, _$controller_)  {
             $scope = _$rootScope_.$new();
-            spyOn(_$state_, 'go').and.returnValue(true);
             spyOn($state,'go').and.callThrough();
-            _$controller_('ServicesController', {$scope: $scope, $state: $state, resolvedDomain: resolvedDomain});
+            _$controller_('ServicesController as vm', {$scope: $scope, $state: $state, resolvedDomain: resolvedDomain});
 
         })
     });
 
     describe('after loading', function(){
-        var vm = {};
-        vm.services = resolvedDomain.services;
+        it('should populate $scope.vm.srevices with resolvedDomain.services',function(){
+            expect($scope.vm.services).toBe(resolvedDomain.services);
+        });
 
-        it('should redirect to app.configurations.domain',function(){
-            expect($state.go).toHaveBeenCalledWith('.state', {service: vm.services[0]});
+        it('should redirect to app.configurations.services.service',function(){
+            expect($state.go).toHaveBeenCalledWith('.state', {service: $scope.vm.services[0]});
         });
     });
 });

@@ -8,9 +8,7 @@ describe('Controller: OrchestrateController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
         module('qorDash.core');
-        module('qorDash.auth');
         module('qorDash.orchestrate');
     });
 
@@ -27,9 +25,8 @@ describe('Controller: OrchestrateController', function() {
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _$state_)  {
+        inject(function(_$rootScope_, _$controller_)  {
             $scope = _$rootScope_.$new();
-            spyOn(_$state_, 'go').and.returnValue(true);
             spyOn($state,'go').and.callThrough();
             _$controller_('OrchestrateController', {$scope: $scope, $state: $state, $stateParams: $stateParams, resolvedDomains: resolvedDomains});
         })
