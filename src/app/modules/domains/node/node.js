@@ -8,9 +8,7 @@
     function domainNodeController($scope, $stateParams, resolvedNetworkData) {
         var vm = this;
         vm.node = {};
-
         vm.node = findNode(resolvedNetworkData, $stateParams.node, parseInt($stateParams.depth));
-
         function findNode(currentNode, name, depth) {
             var _depth = 0;
             return findNodeInner(currentNode, name, depth);

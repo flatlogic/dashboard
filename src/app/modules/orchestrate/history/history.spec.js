@@ -8,10 +8,7 @@ describe('Controller: OrchestrateHistoryController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.api');
-        module('qorDash.orchestrate');
+        module('qorDash.orchestrate.domain.instance.history');
     });
 
 

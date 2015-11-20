@@ -3,14 +3,10 @@ describe('Controller: OrchestrateInstanceController', function() {
     var $scope;
     var $stateParams,
         resolvedInstances = {1: 2};
-        workflows = {1: 2};
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.api');
-        module('qorDash.orchestrate');
+        module('qorDash.orchestrate.domain.instance');
     });
 
     beforeEach(function () {
@@ -29,12 +25,8 @@ describe('Controller: OrchestrateInstanceController', function() {
             expect($scope.title).toBe($stateParams.inst);
         });
 
-        it ('should define $scope.workflows', function() {
-            expect($scope.workflows).toBeDefined();
-        });
-
         it ('should populate $scope.previousCalls with response.data', function() {
-            expect($scope.workflows).toEqual(workflows);
+            expect($scope.workflows).toBe(resolvedInstances);
         });
     });
 });

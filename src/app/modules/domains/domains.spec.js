@@ -2,35 +2,30 @@ describe('Controller: DomainsController', function() {
 
     var $scope;
     var $state,
-        resolvedDomains = [{id:1}];
+        resolvedDomains = [{id:1}],
+        AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.auth');
         module('qorDash.domains');
+        module(function ($provide) {
+            $provide.value("AUTH_API_URL", AUTH_API_URL);
+            $provide.service('$state', function() {
+                this.go = jasmine.createSpy('go').and.callFake(function(smth) {
+                    return smth;
+                });
+                this.current = {
+                    name: 'app.domains'
+                }
+            });
+        });
+
     });
-
-    beforeEach(function() {
-
-        $state = {
-            go: function(path) {
-                return path;
-            },
-            current: {
-                name: 'app.domains'
-            }
-        };
-    });
-
-
 
     beforeEach(function () {
         inject(function(_$rootScope_, _$controller_, _$state_)  {
+            $state = _$state_;
             $scope = _$rootScope_.$new();
-            spyOn(_$state_, 'go').and.returnValue(true);
-            spyOn($state,'go').and.callThrough();
             _$controller_('DomainsController', {$scope: $scope, $state: $state, resolvedDomains: resolvedDomains});
 
         })

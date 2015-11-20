@@ -3,6 +3,7 @@
 
     angular
         .module('qorDash.configurations', [
+            'qorDash.core',
             'qorDash.configurations.services',
             'qorDash.configurations.services.state',
             'qorDash.configurations.services.state.files',
@@ -11,7 +12,7 @@
             'qorDash.configurations.services.state.instances',
             'qorDash.configurations.services.state.instances.editor',
             'qorDash.configurations.services.state.packages',
-            'qorDash.configurations.services.state.packages.editor',
+            'qorDash.configurations.services.state.packages.editor'
         ])
         .config(config);
 
