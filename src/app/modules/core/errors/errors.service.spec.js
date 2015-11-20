@@ -4,11 +4,9 @@ describe('Factory: errorHandler ', function() {
     var UNKNOWN_ERROR = 'UNKNOWN_ERROR',
         UNKNOWN_SERVER_ERROR = 'UNKNOWN_SERVER_ERROR',
         Notification,
-        error,
         response;
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.core');
         module(function($provide) {
             $provide.constant("UNKNOWN_ERROR", UNKNOWN_ERROR);

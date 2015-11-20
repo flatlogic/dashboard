@@ -2,10 +2,7 @@
     'use strict';
 
     angular
-        .module('qorDash.core', [
-            'ngAnimate',
-            'ngSanitize'
-        ])
+        .module('qorDash.core', [])
         .config(config);
 
     function config($stateProvider, $urlRouterProvider) {

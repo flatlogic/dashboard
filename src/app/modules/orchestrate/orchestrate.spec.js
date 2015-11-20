@@ -1,7 +1,7 @@
 describe('Controller: OrchestrateController', function() {
 
-    var $scope;
-    var $stateParams = {id: 1},
+    var $scope,
+        $stateParams = {id: 1},
         $state,
         resolvedDomains = [{id: 1}],
         domain = {};

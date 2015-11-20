@@ -7,7 +7,6 @@ describe('Controller: DomainEnvironmentController', function() {
         AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.domains');
         module(function ($provide) {
             $provide.value("AUTH_API_URL", AUTH_API_URL);
