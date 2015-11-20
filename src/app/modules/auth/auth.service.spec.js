@@ -58,7 +58,7 @@ describe('Factory: auth', function() {
         it ('should return false if token is not present', function() {
             expect(auth.getParsedToken()).toBe(false);
         });
-        
+
         it ('should get token from localStorage by tokenKey, decode and return', function() {
             auth.saveToken(response);
             expect(auth.getParsedToken().token).toBe(decodedToken);

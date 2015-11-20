@@ -1,13 +1,12 @@
 describe('Controller: ServicesController', function() {
 
-    var $scope;
-    var $state,
+    var $scope,
+        $state,
         resolvedDomain = {
             services: [{id:1}]
         };
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.configurations.services');
         module(function($provide) {
             $provide.service('$state', function() {

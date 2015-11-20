@@ -1,7 +1,7 @@
 describe('Controller: DomainNodeController', function() {
 
-    var $scope;
-    var $stateParams = {
+    var $scope,
+        $stateParams = {
             node: 'name',
             depth: 1
         },
@@ -9,7 +9,6 @@ describe('Controller: DomainNodeController', function() {
         AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.domains');
         module(function ($provide) {
             $provide.value("AUTH_API_URL", AUTH_API_URL);

@@ -1,7 +1,7 @@
 describe('Controller: OrchestrateOptionController', function() {
 
-    var $scope;
-    var $stateParams = {
+    var $scope,
+        $stateParams = {
             id: 1,
             inst: 'inst',
             opt: 'opt',
@@ -18,7 +18,6 @@ describe('Controller: OrchestrateOptionController', function() {
         errorHandler;
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.orchestrate.domain.instance.history.option');
         module(function ($provide) {
             $provide.service("orchestrateService", function() {

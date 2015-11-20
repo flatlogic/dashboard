@@ -7,7 +7,6 @@ describe('Controller: OrchestrateController', function() {
         domain = {};
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.orchestrate');
         module(function($provide) {
             $provide.service('$state', function() {

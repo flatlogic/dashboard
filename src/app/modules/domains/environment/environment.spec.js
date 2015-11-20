@@ -1,7 +1,7 @@
 describe('Controller: DomainEnvironmentController', function() {
 
-    var $scope;
-    var $stateParams,
+    var $scope,
+        $stateParams,
         env = 'env',
         WS_URL = "wss://ops-dev.blinker.com",
         AUTH_API_URL = 'AUTH_API_URL';
@@ -10,7 +10,7 @@ describe('Controller: DomainEnvironmentController', function() {
         module('qorDash.domains');
         module(function ($provide) {
             $provide.value("AUTH_API_URL", AUTH_API_URL);
-        })
+        });
     });
 
     beforeEach(function () {

@@ -6,23 +6,22 @@ describe('Controller: AccountController', function() {
         type = 'type',
         data = 'data',
         path = 'path',
-        key = 'key';
+        key = 'key',
+        objectEdit;
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.manage.accounts');
+        module(function($provide) {
+            $provide.service('objectEdit', function() {
+                this.dataChanged = jasmine.createSpy('dataChanged').and.callThrough();
+            });
+        });
     });
 
-    objectEdit = {
-        dataChanged: function(e) {
-            return e;
-        }
-    };
-
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_)  {
+        inject(function(_$rootScope_, _$controller_, _objectEdit_)  {
+            objectEdit = _objectEdit_;
             $scope = _$rootScope_.$new();
-            spyOn(objectEdit, 'dataChanged').and.callThrough();
             _$controller_('AccountController as vm', {$scope:$scope, resolvedAccount: resolvedAccount, objectEdit: objectEdit});
 
         })
