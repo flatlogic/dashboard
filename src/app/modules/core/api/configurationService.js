@@ -1,7 +1,7 @@
 (function () {
 
     angular
-        .module('qorDash.loaders')
+        .module('qorDash.api')
         .factory('configurationService', configurationService);
 
     function configurationService ($http, API_HOST, errorHandler) {

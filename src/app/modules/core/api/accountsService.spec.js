@@ -1,4 +1,4 @@
-describe('Service: accountsService ', function() {
+describe('Service: accountsService', function() {
     var accountsService, httpBackend;
 
     var token = 'token',
@@ -12,7 +12,7 @@ describe('Service: accountsService ', function() {
 
     beforeEach(function() {
         module('ui.router');
-        module("qorDash.loaders");
+        module('qorDash.api');
 
         module(function($provide) {
             $provide.constant("AUTH_API_URL", AUTH_API_URL);
@@ -36,7 +36,6 @@ describe('Service: accountsService ', function() {
             errorHandler = _errorHandler_;
         });
     });
-
 
     it("should get all accounts", function(done) {
         httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined,

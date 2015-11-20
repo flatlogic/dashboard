@@ -12,13 +12,12 @@ describe('Service: orchestrateService', function() {
 
     beforeEach(function() {
         module('ui.router');
-        module("qorDash.loaders");
+        module('qorDash.api');
 
         module(function($provide){
             $provide.constant('API_HOST', API_HOST);
         });
     });
-
 
     beforeEach(function() {
         inject(function (_orchestrateService_, $httpBackend) {

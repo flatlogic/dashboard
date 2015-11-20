@@ -9,7 +9,7 @@ describe('Controller: OrchestrateInstanceController', function() {
         module('ui.router');
         module('qorDash.config');
         module('qorDash.core');
-        module('qorDash.loaders');
+        module('qorDash.api');
         module('qorDash.orchestrate');
     });
 

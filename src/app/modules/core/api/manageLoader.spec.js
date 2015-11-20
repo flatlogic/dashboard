@@ -10,7 +10,7 @@ describe('Service: manageLoader', function() {
 
     beforeEach(function() {
         module('ui.router');
-        module("qorDash.loaders");
+        module('qorDash.api');
 
         module(function($provide) {
             $provide.constant('AUTH_API_URL', AUTH_API_URL);

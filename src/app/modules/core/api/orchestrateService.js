@@ -1,7 +1,7 @@
 (function () {
 
     angular
-        .module('qorDash.loaders')
+        .module('qorDash.api')
         .factory('orchestrateService', orchestrateService);
 
     function orchestrateService ($http, API_HOST) {

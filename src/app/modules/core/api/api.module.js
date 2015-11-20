@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('qorDash.loaders', []);
+        .module('qorDash.api', []);
 })();

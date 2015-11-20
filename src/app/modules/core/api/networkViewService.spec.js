@@ -4,7 +4,7 @@ describe('Service: networkViewService', function() {
 
     beforeEach(function() {
         module('ui.router');
-        module("qorDash.loaders");
+        module('qorDash.api');
         module(function($provide){
             $provide.constant('resolvedNetworkData', '');
             $provide.constant('Notification', '');

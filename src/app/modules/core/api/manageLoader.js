@@ -1,7 +1,7 @@
 (function () {
 
     angular
-        .module('qorDash.loaders')
+        .module('qorDash.api')
         .factory('manageLoader', manageLoader);
 
     function manageLoader ($q, $http, AUTH_API_URL, AUTH_API_USER, AUTH_API_SECRET, errorHandler) {

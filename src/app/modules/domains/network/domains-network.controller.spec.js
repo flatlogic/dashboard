@@ -12,7 +12,7 @@ describe('Controller: DomainsNetworkController', function() {
         module('ui.router');
         module('qorDash.core');
         module('qorDash.domains');
-        module('qorDash.loaders', function($provide) {
+        module('qorDash.api', function($provide) {
             $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
             $provide.constant("Notification", "");
             $provide.constant("resolvedNetworkData", "https://accounts.qor.io/v1");

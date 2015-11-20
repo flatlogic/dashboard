@@ -12,10 +12,10 @@ describe('Controller: AuthenticationDomainController', function() {
     beforeEach(module('ui.router'));
     beforeEach(module('qorDash.core'));
     beforeEach(module('qorDash.auth'));
-    beforeEach(module('qorDash.loaders'));
+    beforeEach(module('qorDash.api'));
     beforeEach(module('qorDash.manage.settings.authentication.domain'));
 
-    beforeEach(module('qorDash.loaders', function($provide) {
+    beforeEach(module('qorDash.api', function($provide) {
         $provide.constant("AUTH_API_URL", "https://accounts.qor.io/v1");
         $provide.constant("Notification", "1");
         $provide.constant("resolvedDomain", "1");
