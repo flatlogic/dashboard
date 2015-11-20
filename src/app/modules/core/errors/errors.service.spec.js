@@ -29,22 +29,27 @@ describe('Factory: errorHandler ', function() {
         });
     });
 
-    it('should error populate with response if response is a string', function(){
-        response = 'string';
-        errorHandler.showError(response);
-        expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + response);
+    describe('when response is a string', function(){
+        it('should error populate with response', function(){
+            response = 'string';
+            errorHandler.showError(response);
+            expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + response);
+        });
     });
 
-    it('should error populate with response.data.error if response.data exists', function(){
-        response = {data: {error: UNKNOWN_SERVER_ERROR}};
-        errorHandler.showError(response);
-        expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_SERVER_ERROR);
+    describe('when response has property data', function(){
+        it('should error populate with response.data.error', function(){
+            response = {data: {error: UNKNOWN_SERVER_ERROR}};
+            errorHandler.showError(response);
+            expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_SERVER_ERROR);
+        });
     });
 
-    it('should error populate with UNKNOWN_ERROR in other case', function(){
-        response = 123;
-        errorHandler.showError(response);
-        expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_ERROR);
+    describe('when response is not a string and does not have property data', function(){
+        it('should error populate with UNKNOWN_ERROR', function(){
+            response = 123;
+            errorHandler.showError(response);
+            expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_ERROR);
+        });
     });
-
 });

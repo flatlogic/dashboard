@@ -49,8 +49,8 @@
                     break;
             }
         };
-
         if (optId == 'new') {
+
             $scope.$watch('workflows', function() {
                 if (!$scope.$parent.$parent.workflows) {
                     return;

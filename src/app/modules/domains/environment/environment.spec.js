@@ -43,16 +43,16 @@ describe('Controller: DomainEnvironmentController', function() {
             expect($scope.eventsWsUrl).toBe(WS_URL + '/v1/events');
         });
 
-        beforeEach(function(){
-           spyOn($scope, 'setNetworkData').and.callThrough();
-           $scope.setNetworkData(networkData);
+        describe('when $scope.networkData runs', function(){
+            beforeEach(function(){
+                spyOn($scope, 'setNetworkData').and.callThrough();
+                $scope.setNetworkData(networkData);
+            });
+
+            it ('should populate $scope.networkData with networkData', function() {
+                expect($scope.setNetworkData).toHaveBeenCalledWith(networkData);
+                expect($scope.networkData).toBe(networkData);
+            });
         });
-
-        it ('should populate $scope.networkData with networkData', function() {
-            expect($scope.setNetworkData).toHaveBeenCalledWith(networkData);
-            expect($scope.networkData).toBe(networkData);
-        });
-
-
     });
 });

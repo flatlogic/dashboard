@@ -52,9 +52,12 @@ describe('Controller: ConfigurationsController', function() {
             expect($state.go).toHaveBeenCalledWith('.services', {domain:$scope.domains[0].id});
         });
 
-        it('should populate $scope.domain if domain.id == stateParams.id', function(){
-            domain.id = $stateParams.domain;
-            expect($scope.domain).toEqual(domain);
+        describe('when domain.id == stateParams.id', function(){
+            it('should populate $scope.domain', function(){
+                domain.id = $stateParams.domain;
+                expect($scope.domain).toEqual(domain);
+            });
         });
+
     });
 });
