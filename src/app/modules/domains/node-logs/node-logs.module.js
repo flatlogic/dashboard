@@ -1,15 +1,11 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.domains.env.network.note.logs', [
-        'ui.layout'
-    ]);
+    angular
+        .module('qorDash.domains.env.network.note.logs', [])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.domains.domain.env.network.node.logs', {
                 url: '/logs',

@@ -13,16 +13,15 @@ describe('Factory: permissions', function() {
     };
 
     beforeEach(function(){
-      module(function($provide){
-        $provide.service('auth', function(){
-          this.getParsedToken = jasmine.createSpy('getParsedToken').and.callFake(function(num) {
-              return mockPermissionsObj;
-          });
+        module('qorDash.auth.permissions');
+        module(function($provide){
+            $provide.constant('USER_HAS_NO_ACCESS', 'User has no permissions');
+            $provide.service('auth', function(){
+                this.getParsedToken = jasmine.createSpy('getParsedToken').and.callFake(function(num) {
+                    return mockPermissionsObj;
+                });
+            });
         });
-        $provide.constant('USER_HAS_NO_ACCESS', 'User has no permissions');
-      });
-      module('ui.router');
-      module('qorDash.auth.permissions')
     });
 
     beforeEach(function() {

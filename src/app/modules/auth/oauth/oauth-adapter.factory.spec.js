@@ -1,11 +1,11 @@
 describe('Factory: oauth adapter', function() {
     var $timeout,
-    $q,
-    oauthAdapter,
-    auth,
-    errorHandler,
-    oauthProviderGoogle,
-    oauthProviderGitHub;
+        $q,
+        oauthAdapter,
+        auth,
+        errorHandler,
+        oauthProviderGoogle,
+        oauthProviderGitHub;
 
     var oauthProviderGoogleMock = {
         login: jasmine.createSpy('login'),

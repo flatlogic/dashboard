@@ -1,19 +1,15 @@
 (function () {
     'use strict';
 
-    var module = angular.module('qorDash.deployment', [
-        'qorDash.core',
-        'ui.layout',
-        'qorDash.widget',
-        'qorDash.widget.terminal',
-        'qorDash.widget.timeline'
-    ]);
+    angular
+        .module('qorDash.deployment', [
+            'qorDash.widget',
+            'qorDash.widget.terminal',
+            'qorDash.widget.timeline'
+        ])
+        .config(config);
 
-    module.config(appConfig);
-
-    appConfig.$inject = ['$stateProvider'];
-
-    function appConfig($stateProvider) {
+    function config($stateProvider) {
         $stateProvider
             .state('app.deployment', {
                 url: '/deployment',

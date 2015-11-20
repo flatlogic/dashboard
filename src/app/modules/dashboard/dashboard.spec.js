@@ -1,12 +1,11 @@
 describe('Controller: DashboardController', function() {
 
-    var $scope;
-    var $rootScope,
+    var $scope,
+        $rootScope,
         $location,
         API_HOST = "https://ops-dev.blinker.com";
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.dashboard');
     });
 

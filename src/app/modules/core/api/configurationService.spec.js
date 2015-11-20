@@ -10,15 +10,15 @@ describe('Service: configurationService', function() {
         version = 'version',
         newVersionName = 'newVersion',
         fileVersion = 'fileVersion',
-        errorHandler = errorHandler,
-        API_HOST;
+        API_HOST = 'API_HOST';
 
-    beforeEach(function() {
-        module('ui.router');
-        module('qorDash.api');
+    beforeEach(function(){
+        module("qorDash.api");
         module(function($provide) {
-           $provide.constant('API_HOST', API_HOST);
-           $provide.constant('errorHandler', errorHandler);
+            $provide.constant("API_HOST", API_HOST);
+            $provide.service('errorHandler', function(){
+                this.showError = jasmine.createSpy('showError');
+            });
         });
     });
 

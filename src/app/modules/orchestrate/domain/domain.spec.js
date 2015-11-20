@@ -5,8 +5,6 @@ describe('Controller: OrchestrateDomainController', function() {
         AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(function(){
-        module('ui.router');
-        module('qorDash.core');
         module('qorDash.orchestrate');
     });
 

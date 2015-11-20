@@ -1,12 +1,11 @@
 describe('Controller: DeploymentController', function() {
 
-    var $scope;
-    var $rootScope,
+    var $scope,
+        $rootScope,
         $location,
         WS_URL = "wss://ops-dev.blinker.com";
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.deployment');
     });
 

@@ -1,13 +1,12 @@
 describe('Controller: OrchestrateController', function() {
 
-    var $scope;
-    var $stateParams = {id: 1},
+    var $scope,
+        $stateParams = {id: 1},
         $state,
         resolvedDomains = [{id: 1}],
         domain = {};
 
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.orchestrate');
         module(function($provide) {
             $provide.service('$state', function() {

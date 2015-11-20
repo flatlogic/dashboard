@@ -39,6 +39,7 @@ module.exports = function(config) {
             'src/app/index.js',
             'src/app/**/*.module.js',
             'src/app/**/*.js',
+            'mocks/helper.js',
             {pattern: 'src/data/*.json', included: false},
             {pattern: 'src/app/**/*.html', included: false},
         ],

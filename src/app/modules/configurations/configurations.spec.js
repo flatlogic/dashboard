@@ -1,15 +1,12 @@
 describe('Controller: ConfigurationsController', function() {
-
-    var $scope;
-    var $stateParams = {domain: 1},
+    var $scope,
+        $stateParams = {domain: 1},
         $state,
         resolvedDomains = [{id: 1}],
         domain = {};
-
+        
     beforeEach(function(){
-        module('ui.router');
         module('qorDash.configurations');
-
         module(function($provide) {
             $provide.service('$state', function() {
                 this.go = jasmine.createSpy('go').and.callFake(function(smth) {

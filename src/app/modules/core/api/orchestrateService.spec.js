@@ -7,15 +7,13 @@ describe('Service: orchestrateService', function() {
         optionId = 'optionId',
         serverResponse = 'response',
         activateUrl = 'activateUrl',
-        API_HOST = 'API_HOST',
-        data = 'data';
+        data = 'data',
+        API_HOST = 'API_HOST';
 
-    beforeEach(function() {
-        module('ui.router');
-        module('qorDash.api');
-
-        module(function($provide){
-            $provide.constant('API_HOST', API_HOST);
+    beforeEach(function(){
+        module("qorDash.api");
+        module(function($provide) {
+            $provide.constant("API_HOST", API_HOST);
         });
     });
 
