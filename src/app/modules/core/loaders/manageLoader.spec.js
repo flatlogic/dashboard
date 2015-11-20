@@ -7,11 +7,13 @@ describe('Service: manageLoader', function() {
         AUTH_API_USER,
         AUTH_API_SECRET;
 
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.config'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module("qorDash.loaders"));
+    beforeEach(function() {
+        module('ui.router');
+        module('ui-notification');
+        module('qorDash.config');
+        module('qorDash.core');
+        module("qorDash.loaders");
+    });
 
     beforeEach(function() {
         inject(function (_manageLoader_, $httpBackend, _user_, $state, _AUTH_API_URL_, _AUTH_API_USER_, _AUTH_API_SECRET_) {

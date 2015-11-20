@@ -63,7 +63,9 @@
                 data: text
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getFileContent(domain, instance, service, version, fileName) {
@@ -75,7 +77,9 @@
                 }
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getVersions(domain, instance, service, fileName) {
@@ -87,7 +91,9 @@
                     'Content-Type': 'application/json'
                 }
             };
-            return $http(versionsRequest);
+            return $http(versionsRequest)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function getBaseFile(domain, service, fileName) {
@@ -99,7 +105,9 @@
                     'Content-Type': 'application/json'
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function createVersion(domain, instance, service, newVersionName, fileName, fileVersion) {
@@ -111,7 +119,9 @@
                     'X-Dash-Version': fileVersion
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function saveFile(domain, instance, service, version, fileName, fileVersion, data) {
@@ -124,7 +134,9 @@
                 },
                 data: data
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function cloneFile(domain, instance, service, version, object, data) {
@@ -138,7 +150,9 @@
                 },
                 data: data
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function deleteFile(domain, instance, service, version, fileName, fileVersion) {
@@ -151,7 +165,9 @@
                     'X-Dash-Version': fileVersion
                 }
             };
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function makeVersionLive(domain, instance, service, version, fileName) {
@@ -162,7 +178,9 @@
                     'Content-Type': 'application/json'
                 }
             };
-            return $http(postRequest);
+            return $http(postRequest)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
     }
 })();

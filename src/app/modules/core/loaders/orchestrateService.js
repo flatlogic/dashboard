@@ -36,7 +36,9 @@
         }
 
         function loadOption(domain, instance, option, optionId) {
-            return $http.get(API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId);
+            return $http.get(API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
 
         function loadLogUrl(activateUrl, data) {
@@ -49,7 +51,9 @@
                 data: data
             };
 
-            return $http(request);
+            return $http(request)
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
         }
     }
 })();

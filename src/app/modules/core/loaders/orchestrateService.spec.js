@@ -9,10 +9,12 @@ describe('Service: orchestrateService', function() {
         activateUrl = 'activateUrl',
         data = 'data';
 
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.config'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module("qorDash.loaders"));
+    beforeEach(function() {
+        module('ui.router');
+        module('qorDash.config');
+        module('qorDash.core');
+        module("qorDash.loaders");
+    });
 
 
     beforeEach(function() {
@@ -58,7 +60,7 @@ describe('Service: orchestrateService', function() {
 
         orchestrateService.loadOption(domain, instance, option, optionId)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 
@@ -71,7 +73,7 @@ describe('Service: orchestrateService', function() {
 
         orchestrateService.loadLogUrl(activateUrl, data)
             .then(function(response) {
-                expect(response.data).toEqual(serverResponse);
+                expect(response).toEqual(serverResponse);
                 done();
             });
 

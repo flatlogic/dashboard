@@ -7,19 +7,20 @@ describe('Service: accountsService ', function() {
         username = 'username',
         password = 'password',
         custom_object = 'custom_object',
-        token = 'token',
         email = 'email',
         AUTH_API_URL = 'AUTH_API_URL';
 
-    beforeEach(module('ui.router'));
-    beforeEach(module('qorDash.core'));
-    beforeEach(module('qorDash.auth'));
-    beforeEach(module("qorDash.loaders"));
+    beforeEach(function() {
+        module('ui.router');
+        module('qorDash.core');
+        module('qorDash.auth');
+        module("qorDash.loaders");
 
-    beforeEach(module('qorDash.loaders', function($provide) {
-        $provide.constant("AUTH_API_URL", AUTH_API_URL);
-        $provide.constant("Notification", {error: function(){}});
-    }));
+        module(function($provide) {
+            $provide.constant("AUTH_API_URL", AUTH_API_URL);
+            $provide.constant("Notification", {error: function(){}});
+        });
+    });
 
     var errorHandler = {
         showError: function(e) {
