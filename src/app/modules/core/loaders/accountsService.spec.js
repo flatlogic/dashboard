@@ -17,7 +17,9 @@ describe('Service: accountsService ', function() {
         module(function($provide) {
             $provide.constant("AUTH_API_URL", AUTH_API_URL);
             $provide.constant("Notification", {error: function(){}});
-            $provide.constant("errorHandler", errorHandler);
+            $provide.service('errorHandler', function(){
+                this.showError = jasmine.createSpy('showError');
+            });
         });
     });
 
@@ -28,9 +30,10 @@ describe('Service: accountsService ', function() {
     };
 
     beforeEach(function() {
-        inject(function (_accountsService_, $httpBackend) {
+        inject(function (_accountsService_, $httpBackend, _errorHandler_) {
             accountsService = _accountsService_;
             httpBackend = $httpBackend;
+            errorHandler = _errorHandler_;
         });
     });
 
