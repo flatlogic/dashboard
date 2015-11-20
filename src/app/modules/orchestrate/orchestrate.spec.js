@@ -8,9 +8,7 @@ describe('Controller: OrchestrateController', function() {
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
         module('qorDash.core');
-        module('qorDash.auth');
         module('qorDash.orchestrate');
     });
 

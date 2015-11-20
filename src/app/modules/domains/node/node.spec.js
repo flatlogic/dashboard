@@ -5,20 +5,21 @@ describe('Controller: DomainNodeController', function() {
             node: 'name',
             depth: 1
         },
-        resolvedNetworkData = {name: 'name'};
+        resolvedNetworkData = {name: 'name'},
+        AUTH_API_URL = 'AUTH_API_URL';
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.auth');
         module('qorDash.domains');
+        module(function ($provide) {
+            $provide.value("AUTH_API_URL", AUTH_API_URL);
+
+        })
     });
 
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _$state_)  {
+        inject(function(_$rootScope_, _$controller_)  {
             $scope = _$rootScope_.$new();
-            spyOn(_$state_, 'go').and.returnValue(true);
             _$controller_('DomainNodeController as vm', {$scope: $scope, $stateParams: $stateParams, resolvedNetworkData: resolvedNetworkData});
 
         })

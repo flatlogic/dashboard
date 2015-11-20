@@ -3,53 +3,45 @@ describe('Factory: errorHandler ', function() {
 
     var UNKNOWN_ERROR = 'UNKNOWN_ERROR',
         UNKNOWN_SERVER_ERROR = 'UNKNOWN_SERVER_ERROR',
-        Notification = {error: function(){}},
+        Notification,
         error,
-        response,
-        showError;
+        response;
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
         module('qorDash.core');
-        module('qorDash.auth');
+        module(function($provide) {
+            $provide.constant("UNKNOWN_ERROR", UNKNOWN_ERROR);
+            $provide.constant("UNKNOWN_SERVER_ERROR", UNKNOWN_SERVER_ERROR);
+            $provide.service("Notification", function(){
+                this.error = jasmine.createSpy('error').and.callFake(function(){});
+            });
+        })
     });
-
-    beforeEach(module('qorDash.core', function($provide) {
-        $provide.constant("UNKNOWN_ERROR", UNKNOWN_ERROR);
-        $provide.constant("UNKNOWN_SERVER_ERROR", UNKNOWN_SERVER_ERROR);
-        $provide.constant("Notification", Notification);
-    }));
 
     beforeEach(function() {
-        inject(function (_errorHandler_, $state) {
+        inject(function (_errorHandler_, _Notification_) {
+            Notification = _Notification_;
             errorHandler = _errorHandler_;
-            spyOn($state, 'go').and.returnValue(true);
-            spyOn(Notification, 'error').and.returnValue(true);
         });
     });
 
-    describe('when response is a string', function(){
-        it('should error populate with response', function(){
-            response = 'string';
-            errorHandler.showError(response);
-            expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + response);
-        });
+    it('should error populate with response if response is a string', function(){
+        response = 'string';
+        errorHandler.showError(response);
+        expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + response);
     });
 
-    describe('when response has property data', function(){
-        it('should error populate with response.data.error', function(){
-            response = {data: {error: UNKNOWN_SERVER_ERROR}};
-            errorHandler.showError(response);
-            expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_SERVER_ERROR);
-        });
+    it('should error populate with response.data.error if response.data exists', function(){
+        response = {data: {error: UNKNOWN_SERVER_ERROR}};
+        errorHandler.showError(response);
+        expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_SERVER_ERROR);
     });
 
-    describe('when response is not a string and does not have property data', function(){
-        it('should error populate with UNKNOWN_ERROR', function(){
-            response = 123;
-            errorHandler.showError(response);
-            expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_ERROR);
-        });
+    it('should error populate with UNKNOWN_ERROR in other case', function(){
+        response = 123;
+        errorHandler.showError(response);
+        expect(Notification.error).toHaveBeenCalledWith('Can\'t load data: ' + UNKNOWN_ERROR);
     });
+
 });

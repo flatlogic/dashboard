@@ -7,50 +7,48 @@ describe('Controller: OrchestrateOptionController', function() {
             opt: 'opt',
             opt_id: 'old'
         },
-        orchestrateService,
         $compile,
         WS_URL = 'WS_URL',
-        errorHandler,
         q,
         deferred,
         workflow = {1: 2},
         error = 'error';
 
+    var orchestrateService,
+        errorHandler;
+
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
-        module('qorDash.core');
-        module('qorDash.auth');
-        module('qorDash.orchestrate');
+        module('qorDash.orchestrate.domain.instance.history.option');
+        module(function ($provide) {
+            $provide.service("orchestrateService", function() {
+                this.loadOption = function() {
+                    deferred = q.defer();
+                    return deferred.promise;
+                };
+                this.loadLogUrl = function() {
+                    deferred = q.defer();
+                    return deferred.promise;
+                }
+            });
+            $provide.service('errorHandler', function(){
+                this.showError = jasmine.createSpy('showError').and.callFake(function(e){
+                    return e;
+                });
+            });
+        })
     });
 
-    orchestrateService = {
-        loadOption: function() {
-            deferred = q.defer();
-            return deferred.promise;
-        },
-        loadLogUrl : function() {
-            deferred = q.defer();
-            return deferred.promise;
-        }
-    };
-
-    errorHandler = {
-        showError: function(error) {
-            return error;
-        }
-    };
-
     beforeEach(function () {
-        inject(function(_$rootScope_, _$controller_, _$state_, _$compile_, $q)  {
+        inject(function(_$rootScope_, _$controller_, _$compile_, $q, _orchestrateService_, _errorHandler_)  {
             q = $q;
             $compile = _$compile_;
             $scope = _$rootScope_.$new();
-            spyOn(_$state_, 'go').and.returnValue(true);
+            orchestrateService = _orchestrateService_;
+            errorHandler = _errorHandler_;
             spyOn(orchestrateService, 'loadOption').and.callThrough();
             spyOn(orchestrateService, 'loadLogUrl').and.callThrough();
-            spyOn(errorHandler, 'showError').and.callThrough();
-            _$controller_('OrchestrateOptionController', {$scope: $scope, $stateParams: $stateParams, orchestrateService: orchestrateService, $compile: $compile, WS_URL: WS_URL, errorHandler: errorHandler});
+            _$controller_('OrchestrateOptionController', {$scope: $scope, $stateParams: $stateParams, $compile: $compile, WS_URL: WS_URL});
 
         })
     });
@@ -71,7 +69,7 @@ describe('Controller: OrchestrateOptionController', function() {
                 $scope.$root.$digest();
             });
 
-            it('', function(){
+            it('should populate $scope.workflow with response.data', function(){
                 expect($scope.workflow).toBe(workflow);
             })
         });
