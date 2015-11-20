@@ -3,6 +3,7 @@
 
     angular
         .module('qorDash.orchestrate', [
+            'qorDash.core',
             'qorDash.orchestrate.domain',
             'qorDash.orchestrate.domain.instance',
             'qorDash.orchestrate.domain.instance.history',

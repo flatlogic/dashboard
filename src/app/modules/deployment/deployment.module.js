@@ -2,6 +2,7 @@
     'use strict';
 
     var module = angular.module('qorDash.deployment', [
+        'qorDash.core',
         'ui.layout',
         'qorDash.widget',
         'qorDash.widget.terminal',
