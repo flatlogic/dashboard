@@ -13,9 +13,6 @@
             var request = {
                 method: 'POST',
                 url: AUTH_API_URL + '/auth',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 data: {
                     'username': AUTH_API_USER,
                     'password': AUTH_API_SECRET

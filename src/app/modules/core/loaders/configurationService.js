@@ -173,10 +173,7 @@
         function makeVersionLive(domain, instance, service, version, fileName) {
             var postRequest = {
                 method: 'POST',
-                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                url: API_HOST + '/v1/conf/' + domain + '/' + instance + '/' + service + '/' + version + '/' + fileName +  '/live'
             };
             return $http(postRequest)
                 .then(httpRequestSuccess)

@@ -12,13 +12,12 @@ describe('Service: accountsService ', function() {
 
     beforeEach(function() {
         module('ui.router');
-        module('qorDash.core');
-        module('qorDash.auth');
         module("qorDash.loaders");
 
         module(function($provide) {
             $provide.constant("AUTH_API_URL", AUTH_API_URL);
             $provide.constant("Notification", {error: function(){}});
+            $provide.constant("errorHandler", errorHandler);
         });
     });
 
@@ -29,16 +28,16 @@ describe('Service: accountsService ', function() {
     };
 
     beforeEach(function() {
-        inject(function (_accountsService_, $httpBackend, $state) {
+        inject(function (_accountsService_, $httpBackend) {
             accountsService = _accountsService_;
             httpBackend = $httpBackend;
-            spyOn($state, 'go').and.returnValue(true);
         });
     });
 
 
     it("should get all accounts", function(done) {
-        httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
+        httpBackend.expect('GET', AUTH_API_URL + '/account/', undefined,
+            {"Authorization":"Bearer " + token,"Accept":"application/json, text/plain, */*"}).respond(serverResponse);
 
         accountsService.getAccounts(token)
             .then(function(response) {
@@ -50,7 +49,8 @@ describe('Service: accountsService ', function() {
     });
 
     it ('should get account by id', function(done) {
-        httpBackend.expect('GET', AUTH_API_URL + '/account/' + accountId, undefined, {"Authorization":"Bearer " + token,"Accept":"application/json"}).respond(serverResponse);
+        httpBackend.expect('GET', AUTH_API_URL + '/account/' + accountId, undefined,
+            {"Authorization":"Bearer " + token,"Accept":"application/json, text/plain, */*"}).respond(serverResponse);
 
         accountsService.getAccountById(accountId, token)
             .then(function(response){
@@ -73,7 +73,7 @@ describe('Service: accountsService ', function() {
             {
                 "Content-Type":"application/json;charset=utf-8",
                 'Authorization': 'Bearer ' + token,
-                "Accept":"application/json"
+                "Accept":"application/json, text/plain, */*"
             }
         ).respond(serverResponse);
 
@@ -97,7 +97,7 @@ describe('Service: accountsService ', function() {
             {
                 "Content-Type":"application/json;charset=utf-8",
                 'Authorization': 'Bearer ' + token,
-                "Accept":"application/json"
+                "Accept":"application/json, text/plain, */*"
             }
         ).respond(serverResponse);
 

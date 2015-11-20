@@ -15,20 +15,17 @@ describe('Service: configurationService', function() {
 
     beforeEach(function() {
         module('ui.router');
-        module('ui-notification');
-        module('qorDash.config');
-        module('qorDash.core');
         module("qorDash.loaders");
+        module(function($provide) {
+           $provide.constant('API_HOST', API_HOST);
+           $provide.constant('errorHandler', errorHandler);
+        });
     });
 
     beforeEach(function() {
-        inject(function (_configurationService_, $httpBackend, _user_, _API_HOST_, _errorHandler_, $state) {
+        inject(function (_configurationService_, $httpBackend) {
             configurationService = _configurationService_;
             httpBackend = $httpBackend;
-            errorHandler = _errorHandler_;
-            API_HOST = _API_HOST_;
-
-            spyOn($state, 'go').and.returnValue(true);
         });
     });
 
