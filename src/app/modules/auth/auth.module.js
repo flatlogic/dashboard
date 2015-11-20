@@ -3,6 +3,7 @@
 
     angular
       .module('qorDash.auth', [
+          'qorDash.auth.oauth',
           'qorDash.auth.permissions'
       ])
       .config(config)

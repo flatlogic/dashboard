@@ -13,7 +13,7 @@
                     <li><a ng-click="vm.startAction()">Start</a></li>
                     <li><a ng-click="vm.stopAction()">Stop</a></li>
                     <li><a ng-click="vm.restartAction()">Restart</a></li>
-                    <li><a ng-click="vm.killAction()">Kill</a></li>
+                    <li has-permission="kill"><a ng-click="vm.killAction()">Kill</a></li>
                     <li><a ng-click="vm.pauseAction()">Pause</a></li>
                     <li><a ng-click="vm.unpauseAction()">Unpause</a></li>
                     <li><a ng-click="vm.removeAction()">Remove</a></li>

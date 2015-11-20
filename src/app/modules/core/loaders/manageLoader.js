@@ -1,9 +1,9 @@
 (function () {
 
-    angular.module('qorDash.loaders')
+    angular
+        .module('qorDash.loaders')
         .factory('manageLoader', manageLoader);
 
-    manageLoader.$inject = ['$q', '$http', 'AUTH_API_URL', 'AUTH_API_USER', 'AUTH_API_SECRET'];
     function manageLoader ($q, $http, AUTH_API_URL, AUTH_API_USER, AUTH_API_SECRET) {
         return {
             load : load

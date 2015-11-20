@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('qorDash.widget.network', []);
+        .module('qorDash.auth.oauth', []);
 })();

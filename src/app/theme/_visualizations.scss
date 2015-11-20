@@ -99,6 +99,12 @@
   font-weight: $font-weight-normal;
 }
 
+.network-body {
+  &:hover {
+    fill: #e1e6f0 !important;
+  }
+}
+
 .network-svg {
   background-color: #fff;
   border: 1px solid #949da5;
