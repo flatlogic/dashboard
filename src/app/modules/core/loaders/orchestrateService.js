@@ -45,9 +45,6 @@
             var request = {
                 method: 'POST',
                 url: API_HOST + activateUrl,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 data: data
             };
 

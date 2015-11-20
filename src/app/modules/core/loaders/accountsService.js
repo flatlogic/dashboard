@@ -74,7 +74,6 @@
                 method: 'POST',
                 url: AUTH_API_URL + '/register',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
                 data: {
