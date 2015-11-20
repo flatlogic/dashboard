@@ -5,6 +5,7 @@ describe('Controller: OrchestrateHistoryController', function() {
         previousCalls = {1: 2},
         resolvedHistory = {1: 2};
 
+
     beforeEach(function(){
         module('qorDash.orchestrate.domain.instance.history');
     });

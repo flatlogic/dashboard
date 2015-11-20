@@ -4,6 +4,7 @@ describe('Controller: OrchestrateInstanceController', function() {
         $stateParams,
         resolvedInstances = {1: 2};
 
+
     beforeEach(function(){
         module('qorDash.orchestrate.domain.instance');
     });
