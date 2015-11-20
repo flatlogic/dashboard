@@ -3,7 +3,6 @@ describe('Controller: DomainEnvironmentController', function() {
     var $scope;
     var $stateParams,
         env = 'env',
-        networkData = {},
         WS_URL = "wss://ops-dev.blinker.com";
 
     beforeEach(function(){

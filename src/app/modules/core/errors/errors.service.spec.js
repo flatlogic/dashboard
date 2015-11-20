@@ -3,29 +3,26 @@ describe('Factory: errorHandler ', function() {
 
     var UNKNOWN_ERROR = 'UNKNOWN_ERROR',
         UNKNOWN_SERVER_ERROR = 'UNKNOWN_SERVER_ERROR',
-        Notification = {error: function(){}},
+        Notification,
         error,
-        response,
-        showError;
+        response;
 
     beforeEach(function(){
         module('ui.router');
-        module('qorDash.config');
         module('qorDash.core');
-        module('qorDash.auth');
+        module(function($provide) {
+            $provide.constant("UNKNOWN_ERROR", UNKNOWN_ERROR);
+            $provide.constant("UNKNOWN_SERVER_ERROR", UNKNOWN_SERVER_ERROR);
+            $provide.service("Notification", function(){
+                this.error = jasmine.createSpy('error').and.callFake(function(){});
+            });
+        })
     });
 
-    beforeEach(module('qorDash.core', function($provide) {
-        $provide.constant("UNKNOWN_ERROR", UNKNOWN_ERROR);
-        $provide.constant("UNKNOWN_SERVER_ERROR", UNKNOWN_SERVER_ERROR);
-        $provide.constant("Notification", Notification);
-    }));
-
     beforeEach(function() {
-        inject(function (_errorHandler_, $state) {
+        inject(function (_errorHandler_, _Notification_) {
+            Notification = _Notification_;
             errorHandler = _errorHandler_;
-            spyOn($state, 'go').and.returnValue(true);
-            spyOn(Notification, 'error').and.returnValue(true);
         });
     });
 
