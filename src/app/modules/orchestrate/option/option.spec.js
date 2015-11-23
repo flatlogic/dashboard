@@ -21,14 +21,14 @@ describe('Controller: OrchestrateOptionController', function() {
         module('qorDash.orchestrate.domain.instance.history.option');
         module(function ($provide) {
             $provide.service("orchestrateService", function() {
-                this.loadOption = function() {
+                this.getOption = jasmine.createSpy('getOption').and.callFake(function() {
                     deferred = q.defer();
                     return deferred.promise;
-                };
-                this.loadLogUrl = function() {
+                });
+                this.getLogUrl = jasmine.createSpy('getLogUrl').and.callFake(function() {
                     deferred = q.defer();
                     return deferred.promise;
-                }
+                });
             });
             $provide.service('errorHandler', function(){
                 this.showError = jasmine.createSpy('showError').and.callFake(function(e){
@@ -45,8 +45,6 @@ describe('Controller: OrchestrateOptionController', function() {
             $scope = _$rootScope_.$new();
             orchestrateService = _orchestrateService_;
             errorHandler = _errorHandler_;
-            spyOn(orchestrateService, 'loadOption').and.callThrough();
-            spyOn(orchestrateService, 'loadLogUrl').and.callThrough();
             _$controller_('OrchestrateOptionController', {$scope: $scope, $stateParams: $stateParams, $compile: $compile, WS_URL: WS_URL});
 
         })
@@ -59,7 +57,7 @@ describe('Controller: OrchestrateOptionController', function() {
     describe('when optId != "new"', function(){
 
         it('should call orchestrateService.loadOption(domain, instance, opt, optId)',function(){
-            expect(orchestrateService.loadOption).toHaveBeenCalledWith($stateParams.id,$stateParams.inst,$stateParams.opt,$stateParams.opt_id);
+            expect(orchestrateService.getOption).toHaveBeenCalledWith($stateParams.id,$stateParams.inst,$stateParams.opt,$stateParams.opt_id);
         });
 
         describe('after successful loading', function(){
@@ -98,7 +96,7 @@ describe('Controller: OrchestrateOptionController', function() {
             });
 
             it('should call orchestrateService.loadLogUrl($scope.workflow.activate_url, data)', function(){
-                expect(orchestrateService.loadLogUrl).toHaveBeenCalledWith($scope.workflow.activate_url, {});
+                expect(orchestrateService.getLogUrl).toHaveBeenCalledWith($scope.workflow.activate_url, {});
             })
         });
 
@@ -111,7 +109,7 @@ describe('Controller: OrchestrateOptionController', function() {
             });
 
             it('should not call orchestrateService.loadLogUrl()', function(){
-                expect(orchestrateService.loadLogUrl).not.toHaveBeenCalledWith();
+                expect(orchestrateService.getLogUrl).not.toHaveBeenCalledWith();
             })
         })
     })
