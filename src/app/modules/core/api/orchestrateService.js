@@ -32,7 +32,7 @@
             return $http
                 .get(API_HOST + '/v1/orchestrate/'+ domain +'/'+ instance +'/')
                 .then(httpRequestSuccess)
-                .catch(httpRequestFailed);;
+                .catch(httpRequestFailed);
         }
 
         function getOption(domain, instance, option, optionId) {
