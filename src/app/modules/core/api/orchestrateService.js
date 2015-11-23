@@ -6,10 +6,10 @@
 
     function orchestrateService ($http, API_HOST) {
         return {
-            loadHistory : loadHistory,
-            loadInstances: loadInstances,
-            loadOption: loadOption,
-            loadLogUrl: loadLogUrl
+            getHistory : getHistory,
+            getInstances: getInstances,
+            getOption: getOption,
+            getLogUrl: getLogUrl
         };
 
         function httpRequestSuccess(response) {
@@ -21,27 +21,27 @@
             return $q.reject(response.data ? response.data : response);
         }
 
-        function loadHistory(domain, instance, option) {
+        function getHistory(domain, instance, option) {
             return $http
                 .get(API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/')
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }
 
-        function loadInstances(domain, instance) {
+        function getInstances(domain, instance) {
             return $http
                 .get(API_HOST + '/v1/orchestrate/'+ domain +'/'+ instance +'/')
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);;
         }
 
-        function loadOption(domain, instance, option, optionId) {
+        function getOption(domain, instance, option, optionId) {
             return $http.get(API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId)
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }
 
-        function loadLogUrl(activateUrl, data) {
+        function getLogUrl(activateUrl, data) {
             var request = {
                 method: 'POST',
                 url: API_HOST + activateUrl,

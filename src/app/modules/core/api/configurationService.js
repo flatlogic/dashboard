@@ -7,8 +7,8 @@
     function configurationService ($http, API_HOST, errorHandler) {
 
         return {
-            loadPackage : loadPackage,
-            loadInstance : loadInstance,
+            getPackage : getPackage,
+            getInstance : getInstance,
             loadEnv : loadEnv,
             files: {
                 createFile : createFile,
@@ -32,14 +32,14 @@
             return $q.reject(response.data ? response.data : response);
         }
 
-        function loadPackage(domain) {
+        function getPackage(domain) {
             return $http
                 .get(API_HOST + '/v1/pkg/' + domain + '/')
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }
 
-        function loadInstance(domain) {
+        function getInstance(domain) {
             return $http
                 .get(API_HOST + '/v1/conf/' + domain + '/')
                 .then(httpRequestSuccess)

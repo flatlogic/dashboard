@@ -13,7 +13,7 @@
                 controller: 'PackagesController',
                 resolve: {
                     resolvedPackage: function($stateParams, configurationService) {
-                        return configurationService.loadPackage($stateParams.domain);
+                        return configurationService.getPackage($stateParams.domain);
                     }
                 }
             })

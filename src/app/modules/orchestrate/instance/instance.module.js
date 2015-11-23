@@ -13,7 +13,7 @@
                 controller: 'OrchestrateInstanceController',
                 resolve: {
                     resolvedInstances: function($stateParams, orchestrateService) {
-                        return orchestrateService.loadInstances($stateParams.id, $stateParams.inst);
+                        return orchestrateService.getInstances($stateParams.id, $stateParams.inst);
                     }
                 }
             })
