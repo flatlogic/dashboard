@@ -13,7 +13,7 @@
                 controller: 'FilesController',
                 resolve: {
                     resolvedInstance: function($stateParams, configurationService) {
-                        return configurationService.loadInstance($stateParams.domain);
+                        return configurationService.getInstance($stateParams.domain);
                     }
                 }
             })

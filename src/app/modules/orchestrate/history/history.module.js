@@ -13,7 +13,7 @@
                 controller: 'OrchestrateHistoryController',
                 resolve: {
                     resolvedHistory: function($stateParams, orchestrateService) {
-                        return orchestrateService.loadHistory($stateParams.id, $stateParams.inst, $stateParams.opt);
+                        return orchestrateService.getHistory($stateParams.id, $stateParams.inst, $stateParams.opt);
                     }
                 }
             })

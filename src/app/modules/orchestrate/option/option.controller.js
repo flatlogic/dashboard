@@ -70,7 +70,7 @@
                 }
             });
         } else {
-            orchestrateService.loadOption(domain, instance, opt, optId).then(
+            orchestrateService.getOption(domain, instance, opt, optId).then(
                 function (response) {
                     $scope.workflow = response.data;
                     for (var index in $scope.workflow.context) {
@@ -95,7 +95,7 @@
                     data[index] = $('#input-' + index).val();
                 }
 
-                orchestrateService.loadLogUrl($scope.workflow.activate_url, data).then(
+                orchestrateService.getLogUrl($scope.workflow.activate_url, data).then(
                     function (response) {
                         $('#timelineContainer').html($compile("<div ql-widget=\"Timeline\" ws-url=\"'" + WS_URL + response.data.log_ws_url + "'\"></div>")($scope));
                         $('#sendMessageButton').button('reset');

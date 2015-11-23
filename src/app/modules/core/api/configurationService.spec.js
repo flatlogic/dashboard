@@ -33,7 +33,7 @@ describe('Service: configurationService', function() {
     it("should load instance by domain id", function(done) {
         httpBackend.expect('GET', API_HOST + '/v1/conf/' + domain + '/').respond(serverResponse);
 
-        configurationService.loadInstance(domain).then(function(response) {
+        configurationService.getInstance(domain).then(function(response) {
             expect(response).toEqual(serverResponse);
             done();
         });

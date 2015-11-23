@@ -31,7 +31,7 @@ describe('Service: orchestrateService', function() {
         httpBackend.expect('GET', API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/')
             .respond(serverResponse);
 
-        orchestrateService.loadHistory(domain, instance, option)
+        orchestrateService.getHistory(domain, instance, option)
             .then(function(response) {
                 expect(response).toEqual(serverResponse);
                 done();
@@ -44,7 +44,7 @@ describe('Service: orchestrateService', function() {
         httpBackend.expect('GET', API_HOST + '/v1/orchestrate/'+ domain +'/'+ instance +'/')
             .respond(serverResponse);
 
-        orchestrateService.loadInstances(domain, instance)
+        orchestrateService.getInstances(domain, instance)
             .then(function(response) {
                 expect(response).toEqual(serverResponse);
                 done();
@@ -57,7 +57,7 @@ describe('Service: orchestrateService', function() {
         httpBackend.expect('GET', API_HOST + '/v1/orchestrate/' + domain + '/' + instance + '/' + option + '/' + optionId)
             .respond(serverResponse);
 
-        orchestrateService.loadOption(domain, instance, option, optionId)
+        orchestrateService.getOption(domain, instance, option, optionId)
             .then(function(response) {
                 expect(response).toEqual(serverResponse);
                 done();
@@ -70,7 +70,7 @@ describe('Service: orchestrateService', function() {
         httpBackend.expect('POST', API_HOST + activateUrl, data)
             .respond(serverResponse);
 
-        orchestrateService.loadLogUrl(activateUrl, data)
+        orchestrateService.getLogUrl(activateUrl, data)
             .then(function(response) {
                 expect(response).toEqual(serverResponse);
                 done();
