@@ -3,6 +3,9 @@ machine:
     version: 0.12
 
 dependencies:
+  cache_directories:
+      - node_modules
+      - bower_components
   override:
     - npm install
     - npm install -g bower
