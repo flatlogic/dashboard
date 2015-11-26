@@ -75,7 +75,7 @@
         }
     }
 
-    function createImageModalController($scope, $stateParams, $location, Settings, Container, Messages, containernameFilter, errorMsgFilter) {
+    function createImageModalController($scope, $stateParams, $location, Settings, Container, Messages, containernameFilter, errorMsgFilter, $modalInstance) {
 
         var urlParams = Settings.urlParams;
 
@@ -126,6 +126,10 @@
                 return item.name;
             });
         }
+
+        $scope.close = function() {
+            $modalInstance.close();
+        };
 
         $scope.create = function () {
             // Copy the config before transforming fields to the remote API format
