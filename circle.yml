@@ -5,7 +5,6 @@ machine:
 dependencies:
   cache_directories:
       - node_modules
-      - bower_components
   override:
     - npm install
     - npm install bower
