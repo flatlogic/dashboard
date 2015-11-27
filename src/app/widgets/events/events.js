@@ -86,7 +86,10 @@
             return socketObject;
         };
 
-        $scope._socketObject = _createConnection($scope.wsUrl);
+        $scope.$watch('wsUrl', function (url) { // waiting for wsUrl to be set from the outside
+            if (!url) return;
+            $scope._socketObject = _createConnection($scope.wsUrl);
+        });
 
         $rootScope.$on('events:newWsUrl', function (event, newUrl) {
             if ($scope._socketObject) {
