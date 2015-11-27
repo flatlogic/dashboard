@@ -1394,8 +1394,10 @@ width: 20px;
 .new-file-button {
   position: absolute;
   bottom: 10px;
+  right: $qor-sheet-padding-vertical;
+  left: $qor-sheet-padding-vertical;
   >button {
-    width: 427px;
+    width: 100%;
   }
 }
 
