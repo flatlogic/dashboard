@@ -5,7 +5,7 @@
         .module('qorDash.auth.oauth')
         .factory('oauthAdapter', oauthAdapter);
 
-    function oauthAdapter($q, auth, errorHandler, oauthProviderGoogle, oauthProviderGitHub) {
+    function oauthAdapter($q, auth, permissions, errorHandler) {
 
         var _selectedProvider = null;
 
@@ -18,10 +18,8 @@
         };
 
         function init(provider) {
-            var deferred = $q.defer();
             _selectedProvider = provider;
-            deferred.resolve(_selectedProvider);
-            return deferred.promise;
+            return $q.when(_selectedProvider);
         }
 
         function login() {
@@ -36,6 +34,7 @@
             return _selectedProvider
                 .exchangeToken(user)
                 .then(auth.saveToken)
+                .then(permissions.save)
                 .catch(requestFailed);
         }
 

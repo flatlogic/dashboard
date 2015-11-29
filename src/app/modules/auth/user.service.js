@@ -5,7 +5,7 @@
         .module('qorDash.auth')
         .service('user', userService);
 
-    function userService($http, AUTH_API_URL, auth) {
+    function userService($http, AUTH_API_URL, auth, permissions) {
         return {
             isAuthed: isAuthed,
             logout: logout,
@@ -24,13 +24,16 @@
                 password: password
             };
 
-            return $http.post(AUTH_API_URL + '/auth', data)
-                .then(auth.saveToken);
+            return $http
+                .post(AUTH_API_URL + '/auth', data)
+                .then(auth.saveToken)
+                .then(permissions.save);
         }
 
         function logout() {
             // TODO: Implement oauth logout
             auth.removeToken();
+            permissions.clear();
         }
     }
 })();
