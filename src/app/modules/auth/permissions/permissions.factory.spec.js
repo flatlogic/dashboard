@@ -1,16 +1,6 @@
 describe('Factory: permissions', function() {
     var permissions, auth, $timeout, USER_HAS_NO_ACCESS;
-    var mockPermissionsObj = {
-        'passport/@id': '77a9d0d3-f4fc-11e4-9997-0242ac11000a',
-        'passport/@scopes': 'my_account,account_update,passport_admin,account_readonly',
-        'passport/@status': '',
-        'dashboard/@id': '77a9d0d3-f4fc-11e4-9997-0242ac11000a',
-        'dashboard/@scopes': 'update',
-        'dashboard/@status': '',
-        'docker/@id': '77a9d0d3-f4fc-11e4-9997-0242ac11000a',
-        'docker/@scopes': 'read',
-        'docker/@status': ''
-    };
+    var serverResponse = {"data":{"acls":[{"resource":"docker","permissions":["update","read","kill"]},{"resource":"manage","permissions":["read"]},{"resource":"dashboard","permissions":["read"]},{"resource":"domains","permissions":["read"]},{"resource":"compose","permissions":["read"]},{"resource":"configurations","permissions":["read"]},{"resource":"orchestrate","permissions":["read"]}]},"status":200,"config":{"method":"POST","transformRequest":[null],"transformResponse":[null],"url":"https://accounts.qor.io/v1/auth","data":{"username":"dashboard-admin","password":"password"},"headers":{"Accept":"application/json","Content-Type":"application/json"}},"statusText":"OK"};
 
     beforeEach(function(){
         module('qorDash.auth.permissions');
