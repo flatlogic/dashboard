@@ -8,7 +8,7 @@ dependencies:
       - bower_components
   override:
     - npm install
-    - npm install bower
+    - npm install -g bower
     - bower install
 
 test:
