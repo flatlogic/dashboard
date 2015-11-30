@@ -1,0 +1,13 @@
+<section horizontal-ui-sheet class="qor-sheet-s">
+    <header horizontal-ui-sheet-header title="Console">
+    </header>
+    <div horizontal-ui-sheet-content>
+        <div class="list-group text-left ng-scope">
+            <a class="list-group-item" ng-repeat="domain in vm.domains | orderBy:''"
+               ui-sref-active="active"
+               ui-sref=".domain({domain : domain.id})">
+                {{domain.name}}
+            </a>
+        </div>
+    </div>
+</section>

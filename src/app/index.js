@@ -21,7 +21,8 @@
             'qorDash.configurations',
             'qorDash.orchestrate',
             'qorDash.manage',
-            'qorDash.docker'
+            'qorDash.docker',
+            'qorDash.console'
         ])
         .config(config)
         .run(run);
