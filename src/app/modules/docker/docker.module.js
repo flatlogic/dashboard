@@ -54,7 +54,7 @@
         $qorSidebarProvider.config('docker', {
             title: 'Docker',
             nav: 3,
-            content: '<span ui-sref="app.docker" qor-sidebar-group-heading="Docker" data-icon-class="fa fa-docker"></span>'
+            content: '<span ui-sref="app.docker" ui-sref-opts="{reload: true}" qor-sidebar-group-heading="Docker" data-icon-class="fa fa-docker"></span>'
         });
     }
 
