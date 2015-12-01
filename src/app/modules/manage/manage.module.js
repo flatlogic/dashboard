@@ -23,7 +23,7 @@
         $qorSidebarProvider.config('manage', {
             title: 'Manage',
             nav: 7,
-            content: '<span ui-sref="app.manage" qor-sidebar-group-heading="Manage" data-icon-class="fa fa-edit"></span>'
+            content: '<span ui-sref="app.manage" ui-sref-opts="{reload: true}" qor-sidebar-group-heading="Manage" data-icon-class="fa fa-edit"></span>'
         });
     }
 })();

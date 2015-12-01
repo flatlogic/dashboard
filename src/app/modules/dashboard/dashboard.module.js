@@ -25,7 +25,7 @@
         $qorSidebarProvider.config('dashboard', {
             title: 'Dashboard',
             nav: 1,
-            content: '<span ui-sref="app.dashboard" qor-sidebar-group-heading="Events" data-icon-class="fa fa-newspaper-o"></span>'
+            content: '<span ui-sref="app.dashboard" ui-sref-opts="{reload: true}" qor-sidebar-group-heading="Events" data-icon-class="fa fa-newspaper-o"></span>'
         });
     }
 })();

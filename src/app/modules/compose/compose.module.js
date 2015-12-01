@@ -39,7 +39,7 @@
         $qorSidebarProvider.config('compose', {
             title: 'Compose',
             nav: 4,
-            content: '<span ui-sref="app.compose" qor-sidebar-group-heading="compose" data-icon-class="fa fa-envelope"></span>'
+            content: '<span ui-sref="app.compose" ui-sref-opts="{reload: true}" qor-sidebar-group-heading="compose" data-icon-class="fa fa-envelope"></span>'
         });
     }
 })();
