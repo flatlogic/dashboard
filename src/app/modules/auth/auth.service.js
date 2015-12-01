@@ -1,10 +1,11 @@
 (function () {
     'use strict';
 
-    angular.module('qorDash.auth')
+    angular
+        .module('qorDash.auth')
         .service('auth', authService);
 
-    function authService($window) {
+    function authService($window, $q) {
         var self = this;
 
         // Key to store and access token in localstorage
@@ -21,6 +22,7 @@
             if (response.data && response.data.token) {
                 $window.localStorage[self.tokenKey] = response.data.token;
             }
+            return $q.when(response);
         }
 
         function getToken() {

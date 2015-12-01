@@ -35,7 +35,7 @@
         $qorSidebarProvider.config('configurations', {
             title: 'Config',
             nav: 5,
-            content: '<span ui-sref="app.configurations" qor-sidebar-group-heading="Config" data-icon-class="fa fa-cogs"></span>'
+            content: '<span ui-sref="app.configurations" ui-sref-opts="{reload: true}" qor-sidebar-group-heading="Config" data-icon-class="fa fa-cogs"></span>'
         });
     }
 })();

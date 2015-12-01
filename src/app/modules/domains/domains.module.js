@@ -39,7 +39,7 @@
         $qorSidebarProvider.config('domains', {
             title: 'Environments',
             nav: 2,
-            content: '<span ui-sref="app.domains" qor-sidebar-group-heading="Domains" data-icon-class="fa fa-cloud"></span>'
+            content: '<span ui-sref="app.domains" ui-sref-opts="{reload: true}" qor-sidebar-group-heading="Domains" data-icon-class="fa fa-cloud"></span>'
         });
     }
 })();
