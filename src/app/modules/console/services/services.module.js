@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-        .module('qorDash.console.domain.services.consoles', [])
+        .module('qorDash.console.domain.services', [])
         .config(config);
 
     function config($stateProvider) {
         $stateProvider
-            .state('app.console.domains.domain.services.consoles', {
-                url: '/:service',
-                templateUrl: 'app/modules/console/consoles/consoles.html',
-                controller: 'ConsolesController',
+            .state('app.console.domains.domain.services', {
+                url: '/:instance',
+                templateUrl: 'app/modules/console/services/services.html',
+                controller: 'ServicesController',
                 controllerAs: 'vm',
                 resolve: {
                     resolvedServices: function(domainService, $stateParams) {

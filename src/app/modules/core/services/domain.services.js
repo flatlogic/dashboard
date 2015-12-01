@@ -10,7 +10,7 @@
             loadDomains: loadDomains,
             loadDomain: loadDomain,
             loadDockers: loadDockers,
-            loadConsoles: loadConsoles
+            loadServices: loadServices
         };
 
         function httpRequestSuccess(response) {
@@ -43,7 +43,7 @@
                 .catch(httpRequestFailed);
         }
 
-        function loadConsoles(domainId, instance) {
+        function loadServices(domainId, instance) {
             return $http
                 .get(_URL + '/v1/console/' + domainId + '/' + instance + '/')
                 .then(httpRequestSuccess)

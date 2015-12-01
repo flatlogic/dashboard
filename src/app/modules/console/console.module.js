@@ -5,7 +5,8 @@
         .module('qorDash.console', [
             'qorDash.console',
             'qorDash.console.domain',
-            'qorDash.console.domain.consoles'
+            'qorDash.console.domain.services',
+            'qorDash.console.domain.services.consoles'
         ])
         .config(config);
 
