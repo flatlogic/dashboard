@@ -77,12 +77,11 @@
                 // TODO: create a template for sidebar
                 '<loading-indicator></loading-indicator>' +
                 '<ul class="qor-sidebar-nav">' +
-                '<li ng-repeat="group in groups" ng-class="{\'user-label\' : group.title==\'Logout\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
+                '<li ng-repeat="group in groups" has-permission="{{group.id}}.read" ng-class="{\'user-label\' : group.title==\'Logout\'}" ui-sref-active="active" bind-html-compile="group.content" ng-class="{ active: group.active }" ng-click="group.templateUrl && toggleGroup(group)"></li>' +
                 '</ul>' +
                 '</header>' +
                 '</nav>'
         };
-        // TODO: has-permission="{{group.id}}.read" temporary removed
     }
 
     function $QorSidebarGroupHeading() {

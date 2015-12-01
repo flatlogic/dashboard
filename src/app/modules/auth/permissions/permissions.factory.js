@@ -35,9 +35,7 @@
         }
 
         function resolveState(state){
-            return true;
-            // TODO: temporary disabled
-            //return hasAccess(state) || $q.reject(USER_HAS_NO_ACCESS);
+            return hasAccess(state) || $q.reject(USER_HAS_NO_ACCESS);
         }
 
         return {
