@@ -25,7 +25,10 @@
             vm.isLoading = true;
             user.login(vm.userCredentials.login, vm.userCredentials.password)
                 .then(successCallback)
-                .catch(errorCallback);
+                .catch(errorCallback)
+                .finally(function(){
+                    vm.isLoading = false;
+                });
         }
 
         function successCallback() {
@@ -35,7 +38,6 @@
         function errorCallback(response) {
             var errorCode = response && response.data && response.data.error ? response.data.error : 'unknown';
             vm.loginForm.$setValidity(errorCode, false);
-            vm.isLoading = false;
         }
 
         function removeError() {

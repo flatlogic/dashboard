@@ -3,6 +3,7 @@ describe('Factory: oauth adapter', function() {
         $q,
         oauthAdapter,
         auth,
+        permissions,
         errorHandler,
         oauthProviderGoogle,
         oauthProviderGitHub;
@@ -21,6 +22,11 @@ describe('Factory: oauth adapter', function() {
             $provide.service('errorHandler', function(){
                 this.showError = jasmine.createSpy('showError');
             });
+            $provide.factory('permissions', function(){
+                return {
+                    save: jasmine.createSpy('save')
+                };
+            });
             $provide.factory('oauthProviderGoogle', function(){
                 return oauthProviderGoogleMock;
             });
@@ -31,8 +37,9 @@ describe('Factory: oauth adapter', function() {
     });
 
     beforeEach(function() {
-        inject(function(_oauthAdapter_, _$timeout_, _$q_, _auth_, _errorHandler_, _oauthProviderGoogle_, _oauthProviderGitHub_) {
+        inject(function(_oauthAdapter_, _$timeout_, _$q_, _auth_, _permissions_, _errorHandler_, _oauthProviderGoogle_, _oauthProviderGitHub_) {
             auth = _auth_;
+            permissions = _permissions_;
             oauthAdapter = _oauthAdapter_;
             $timeout = _$timeout_;
             $q = _$q_;
