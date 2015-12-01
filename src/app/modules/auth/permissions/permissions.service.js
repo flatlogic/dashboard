@@ -15,11 +15,10 @@
         this.storageKey = 'userPermissions';
 
         this.map = function(data){
-            var map = {};
-            for (var i = 0; i < data.length; i++) {
-                map[data[i].resource] = data[i].permissions;
-            }
-            return map;
+            return data.reduce(function(map, item){
+                map[item.resource] = item.permissions;
+                return map;
+            }, {});
         }
 
         this.clear = function(){
@@ -35,8 +34,8 @@
             }
         }
 
-        this.parse = function(){
-            self.current = JSON.parse($window.localStorage.getItem(self.storageKey));
+        this.get = function(){
+            self.current = self.current || JSON.parse($window.localStorage.getItem(self.storageKey));
             return self.current;
         }
 
@@ -49,7 +48,7 @@
                 return true;
             }
             action = action || 'read';
-            var userPermission = self.current || self.parse();
+            var userPermission = self.get();
             var app = /\./.test(state) ? state.split('.')[1] : state;
             var hasPermission = userPermission && userPermission[app] && userPermission[app].indexOf(action) >= 0;
             return !!hasPermission;

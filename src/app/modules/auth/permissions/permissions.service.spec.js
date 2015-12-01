@@ -62,9 +62,9 @@ describe('Factory: permissions', function() {
         });
     });
 
-    describe('parse', function() {
+    describe('get', function() {
         it ('should return permissions object from localStorage', function() {
-            permissions.parse();
+            permissions.get();
             expect($window.localStorage.getItem).toHaveBeenCalledWith(permissions.storageKey);
         });
     });
@@ -114,11 +114,10 @@ describe('Factory: permissions', function() {
         describe('permissions are not exist', function(){
             beforeEach(function() {
                 permissions.current = null;
-                permissions.parse = jasmine.createSpy('parse').and.callThrough();
             });
             it ('should check localStorage if there is no cached permissions', function() {
                 permissions.hasAccess();
-                expect(permissions.parse).toHaveBeenCalledWith();
+                expect(permissions.hasAccess()).toBe(false);
             });
         });
     });
