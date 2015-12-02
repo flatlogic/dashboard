@@ -3,6 +3,7 @@
 
     angular
         .module('qorDash.console', [
+            'qorDash.widget',
             'qorDash.console',
             'qorDash.console.domain',
             'qorDash.console.domain.services',
