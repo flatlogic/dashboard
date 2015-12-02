@@ -5,7 +5,7 @@
         <div class="list-group text-left ng-scope">
           <a class="list-group-item" ng-repeat="console in vm.consoles | orderBy:''"
              ui-sref-active="active"
-             ui-sref="">
+             ui-sref=".terminal({terminalId: console})">
             {{console}}
           </a>
         </div>
