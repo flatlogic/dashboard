@@ -11,7 +11,7 @@
         vm.service = $stateParams.service;
         vm.instance = $stateParams.instance;
         vm.domain = $stateParams.domain;
-        vm.wsUrl = "'" + WS_URL + "/v1/console/" + vm.domain + "/" + vm.instance +
-                    "/" + vm.service + "/" + vm.terminalId + "'";
+        vm.wsUrl = WS_URL + "/v1/console/" + vm.domain + "/" + vm.instance +
+                    "/" + vm.service + "/" + vm.terminalId;
     }
 })();
