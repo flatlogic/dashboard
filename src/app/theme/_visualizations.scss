@@ -40,6 +40,13 @@
       color: $text-color;
       content: '>';
     }
+
+    li + li:before{
+      content: "\f105";
+      font-family: FontAwesome;
+      display: inline-block;
+      color: #999999;
+    }
   }
 
   rect {
