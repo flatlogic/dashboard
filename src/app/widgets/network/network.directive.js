@@ -207,7 +207,7 @@
                     });
 
                 nv.g.append("rect")
-                    .style("fill", "#dae0ed")
+                    .style("fill", "#474C62")
                     .style("stroke", "#949da5")
                     .style("stroke-width", "1.4")
                     .classed('network-title', true)
@@ -216,8 +216,6 @@
                     .attr("y", node.y)
                     .attr("width", node.width)
                     .attr("height", node.headerheight)
-                    //.append("title")
-                    //.text(node.name)
                     .on("click", function() {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
@@ -226,7 +224,7 @@
                     });
 
                 nv.g.append("text")
-                    .style("fill", "#476bb8")
+                    .style("fill", "#ffffff")
                     .attr("text-anchor", "middle")
                     .attr("x", node.x + node.width/2)
                     .attr("y", node.y + node.headerheight / 2)
