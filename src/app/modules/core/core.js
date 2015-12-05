@@ -50,7 +50,7 @@
                 if (!hOp.call(self.messages, messageType)) return;
 
                 self.messages[messageType].forEach(function(item){
-                    item(message ? info : {});
+                    item(message ? message : {});
                 });
             }
         }

@@ -26,15 +26,15 @@
         }
     }
 
-    function eventsController ($scope, $rootScope, $timeout) {
+    function eventsController ($scope, $rootScope, $timeout, pubSub) {
         $scope.events = [];
 
         /**
          * Listener for new messages from server
          * @param event Raw JSON from server response
          */
-        var _socketMessage = function (event) {
-            _addEvent(event.data);
+        var handleEvent = function (event) {
+            addEventToDOM(event.data);
 
             var sheetContent = angular.element('#events').parents('.qor-sheet-content')[0];
             sheetContent.scrollTop = sheetContent.scrollHeight
@@ -44,71 +44,16 @@
          * Add event to list
          * @param event
          */
-        var _addEvent = function (event) {
+        var addEventToDOM = function (event) {
             $scope.$apply(function () {
                 $scope.events.push(JSON.parse(event));
             });
         }
 
-        /**
-         * Check that url is valid WebSocket url
-         * @param urlToCheck string URL
-         * @return boolean true - if url is WebSocket and false if not
-         */
-        var _checkWsUrl = function(urlToCheck) {
-            var urlParser = document.createElement('a');
-
-            urlParser.href = urlToCheck;
-
-            return (urlParser.protocol == 'ws:' || urlParser.protocol == 'wss:');
-        };
-
-        /**
-         * Function for creating WS or ES object to url
-         * @param connectionUrl
-         * @returns {*} Socket object or null if can't connect
-         */
-        var _createConnection = function(connectionUrl) {
-            var socketObject;
-
-            try {
-                if (_checkWsUrl(connectionUrl)) {
-                    socketObject = new WebSocket(connectionUrl);
-                    socketObject.onmessage = _socketMessage;
-                } else {
-                    socketObject = new EventSource(connectionUrl);
-                    socketObject.addEventListener('Event', _socketMessage);
-                }
-            } catch(e) {
-                return null;
-            }
-
-            return socketObject;
-        };
-
-        $scope.$watch('wsUrl', function (url) { // waiting for wsUrl to be set from the outside
-            if (!url) return;
-            $scope._socketObject = _createConnection($scope.wsUrl);
-        });
-
-        $rootScope.$on('events:newWsUrl', function (event, newUrl) {
-            if ($scope._socketObject) {
-                $scope._socketObject.close();
-            }
-            $timeout(function () {
-                $scope.$apply(function () {
-                    $scope.events = [];
-                    $scope.allMessages = {};
-                });
-            });
-            $scope._socketObject = _createConnection(newUrl);
-        });
+        var subscription = pubSub.subscribe('eventBus:all', handleEvent);
 
         $scope.$on("$destroy", function () {
-            if ($scope._socketObject) {
-                $scope._socketObject.close();
-            }
+            subscription.remove();
         });
-
     }
 })();
