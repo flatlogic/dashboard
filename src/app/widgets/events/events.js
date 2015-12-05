@@ -26,7 +26,7 @@
         }
     }
 
-    function eventsController ($scope, $rootScope, $timeout, pubSub) {
+    function eventsController ($scope, pubSub) {
         $scope.events = [];
 
         /**
@@ -50,10 +50,10 @@
             });
         }
 
-        var subscription = pubSub.subscribe('eventBus:all', handleEvent);
+        $scope.subscription = pubSub.subscribe('eventBus:all', handleEvent);
 
         $scope.$on("$destroy", function () {
-            subscription.remove();
+            $scope.subscription.remove();
         });
     }
 })();
