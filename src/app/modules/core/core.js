@@ -6,7 +6,12 @@
         .controller('App', AppController)
         .factory('d3', d3Service)
         .factory('jQuery', jQueryService)
-        .factory('pubSub', pubSubService);
+        .factory('pubSub', pubSubService)
+        .run(coreRun);
+
+    function coreRun(eventBus) {
+        eventBus.initConnection();
+    }
 
     function AppController(config, $scope, $qorSidebar) {
         /*jshint validthis: true */
