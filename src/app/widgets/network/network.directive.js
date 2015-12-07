@@ -133,6 +133,11 @@
                 return result;
             }
 
+            /**
+             * Breadth-first search(BFS) is an algorithm for
+             * iterate each element in tree.
+             * @param tree element
+             */
             function BFS (node) {
                 var marginWidth,
                     marginHeight;
@@ -223,7 +228,7 @@
                         addLink(node);
                     });
 
-                nv.g.append("text")
+                node.text = nv.g.append("text")
                     .style("fill", "#ffffff")
                     .attr("text-anchor", "middle")
                     .attr("x", node.x + node.width/2)
@@ -245,6 +250,18 @@
                 nv.svg.transition()
                     .duration(750)
                     .call(nv.zoom.translate(translate).scale(scale).event);
+
+                if (nv.pressedNode) {
+                    nv.pressedNode
+                        .style("fill", "#ffffff")
+                        .style("font-weight", "300");
+                }
+                node.text
+                    .style("fill", "#C75E5E")
+                    .style("font-weight", "bold");
+
+
+                nv.pressedNode = node.text;
             }
 
             function drawLastRect (node) {
