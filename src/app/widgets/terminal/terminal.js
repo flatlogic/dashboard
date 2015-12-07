@@ -35,7 +35,7 @@
 
     function terminalController($scope, $attrs, terminalService) {
 
-        var terminalItem = terminalService.initTerminalById($attrs.id ? $attrs.id : 'terminal', {greetings: false}, sendCommand);
+        var terminalItem = terminalService.initTerminalById($attrs.id ? $attrs.id : 'terminal', {greetings: false, outputLimit: 150}, sendCommand);
         var ws = null;
         connectToWebSocket();
 

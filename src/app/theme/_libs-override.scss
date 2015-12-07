@@ -438,7 +438,7 @@ iframe.ui-layout-mask {
 
 .terminal {
   height: 100%;
-  overflow-y: auto;
+  overflow: auto !important;
   padding: 10px;
   background: #002B36 !important;
   border-radius: 8px;
