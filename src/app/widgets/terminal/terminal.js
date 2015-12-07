@@ -36,9 +36,14 @@
     function terminalController($scope, $attrs, terminalService) {
 
         var terminalItem = terminalService.initTerminalById($attrs.id ? $attrs.id : 'terminal', {greetings: false}, sendCommand);
+        var ws = null;
+        connectToWebSocket();
 
-        var ws = new WebSocket($scope.wsUrl);
-        ws.onmessage = socketMessage;
+        function connectToWebSocket() {
+            if (ws) ws = null;
+            ws = new WebSocket($scope.wsUrl);
+            ws.onmessage = socketMessage;
+        }
 
         function clearTerminal() {
             terminalItem.clear();
@@ -46,7 +51,7 @@
 
         function sendCommand(command) {
             try {
-                ws.send(command);
+                ws.send(command + '\n');
             } catch (error) {
                 terminalItem.echo(error);
             }
