@@ -56,7 +56,12 @@
                 nv.width = width + margin.left + margin.right;
                 nv.height =  height + margin.bottom + margin.top;
 
-                nv.svg = d3.select($element[0])
+                var wrap = d3.select($element[0]);
+
+                nv.grandparent = wrap.insert("ul", ":first-child")
+                    .attr("class", "grandparent breadcrumb");
+
+                nv.svg = wrap
                     .append("svg")
                     .attr("width", nv.width)
                     .attr("height", nv.height)
@@ -79,12 +84,53 @@
                 node.y = node.height * 1/20;
                 node.depth = 1;
 
-                BFS(node);
-
                 nv.depth = Math.pow(2, nv.levels.length - 1);
 
                 nv.zoom.scaleExtent([1, 100])
                     .on("zoom", zoomed);
+
+                BFS(node);
+
+                addLink(node);
+            }
+
+            function addLink(node) {
+
+                var navigationItem = nv.grandparent
+                    .selectAll("li")
+                    .data(traverseParents(node));
+
+                navigationItem
+                    .enter()
+                    .append("li")
+                    .append("a")
+                    .text(function(d) {
+                        return d.name;
+                    })
+                    .on('click', function(d){
+                        if (d3.event.defaultPrevented) return;
+                        nv.showDetails(d);
+                        focusOnNode(d);
+                        addLink(d);
+                    });
+
+                navigationItem.exit()
+                    .remove('li');
+            }
+
+            function traverseParents(node) {
+                var result = [];
+                while (true) {
+                    result.push(node);
+                    if (node.parent) {
+                        node = node.parent;
+                    } else {
+                        break;
+                    }
+                }
+
+                result.reverse();
+                return result;
             }
 
             function BFS (node) {
@@ -157,10 +203,11 @@
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
                         focusOnNode(node);
+                        addLink(node);
                     });
 
                 nv.g.append("rect")
-                    .style("fill", "#dae0ed")
+                    .style("fill", "#474C62")
                     .style("stroke", "#949da5")
                     .style("stroke-width", "1.4")
                     .classed('network-title', true)
@@ -169,16 +216,15 @@
                     .attr("y", node.y)
                     .attr("width", node.width)
                     .attr("height", node.headerheight)
-                    //.append("title")
-                    //.text(node.name)
                     .on("click", function() {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
                         focusOnNode(node);
+                        addLink(node);
                     });
 
                 nv.g.append("text")
-                    .style("fill", "#476bb8")
+                    .style("fill", "#ffffff")
                     .attr("text-anchor", "middle")
                     .attr("x", node.x + node.width/2)
                     .attr("y", node.y + node.headerheight / 2)
@@ -222,6 +268,8 @@
                     .on("click", function() {
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
+                        focusOnNode(node);
+                        addLink(node);
                     });
 
                 nv.g.append("text")
@@ -348,6 +396,7 @@
                         if (d3.event.defaultPrevented) return;
                         nv.showDetails(node);
                         focusOnNode(node);
+                        addLink(node);
                     });
 
                 rect.text = nv.g.append("text")
