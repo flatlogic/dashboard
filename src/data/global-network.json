@@ -1,0 +1,34 @@
+{
+	"type" : "root",
+	"name" : "global-network",
+	"children" : [
+		   {
+			"type": "vpc",
+			"name": "vpc-west",
+			"url" : "/data/network-data-west.json"
+	  	   },
+		   {
+			"type": "vpc",
+			"name": "vpc-east",
+			"url" : "/data/network-data-east.json"
+	  	   },
+		   {
+			"type": "vpc",
+			"name": "vpc-eu",
+			"url" : "/data/network-data-eu.json"
+	  	   }
+	],
+	"nodes": [
+		{ "name" : "vpc-west", "description":"AWS West Oregon" },		 
+		{ "name" : "vpc-east", "description": "AWS East"},		 
+		{ "name" : "vpc-eu", "description":"AWS EU" }		 
+	],
+	"links" : [
+		{ "source" : "vpc-west", "target" : "vpc-east", "name": "vpc-east-west1", "value": "1 Gbps", "description" : "east-west link1" },
+		{ "source" : "vpc-east", "target" : "vpc-west", "name": "vpc-east-west2", "value": "1 Gbps", "description" : "east-west link2" },
+		{ "source" : "vpc-east", "target" : "vpc-eu", "name": "vpc-east-eu", "value": "1 Gbps", "description" : "east eu" },
+		{ "source" : "vpc-eu",   "target" : "vpc-east", "name": "vpc-east-eu", "value": "1 Gbps", "description" : "east eu 2" },
+		{ "source" : "vpc-west", "target" : "vpc-east", "name": "db replication", "value": "", "description" : "database replication" },
+		{ "source" : "vpc-east", "target" : "vpc-eu", "name": "db replication - east to eu", "value": "", "description" : "database replication east to eu" }
+	]	
+}
