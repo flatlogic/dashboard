@@ -9,7 +9,8 @@
         return {
             loadDomains: loadDomains,
             loadDomain: loadDomain,
-            loadDockers: loadDockers
+            loadDockers: loadDockers,
+            loadServices: loadServices
         };
 
         function httpRequestSuccess(response) {
@@ -38,6 +39,13 @@
         function loadDockers(domainId, instance) {
             return $http
                 .get(_URL + '/v1/dockerapi/' + domainId + '/' + instance + '/')
+                .then(httpRequestSuccess)
+                .catch(httpRequestFailed);
+        }
+
+        function loadServices(domainId, instance) {
+            return $http
+                .get(_URL + '/v1/console/' + domainId + '/' + instance + '/')
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }

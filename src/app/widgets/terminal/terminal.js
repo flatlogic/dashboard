@@ -4,95 +4,65 @@
     angular
         .module('qorDash.widget.terminal')
         .directive('qlTerminal', qlTerminal)
-        .service('terminal', terminalService)
-        .controller('TerminalController', terminalController);
+        .service('terminalService', terminalService);
 
-    function qlTerminal($timeout, $window) {
-        var adaptHeight = function (element) {
-            var height = element.parent().parent().parent().height() - 20;
-
-            if (element.parent().parent().hasClass('logs')) {
-                height = element.parent().parent().height();
-            }
-
-            if (height > 0) {
-                element.height(height)
-            } else {
-                element.height(500);
-            }
-        };
-
+    function qlTerminal() {
         return {
-            link: function (scope, element, attrs, ctrl) {
-                $timeout(function () {
-                    adaptHeight(element);
-                    scope.onresize = function () {
-                        adaptHeight(element);
-                    };
-                    angular.element($window).bind('resize', function () {
-                        scope.onresize();
-                    });
-                    //angular.element('.ui-splitbar').children()[1].click()
-                });
-            }
+            scope: {
+                'wsUrl': '@'
+            },
+            controller: terminalController
         }
     }
 
     function terminalService() {
-        var self = this;
-
-        self.initTerminalById = function (id, params, sendCallback) {
-            return $('#' + id).terminal(sendCallback, params);
+        return {
+            initTerminalById: initTerminalById,
+            initTerminalByObject: initTerminalByObject
         };
 
-        self.initTerminalByObject = function (object, params, sendCallback) {
+        function initTerminalById(id, params, sendCallback) {
+            return $('#' + id).terminal(sendCallback, params);
+        }
+
+        function initTerminalByObject(object, params, sendCallback) {
             if (!params) {
                 params = {greetings: false};
             }
             return object.terminal(sendCallback, params);
-        };
+        }
     }
 
-    function terminalController($scope, $rootScope, $timeout, terminal) {
+    function terminalController($scope, $attrs, terminalService) {
 
-        // Initialize terminal
-        var terminal = terminal.initTerminalById('terminal', {greetings: false});
+        var terminalItem = terminalService.initTerminalById($attrs.id ? $attrs.id : 'terminal', {greetings: false, outputLimit: 150}, sendCommand);
+        var ws = null;
+        connectToWebSocket();
 
-        $scope.clearTerminal = function () {
-            terminal.clear();
-        };
+        function connectToWebSocket() {
+            if (ws) ws = null;
+            ws = new WebSocket($scope.wsUrl);
+            ws.onmessage = socketMessage;
+        }
 
-        // Get WebSocket url from attribute
-        var ws = new WebSocket($scope.wsUrl);
+        function clearTerminal() {
+            terminalItem.clear();
+        }
 
-        var socketMessage = function (event) {
+        function sendCommand(command) {
+            try {
+                ws.send(command + '\n');
+            } catch (error) {
+                terminalItem.echo(error);
+            }
+        }
+
+        function socketMessage(event) {
             var data = parseInput(event.data);
             if (data) {
-                terminal.echo(data);
+                terminalItem.echo(data);
             }
-        };
-
-        ws.onmessage = socketMessage;
-
-        $scope.$on("$destroy", function () {
-            ws.close();
-        });
-
-        $rootScope.$on('terminal:newWsUrl', function (event, newUrl) {
-            ws.close();
-            $timeout(function () {
-                $scope.$apply(function () {
-                    $scope.clearTerminal();
-                });
-            });
-            try {
-                ws = new WebSocket(newUrl);
-                ws.onmessage = socketMessage;
-            } catch (e) {
-                alert('Wrong WebSocket url' + e);
-            }
-        });
-
+        }
 
         function parseInput(input) {
             var result = input.split(',');
@@ -112,6 +82,9 @@
             }
         }
 
+        $scope.$on("$destroy", function () {
+            ws.close();
+        });
     }
 
 })();
