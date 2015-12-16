@@ -6,7 +6,8 @@
             'qorDash.widget',
             'qorDash.widget.terminal',
             'qorDash.widget.timeline',
-            'qorDash.widget.events'
+            'qorDash.widget.events',
+            'qorDash.config'
         ])
         .config(config);
 
