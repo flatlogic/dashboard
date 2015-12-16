@@ -6,7 +6,6 @@
         .controller('App', AppController)
         .factory('d3', d3Service)
         .factory('jQuery', jQueryService)
-        .factory('pubSub', pubSubService)
         .run(coreRun);
 
     function coreRun(eventBus) {
@@ -24,35 +23,6 @@
 
         function toggleSidebar() {
             $qorSidebar.toggleSidebar();
-        }
-    }
-
-    function pubSubService() {
-        var self = this;
-
-        self.messages = {};
-        var hOp = self.messages.hasOwnProperty;
-
-        return {
-            subscribe: function(messageType, listener) {
-                if (!hOp.call(self.messages, messageType)) self.messages[messageType] = [];
-
-                var index = self.messages[messageType].push(listener) - 1;
-
-                return {
-                    remove: function() {
-                        delete self.messages[messageType][index];
-                    }
-                }
-            },
-
-            publish: function(messageType, message) {
-                if (!hOp.call(self.messages, messageType)) return;
-
-                self.messages[messageType].forEach(function(item){
-                    item(message ? message : {});
-                });
-            }
         }
     }
 
