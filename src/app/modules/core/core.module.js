@@ -2,7 +2,9 @@
     'use strict';
 
     angular
-        .module('qorDash.core', [])
+        .module('qorDash.core', [
+            'qorDash.config'
+        ])
         .config(config);
 
     function config($stateProvider, $urlRouterProvider) {
