@@ -26,14 +26,14 @@
         }
     }
 
-    function eventsController ($scope, pubSub) {
+    function eventsController ($scope, $rootScope) {
         $scope.events = [];
 
         /**
          * Listener for new messages from server
          * @param event Raw JSON from server response
          */
-        var handleEvent = function (event) {
+        var handleEvent = function (e, event) {
             addEventToDOM(event.data);
 
             var sheetContent = angular.element('#events').parents('.qor-sheet-content')[0];
@@ -50,10 +50,10 @@
             });
         }
 
-        $scope.subscription = pubSub.subscribe('eventBus:all', handleEvent);
+        $scope.removeSubscription = $rootScope.$on('eventBus:all', handleEvent);
 
         $scope.$on("$destroy", function () {
-            $scope.subscription.remove();
+            $scope.removeSubscription();
         });
     }
 })();

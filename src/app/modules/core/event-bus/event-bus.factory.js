@@ -8,7 +8,7 @@
     /**
      *
      */
-    function eventBus(EVENTS_URL, pubSub) {
+    function eventBus(EVENTS_URL, $rootScope) {
         var self = {
             initConnection: initConnection
         };
@@ -22,8 +22,8 @@
             self.connection.addEventListener('Event', function(event){
                 var eventType = JSON.parse(event.data).type;
 
-                pubSub.publish('eventBus:all', event);
-                pubSub.publish('eventBus:' + eventType, event);
+                $rootScope.$broadcast('eventBus:all', event);
+                $rootScope.$broadcast('eventBus:' + eventType, event);
             });
         }
 

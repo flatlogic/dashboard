@@ -2,7 +2,7 @@ describe('Controller: EventsController', function(){
     var $controller,
     $rootScope,
     scope,
-    pubSubStub;
+    $rootScopeStub;
     beforeEach(function(){
         module('qorDash.widget.events')
     });
@@ -12,18 +12,16 @@ describe('Controller: EventsController', function(){
         scope = $rootScope.$new();
     }));
     beforeEach(function(){
-        pubSubStub = {
-            subscribe: function(){
-                return {
-                    remove: function(){}
-                }
+        $rootScopeStub = {
+            $on: function(){
+                return function(){}
             }
         };
     });
     function createCtrl() {
         return $controller('EventsController', {
             $scope: scope,
-            pubSub: pubSubStub
+            $rootScope: $rootScopeStub
         })
     }
 
@@ -32,20 +30,20 @@ describe('Controller: EventsController', function(){
             createCtrl();
             expect(scope.events).toBeDefined();
         });
-        it('calls pubSub.subscribe', function(){
-            spyOn(pubSubStub, 'subscribe');
+        it('subscribes to eventBus events', function(){
+            spyOn($rootScopeStub, '$on');
 
             createCtrl();
 
-            expect(pubSubStub.subscribe).toHaveBeenCalled();
+            expect($rootScopeStub.$on).toHaveBeenCalled();
         });
         describe('when the $destroy event is broadcasted', function(){
             it('removes the subscription', function(){
                 createCtrl();
-                spyOn(scope.subscription, 'remove');
+                spyOn(scope, 'removeSubscription');
                 scope.$broadcast('$destroy');
 
-                expect(scope.subscription.remove).toHaveBeenCalled();
+                expect(scope.removeSubscription).toHaveBeenCalled();
             });
         });
     });
