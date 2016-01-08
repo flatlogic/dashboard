@@ -1,5 +1,5 @@
 {
-    "name":"us-eu-vpc", "type":"vpc",
+    "name":"vpc-eu", "type":"vpc",
     "children": [
         {
             "name":"us-eu-a","type":"availability-zone",

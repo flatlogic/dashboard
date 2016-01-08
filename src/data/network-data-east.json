@@ -1,5 +1,5 @@
 {
-    "name":"us-east-vpc", "type":"vpc",
+    "name":"vpc-east", "type":"vpc",
     "children": [
         {
             "name":"us-east-a","type":"availability-zone",
