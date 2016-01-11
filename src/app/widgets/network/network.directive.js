@@ -28,7 +28,7 @@
             });
 
             $scope.$watch('nv.globalChildren', function (globalChildren) {
-                var children = globalChildren;
+                var children = angular.copy(globalChildren);
                 if (children){
                     if (children.length == nv.globalChildrenCount) {
                         var node = nv.queue.shift();
