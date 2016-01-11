@@ -22,9 +22,9 @@ describe('Service: networkViewService', function() {
 
 
     it("should load data for network view", function(done) {
-        httpBackend.expect('GET', 'data/network-data.json').respond(serverResponse);
+        httpBackend.expect('GET', 'data/global-network.json').respond(serverResponse);
 
-        networkViewService.load()
+        networkViewService.load('data/global-network.json')
             .then(function(response) {
                 expect(response).toEqual(serverResponse);
                 done();
