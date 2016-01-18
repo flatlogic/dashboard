@@ -1,0 +1,572 @@
+{
+    "name":"vpc-eu", "type":"vpc",
+    "children": [
+        {
+            "name":"us-eu-a","type":"availability-zone",
+            "children": [
+                {
+                    "name": "us-eu-a-public", "type":"subnet",
+                    "children":[
+                        {
+                            "name":"sg-web", "type":"security-group",
+                            "children": [
+                                { "name":"10.30.50.1", "size":50,"type":"host",
+                                    "children": [
+                                        {
+                                            "name":"nginx", "type":"service",
+                                            "children":[
+                                                { "name":"nginx/10.30.50.1:443", "size": 20}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.50.1:25657", "size": 20}
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name":"sg-nat", "type":"security-group",
+                            "children": [
+                                { "name":"10.30.50.2", "size":50, "type":"host",
+                                    "children":[
+                                        {
+                                            "name":"nat", "type":"service",
+                                            "children":[
+                                                { "name":"ip-256.78.45.120", "size": 20, "type":"nat" }
+                                            ]
+                                        }
+                                    ]}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "us-eu-a-private","type":"availability-zone",
+                    "children":[
+                        {
+                            "name":"sg-appserver", "type":"security-group",
+                            "children": [
+                                { "name":"10.30.60.1", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"tomcat", "type":"service",
+                                            "children":[
+                                                { "name":"tomcat/10.30.60.1:45345", "size": 20, "type":"container"},
+                                                { "name":"tomcat/10.30.60.1:45346", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.60.1:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.60.2", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"tomcat", "type":"service",
+                                            "children":[
+                                                { "name":"tomcat/10.30.60.2:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.60.2:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name":"tomcat", "type":"service",
+                                    "logs" : {
+                                        "tomcat/access.log" : "ws://server.com/10.30.60.3/tomcat/access.log",
+                                        "tomcat/error.log" : "ws://server.com/10.30.60.3/tomcat/error.log"
+                                    },
+                                    "children":[
+                                        { "name":"tomcat/10.30.60.3:45345", "size": 20, "type":"container",
+                                            "logs" : {
+                                                "access.log" : "ws://server.com/10.30.60.3/tomcat:45345/access.log",
+                                                "error.log" : "ws://server.com/10.30.60.3/tomcat:45345/error.log"
+                                            }
+                                        }]
+                                },
+                                { "name":"10.30.60.4", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"tomcat", "type":"service",
+                                            "children":[
+                                                { "name":"tomcat/10.30.60.4:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.60.2:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.60.5", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"tomcat", "type":"service",
+                                            "children":[
+                                                { "name":"tomcat/10.30.60.5:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.60.5:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.60.5", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.60.5:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.60.5:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.60.5:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.60.6", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"cron", "type":"service",
+                                            "children":[
+                                                { "name":"cron/10.30.60.6:45345", "size": 20, "type":"container"},
+                                                { "name":"cron/10.30.60.6:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.60.6:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sg-database", "type":"security-group",
+                            "children":[
+                                {
+                                    "name":"pg01.myapp.com", "type":"host", "size":200,
+                                    "children": [
+                                        {
+                                            "name":"postgres", "type":"service",
+                                            "children":[
+                                                { "name":"postgres/:5432", "size":20, "type":"process" }
+                                            ]
+                                        },
+                                        {
+                                            "name":"redis", "type":"service",
+                                            "children":[
+                                                { "name":"redis/7652", "size":20, "type":"process" }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name":"sg-zookeeper", "type":"security-group",
+                            "children": [
+                                {
+                                    "name":"zk01.myapp.com", "size":50, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"zookeeper", "type":"service",
+                                            "children":[
+                                                { "name":"zk01.myapp.com/:2181", "size":20, "type":"container" }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name":"us-eu-b","type":"availability-zone",
+            "children": [
+                {
+                    "name": "us-eu-b-public","type":"availability-zone",
+                    "children":[
+                        {
+                            "name":"sg-nat","type":"security-group",
+                            "children": [
+                                { "name":"10.30.60.1", "size":50, "type":"host",
+                                    "children":[
+                                        {
+                                            "name":"nat", "type":"service",
+                                            "children":[
+                                                { "name":"ip-256.78.45.121", "size": 20, "type":"nat" }
+                                            ]
+                                        }
+                                    ]}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "us-eu-b-private","type":"availability-zone",
+                    "children":[
+                        {
+                            "name":"sg-appserver", "type":"security-group",
+                            "children": [
+                                { "name":"10.30.70.1", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.70.1:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.70.1:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.70.1:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.70.2", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.70.2:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.70.2:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.70.2:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.70.3", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.70.3:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.70.3:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.70.3:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.70.4", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.70.4:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.70.4:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.70.4:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.70.5", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.70.5:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.70.5:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.70.5:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.70.6", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.70.6:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.70.6:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.70.6:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sg-database", "type":"security-group",
+                            "children":[
+                                {
+                                    "name":"pg02.myapp.com", "type":"host", "size":200,
+                                    "children": [
+                                        {
+                                            "name":"postgres", "type":"service",
+                                            "children":[
+                                                { "name":"postgres-slave1/:5432", "size":20, "type":"process" },
+                                                { "name":"postgres-slave2/:5432", "size":20, "type":"process" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name":"pg03.myapp.com", "type":"host", "size":200,
+                                    "children": [
+                                        {
+                                            "name":"redis", "type":"service",
+                                            "children":[
+                                                { "name":"redis-slave/:9758", "size":20, "type":"process" }
+                                            ]
+                                        }
+
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name":"sg-zookeeper", "type":"security-group",
+                            "children": [
+                                {
+                                    "name":"zk02.myapp.com", "size":50, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"zk02.myapp.com", "type":"service",
+                                            "children":[
+                                                { "name":"zk02.myapp.com/:2181", "size":20, "type":"container" }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name":"us-eu-c","type":"availability-zone",
+            "children": [
+                {
+                    "name": "us-eu-c-public","type":"availability-zone",
+                    "children":[
+                        {
+                            "name":"sg-nat","type":"security-group",
+                            "children": [
+                                { "name":"10.30.80.1", "size":50, "type":"host",
+                                    "children":[
+                                        {
+                                            "name":"nat", "type":"service",
+                                            "children":[
+                                                { "name":"ip-256.78.45.122", "size": 20, "type":"nat" }
+                                            ]
+                                        }
+                                    ]}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "us-eu-c-private","type":"availability-zone",
+                    "children":[
+                        {
+                            "name":"sg-appserver", "type":"security-group",
+                            "children": [
+                                { "name":"10.30.80.1", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.80.1:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.80.1:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.80.1:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.80.2", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.80.2:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.80.2:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.80.2:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.80.3", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.80.3:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.80.3:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.80.3:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.80.4", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.80.4:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.80.4:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.80.4:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.80.5", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.80.5:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.80.5:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.80.5:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { "name":"10.30.80.6", "size": 100, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"queue", "type":"service",
+                                            "children":[
+                                                { "name":"queue/10.30.80.6:45345", "size": 20, "type":"container"},
+                                                { "name":"queue/10.30.80.6:45345", "size": 20, "type":"container"}
+                                            ]
+                                        },
+                                        {
+                                            "name":"agent", "type":"service",
+                                            "children":[
+                                                { "name":"agent/10.30.80.6:25657", "size": 20, "type":"container"}
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sg-database", "type":"security-group",
+                            "children":[
+                                {
+                                    "name":"pg04.myapp.com", "type":"host", "size":200,
+                                    "children": [
+                                        {
+                                            "name":"postgres", "type":"service",
+                                            "children":[
+                                                { "name":"postgres-slave2/:5432", "size":20, "type":"process" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name":"pg05.myapp.com", "type":"host", "size":200,
+                                    "children": [
+                                        {
+                                            "name":"redis", "type":"service",
+                                            "children":[
+                                                { "name":"redis-slave/:9758", "size":20, "type":"process" }
+                                            ]
+                                        }
+
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name":"sg-zookeeper", "type":"security-group",
+                            "children": [
+                                {
+                                    "name":"zk03.myapp.com", "size":50, "type":"host",
+                                    "children": [
+                                        {
+                                            "name":"zk03.myapp.com", "type":"service",
+                                            "children":[
+                                                { "name":"zk02.myapp.com/:2181", "size":20, "type":"container" }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

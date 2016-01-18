@@ -17,7 +17,7 @@
                 templateUrl: 'app/modules/domains/network/network.html',
                 resolve: {
                     resolvedNetworkData: function(networkViewService) {
-                        return networkViewService.load();
+                        return networkViewService.load('data/global-network.json');
                     }
                 }
             })

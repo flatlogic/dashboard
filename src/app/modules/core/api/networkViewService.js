@@ -9,8 +9,8 @@
             load : load
         };
 
-        function load() {
-            return $http.get('data/network-data.json')
+        function load(url) {
+            return $http.get(url)
                 .then(function(response) {
                     return response.data ? response.data : response;
                 })
