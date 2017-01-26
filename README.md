@@ -4,6 +4,7 @@
 
 ### Run
 1. Install node and bower dependencies: `npm install`
+2. Run local server `node server/index.js`
 2. Run the application: `gulp serve`
 3. go to [http://localhost:3000](http://localhost:3000)
 
