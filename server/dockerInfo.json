@@ -1,0 +1,100 @@
+{
+  "Containers": 5,
+  "Debug": 0,
+  "DockerRootDir": "/var/lib/docker",
+  "Driver": "devicemapper",
+  "DriverStatus": [
+    [
+      "Pool Name",
+      "docker-202:1-524929-pool"
+    ],
+    [
+      "Pool Blocksize",
+      "65.54 kB"
+    ],
+    [
+      "Backing Filesystem",
+      "extfs"
+    ],
+    [
+      "Data file",
+      "/dev/loop0"
+    ],
+    [
+      "Metadata file",
+      "/dev/loop1"
+    ],
+    [
+      "Data Space Used",
+      "4.253 GB"
+    ],
+    [
+      "Data Space Total",
+      "107.4 GB"
+    ],
+    [
+      "Data Space Available",
+      "59.05 GB"
+    ],
+    [
+      "Metadata Space Used",
+      "7.533 MB"
+    ],
+    [
+      "Metadata Space Total",
+      "2.147 GB"
+    ],
+    [
+      "Metadata Space Available",
+      "2.14 GB"
+    ],
+    [
+      "Udev Sync Supported",
+      "false"
+    ],
+    [
+      "Data loop file",
+      "/var/lib/docker/devicemapper/devicemapper/data"
+    ],
+    [
+      "Metadata loop file",
+      "/var/lib/docker/devicemapper/devicemapper/metadata"
+    ],
+    [
+      "Library Version",
+      "1.02.82-git (2013-10-04)"
+    ]
+  ],
+  "ExecutionDriver": "native-0.2",
+  "ID": "6CWC:72GK:UNDO:5PQJ:UODF:LYII:A4FS:DLNQ:6IEK:PISO:N25K:TKSB",
+  "IPv4Forwarding": 1,
+  "Images": 168,
+  "IndexServerAddress": "https://index.docker.io/v1/",
+  "InitPath": "/usr/bin/docker",
+  "InitSha1": "7f9c6798b022e64f04d2aff8c75cbf38a2779493",
+  "KernelVersion": "3.13.0-36-generic",
+  "Labels": null,
+  "MemTotal": 2097610752,
+  "MemoryLimit": 1,
+  "NCPU": 1,
+  "NEventsListener": 1,
+  "NFd": 38,
+  "NGoroutines": 68,
+  "Name": "ip-10-31-41-127",
+  "OperatingSystem": "Ubuntu 14.04.1 LTS",
+  "RegistryConfig": {
+    "IndexConfigs": {
+      "docker.io": {
+        "Mirrors": null,
+        "Name": "docker.io",
+        "Official": true,
+        "Secure": true
+      }
+    },
+    "InsecureRegistryCIDRs": [
+      "127.0.0.0/8"
+    ]
+  },
+  "SwapLimit": 0,
+  "SystemTime": "2015-09-09T06:05:26.598409967Z"
+}

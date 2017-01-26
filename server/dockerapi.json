@@ -1,0 +1,30 @@
+{
+  "10.31.41.127": {
+    "api": "10.31.41.127:25657",
+    "dockerapi": "http://10.31.41.127:25658/dockerapi",
+    "version": {
+      "Branch": "v1.0",
+      "BuildLabel": "-extld=gcc",
+      "Commit": "566f3ff89b605407b9be1cef337c4a606195ffe2",
+      "Message": "",
+      "Number": "",
+      "RepoUrl": "git@github.com:infradash&dash.git",
+      "Tag": "release-1.2",
+      "Timestamp": "2015-09-08-15:25"
+    }
+  },
+  "10.31.80.203": {
+    "api": "10.31.80.203:25657",
+    "dockerapi": "http://10.31.80.203:25658/dockerapi",
+    "version": {
+      "Branch": "v1.0",
+      "BuildLabel": "-extld=gcc",
+      "Commit": "566f3ff89b605407b9be1cef337c4a606195ffe2",
+      "Message": "",
+      "Number": "",
+      "RepoUrl": "git@github.com:infradash&dash.git",
+      "Tag": "release-1.2",
+      "Timestamp": "2015-09-08-15:25"
+    }
+  }
+}

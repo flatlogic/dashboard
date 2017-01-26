@@ -1,0 +1,4 @@
+[
+  {"id":"qa.foo.com", "name":"QA", "url":"https://server.com/domain/qa.foo.com" },
+  {"id":"production.foo.com", "name": "Prod", "url":"https://server.com/domain/production.foo.com"}
+]

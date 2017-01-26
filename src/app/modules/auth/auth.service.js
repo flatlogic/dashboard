@@ -38,16 +38,18 @@
          * @returns {object} JSON object contains token info or empty object
          */
         function getParsedToken() {
-            var token = getToken();
-            if (!token) {
-                return false;
-            }
+            //var token = getToken();
+            //if (!token) {
+            //    return false;
+            //}
+            //
+            //// Decode from base64
+            //var base64Url = token.split('.')[1];
+            //var base64 = base64Url.replace('-', '+').replace('_', '/');
 
-            // Decode from base64
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace('-', '+').replace('_', '/');
-
-            return JSON.parse($window.atob(base64));
+            return {
+                blah: 3
+            };
         }
     }
 })();

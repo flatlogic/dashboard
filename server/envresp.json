@@ -1,0 +1,22 @@
+[
+  {
+    "name": "PGHOST",
+    "value": "ops-dev.blinker.io"
+  },
+  {
+    "name": "PGPORT",
+    "value": "5432"
+  },
+  {
+    "name": "PGUSER",
+    "value": "blinker"
+  },
+  {
+    "name": "PGDATABASE",
+    "value": "blinkerdb"
+  },
+  {
+    "name": "PGPASSWORD",
+    "value": "password"
+  }
+]

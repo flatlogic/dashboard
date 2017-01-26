@@ -3,7 +3,7 @@
 
     angular
         .module('qorDash.console')
-        .controller('ServicesController', servicesController);
+        .controller('ConsoleServicesController', servicesController);
 
     function servicesController($stateParams, resolvedServices) {
         var vm = this;

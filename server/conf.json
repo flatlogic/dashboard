@@ -1,0 +1,42 @@
+{
+  "blinker": {
+    "domain": "blinker.com",
+    "service": "blinker",
+    "instances": [
+      "production",
+      "dev",
+      "staging"
+    ],
+    "objects": [
+      "nginx.conf"
+    ],
+    "versions": [
+      "PtD",
+      "STtoDEV2",
+      "DD1",
+      "PRODN",
+      "DEVtPROD1",
+      "develop",
+      "new",
+      "DEVtoPROD3",
+      "DEVtoPROD2",
+      "v1.2",
+      "DtP",
+      "DW",
+      "STtoDEV",
+      "v1.1",
+      "DP1"
+    ],
+    "live": {
+      "dev": {
+        "nginx.conf": "v1.2"
+      },
+      "production": {
+        "nginx.conf": "v1.1"
+      },
+      "staging": {
+        "nginx.conf": "v1.1"
+      }
+    }
+  }
+}

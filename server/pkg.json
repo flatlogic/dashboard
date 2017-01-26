@@ -1,0 +1,149 @@
+{
+  "blinker": {
+    "domain": "blinker.com",
+    "service": "blinker",
+    "instances": [
+      "sandbox",
+      "integration",
+      "staging",
+      "production"
+    ],
+    "versions": [
+      "master",
+      "integration",
+      "staging",
+      "production"
+    ],
+    "live": {
+      "integration": {
+        "docker_image": "blinker/blinker:integration-123333"
+      },
+      "production": {
+        "docker_image": "blinker/blinker:production-v1.1"
+      },
+      "sandbox": {
+        "docker_image": "blinker/blinker:master-12234"
+      },
+      "staging": {
+        "docker_image": "blinker/blinker:staging-v1.2"
+      }
+    }
+  },
+  "clockwork": {
+    "domain": "blinker.com",
+    "service": "clockwork",
+    "instances": [
+      "sandbox",
+      "integration",
+      "staging",
+      "production"
+    ],
+    "versions": [
+      "master",
+      "sandbox",
+      "integration",
+      "staging",
+      "latest",
+      "production",
+      "develop"
+    ],
+    "live": {}
+  },
+  "dash": {
+    "domain": "blinker.com",
+    "service": "dash",
+    "instances": [
+      "integration"
+    ],
+    "versions": [],
+    "live": {}
+  },
+  "memcached": {
+    "domain": "blinker.com",
+    "service": "memcached",
+    "instances": [
+      "sandbox",
+      "integration",
+      "staging",
+      "production"
+    ],
+    "versions": [
+      "v1.0.3",
+      "release"
+    ],
+    "live": {}
+  },
+  "mqtt": {
+    "domain": "blinker.com",
+    "service": "mqtt",
+    "instances": [
+      "production",
+      "sandbox",
+      "integration",
+      "staging"
+    ],
+    "versions": [
+      "130"
+    ],
+    "live": {}
+  },
+  "nginx": {
+    "domain": "blinker.com",
+    "service": "nginx",
+    "instances": [
+      "sandbox",
+      "integration",
+      "production"
+    ],
+    "versions": [
+      "latest",
+      "v0.5.5",
+      "v0.2.6",
+      "v0.5.6"
+    ],
+    "live": {}
+  },
+  "sidekiq": {
+    "domain": "blinker.com",
+    "service": "sidekiq",
+    "instances": [
+      "sandbox",
+      "integration",
+      "staging",
+      "production"
+    ],
+    "versions": [
+      "develop",
+      "latest",
+      "master",
+      "sandbox",
+      "integration",
+      "staging",
+      "production"
+    ],
+    "live": {}
+  },
+  "valet": {
+    "domain": "blinker.com",
+    "service": "valet",
+    "instances": [
+      "sandbox",
+      "integration",
+      "staging",
+      "production"
+    ],
+    "versions": [],
+    "live": {}
+  },
+  "vdp": {
+    "domain": "blinker.com",
+    "service": "vdp",
+    "instances": [
+      "integration"
+    ],
+    "versions": [
+      "master"
+    ],
+    "live": {}
+  }
+}

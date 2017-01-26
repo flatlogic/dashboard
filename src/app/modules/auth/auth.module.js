@@ -36,11 +36,11 @@
     function run($rootScope, $state, user) {
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
             // Go to login page if user is not authorized
-            if (toState.name!=='login' && !user.isAuthed()) {
-                $state.transitionTo("login");
-                event.preventDefault();
-                return;
-            }
+            //if (toState.name!=='login' && !user.isAuthed()) {
+            //    $state.transitionTo("login");
+            //    event.preventDefault();
+            //    return;
+            //}
         });
     }
 })();

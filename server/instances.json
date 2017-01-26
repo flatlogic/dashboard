@@ -1,0 +1,24 @@
+[
+  {
+    "id": "qa.foo.com",
+    "class": "qa.foo.com",
+    "name": "QA",
+    "instances": [
+      "dev",
+      "staging",
+      "production"
+    ],
+    "services": ["blinker", "production"]
+  },
+  {
+    "id": "production.foo.com",
+    "class": "production.foo.com",
+    "name": "Prod",
+    "instances": [
+      "dev",
+      "staging",
+      "production"
+    ],
+    "services": ["blinker", "production"]
+  }
+]

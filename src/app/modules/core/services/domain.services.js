@@ -10,7 +10,8 @@
             loadDomains: loadDomains,
             loadDomain: loadDomain,
             loadDockers: loadDockers,
-            loadServices: loadServices
+            loadServices: loadServices,
+            loadDomainServices: loadDomainServices
         };
 
         function httpRequestSuccess(response) {
@@ -35,6 +36,13 @@
                 .then(httpRequestSuccess)
                 .catch(httpRequestFailed);
         }
+
+      function loadDomainServices(domainId) {
+        return $http
+          .get(_URL + '/v1/domain/' + domainId + '/services')
+          .then(httpRequestSuccess)
+          .catch(httpRequestFailed);
+      }
 
         function loadDockers(domainId, instance) {
             return $http

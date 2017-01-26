@@ -5,7 +5,7 @@
         .module('qorDash.auth')
         .service('user', userService);
 
-    function userService($http, AUTH_API_URL, auth, permissions) {
+    function userService($http, AUTH_API_URL, $q, auth, permissions) {
         return {
             isAuthed: isAuthed,
             logout: logout,
@@ -24,10 +24,19 @@
                 password: password
             };
 
-            return $http
-                .post(AUTH_API_URL + '/auth', data)
+            var deferred = $q.defer();
+
+            var result = deferred.promise
                 .then(auth.saveToken)
                 .then(permissions.save);
+
+            deferred.resolve({
+                data: {
+                    token: 'blah'
+                }
+            });
+
+            return result;
         }
 
         function logout() {

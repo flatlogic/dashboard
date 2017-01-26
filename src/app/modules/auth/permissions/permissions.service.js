@@ -44,14 +44,14 @@
         }
 
         this.hasAccess = function(state, action){
-            if (statesWhiteList.indexOf(state) >= 0){
-                return true;
-            }
-            action = action || 'read';
-            var userPermission = self.get();
-            var app = /\./.test(state) ? state.split('.')[1] : state;
-            var hasPermission = userPermission && userPermission[app] && userPermission[app].indexOf(action) >= 0;
-            return !!hasPermission;
+            //if (statesWhiteList.indexOf(state) >= 0){
+            //    return true;
+            //}
+            //action = action || 'read';
+            //var userPermission = self.get();
+            //var app = /\./.test(state) ? state.split('.')[1] : state;
+            //var hasPermission = userPermission && userPermission[app] && userPermission[app].indexOf(action) >= 0;
+            return true;
         }
     }
 })();

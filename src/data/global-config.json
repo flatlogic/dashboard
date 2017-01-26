@@ -1,12 +1,12 @@
 {
     "AUTH_API_URL" : "https://accounts.qor.io/v1",
-    "API_HOST" : "https://redpill.qoriolabs.com",
+    "API_HOST" : "http://localhost:8080",
     "WS_URL" : "wss://redpill.qoriolabs.com",
-    "EVENTS_URL": "https://redpill.qoriolabs.com/v1/test/events",
+    "EVENTS_URL": "http://localhost:8080",
     "ICON_URL" : "assets/images/logo-without-text.png",
     "LOGIN_PAGE_ICON_URL" : "assets/images/logo-white.png",
     "AUTH_API_USER" : "501f0c0390301655982bf6ba5581f95d",
-    "DOCKER_ENDPOINT": "https://redpill.qoriolabs.com/v1/dockerapi",
+    "DOCKER_ENDPOINT": "http://localhost:8080/docker",
     "AUTH_API_SECRET" : "fd2c94f3f2c88d25649334017a25f900",
     "GOOGLE_CLIENT_ID" : "138766960114-ikj7ignimooj54qabses3cc857l1a8h4.apps.googleusercontent.com",
     "GITHUB_CLIENT_ID" : "7284146c5831ac4ec98c"
