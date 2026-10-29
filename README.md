@@ -21,14 +21,14 @@ Use `npx gulp` to clean previous output before building.
 
 Run `npm test` for one ChromeHeadless run or `npm run test:watch` while developing.
 The local Karma plugins are installed by `npm ci`; no global packages are needed.
+After building, run `npm run test:build` to verify that jQuery loads before
+AngularJS, preserving the full selector API used by the sidebar directives.
 
 The existing suite currently reports 147 passing tests and 10 failures in the
 unfinished auth/permissions services. The same failures reproduce from the
 unchanged repository sources with the updated runner. These tests remain enabled.
 The generated Protractor example still expects the original Yeoman demo and has
-not been validated against this dashboard. A browser smoke check also reproduces
-the existing `qor-sidebar should be defined inside` error on unchanged sources;
-this dependency update does not claim the legacy application is fully functional.
+not been validated against this dashboard.
 
 ### Dependency update scope
 

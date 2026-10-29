@@ -16,6 +16,11 @@ var options = {
   },
   wiredep: {
     directory: 'bower_components',
+    overrides: {
+      angular: {
+        dependencies: { jquery: '*' }
+      }
+    },
     exclude: [/bootstrap-sass-official\/.*\.js/, /bootstrap\.css/]
   }
 };
