@@ -24,7 +24,7 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.tmp + '/partials/'));
   });
 
-  gulp.task('html', ['inject', 'partials'], function () {
+  gulp.task('html', gulp.series(gulp.parallel('inject', 'partials'), function () {
     var partialsInjectFile = gulp.src(options.tmp + '/partials/templateCacheHtml.js', { read: false });
     var partialsInjectOptions = {
       starttag: '<!-- inject:partials -->',
@@ -36,24 +36,24 @@ module.exports = function(options) {
     var jsFilter = $.filter('**/*.js');
       //var jsCodemirrorFilter = $.filter('codemirror/mode/**/*.js');
     var cssFilter = $.filter('**/*.css');
-    var assets;
+    var assetsFilter = $.filter(['**/*.js', '**/*.css']);
 
     return gulp.src(options.tmp + '/serve/*.html')
       .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-      .pipe(assets = $.useref.assets())
+      .pipe($.useref())
+      .pipe(assetsFilter)
       .pipe($.rev())
       .pipe(jsFilter)
         //.pipe(jsCodemirrorFilter)
       .pipe($.ngAnnotate())
-      .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', options.errorHandler('Uglify'))
+      .pipe($.uglify({ output: { comments: $.uglifySaveLicense } })).on('error', options.errorHandler('Uglify'))
       .pipe(jsFilter.restore())
       .pipe(cssFilter)
       .pipe($.replace('../../bower_components/bootstrap-sass/assets/fonts/bootstrap/', '../fonts/'))
       .pipe($.replace('../../bower_components/font-awesome/fonts', '../fonts'))
       .pipe($.csso())
       .pipe(cssFilter.restore())
-      .pipe(assets.restore())
-      .pipe($.useref())
+      .pipe(assetsFilter.restore())
       .pipe($.revReplace())
       .pipe(htmlFilter)
       .pipe($.minifyHtml({
@@ -65,7 +65,7 @@ module.exports = function(options) {
       .pipe(htmlFilter.restore())
       .pipe(gulp.dest(options.dist + '/'))
       .pipe($.size({ title: options.dist + '/', showFiles: true }));
-  });
+  }));
 
   // Only applies for fonts from bower dependencies
   // Custom fonts are handled by the "other" task
@@ -88,5 +88,5 @@ module.exports = function(options) {
     $.del([options.dist + '/', options.tmp + '/'], done);
   });
 
-  gulp.task('build', ['html', 'fonts', 'other']);
+  gulp.task('build', gulp.parallel('html', 'fonts', 'other'));
 };

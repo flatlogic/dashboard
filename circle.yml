@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 0.12
+    version: 22.23.0
 
 dependencies:
   cache_directories:
@@ -26,4 +26,4 @@ deployment:
       - cd dist && git init
       - cd dist && git add .
       - cd dist && git commit -m "Deploy to GitHub Pages [ci skip]"
-      - cd dist && git push --force --quiet "https://e55ce523a8913765f162942573d401ebeb64e903@github.com/qoriolabs/dashboard.git" master:gh-pages
+      - cd dist && git push --force --quiet "https://${GH_TOKEN}@github.com/qoriolabs/dashboard.git" master:gh-pages

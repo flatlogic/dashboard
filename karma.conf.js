@@ -32,7 +32,8 @@ module.exports = function(config) {
             'bower_components/angular-xeditable/dist/js/xeditable.js',
             'bower_components/angular-oboe/dist/angular-oboe.js',
             'bower_components/angular-resource/angular-resource.js',
-            'bower_components/angular-diff-match-patch/*.js',
+            'bower_components/google-diff-match-patch/diff_match_patch.js',
+            'bower_components/angular-diff-match-patch/angular-diff-match-patch.js',
             'bower_components/Chart.js/Chart.min.js',
             'bower_components/angular-chart.js/angular-chart.js',
             'bower_components/jasmine-jquery/lib/*.js',
@@ -82,17 +83,17 @@ module.exports = function(config) {
 
 
         // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: true,
+        autoWatch: false,
 
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome'],
+        browsers: ['ChromeHeadless'],
 
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false,
+        singleRun: true,
 
         browserNoActivityTimeout: 100000,
 
