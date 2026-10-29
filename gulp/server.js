@@ -2,7 +2,6 @@
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
-var browserSyncSpa = require('browser-sync-spa');
 
 var util = require('util');
 
@@ -33,27 +32,28 @@ module.exports = function(options) {
     browserSync.instance = browserSync.init({
       startPath: '/',
       server: server,
+      single: true,
       browser: browser
     });
   }
 
-  browserSync.use(browserSyncSpa({
-    selector: '[ng-app]'// Only needed for angular apps
+  gulp.task('serve', gulp.series('watch', function (done) {
+    browserSyncInit([options.tmp + '/serve', options.src]);
+    done();
   }));
 
-  gulp.task('serve', ['watch'], function () {
-    browserSyncInit([options.tmp + '/serve', options.src]);
-  });
-
-  gulp.task('serve:dist', ['build'], function () {
+  gulp.task('serve:dist', gulp.series('build', function (done) {
     browserSyncInit(options.dist);
-  });
+    done();
+  }));
 
-  gulp.task('serve:e2e', ['inject'], function () {
+  gulp.task('serve:e2e', gulp.series('inject', function (done) {
     browserSyncInit([options.tmp + '/serve', options.src], []);
-  });
+    done();
+  }));
 
-  gulp.task('serve:e2e-dist', ['build'], function () {
+  gulp.task('serve:e2e-dist', gulp.series('build', function (done) {
     browserSyncInit(options.dist, []);
-  });
+    done();
+  }));
 };

@@ -1,28 +1,49 @@
 # dashboard
 
-[![Circle CI](https://circleci.com/gh/qoriolabs/dashboard.png?circle-token=23161c70747953c1b0e735cb36028f1faede194e&style=svg)](https://circleci.com/gh/qoriolabs/dashboard)
+[![Circle CI](https://circleci.com/gh/qoriolabs/dashboard.png?style=svg)](https://circleci.com/gh/qoriolabs/dashboard)
 
-### Run
-1. Install node and bower dependencies: `npm install`
-2. Run local server `node server/index.js`
-2. Run the application: `gulp serve`
-3. go to [http://localhost:3000](http://localhost:3000)
+### Requirements
+
+Use Node.js 22.12 or newer and a local Chrome installation for tests.
+
+### Install and run
+
+1. Run `npm ci` and `npm run bower:install`.
+2. Run the fixture API with `node server/index.js` when needed.
+3. Run `npm start` and open http://localhost:3000.
 
 ### Build
-1. Install node and bower dependencies: `npm install && bower install`
-2. Run the application: `gulp build`
-3. Upload `dist` content to the server
 
-### Deploy to the `gh-pages` branch
-1. Install node and bower dependencies: `npm install`
-2. Run the application: `gulp build`
-3. Run the application `gulp deploy`
-4. Sync local gh-pages branch with remote origin
+Run `npm run build` and serve the generated `dist` directory.
+Use `npx gulp` to clean previous output before building.
 
 ### Testing
-1. Install node and bower dependencies: `npm install`
-2. Install global dependencies `npm install istanbul karma-coverage karma-chrome-launcher karma-jasmine -g`
-3. Run tests `karma start`
+
+Run `npm test` for one ChromeHeadless run or `npm run test:watch` while developing.
+The local Karma plugins are installed by `npm ci`; no global packages are needed.
+
+The existing suite currently reports 147 passing tests and 10 failures in the
+unfinished auth/permissions services. The same failures reproduce from the
+unchanged repository sources with the updated runner. These tests remain enabled.
+The generated Protractor example still expects the original Yeoman demo and has
+not been validated against this dashboard. A browser smoke check also reproduces
+the existing `qor-sidebar should be defined inside` error on unchanged sources;
+this dependency update does not claim the legacy application is fully functional.
+
+### Dependency update scope
+
+The dependency graph removes PhantomJS and unused direct lodash, updates Karma
+and http-proxy, and resolves all remaining lodash copies to 4.18.1. Gulp 4 and
+Dart Sass allow the existing build to run on current Node.js. AngularJS and the
+Bower application dependencies remain a separate modernization task. `npm audit`
+still reports vulnerabilities in other legacy development tools; this update does
+not make the entire legacy stack vulnerability-free.
+
+### Deploy to the `gh-pages` branch
+
+Run `npm run build` and review `dist` before deploying.
+`npx gulp deploy` pushes the generated site to the remote `gh-pages` branch. The legacy CircleCI config
+expects its deployment credential in `GH_TOKEN` rather than in the repository.
 
 ## Project 1 - Improve on this app template
 

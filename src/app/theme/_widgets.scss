@@ -48,7 +48,7 @@ $stat-blue-color: #7986CB;
   padding: 30px;
 
   > header {
-    #{headings()} {
+    h1, h2, h3, h4, h5, h6 {
       font-weight: $font-weight-normal;
     }
   }
@@ -1256,7 +1256,7 @@ width: 20px;
 
   >table {
     background-color: #FFFFFF;
-    width: calc((100vw - #{$qor-sidebar-width}) / 2) - 1px;
+    width: calc((100vw - #{$qor-sidebar-width}) / 2 - 1px);
     table-layout: fixed;
     >tbody>tr>td {
       &:nth-child(1) {

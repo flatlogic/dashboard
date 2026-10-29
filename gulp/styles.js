@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var sass = require('gulp-sass')(require('sass'));
 var browserSync = require('browser-sync');
 
 var $ = require('gulp-load-plugins')();
@@ -43,7 +44,7 @@ module.exports = function(options) {
       .pipe(wiredep(options.wiredep))
       .pipe(vendorFilter.restore())
       .pipe($.sourcemaps.init())
-      .pipe($.sass(sassOptions)).on('error', options.errorHandler('Sass'))
+      .pipe(sass(sassOptions)).on('error', options.errorHandler('Sass'))
       .pipe($.autoprefixer()).on('error', options.errorHandler('Autoprefixer'))
       .pipe($.sourcemaps.write())
       .pipe(gulp.dest(options.tmp + '/serve/app/'))
