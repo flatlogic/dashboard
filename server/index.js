@@ -8,6 +8,17 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Require a valid API key for all API routes to prevent unauthenticated access
+// to domain, Docker, package, environment, configuration and orchestration data.
+app.use(function(req, res, next) {
+  var auth = req.headers['authorization'] || '';
+  var token = auth.replace(/^Bearer\s+/i, '');
+  if (!process.env.API_KEY || token !== process.env.API_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+});
+
 app.get('/v1/domain', function (req, res) {
   res.json(require('./domains.json'));
 });
