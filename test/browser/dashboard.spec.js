@@ -21,6 +21,7 @@ test('production login and dashboard render without missing templates or assets'
   await page.locator('[qor-sidebar-group-heading="Domains"]').click();
   await expect(page).toHaveURL(/#\/app\/domains/);
   await expect(page.locator('.list-group-item').first()).toBeVisible();
+  await page.screenshot({ path: 'test-results/dashboard.png', fullPage: true });
   expect(missing).toEqual([]);
   expect(errors).toEqual([]);
 });
