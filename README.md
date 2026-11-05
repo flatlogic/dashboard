@@ -74,3 +74,33 @@ Building on the framework of Project 1
 For reference:
 
 private cloud -> availability zone -> subnets -> security group -> hosts -> services -> containers
+
+## Browser dependency security followup (2026-11-05)
+
+jQuery is pinned to 3.7.1, Bootstrap Sass to 3.4.3, and the actively used
+jQuery Terminal to 2.48.1. Terminal commands, formatted output, clear and destroy
+are checked through the application's real `terminalService`; malicious
+attribute/extended-command markup remains inert. The upstream
+[Terminal security notes](https://github.com/jcubic/jquery.terminal#security)
+explain the fixed XSS behaviours. Existing console routes and WebSocket message
+contracts are unchanged.
+
+Bootstrap Sass embeds JavaScript 3.4.1, so install/build apply the official Debian
+CVE-2024-6485 and CVE-2025-1647 backports with exact package/source/patch hashes.
+[Provenance and the fail-fast apply step](build/bootstrap-patches/README.md)
+cover both raw and minified bundles. Production vendor-bundle payload tests
+verify loading text and sanitizer DOM-clobbering attacks are blocked.
+
+The newer Bootstrap Sass manifest no longer lists Glyphicons fonts as main
+files; the build explicitly copies them. Artifact tests check their bytes and
+every local CSS URL. A missing search image is replaced with a small source SVG,
+and the three licensed, source-verified Select2 sprites required by existing
+styles are kept under `src/vendor/select2`. No legacy library JavaScript or npm
+metadata is vendored. There are no tracked `dist`/`docs` JavaScript bundles in
+this repository; build before serving.
+
+AngularJS 1.4 and its `$http.success` API remain unchanged. Its separate upstream
+security advisories are tracked for compatible backport followups. npm audit
+covers the Node build tree and cannot establish that the entire Bower runtime
+is patched or supported. The legacy Karma suite still reports its existing
+147 passes and 10 auth/permissions failures; those tests are retained.
