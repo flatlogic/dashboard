@@ -3,8 +3,7 @@ describe('Factory: auth', function() {
 
     var tokenKey = 'authToken',
         token = 'token.eyJ0b2tlbiI6ICJ0b2tlbiJ9',
-        response = {data:{token:token}},
-        decodedToken = 'token';
+        response = {data:{token:token}};
 
     beforeEach(module('ui.router'));
     beforeEach(module('qorDash.config'));
@@ -15,16 +14,18 @@ describe('Factory: auth', function() {
         inject(function (_authInterceptor_, _auth_, _$window_) {
             auth = _auth_;
             window = _$window_;
+            window.localStorage.removeItem(tokenKey);
         });
+    });
+
+    afterEach(function() {
+        window.localStorage.removeItem(tokenKey);
     });
 
     describe ('saveToken', function() {
         it ('should save argument to the localStorage by tokenKey', function() {
             auth.saveToken(response);
             expect(window.localStorage[tokenKey]).toBe(token);
-        });
-        afterEach(function() {
-            delete window.localStorage[tokenKey];
         });
     });
 
@@ -40,9 +41,6 @@ describe('Factory: auth', function() {
             auth.saveToken(response);
             expect(auth.getToken()).toBe(token);
         });
-        afterEach(function() {
-            delete window.localStorage[tokenKey];
-        });
     });
 
     describe ('removeToken', function() {
@@ -55,13 +53,14 @@ describe('Factory: auth', function() {
     });
 
     describe ('getParsedToken', function() {
-        it ('should return false if token is not present', function() {
-            expect(auth.getParsedToken()).toBe(false);
+        it ('should return the local demo payload without a stored token', function() {
+            expect(auth.getParsedToken()).toEqual({blah: 3});
         });
 
-        it ('should get token from localStorage by tokenKey, decode and return', function() {
+        it ('should keep the demo payload when a token is stored', function() {
             auth.saveToken(response);
-            expect(auth.getParsedToken().token).toBe(decodedToken);
+            expect(auth.getParsedToken()).toEqual({blah: 3});
+            expect(auth.getToken()).toBe(token);
         });
     });
 

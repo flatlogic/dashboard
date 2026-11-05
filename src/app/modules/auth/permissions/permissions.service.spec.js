@@ -2,7 +2,7 @@ describe('Factory: permissions', function() {
     var serverResponse = {"data":{"acls":[{"resource":"docker","permissions":["read","kill"]},{"resource":"manage","permissions":["read"]},{"resource":"dashboard","permissions":["read"]},{"resource":"domains","permissions":["read"]},{"resource":"compose","permissions":["read"]},{"resource":"configurations","permissions":["read"]},{"resource":"orchestrate","permissions":["read"]}]},"status":200,"config":{"method":"POST","transformRequest":[null],"transformResponse":[null],"url":"https://accounts.qor.io/v1/auth","data":{"username":"dashboard-admin","password":"password"},"headers":{"Accept":"application/json","Content-Type":"application/json"}},"statusText":"OK"};
     var permissionsObjMock = {"docker":["read","kill"],"manage":["read"],"dashboard":["read"],"domains":["read"],"compose":["read"],"configurations":["read"],"orchestrate":["read"]};
     var permissions,
-        $timeout,
+        $rootScope,
         $window,
         USER_HAS_NO_ACCESS;
 
@@ -14,15 +14,13 @@ describe('Factory: permissions', function() {
     });
 
     beforeEach(function() {
-        inject(function(_permissions_, _$timeout_, _USER_HAS_NO_ACCESS_, _$window_) {
+        inject(function(_permissions_, _$rootScope_, _USER_HAS_NO_ACCESS_, _$window_) {
             permissions = _permissions_;
-            $timeout = _$timeout_;
+            $rootScope = _$rootScope_;
             $window = _$window_;
-            $window.localStorage.getItem = jasmine.createSpy('getItem').and.callFake(function(){
-                return JSON.stringify(permissionsObjMock);
-            });;
-            $window.localStorage.setItem = jasmine.createSpy('setItem');
-            $window.localStorage.removeItem = jasmine.createSpy('removeItem');
+            spyOn($window.localStorage, 'getItem').and.returnValue(JSON.stringify(permissionsObjMock));
+            spyOn($window.localStorage, 'setItem');
+            spyOn($window.localStorage, 'removeItem');
             USER_HAS_NO_ACCESS = _USER_HAS_NO_ACCESS_;
         });
     });
@@ -45,15 +43,15 @@ describe('Factory: permissions', function() {
     describe('save', function() {
         it ('should do nothing if permissions list is empty', function() {
             permissions.save();
-            expect($window.localStorage.setItem).not.toHaveBeenCalledWith();
+            expect($window.localStorage.setItem).not.toHaveBeenCalled();
         });
         it ('should do nothing if wrong argument has been passed', function() {
             permissions.save([]);
-            expect($window.localStorage.setItem).not.toHaveBeenCalledWith();
+            expect($window.localStorage.setItem).not.toHaveBeenCalled();
         });
         it ('should do nothing if wrong argument has been passed', function() {
             permissions.save(null);
-            expect($window.localStorage.setItem).not.toHaveBeenCalledWith();
+            expect($window.localStorage.setItem).not.toHaveBeenCalled();
         });
         it ('should map permissions from the response and save it to the localStorage', function() {
             expect(permissions.current).toBe(null);
@@ -64,7 +62,7 @@ describe('Factory: permissions', function() {
 
     describe('get', function() {
         it ('should return permissions object from localStorage', function() {
-            permissions.get();
+            expect(permissions.get()).toEqual(permissionsObjMock);
             expect($window.localStorage.getItem).toHaveBeenCalledWith(permissions.storageKey);
         });
     });
@@ -76,17 +74,16 @@ describe('Factory: permissions', function() {
         it ('should return true if user has permission for selected state', function() {
             expect(permissions.resolveState('app.docker')).toBe(true);
         });
-        it ('should reject promise if state is not specified', function() {
-            permissions.resolveState().catch(function(error){
-                expect(error).toEqual(USER_HAS_NO_ACCESS);
-            });
-            $timeout.flush();
+        it ('should allow an unspecified state in the local demo', function() {
+            expect(permissions.resolveState()).toBe(true);
         });
-        it ('should reject promise if user has no read permission for selected state', function() {
-            permissions.resolveState('app.events').catch(function(error){
-                expect(error).toEqual(USER_HAS_NO_ACCESS);
-            });
-            $timeout.flush();
+        it ('should reject with the access error when hasAccess denies a state', function() {
+            spyOn(permissions, 'hasAccess').and.returnValue(false);
+            var rejected = jasmine.createSpy('rejected');
+            permissions.resolveState('app.events').catch(rejected);
+            $rootScope.$digest();
+            expect(permissions.hasAccess).toHaveBeenCalledWith('app.events');
+            expect(rejected).toHaveBeenCalledWith(USER_HAS_NO_ACCESS);
         });
     });
 
@@ -95,11 +92,11 @@ describe('Factory: permissions', function() {
             beforeEach(function() {
                 permissions.current = permissionsObjMock;
             });
-            it ('should return false if state is not specified', function() {
-                expect(permissions.hasAccess()).toBe(false);
+            it ('should allow an unspecified state in the local demo', function() {
+                expect(permissions.hasAccess()).toBe(true);
             });
-            it ('should return false if state is root', function() {
-                expect(permissions.hasAccess('app')).toBe(false);
+            it ('should allow the root state in the local demo', function() {
+                expect(permissions.hasAccess('app')).toBe(true);
             });
             it ('should return true if state is in white list', function() {
                 expect(permissions.hasAccess('login')).toBe(true);
@@ -107,17 +104,17 @@ describe('Factory: permissions', function() {
             it ('should return true if user has read permissions for selected state', function() {
                 expect(permissions.hasAccess('app.docker')).toBe(true);
             });
-            it ('should return false if user has no update permissions for selected state', function() {
-                expect(permissions.hasAccess('app.docker', 'update')).toBe(false);
+            it ('should allow demo actions regardless of stored ACLs', function() {
+                expect(permissions.hasAccess('app.docker', 'update')).toBe(true);
             });
         });
         describe('permissions are not exist', function(){
             beforeEach(function() {
                 permissions.current = null;
             });
-            it ('should check localStorage if there is no cached permissions', function() {
-                permissions.hasAccess();
-                expect(permissions.hasAccess()).toBe(false);
+            it ('should allow demo access without reading stored ACLs', function() {
+                expect(permissions.hasAccess()).toBe(true);
+                expect($window.localStorage.getItem).not.toHaveBeenCalled();
             });
         });
     });

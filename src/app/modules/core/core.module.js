@@ -7,7 +7,8 @@
         ])
         .config(config);
 
-    function config($stateProvider, $urlRouterProvider) {
+    function config($stateProvider, $urlRouterProvider, $locationProvider) {
+        $locationProvider.hashPrefix('');
         $stateProvider
             .state('app', {
                 url: '/app',

@@ -1,6 +1,9 @@
 'use strict'
 
 var gulp = require('gulp')
+var patchAngularJS = require('../build/patch-angularjs.cjs').patchAngularJS
+var patchUiRouter = require('../build/patch-ui-router.cjs').patchUiRouter
+var patchUiBootstrap = require('../build/patch-ui-bootstrap.cjs').patchUiBootstrap
 var patchInstalledBootstrap = require('../build/patch-bootstrap.cjs').patchInstalledBootstrap
 
 var $ = require('gulp-load-plugins')()
@@ -10,7 +13,7 @@ var wiredep = require('wiredep').stream
 module.exports = function (options) {
   gulp.task(
     'inject',
-    gulp.series(patchInstalledBootstrap, gulp.parallel('scripts', 'styles'), function () {
+    gulp.series(patchInstalledBootstrap, function patchAngularRuntime() { return patchAngularJS() }, patchUiBootstrap, patchUiRouter, gulp.parallel('scripts', 'styles'), function () {
       var injectStyles = gulp.src(
         [options.tmp + '/serve/app/**/*.css', '!' + options.tmp + '/serve/app/vendor.css'],
         { read: false }

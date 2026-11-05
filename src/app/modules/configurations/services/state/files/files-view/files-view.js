@@ -113,14 +113,15 @@
             }
 
             return configurationService.files.createVersion($stateParams.domain, $scope.selectedInstance, $scope.service, newVersionName, $stateParams.file, $scope.fileVersion)
-                .success(function(response) {
+                .then(function(response) {
                     $scope.instance.versions.push(newVersionName);
                     $scope.selectVersion(newVersionName);
                     $scope.contentsChanged = false;
                     Notification.success('Successfully created');
-                })
-                .error(function(response) {
-                    errorHandler.showError(response);
+                    return response;
+                }, function(response) {
+                    errorHandler.showError(response.data);
+                    throw response;
                 });
         };
 
@@ -349,10 +350,9 @@
             $($event.target).button('loading');
 
             createVersion($scope.versionName)
-                .success(function() {
+                .then(function() {
                     $modalInstance.close();
-                })
-                .error(function() {
+                }, function() {
                     $($scope.event.target).button('reset');
                 });
         };

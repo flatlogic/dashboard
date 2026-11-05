@@ -1,11 +1,8 @@
 describe('Service: userService ', function() {
-    var userService, httpBackend, auth, auth;
+    var userService, httpBackend, auth, permissions, $rootScope, $q;
 
-    var token = 'token',
-        serverResponse = {token: 1},
-        username = 'username',
-        password = 'password',
-        AUTH_API_URL;
+    var username = 'username',
+        password = 'password';
 
     beforeEach(module('ui.router'));
     beforeEach(module('qorDash.config'));
@@ -13,14 +10,23 @@ describe('Service: userService ', function() {
     beforeEach(module('qorDash.auth'));
 
     beforeEach(function() {
-        inject(function ($httpBackend, _user_, _auth_, _AUTH_API_URL_, $state) {
+        inject(function ($httpBackend, _user_, _auth_, _permissions_, _$rootScope_, _$q_, $state) {
             userService = _user_;
             httpBackend = $httpBackend;
             auth = _auth_;
-            AUTH_API_URL = _AUTH_API_URL_;
+            permissions = _permissions_;
+            $rootScope = _$rootScope_;
+            $q = _$q_;
 
             spyOn($state, 'go').and.returnValue(true);
         });
+    });
+
+    afterEach(function() {
+        auth.removeToken();
+        permissions.clear();
+        httpBackend.verifyNoOutstandingExpectation();
+        httpBackend.verifyNoOutstandingRequest();
     });
 
     describe ('isAuthed', function() {
@@ -57,17 +63,38 @@ describe('Service: userService ', function() {
 
     describe ('login', function() {
         beforeEach(function() {
-            spyOn(auth, 'saveToken');
+            spyOn(auth, 'saveToken').and.callThrough();
+            spyOn(permissions, 'save').and.callThrough();
         });
-        it ('should send POST request with params and should save token by call to auth.saveToken', function(done) {
-            httpBackend.expect('POST', AUTH_API_URL + '/auth', {username: username, password: password}, undefined).respond(serverResponse);
-
+        it ('should save the local demo response and resolve without an HTTP request', function() {
+            var resolved = false;
             userService.login(username, password).then(function() {
-                expect(auth.saveToken).toHaveBeenCalled();
-                done();
+                resolved = true;
             });
+            $rootScope.$digest();
+            expect(resolved).toBe(true);
+            expect(auth.getToken()).toBe('blah');
+            expect(auth.saveToken).toHaveBeenCalledWith({data: {token: 'blah'}});
+            expect(permissions.save).toHaveBeenCalledWith({data: {token: 'blah'}});
+        });
+        it ('should propagate token-save failures without saving permissions', function() {
+            var failure = new Error('Token storage failed');
+            auth.saveToken.and.returnValue($q.reject(failure));
+            var rejected = jasmine.createSpy('rejected');
+            userService.login(username, password).catch(rejected);
+            $rootScope.$digest();
+            expect(rejected).toHaveBeenCalledWith(failure);
+            expect(permissions.save).not.toHaveBeenCalled();
+        });
+    });
 
-            httpBackend.flush();
+    describe('logout', function() {
+        it ('should remove the stored token and permissions', function() {
+            auth.saveToken({data: {token: 'demo-token'}});
+            permissions.save({data: {acls: [{resource: 'docker', permissions: ['read']}]}});
+            userService.logout();
+            expect(auth.getToken()).not.toBeDefined();
+            expect(permissions.get()).toBe(null);
         });
     });
 });
