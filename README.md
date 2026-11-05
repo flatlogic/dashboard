@@ -27,17 +27,16 @@ AngularJS, preserving the full selector API used by the sidebar directives.
 The existing suite currently reports 147 passing tests and 10 failures in the
 unfinished auth/permissions services. The same failures reproduce from the
 unchanged repository sources with the updated runner. These tests remain enabled.
-The generated Protractor example still expects the original Yeoman demo and has
-not been validated against this dashboard.
+Run `npm run test:e2e` after building for the production Chrome regression. It
+checks login, sidebar navigation, domain listing, templates and local assets with the fixture API.
 
 ### Dependency update scope
 
-The dependency graph removes PhantomJS and unused direct lodash, updates Karma
-and http-proxy, and resolves all remaining lodash copies to 4.18.1. Gulp 4 and
-Dart Sass allow the existing build to run on current Node.js. AngularJS and the
-Bower application dependencies remain a separate modernization task. `npm audit`
-still reports vulnerabilities in other legacy development tools; this update does
-not make the entire legacy stack vulnerability-free.
+The npm graph now audits with zero reported vulnerabilities, including development
+tools. Gulp 5, Dart Sass, patched Angular annotation and HTML minification replace
+the retired tools. The unused Protractor scaffold is replaced with a production
+Chrome regression. Source maps from the obsolete vulnerable plugin are disabled.
+AngularJS and Bower application dependencies remain a separate modernization task.
 
 ### Deploy to the `gh-pages` branch
 

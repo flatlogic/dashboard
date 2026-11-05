@@ -21,7 +21,7 @@ module.exports = function(options) {
   gulp.task('scripts', gulp.series('config', function () {
     return gulp.src(options.src + '/app/**/*.js')
       .pipe($.angularFilesort())
-      .pipe($.ngAnnotate())
+      .pipe(require('./annotate')())
       .pipe(browserSync.reload({ stream: true }))
       .pipe($.size());
   }));

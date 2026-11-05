@@ -1,10 +1,8 @@
-var gulp   = require('gulp');
-var ghPages = require('gulp-gh-pages');
-
-module.exports = function(options) {
-
-    gulp.task('deploy', function () {
-        return gulp.src('./dist/**/*')
-            .pipe(ghPages());
-    });
-}
+'use strict';
+var gulp = require('gulp');
+var publish = require('gh-pages').publish;
+module.exports = function () {
+  gulp.task('deploy', gulp.series('build', function (done) {
+    publish('dist', done);
+  }));
+};
