@@ -16,7 +16,6 @@
 'use strict';
 
 var httpProxy = require('http-proxy');
-var chalk = require('chalk');
 
 /*
  * Location of your backend server
@@ -32,7 +31,8 @@ proxy.on('error', function(error, req, res) {
     'Content-Type': 'text/plain'
   });
 
-  console.error(chalk.red('[Proxy]'), error);
+  console.error('[Proxy]', error);
+  res.end('Proxy request failed');
 });
 
 /*

@@ -8,3 +8,6 @@ dist/
 coverage
 .DS_Store
 /yarn.lock
+
+/test-results/
+/playwright-report/

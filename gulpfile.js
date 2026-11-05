@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 
 var options = {
   src: 'src',
@@ -10,7 +9,7 @@ var options = {
   e2e: 'e2e',
   errorHandler: function(title) {
     return function(err) {
-      gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
+      console.error('[' + title + ']', err.toString());
       throw err;
     };
   },
@@ -25,8 +24,8 @@ var options = {
   }
 };
 
-['scripts', 'styles', 'inject', 'watch', 'build', 'server', 'e2e-tests', 'unit-tests', 'deploy'].forEach(function(task) {
+['scripts', 'styles', 'inject', 'watch', 'build', 'server', 'unit-tests', 'deploy'].forEach(function(task) {
   require('./gulp/' + task)(options);
 });
 
-gulp.task('default', gulp.series('clean', 'build'));
+gulp.task('default', gulp.series('build'));
