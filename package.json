@@ -9,7 +9,7 @@
     "start": "gulp serve",
     "test": "karma start --single-run",
     "test:watch": "karma start --auto-watch --no-single-run",
-    "bower:install": "bower install && node build/patch-bootstrap.cjs",
+    "bower:install": "bower install && node build/patch-bootstrap.cjs && node build/patch-angularjs.cjs && node build/patch-ui-bootstrap.cjs && node build/patch-ui-router.cjs",
     "test:build": "node --test test/*.test.js",
     "test:e2e": "playwright test"
   },

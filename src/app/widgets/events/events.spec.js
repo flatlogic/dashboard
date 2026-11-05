@@ -31,7 +31,7 @@ describe('Controller: EventsController', function(){
             expect(scope.events).toBeDefined();
         });
         it('subscribes to eventBus events', function(){
-            spyOn($rootScopeStub, '$on');
+            spyOn($rootScopeStub, '$on').and.callThrough();
 
             createCtrl();
 

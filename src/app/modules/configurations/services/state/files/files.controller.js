@@ -23,12 +23,13 @@
 
         $scope.createFile = function(fileName, text) {
             return configurationService.files.createFile($scope.domain, $stateParams.service, fileName, text)
-                .success(function(response) {
+                .then(function(response) {
                     $scope.instance.objects.push(fileName);
                     Notification.success('Successfully created');
-                })
-                .error(function(e, code) {
-                    errorHandler.showError(e, code);
+                    return response;
+                }, function(response) {
+                    errorHandler.showError(response.data, response.status);
+                    throw response;
                 });
         };
     }
@@ -44,10 +45,9 @@
             $($event.target).button('loading');
 
             createFile($scope.fileName, $scope.fileContent)
-                .success(function() {
+                .then(function() {
                     $modalInstance.close();
-                })
-                .error(function() {
+                }, function() {
                     $($scope.event.target).button('reset');
                 });
         };

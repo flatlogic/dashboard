@@ -2,6 +2,8 @@ const { test, expect } = require('@playwright/test');
 
 test('production login and dashboard render without missing templates or assets', async ({ page }) => {
   const errors = [];
+  const rejectedTransitions = [];
+  page.on('console', message => { if (/Possibly unhandled rejection|\[\$injector/.test(message.text())) rejectedTransitions.push(message.text()); });
   const missing = [];
   page.on('console', message => { if (message.type() === 'error') console.error(message.text()); });
   page.on('pageerror', error => errors.push(error.message));
@@ -24,4 +26,5 @@ test('production login and dashboard render without missing templates or assets'
   await page.screenshot({ path: 'test-results/dashboard.png', fullPage: true });
   expect(missing).toEqual([]);
   expect(errors).toEqual([]);
+  expect(rejectedTransitions).toEqual([]);
 });

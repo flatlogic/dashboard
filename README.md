@@ -24,9 +24,11 @@ The local Karma plugins are installed by `npm ci`; no global packages are needed
 After building, run `npm run test:build` to verify that jQuery loads before
 AngularJS, preserving the full selector API used by the sidebar directives.
 
-The existing suite currently reports 147 passing tests and 10 failures in the
-unfinished auth/permissions services. The same failures reproduce from the
-unchanged repository sources with the updated runner. These tests remain enabled.
+The full Karma suite passes all 158 tests. Authentication tests cover the existing
+local demo contract: fixture login, token storage, placeholder token parsing and
+unrestricted demo permissions, plus rejection propagation and logout cleanup.
+The old live-auth/JWT/ACL expectations were left behind when commit `6833d7d`
+removed live authentication; the tests now match that intentional behavior.
 Run `npm run test:e2e` after building for the production Chrome regression. It
 checks login, sidebar navigation, domain listing, templates and local assets with the fixture API.
 
@@ -36,7 +38,8 @@ The npm graph now audits with zero reported vulnerabilities, including developme
 tools. Gulp 5, Dart Sass, patched Angular annotation and HTML minification replace
 the retired tools. The unused Protractor scaffold is replaced with a production
 Chrome regression. Source maps from the obsolete vulnerable plugin are disabled.
-AngularJS and Bower application dependencies remain a separate modernization task.
+The browser dependency updates and remaining boundaries are documented in the
+[AngularJS runtime update](#angularjs-runtime-update-2026-11-05) below.
 
 ### Deploy to the `gh-pages` branch
 
@@ -99,8 +102,17 @@ styles are kept under `src/vendor/select2`. No legacy library JavaScript or npm
 metadata is vendored. There are no tracked `dist`/`docs` JavaScript bundles in
 this repository; build before serving.
 
-AngularJS 1.4 and its `$http.success` API remain unchanged. Its separate upstream
-security advisories are tracked for compatible backport followups. npm audit
-covers the Node build tree and cannot establish that the entire Bower runtime
-is patched or supported. The legacy Karma suite still reports its existing
-147 passes and 10 auth/permissions failures; those tests are retained.
+The [AngularJS runtime update](#angularjs-runtime-update-2026-11-05) below covers
+the current framework and HTTP promise APIs. npm audit covers the Node build
+tree; browser backports have separate exact-input checks and regression tests.
+The full Karma suite passes all 158 tests after correcting stale expectations
+for the existing local authentication demo.
+
+
+### AngularJS runtime update (2026-11-05)
+
+AngularJS and installed companion modules now use 1.8.3 with reviewed Debian/core/resource/sanitizer backports. [Exact checksums and policy boundaries](build/angularjs-patches/README.md) are enforced during `npm run bower:install` and builds. Own HTTP handlers use current promises while preserving response bodies, error status, modal close/reset and visible error handling. The existing UI Bootstrap public APIs remain, with one checksummed typeahead HTTP adaptation. `hashPrefix('')` preserves `#/...` routes.
+
+The custom horizontal view uses the legacy router's resolved-locals contract. UI-Router 0.4.3 preserves it and fixes compatibility with current AngularJS promise reporting. A separate exact-input backport applies the publisher's three URL-parser corrections from https://github.com/ui-router/core/commit/0c00a12: nested ambiguous repetitions are removed, whitespace parsing is unambiguous and regex capture indices stay correct. `build/ui-router-inputs.json` records original source/minified hashes; `patch-ui-router.cjs` regenerates both outputs without changing the published version. The actual malformed-pattern test times out on original 0.4.3 and passes with the fix, alongside positive regex-parameter matching. No global error reporting is disabled.
+
+The full production Chrome suite checks security policies and bounded inputs, actual terminal commands/output, typeahead, login, domain navigation and horizontal views. Node build tests verify exact-input rejection and idempotence. Validation: clean strict npm installation and client installation, full npm audit 0, production build, 8 Node build checks, 15 production Chrome scenarios and all 158 Karma tests passed. Karma covers the existing local authentication demo contract. AngularJS is end of life, and Internet Explorer remains outside the tested support boundary. No deployment.
